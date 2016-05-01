@@ -4,26 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>调试CSS层 | fire on the world!</title>
+    <title>DOM 扩展 | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="1[].forEach.call($$(&amp;quot;*&amp;quot;),function(a)&amp;#123;a.style.outline=&amp;quot;1px solid #&amp;quot; + (~~(Math.random()*(1&amp;lt;&amp;lt;24))).toString(16)&amp;#125;)
-[].forEach.call == Array.prototype.forEach.call$$(“*">
+    <meta name="description" content="元素遍历跨浏览器遍历某元素的所有子元素
+123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
 <meta property="og:type" content="article">
-<meta property="og:title" content="调试CSS层">
-<meta property="og:url" content="http://yoursite.com/2016/04/30/调试CSS层/index.html">
+<meta property="og:title" content="DOM 扩展">
+<meta property="og:url" content="http://yoursite.com/2016/05/01/DOM扩展/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="1[].forEach.call($$(&amp;quot;*&amp;quot;),function(a)&amp;#123;a.style.outline=&amp;quot;1px solid #&amp;quot; + (~~(Math.random()*(1&amp;lt;&amp;lt;24))).toString(16)&amp;#125;)
-[].forEach.call == Array.prototype.forEach.call$$(“*">
-<meta property="og:updated_time" content="2016-04-30T06:11:35.869Z">
+<meta property="og:description" content="元素遍历跨浏览器遍历某元素的所有子元素
+123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+<meta property="og:updated_time" content="2016-05-01T08:18:38.494Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="调试CSS层">
-<meta name="twitter:description" content="1[].forEach.call($$(&amp;quot;*&amp;quot;),function(a)&amp;#123;a.style.outline=&amp;quot;1px solid #&amp;quot; + (~~(Math.random()*(1&amp;lt;&amp;lt;24))).toString(16)&amp;#125;)
-[].forEach.call == Array.prototype.forEach.call$$(“*">
+<meta name="twitter:title" content="DOM 扩展">
+<meta name="twitter:description" content="元素遍历跨浏览器遍历某元素的所有子元素
+123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -83,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/30/调试CSS层/" title="调试CSS层" itemprop="url">调试CSS层</a>
+      <a href="/2016/05/01/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-30T05:34:45.480Z" itemprop="datePublished"> 发表于 2016-04-30</time>
+    <time datetime="2016-05-01T07:33:31.037Z" itemprop="datePublished"> 发表于 2016-05-01</time>
     
   </p>
 </header>
@@ -99,18 +99,18 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
 		
 		</div>
 		
-		<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[].forEach.call($$(&quot;*&quot;),function(a)&#123;a.style.outline=&quot;1px solid #&quot; + (~~(Math.random()*(1&lt;&lt;24))).toString(16)&#125;)</span><br></pre></td></tr></table></figure>
-<p>[].forEach.call == Array.prototype.forEach.call<br>$$(“*“) == document.querySelectorAll(“*“)</p>
-<p>parseInt(“ffffff”, 16) == 16777215</p>
-<p>1 // 1 == 2^0<br>100 //4 == 2^2<br>10000 //16 = 2^4<br>1000000000000000000000000 // 16777216 == 2^24</p>
-<p>1&lt;&lt;24 == 16777216</p>
-<p>Math.random()*(1&lt;&lt;24) == 0 ~ 16777216</p>
-<p>var a = 12.34,          //~~a = 12<br>    b = 1231.8754,      //~~b = -1231<br>    c = 3213.000001     //~~c = 3213</p>
-<p>相当于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.forEach.call(document.querySelectorAll(&quot;*&quot;),function(a)&#123;</span><br><span class="line">    a.style.outline=&quot;1px solid #&quot; + parseInt(Math.random()*16777216).toString(16)</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure></p>
+		<h3 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h3><p>跨浏览器遍历某元素的所有子元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstChild;</span><br><span class="line">while(child != element.lastChild) &#123;</span><br><span class="line">    if (child.nodeType == 1) &#123;</span><br><span class="line">        processChild(child);</span><br><span class="line">    &#125;</span><br><span class="line">    child = child.nextSibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而使用 Element Traversal(IE 9+) 新增的元素，代码会更简洁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstElementChild;</span><br><span class="line">while(child != element.lastElementChild) &#123;</span><br><span class="line">    processChild(child);</span><br><span class="line">    child = child.nextElementSbling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>删除类名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;bd user disabled&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">//删除&quot;user&quot;类</span><br><span class="line"></span><br><span class="line">//首先，取得类名字符串并拆分成数组</span><br><span class="line">var classNames = div.className.split(/\s/);</span><br><span class="line"></span><br><span class="line">//找到要删除的类名</span><br><span class="line">var pos = -1,</span><br><span class="line">    i,</span><br><span class="line">    len;</span><br><span class="line">for (i=0, len=classNames.length; i &lt; len; i++) &#123;</span><br><span class="line">    if (classNames[i] == &quot;user&quot;) &#123;</span><br><span class="line">        pos = i;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//删除类名</span><br><span class="line">classNames.splice(pos,1);</span><br><span class="line"></span><br><span class="line">//把剩下的类名拼成字符串并重新设置</span><br><span class="line">div.className = classNames.join(&quot; &quot;);</span><br></pre></td></tr></table></figure>
+<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>跨浏览器兼容 innerText</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function setInnerText(element, text) &#123;</span><br><span class="line">    if (typeof element.textContent == &quot;string&quot;) &#123;</span><br><span class="line">        element.textContent = text;  //兼容 Firefox</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        element.innerText = text;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -123,7 +123,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/04/30/调试CSS层/" data-title="调试CSS层 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/05/01/DOM扩展/" data-title="DOM 扩展 | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -137,18 +137,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/30/BOM/" title="BOM">
+ <a href="/2016/05/01/DOM2和DOM3/" title="DOM2和DOM3">
   <strong>上一篇：</strong><br/>
   <span>
-  BOM</span>
+  DOM2和DOM3</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/30/函数表达式/"  title="函数表达式">
+<a href="/2016/05/01/DOM/"  title="DOM">
  <strong>下一篇：</strong><br/> 
- <span>函数表达式
+ <span>DOM
 </span>
 </a>
 </div>
@@ -163,7 +163,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
  
   </div>
 
