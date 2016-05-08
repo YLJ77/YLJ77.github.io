@@ -4,26 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>DOM 扩展 | fire on the world!</title>
+    <title>算法时间复杂度 | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+    <meta name="description" content="定义算法时间复杂度的定义：在进行算法分析时，语句总在执行次数T(n)是关于问题规模n的函数，进而分析T(n)随n的变化情况并确定T(n)的数量级。算法的时间复杂度，也就是算法的时间量度，记作：T(n) = O(f(n))。表示随时间问题规模n的增大，算法执行时间的增长率和f(n)的增长率相同，称作算法的渐进时间复杂度，简称为时间复杂度。其中f(n)是问题规模n的某个函数。
+关键需要知道执行次数 =">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DOM 扩展">
-<meta property="og:url" content="http://yoursite.com/2016/05/01/DOM扩展/index.html">
+<meta property="og:title" content="算法时间复杂度">
+<meta property="og:url" content="http://yoursite.com/2016/05/08/算法时间复杂度/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
-<meta property="og:updated_time" content="2016-05-03T09:07:00.211Z">
+<meta property="og:description" content="定义算法时间复杂度的定义：在进行算法分析时，语句总在执行次数T(n)是关于问题规模n的函数，进而分析T(n)随n的变化情况并确定T(n)的数量级。算法的时间复杂度，也就是算法的时间量度，记作：T(n) = O(f(n))。表示随时间问题规模n的增大，算法执行时间的增长率和f(n)的增长率相同，称作算法的渐进时间复杂度，简称为时间复杂度。其中f(n)是问题规模n的某个函数。
+关键需要知道执行次数 =">
+<meta property="og:updated_time" content="2016-05-08T14:41:00.051Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DOM 扩展">
-<meta name="twitter:description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+<meta name="twitter:title" content="算法时间复杂度">
+<meta name="twitter:description" content="定义算法时间复杂度的定义：在进行算法分析时，语句总在执行次数T(n)是关于问题规模n的函数，进而分析T(n)随n的变化情况并确定T(n)的数量级。算法的时间复杂度，也就是算法的时间量度，记作：T(n) = O(f(n))。表示随时间问题规模n的增大，算法执行时间的增长率和f(n)的增长率相同，称作算法的渐进时间复杂度，简称为时间复杂度。其中f(n)是问题规模n的某个函数。
+关键需要知道执行次数 =">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -83,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/01/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
+      <a href="/2016/05/08/算法时间复杂度/" title="算法时间复杂度" itemprop="url">算法时间复杂度</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-01T07:33:31.037Z" itemprop="datePublished"> 发表于 2016-05-01</time>
+    <time datetime="2016-05-08T13:28:47.168Z" itemprop="datePublished"> 发表于 2016-05-08</time>
     
   </p>
 </header>
@@ -99,18 +99,33 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推导大O阶方法"><span class="toc-number">2.</span> <span class="toc-text">推导大O阶方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#举例"><span class="toc-number">2.1.</span> <span class="toc-text">举例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线性阶"><span class="toc-number">3.</span> <span class="toc-text">线性阶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平方阶"><span class="toc-number">4.</span> <span class="toc-text">平方阶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对数阶"><span class="toc-number">5.</span> <span class="toc-text">对数阶</span></a></li></ol>
 		
 		</div>
 		
-		<h3 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h3><p>跨浏览器遍历某元素的所有子元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstChild;</span><br><span class="line">while(child != element.lastChild) &#123;</span><br><span class="line">    if (child.nodeType == 1) &#123;</span><br><span class="line">        processChild(child);</span><br><span class="line">    &#125;</span><br><span class="line">    child = child.nextSibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>而使用 Element Traversal(IE 9+) 新增的元素，代码会更简洁</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstElementChild;</span><br><span class="line">while(child != element.lastElementChild) &#123;</span><br><span class="line">    processChild(child);</span><br><span class="line">    child = child.nextElementSbling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>删除类名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;bd user disabled&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">//删除&quot;user&quot;类</span><br><span class="line"></span><br><span class="line">//首先，取得类名字符串并拆分成数组</span><br><span class="line">var classNames = div.className.split(/\s/);</span><br><span class="line"></span><br><span class="line">//找到要删除的类名</span><br><span class="line">var pos = -1,</span><br><span class="line">    i,</span><br><span class="line">    len;</span><br><span class="line">for (i=0, len=classNames.length; i &lt; len; i++) &#123;</span><br><span class="line">    if (classNames[i] == &quot;user&quot;) &#123;</span><br><span class="line">        pos = i;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//删除类名</span><br><span class="line">classNames.splice(pos,1);</span><br><span class="line"></span><br><span class="line">//把剩下的类名拼成字符串并重新设置</span><br><span class="line">div.className = classNames.join(&quot; &quot;);</span><br></pre></td></tr></table></figure>
-<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>跨浏览器兼容 innerText</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function setInnerText(element, text) &#123;</span><br><span class="line">    if (typeof element.textContent == &quot;string&quot;) &#123;</span><br><span class="line">        element.textContent = text;  //兼容 Firefox</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        element.innerText = text;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+		<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>算法时间复杂度的定义：在进行算法分析时，语句总在执行次数T(n)是关于问题规模n的函数，进而分析T(n)随n的变化情况并确定T(n)的数量级。算法的时间复杂度，也就是算法的时间量度，记作：T(n) = O(f(n))。表示随时间问题规模n的增大，算法执行时间的增长率和f(n)的增长率相同，称作算法的渐进时间复杂度，简称为时间复杂度。其中f(n)是问题规模n的某个函数。</p>
+<p>关键需要知道执行次数 == 时间</p>
+<p>这样用大写O()来实现算法时间复杂度的记法，称之为大O记法。</p>
+<p>一般情况下，随着输入规模n的增大，T(n)增大最慢的算法为最优算法。</p>
+<p>显然，由此算法时间复杂度的定义可知，我们的三个求和算法(1,n,n*n)的时间复杂度分别为O(1),O(n),O(n^2).</p>
+<h3 id="推导大O阶方法"><a href="#推导大O阶方法" class="headerlink" title="推导大O阶方法"></a>推导大O阶方法</h3><p>如何分析一个算法的时间复杂度？即如何推导大O阶？</p>
+<p>- 用常数1取代运行时间中的所有加法常数。<br>- 在修改后的运行次数函数中，只保留最高阶项。<br>- 如果最高阶项存在且不是1，则去除与这个项相乘的常数。<br>- 得到的最后结果是就是大O阶。</p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int sum = 0, n = 100;</span><br><span class="line">printf(&apos;change the world by program\n&apos;);</span><br><span class="line">printf(&apos;change the world by program\n&apos;);</span><br><span class="line">printf(&apos;change the world by program\n&apos;);</span><br><span class="line">printf(&apos;change the world by program\n&apos;);</span><br><span class="line">printf(&apos;change the world by program\n&apos;);</span><br><span class="line">printf(&apos;change the world by program\n&apos;);</span><br><span class="line">sum = (1+n) * n/2;</span><br></pre></td></tr></table></figure>
+<p>这段代码的大O是多少？</p>
+<p>分析下，按照概念”T(n)是关于问题规模n的函数”来说，这里的printf语句跟问题规模有关系吗？没有。所以记作O(1)就可以了。<br>另外，如果按照攻略来就更简单了，攻略第一条就说明了所有加法常数给个O(1)即可。</p>
+<h3 id="线性阶"><a href="#线性阶" class="headerlink" title="线性阶"></a>线性阶</h3><p>一般含有非嵌套循环涉及线性阶，线性阶就是随着问题规模n的扩大，对应计算次数呈直线增长。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int i, n = 100, sum = 0;</span><br><span class="line">for(i=0; i &lt; n; i++) &#123;</span><br><span class="line">    sum = sum + i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这段代码，它的循环的时间复杂度为O(n)，因为循环体中的代码需要执行n次。</p>
+<h3 id="平方阶"><a href="#平方阶" class="headerlink" title="平方阶"></a>平方阶</h3><p>刚才是单个循环结构，那么嵌套呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int i, j, n = 100;</span><br><span class="line">for(i=0; i &lt; n; i++)&#123;</span><br><span class="line">    for(j=0; j &lt; n; j++)&#123;</span><br><span class="line">        printf(&quot;change the world by program!\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>n等于100，也就是说外层循环每执行一次，内层循环就执行100次，那总共程序想要从这两个循环出来，就要执行100*100次，也就是n的平方。所以这段代码的时间复杂度为O(n^2)。</p>
+<p>那如果是有三个这样的嵌套循环呢？<br>没错，那就是n^3了。所以我们很容易总结得出，循环的时间复杂度等于循环体的复杂度乘以该循环运行的次数。</p>
+<p>刚刚每个循环的次数都是一样的，如果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int i, j, n = 100;</span><br><span class="line">for(i=0; i &lt; n; i++)&#123;</span><br><span class="line">    for(j=i; j &lt; n; j++)&#123;</span><br><span class="line">        printf(&apos;hello world!&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分析下，由于当i=0时，内循环执行了n次，当i=1时，内循环则执行了n-1次……当i=n-1时，内循环执行了1次，所以总的执行次数应该是：<br>- n+(n-1)+(n-2)+…+1 = n(n+1)/2  (没错，就是高斯发明的算法)<br>化简为：n^2/2+n/2</p>
+<p>用推导大O的攻略，第一条忽略，因为没有常数相加。第二条只保留最高项，所以n/2这项去掉。第三条，去除与最高项相乘的常数，最终得O(n^2)。</p>
+<h3 id="对数阶"><a href="#对数阶" class="headerlink" title="对数阶"></a>对数阶</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int i = 1, n = 100;</span><br><span class="line">while(i &lt; n) &#123;</span><br><span class="line">    i = i * 2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于每次i*2之后，就距离n更近一步，假设x个2相乘后大于或等于n，则会退出循环。<br>由于由2^x = n 得到x = log2^n,所以这个循环的时间复杂度为O(logn);</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -118,13 +133,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
+  <span></span> <a href="/tags/algorithm/">algorithm</a>
   </div>
 
 </div>
@@ -133,7 +148,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/05/01/DOM扩展/" data-title="DOM 扩展 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/05/08/算法时间复杂度/" data-title="算法时间复杂度 | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -146,19 +161,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/05/01/DOM2和DOM3/" title="DOM2和DOM3">
-  <strong>上一篇：</strong><br/>
-  <span>
-  DOM2和DOM3</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/05/01/DOM/"  title="DOM">
+<a href="/2016/05/08/算法效率的度量方法/"  title="算法效率的度量方法">
  <strong>下一篇：</strong><br/> 
- <span>DOM
+ <span>算法效率的度量方法
 </span>
 </a>
 </div>
@@ -173,7 +180,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#推导大O阶方法"><span class="toc-number">2.</span> <span class="toc-text">推导大O阶方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#举例"><span class="toc-number">2.1.</span> <span class="toc-text">举例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线性阶"><span class="toc-number">3.</span> <span class="toc-text">线性阶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平方阶"><span class="toc-number">4.</span> <span class="toc-text">平方阶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对数阶"><span class="toc-number">5.</span> <span class="toc-text">对数阶</span></a></li></ol>
  
   </div>
 

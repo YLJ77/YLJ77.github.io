@@ -4,26 +4,35 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>DOM 扩展 | fire on the world!</title>
+    <title>数据结构和算法绪论 | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+    <meta name="description" content="什么事数据结构数据结构是一门研究非数值计算的程序设计问题中的操作对象，以及它们之间的关系和操作相关问题的学科。事实上就是：- 程序设计 = 数据结构 + 算法- 数据元素相互之间存在的一种或多种特定关系的集合
+逻辑结构和物理结构
+传统上，把数据结构分为逻辑结构和物理结构。
+逻辑结构：指数据对象 中数据元素之间的相互关系(最需要关注和讨论的问题)。
+物理结构：指数据的逻辑结构在计算机中的存储形式(次">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DOM 扩展">
-<meta property="og:url" content="http://yoursite.com/2016/05/01/DOM扩展/index.html">
+<meta property="og:title" content="数据结构和算法绪论">
+<meta property="og:url" content="http://yoursite.com/2016/05/08/数据结构和算法绪论/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
-<meta property="og:updated_time" content="2016-05-03T09:07:00.211Z">
+<meta property="og:description" content="什么事数据结构数据结构是一门研究非数值计算的程序设计问题中的操作对象，以及它们之间的关系和操作相关问题的学科。事实上就是：- 程序设计 = 数据结构 + 算法- 数据元素相互之间存在的一种或多种特定关系的集合
+逻辑结构和物理结构
+传统上，把数据结构分为逻辑结构和物理结构。
+逻辑结构：指数据对象 中数据元素之间的相互关系(最需要关注和讨论的问题)。
+物理结构：指数据的逻辑结构在计算机中的存储形式(次">
+<meta property="og:updated_time" content="2016-05-08T10:26:19.580Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DOM 扩展">
-<meta name="twitter:description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+<meta name="twitter:title" content="数据结构和算法绪论">
+<meta name="twitter:description" content="什么事数据结构数据结构是一门研究非数值计算的程序设计问题中的操作对象，以及它们之间的关系和操作相关问题的学科。事实上就是：- 程序设计 = 数据结构 + 算法- 数据元素相互之间存在的一种或多种特定关系的集合
+逻辑结构和物理结构
+传统上，把数据结构分为逻辑结构和物理结构。
+逻辑结构：指数据对象 中数据元素之间的相互关系(最需要关注和讨论的问题)。
+物理结构：指数据的逻辑结构在计算机中的存储形式(次">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -83,14 +92,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/01/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
+      <a href="/2016/05/08/数据结构和算法绪论/" title="数据结构和算法绪论" itemprop="url">数据结构和算法绪论</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-01T07:33:31.037Z" itemprop="datePublished"> 发表于 2016-05-01</time>
+    <time datetime="2016-05-08T09:49:40.325Z" itemprop="datePublished"> 发表于 2016-05-08</time>
     
   </p>
 </header>
@@ -99,18 +108,34 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么事数据结构"><span class="toc-number">1.</span> <span class="toc-text">什么事数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑结构和物理结构"><span class="toc-number">2.</span> <span class="toc-text">逻辑结构和物理结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#逻辑结构"><span class="toc-number">2.1.</span> <span class="toc-text">逻辑结构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#结合结构"><span class="toc-number">2.1.1.</span> <span class="toc-text">结合结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#线性结构"><span class="toc-number">2.1.2.</span> <span class="toc-text">线性结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#树形结构"><span class="toc-number">2.1.3.</span> <span class="toc-text">树形结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#图形结构"><span class="toc-number">2.1.4.</span> <span class="toc-text">图形结构</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#物理结构"><span class="toc-number">2.2.</span> <span class="toc-text">物理结构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#顺序存储结构"><span class="toc-number">2.2.1.</span> <span class="toc-text">顺序存储结构</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#链式存储结构"><span class="toc-number">2.3.</span> <span class="toc-text">链式存储结构</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h3 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h3><p>跨浏览器遍历某元素的所有子元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstChild;</span><br><span class="line">while(child != element.lastChild) &#123;</span><br><span class="line">    if (child.nodeType == 1) &#123;</span><br><span class="line">        processChild(child);</span><br><span class="line">    &#125;</span><br><span class="line">    child = child.nextSibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>而使用 Element Traversal(IE 9+) 新增的元素，代码会更简洁</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstElementChild;</span><br><span class="line">while(child != element.lastElementChild) &#123;</span><br><span class="line">    processChild(child);</span><br><span class="line">    child = child.nextElementSbling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>删除类名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;bd user disabled&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">//删除&quot;user&quot;类</span><br><span class="line"></span><br><span class="line">//首先，取得类名字符串并拆分成数组</span><br><span class="line">var classNames = div.className.split(/\s/);</span><br><span class="line"></span><br><span class="line">//找到要删除的类名</span><br><span class="line">var pos = -1,</span><br><span class="line">    i,</span><br><span class="line">    len;</span><br><span class="line">for (i=0, len=classNames.length; i &lt; len; i++) &#123;</span><br><span class="line">    if (classNames[i] == &quot;user&quot;) &#123;</span><br><span class="line">        pos = i;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//删除类名</span><br><span class="line">classNames.splice(pos,1);</span><br><span class="line"></span><br><span class="line">//把剩下的类名拼成字符串并重新设置</span><br><span class="line">div.className = classNames.join(&quot; &quot;);</span><br></pre></td></tr></table></figure>
-<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>跨浏览器兼容 innerText</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function setInnerText(element, text) &#123;</span><br><span class="line">    if (typeof element.textContent == &quot;string&quot;) &#123;</span><br><span class="line">        element.textContent = text;  //兼容 Firefox</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        element.innerText = text;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+		<h3 id="什么事数据结构"><a href="#什么事数据结构" class="headerlink" title="什么事数据结构"></a>什么事数据结构</h3><p>数据结构是一门研究非数值计算的程序设计问题中的操作对象，以及它们之间的关系和操作相关问题的学科。<br>事实上就是：<br>- 程序设计 = 数据结构 + 算法<br>- 数据元素相互之间存在的一种或多种特定关系的集合</p>
+<h3 id="逻辑结构和物理结构"><a href="#逻辑结构和物理结构" class="headerlink" title="逻辑结构和物理结构"></a>逻辑结构和物理结构</h3><ul>
+<li>传统上，把数据结构分为逻辑结构和物理结构。</li>
+<li>逻辑结构：指数据对象 中数据元素之间的相互关系(最需要关注和讨论的问题)。</li>
+<li>物理结构：指数据的逻辑结构在计算机中的存储形式(次之)。</li>
+</ul>
+<h4 id="逻辑结构"><a href="#逻辑结构" class="headerlink" title="逻辑结构"></a>逻辑结构</h4><h5 id="结合结构"><a href="#结合结构" class="headerlink" title="结合结构"></a>结合结构</h5><p>集合结构中的数据元素除了同属于一个集合外，他们之间没有其它关系。</p>
+<h5 id="线性结构"><a href="#线性结构" class="headerlink" title="线性结构"></a>线性结构</h5><p>线性结构中的数据元素之间是一对一的关系。</p>
+<h5 id="树形结构"><a href="#树形结构" class="headerlink" title="树形结构"></a>树形结构</h5><p>树形结构中的数据元素之间存在一种一对多的层次关系。</p>
+<h5 id="图形结构"><a href="#图形结构" class="headerlink" title="图形结构"></a>图形结构</h5><p>图形结构的数据元素是多对多的关系。</p>
+<h4 id="物理结构"><a href="#物理结构" class="headerlink" title="物理结构"></a>物理结构</h4><ul>
+<li>根据物理结构的定义，实际上研究的就是如何把数据元素存储到计算机的存储器中。</li>
+<li>存储器主要是针对内存而言的，像硬盘，软盘，光盘等外部存储器的数据组织通常用文件结构来描述。</li>
+<li>数据元素的存储结构形式有两种：顺序存储和链式存储。</li>
+</ul>
+<h5 id="顺序存储结构"><a href="#顺序存储结构" class="headerlink" title="顺序存储结构"></a>顺序存储结构</h5><p>把数据元素存放在地址连续的存储单元里，其数据间的逻辑关系和物理关系是一致的。</p>
+<h4 id="链式存储结构"><a href="#链式存储结构" class="headerlink" title="链式存储结构"></a>链式存储结构</h4><ul>
+<li>现在如银行，医院等地方，都设置了排队系统。也就是每个人去了，先领一个号，等着叫好，叫到你的时候就可以去存一百块看病。</li>
+<li>而在等待的时候，你爱哪在哪，可以坐着，站着或者四处看看，只要你及时回来就行。</li>
+<li>这些情况下，你关注的是前一个好有没有被叫到，叫到了，下一个就该轮到你了。</li>
+<li>链式存储结构就是这样的原理，相比起顺序存储结构就灵活多了。</li>
+<li>链式存储结构：是把数据元素存放在任意的存储单元里，这组存储单元可以是连续的，也可以是不连续的。</li>
+<li>很显然，这样说的话链式存储结构的数据元素存储关系不能反映其逻辑关系，因此需要用一个指针存放数据元素的地址，这样子通过地址就可以找到相关联数据元素的位置。</li>
+</ul>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -118,13 +143,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
+  <span></span> <a href="/tags/algorithm/">algorithm</a>
   </div>
 
 </div>
@@ -133,7 +158,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/05/01/DOM扩展/" data-title="DOM 扩展 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/05/08/数据结构和算法绪论/" data-title="数据结构和算法绪论 | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -147,18 +172,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/05/01/DOM2和DOM3/" title="DOM2和DOM3">
+ <a href="/2016/05/08/谈谈算法/" title="谈谈算法">
   <strong>上一篇：</strong><br/>
   <span>
-  DOM2和DOM3</span>
+  谈谈算法</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/05/01/DOM/"  title="DOM">
+<a href="/2016/05/06/表单脚本/"  title="表单脚本">
  <strong>下一篇：</strong><br/> 
- <span>DOM
+ <span>表单脚本
 </span>
 </a>
 </div>
@@ -173,7 +198,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么事数据结构"><span class="toc-number">1.</span> <span class="toc-text">什么事数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑结构和物理结构"><span class="toc-number">2.</span> <span class="toc-text">逻辑结构和物理结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#逻辑结构"><span class="toc-number">2.1.</span> <span class="toc-text">逻辑结构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#结合结构"><span class="toc-number">2.1.1.</span> <span class="toc-text">结合结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#线性结构"><span class="toc-number">2.1.2.</span> <span class="toc-text">线性结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#树形结构"><span class="toc-number">2.1.3.</span> <span class="toc-text">树形结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#图形结构"><span class="toc-number">2.1.4.</span> <span class="toc-text">图形结构</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#物理结构"><span class="toc-number">2.2.</span> <span class="toc-text">物理结构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#顺序存储结构"><span class="toc-number">2.2.1.</span> <span class="toc-text">顺序存储结构</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#链式存储结构"><span class="toc-number">2.3.</span> <span class="toc-text">链式存储结构</span></a></li></ol></li></ol>
  
   </div>
 

@@ -4,26 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>DOM 扩展 | fire on the world!</title>
+    <title>谈谈算法 | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+    <meta name="description" content="算法初体验小学学过珠算的应该很有印象，计算1+2+…+99+100。思路是1+100=101，2+99=101，3+98=101，所以有50个101，即答案是5050。
+按照普通的写法，可以这么写：12345int i, sum = 0, n = 100;for(i=1; i &amp;lt;=n; i++) &amp;#123;    sum = sum + i;&amp;#125;printf(&amp;apos;%d&amp;ap">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DOM 扩展">
-<meta property="og:url" content="http://yoursite.com/2016/05/01/DOM扩展/index.html">
+<meta property="og:title" content="谈谈算法">
+<meta property="og:url" content="http://yoursite.com/2016/05/08/谈谈算法/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
-<meta property="og:updated_time" content="2016-05-03T09:07:00.211Z">
+<meta property="og:description" content="算法初体验小学学过珠算的应该很有印象，计算1+2+…+99+100。思路是1+100=101，2+99=101，3+98=101，所以有50个101，即答案是5050。
+按照普通的写法，可以这么写：12345int i, sum = 0, n = 100;for(i=1; i &amp;lt;=n; i++) &amp;#123;    sum = sum + i;&amp;#125;printf(&amp;apos;%d&amp;ap">
+<meta property="og:updated_time" content="2016-05-08T14:23:20.737Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DOM 扩展">
-<meta name="twitter:description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+<meta name="twitter:title" content="谈谈算法">
+<meta name="twitter:description" content="算法初体验小学学过珠算的应该很有印象，计算1+2+…+99+100。思路是1+100=101，2+99=101，3+98=101，所以有50个101，即答案是5050。
+按照普通的写法，可以这么写：12345int i, sum = 0, n = 100;for(i=1; i &amp;lt;=n; i++) &amp;#123;    sum = sum + i;&amp;#125;printf(&amp;apos;%d&amp;ap">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -83,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/01/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
+      <a href="/2016/05/08/谈谈算法/" title="谈谈算法" itemprop="url">谈谈算法</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-01T07:33:31.037Z" itemprop="datePublished"> 发表于 2016-05-01</time>
+    <time datetime="2016-05-08T10:34:17.379Z" itemprop="datePublished"> 发表于 2016-05-08</time>
     
   </p>
 </header>
@@ -99,18 +99,33 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法初体验"><span class="toc-number">1.</span> <span class="toc-text">算法初体验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是算法？"><span class="toc-number">2.</span> <span class="toc-text">什么是算法？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法的特性"><span class="toc-number">3.</span> <span class="toc-text">算法的特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#输入"><span class="toc-number">3.1.</span> <span class="toc-text">输入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#输出"><span class="toc-number">3.2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#有穷性"><span class="toc-number">3.3.</span> <span class="toc-text">有穷性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#确定性"><span class="toc-number">3.4.</span> <span class="toc-text">确定性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可行性"><span class="toc-number">3.5.</span> <span class="toc-text">可行性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法设计的要求"><span class="toc-number">4.</span> <span class="toc-text">算法设计的要求</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#正确性"><span class="toc-number">4.1.</span> <span class="toc-text">正确性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可读性"><span class="toc-number">4.2.</span> <span class="toc-text">可读性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#健壮性"><span class="toc-number">4.3.</span> <span class="toc-text">健壮性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#时间效率高和存储量低"><span class="toc-number">4.4.</span> <span class="toc-text">时间效率高和存储量低</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h3 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h3><p>跨浏览器遍历某元素的所有子元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstChild;</span><br><span class="line">while(child != element.lastChild) &#123;</span><br><span class="line">    if (child.nodeType == 1) &#123;</span><br><span class="line">        processChild(child);</span><br><span class="line">    &#125;</span><br><span class="line">    child = child.nextSibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>而使用 Element Traversal(IE 9+) 新增的元素，代码会更简洁</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstElementChild;</span><br><span class="line">while(child != element.lastElementChild) &#123;</span><br><span class="line">    processChild(child);</span><br><span class="line">    child = child.nextElementSbling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>删除类名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;bd user disabled&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">//删除&quot;user&quot;类</span><br><span class="line"></span><br><span class="line">//首先，取得类名字符串并拆分成数组</span><br><span class="line">var classNames = div.className.split(/\s/);</span><br><span class="line"></span><br><span class="line">//找到要删除的类名</span><br><span class="line">var pos = -1,</span><br><span class="line">    i,</span><br><span class="line">    len;</span><br><span class="line">for (i=0, len=classNames.length; i &lt; len; i++) &#123;</span><br><span class="line">    if (classNames[i] == &quot;user&quot;) &#123;</span><br><span class="line">        pos = i;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//删除类名</span><br><span class="line">classNames.splice(pos,1);</span><br><span class="line"></span><br><span class="line">//把剩下的类名拼成字符串并重新设置</span><br><span class="line">div.className = classNames.join(&quot; &quot;);</span><br></pre></td></tr></table></figure>
-<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>跨浏览器兼容 innerText</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function setInnerText(element, text) &#123;</span><br><span class="line">    if (typeof element.textContent == &quot;string&quot;) &#123;</span><br><span class="line">        element.textContent = text;  //兼容 Firefox</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        element.innerText = text;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+		<h3 id="算法初体验"><a href="#算法初体验" class="headerlink" title="算法初体验"></a>算法初体验</h3><p>小学学过珠算的应该很有印象，计算1+2+…+99+100。<br>思路是1+100=101，2+99=101，3+98=101，所以有50个101，即答案是5050。</p>
+<p>按照普通的写法，可以这么写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int i, sum = 0, n = 100;</span><br><span class="line">for(i=1; i &lt;=n; i++) &#123;</span><br><span class="line">    sum = sum + i;</span><br><span class="line">&#125;</span><br><span class="line">printf(&apos;%d&apos;, sum);</span><br></pre></td></tr></table></figure></p>
+<p>换成刚才的思路写(高斯发明的算法)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int i, sum = 0, n = 100;</span><br><span class="line">sum = (1+n) * n/2;</span><br><span class="line">printf(&quot;%d&quot;, sum);</span><br></pre></td></tr></table></figure>
+<p>对比下两个算法，一个要计算100次，而一个只要计算一次。虽然以计算机的速度，两个算法都可以按秒解决，但如果把条件换成1加到1千亿，差距就可想而知了，甚至人脑都可以比电脑计算的快。</p>
+<h3 id="什么是算法？"><a href="#什么是算法？" class="headerlink" title="什么是算法？"></a>什么是算法？</h3><p>- 算法是解决特定问题求解决步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。<br>- 通俗点算法就是泡妞的技巧和方式。</p>
+<h3 id="算法的特性"><a href="#算法的特性" class="headerlink" title="算法的特性"></a>算法的特性</h3><p>算法具有五个基本特征：输入，输出，有穷性，确定性和可行性。</p>
+<h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><p>- 算法具有零个或多个输入。<br>- 尽管对于绝大多数算法来说，输入参数都是必要的。但是有些时候，像打印” hello world”,就不需要参数。</p>
+<h4 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h4><p>- 算法至少有一个或多个输出。</p>
+<h4 id="有穷性"><a href="#有穷性" class="headerlink" title="有穷性"></a>有穷性</h4><p>- 指算法在执行有限的步骤后，自动结束而不会出现无限循环，并且每一个步骤在可接受的时间内完成。</p>
+<h4 id="确定性"><a href="#确定性" class="headerlink" title="确定性"></a>确定性</h4><p>- 算法的每一个步骤都具有确定的含义，不会出现二义性。<br>- 算法在一定条件下，只有一条执行路径，相同的输入只能有唯一的输出结果。<br>- 算法的每个步骤都应该被精确定义而无歧义。</p>
+<h4 id="可行性"><a href="#可行性" class="headerlink" title="可行性"></a>可行性</h4><p>- 算法的每一步都必须是可行的，也就是说，每一步都能通过执行有限次数完成。</p>
+<h3 id="算法设计的要求"><a href="#算法设计的要求" class="headerlink" title="算法设计的要求"></a>算法设计的要求</h3><h4 id="正确性"><a href="#正确性" class="headerlink" title="正确性"></a>正确性</h4><p>- 算法的正确性是指算法至少应该具有输入，输出和加工处理无歧义性，能正确反映问题的需求，能够得到问题的正确答案。</p>
+<p>- 大体分为以下四个层次：</p>
+<ul>
+<li>算法程序没有语法错误。</li>
+<li>算法程序对于合法输入能够产生满足要求的输出。</li>
+<li>算法程序对于非法输入能够满足规格的说明。</li>
+<li>算法程序对于故意刁难的测试输入都有满足要求的输出结果。</li>
+</ul>
+<h4 id="可读性"><a href="#可读性" class="headerlink" title="可读性"></a>可读性</h4><p>- 算法设计另一目的是为了便于阅读、理解和交流。</p>
+<h4 id="健壮性"><a href="#健壮性" class="headerlink" title="健壮性"></a>健壮性</h4><p>- 当输入数据不合法时，算法也能做出相关处理，而不是产生异常，崩溃或莫名其妙的结果。</p>
+<h4 id="时间效率高和存储量低"><a href="#时间效率高和存储量低" class="headerlink" title="时间效率高和存储量低"></a>时间效率高和存储量低</h4><p>- 好算法应该具备时间效率高和存储量低的特点。所以在设计算法的时候我们应该尽量思考这两方面的问题！。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -118,13 +133,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
+  <span></span> <a href="/tags/algorithm/">algorithm</a>
   </div>
 
 </div>
@@ -133,7 +148,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/05/01/DOM扩展/" data-title="DOM 扩展 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/05/08/谈谈算法/" data-title="谈谈算法 | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -147,18 +162,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/05/01/DOM2和DOM3/" title="DOM2和DOM3">
+ <a href="/2016/05/08/算法效率的度量方法/" title="算法效率的度量方法">
   <strong>上一篇：</strong><br/>
   <span>
-  DOM2和DOM3</span>
+  算法效率的度量方法</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/05/01/DOM/"  title="DOM">
+<a href="/2016/05/08/数据结构和算法绪论/"  title="数据结构和算法绪论">
  <strong>下一篇：</strong><br/> 
- <span>DOM
+ <span>数据结构和算法绪论
 </span>
 </a>
 </div>
@@ -173,7 +188,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法初体验"><span class="toc-number">1.</span> <span class="toc-text">算法初体验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是算法？"><span class="toc-number">2.</span> <span class="toc-text">什么是算法？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法的特性"><span class="toc-number">3.</span> <span class="toc-text">算法的特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#输入"><span class="toc-number">3.1.</span> <span class="toc-text">输入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#输出"><span class="toc-number">3.2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#有穷性"><span class="toc-number">3.3.</span> <span class="toc-text">有穷性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#确定性"><span class="toc-number">3.4.</span> <span class="toc-text">确定性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可行性"><span class="toc-number">3.5.</span> <span class="toc-text">可行性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法设计的要求"><span class="toc-number">4.</span> <span class="toc-text">算法设计的要求</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#正确性"><span class="toc-number">4.1.</span> <span class="toc-text">正确性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可读性"><span class="toc-number">4.2.</span> <span class="toc-text">可读性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#健壮性"><span class="toc-number">4.3.</span> <span class="toc-text">健壮性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#时间效率高和存储量低"><span class="toc-number">4.4.</span> <span class="toc-text">时间效率高和存储量低</span></a></li></ol></li></ol>
  
   </div>
 
