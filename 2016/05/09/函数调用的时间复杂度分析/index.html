@@ -4,26 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>DOM2和DOM3 | fire on the world!</title>
+    <title>函数调用的时间复杂度分析 | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="样式DOM 样式属性和方法取得 CSS 属性名和值
-123456var prop, value, i, len;for (i=0, len=myDiv.style.length; i &amp;lt; len; i++) &amp;#123;    prop = myDiv.style[i];    //或者 myDiv.style.item(i)    value = myDiv.style.getProper">
+    <meta name="description" content="时间复杂度分析看下边的例子：
+1234567int i, j;for(i=0; i &amp;lt; n; i++) &amp;#123;    function(i);&amp;#125;void function(int count) &amp;#123;    printf(&amp;quot;%d&amp;quot;, count);&amp;#125;
+函数体是打印这个参数，这很好理解。function函数的时间复杂度是O(1),所以整体的时">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DOM2和DOM3">
-<meta property="og:url" content="http://yoursite.com/2016/05/01/DOM2和DOM3/index.html">
+<meta property="og:title" content="函数调用的时间复杂度分析">
+<meta property="og:url" content="http://yoursite.com/2016/05/09/函数调用的时间复杂度分析/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="样式DOM 样式属性和方法取得 CSS 属性名和值
-123456var prop, value, i, len;for (i=0, len=myDiv.style.length; i &amp;lt; len; i++) &amp;#123;    prop = myDiv.style[i];    //或者 myDiv.style.item(i)    value = myDiv.style.getProper">
-<meta property="og:updated_time" content="2016-05-03T09:07:16.311Z">
+<meta property="og:description" content="时间复杂度分析看下边的例子：
+1234567int i, j;for(i=0; i &amp;lt; n; i++) &amp;#123;    function(i);&amp;#125;void function(int count) &amp;#123;    printf(&amp;quot;%d&amp;quot;, count);&amp;#125;
+函数体是打印这个参数，这很好理解。function函数的时间复杂度是O(1),所以整体的时">
+<meta property="og:updated_time" content="2016-05-09T03:42:30.002Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DOM2和DOM3">
-<meta name="twitter:description" content="样式DOM 样式属性和方法取得 CSS 属性名和值
-123456var prop, value, i, len;for (i=0, len=myDiv.style.length; i &amp;lt; len; i++) &amp;#123;    prop = myDiv.style[i];    //或者 myDiv.style.item(i)    value = myDiv.style.getProper">
+<meta name="twitter:title" content="函数调用的时间复杂度分析">
+<meta name="twitter:description" content="时间复杂度分析看下边的例子：
+1234567int i, j;for(i=0; i &amp;lt; n; i++) &amp;#123;    function(i);&amp;#125;void function(int count) &amp;#123;    printf(&amp;quot;%d&amp;quot;, count);&amp;#125;
+函数体是打印这个参数，这很好理解。function函数的时间复杂度是O(1),所以整体的时">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -83,14 +86,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/01/DOM2和DOM3/" title="DOM2和DOM3" itemprop="url">DOM2和DOM3</a>
+      <a href="/2016/05/09/函数调用的时间复杂度分析/" title="函数调用的时间复杂度分析" itemprop="url">函数调用的时间复杂度分析</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-01T08:18:11.444Z" itemprop="datePublished"> 发表于 2016-05-01</time>
+    <time datetime="2016-05-09T01:34:04.168Z" itemprop="datePublished"> 发表于 2016-05-09</time>
     
   </p>
 </header>
@@ -99,21 +102,24 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#样式"><span class="toc-number">1.</span> <span class="toc-text">样式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DOM-样式属性和方法"><span class="toc-number">1.1.</span> <span class="toc-text">DOM 样式属性和方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作样式表"><span class="toc-number">1.2.</span> <span class="toc-text">操作样式表</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CSS-规则"><span class="toc-number">1.2.1.</span> <span class="toc-text">CSS 规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#删除规则"><span class="toc-number">1.2.2.</span> <span class="toc-text">删除规则</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#元素大小"><span class="toc-number">1.3.</span> <span class="toc-text">元素大小</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#客户区大小"><span class="toc-number">1.3.1.</span> <span class="toc-text">客户区大小</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度分析"><span class="toc-number">1.</span> <span class="toc-text">时间复杂度分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的时间复杂度"><span class="toc-number">2.</span> <span class="toc-text">常见的时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最坏情况与平均情况"><span class="toc-number">3.</span> <span class="toc-text">最坏情况与平均情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法的空间复杂度"><span class="toc-number">4.</span> <span class="toc-text">算法的空间复杂度</span></a></li></ol>
 		
 		</div>
 		
-		<h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><h4 id="DOM-样式属性和方法"><a href="#DOM-样式属性和方法" class="headerlink" title="DOM 样式属性和方法"></a>DOM 样式属性和方法</h4><p>取得 CSS 属性名和值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var prop, value, i, len;</span><br><span class="line">for (i=0, len=myDiv.style.length; i &lt; len; i++) &#123;</span><br><span class="line">    prop = myDiv.style[i];    //或者 myDiv.style.item(i)</span><br><span class="line">    value = myDiv.style.getPropertyValue(prop);</span><br><span class="line">    alert(prop + &quot;:&quot; + value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="操作样式表"><a href="#操作样式表" class="headerlink" title="操作样式表"></a>操作样式表</h4><p>跨浏览器取得样式表对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function getStyleSheet(element) &#123;</span><br><span class="line">    return element.sheet || element.styleSheet;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//取得第一个&lt;link/&gt;元素引入的样式表</span><br><span class="line">var link = document.getElementsByTagName(&quot;link&quot;)[0];</span><br><span class="line">var sheet = getStyleSheet(link);</span><br></pre></td></tr></table></figure>
-<h5 id="CSS-规则"><a href="#CSS-规则" class="headerlink" title="CSS 规则"></a>CSS 规则</h5><p>跨浏览器向样式表中添加规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function insertRule(sheet, selectorText, cssText, position) &#123;</span><br><span class="line">    if (sheet.insertRule) &#123;</span><br><span class="line">        sheet.insertRule(selectorText + &quot;&#123;&quot; + cssText + &quot;&#125;&quot;, position);</span><br><span class="line">    &#125; else if (sheet.addRule) &#123;  //兼容 IE</span><br><span class="line">        sheet.addRule(selectorText, cssText, position);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">insertRule(document.styleSheets[0], &quot;body&quot;, &quot;background-color:silver&quot;, 0);</span><br></pre></td></tr></table></figure>
-<h5 id="删除规则"><a href="#删除规则" class="headerlink" title="删除规则"></a>删除规则</h5><p>跨浏览器删除规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function deleteRule(sheet, index) &#123;</span><br><span class="line">    if (sheet.deleteRule) &#123;</span><br><span class="line">        sheet.deleteRule(index);</span><br><span class="line">    &#125; else if (sheet.removeRule) &#123;</span><br><span class="line">        sheet.removeRule(index);   //兼容 IE</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">deleteRule(document.styleSheet[0], 0);</span><br></pre></td></tr></table></figure>
-<p><strong>与添加规则相似，删除规则也不是实际 Web 开发中常见的做法。 考虑到删除规则可能会影响 CSS 层叠的效果，因此要慎重使用</strong></p>
-<h4 id="元素大小"><a href="#元素大小" class="headerlink" title="元素大小"></a>元素大小</h4><h5 id="客户区大小"><a href="#客户区大小" class="headerlink" title="客户区大小"></a>客户区大小</h5><p>确定浏览器视口大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function getViewport() &#123;</span><br><span class="line">    if (document.compatMode == &quot;BackCompat&quot;) &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            width: document.body.clientWidth,  // IE</span><br><span class="line">            height: document.body.clientHeight</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            width: document.documentElement.clientWidth,</span><br><span class="line">            height: document.documentElement.clientHeight</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+		<h3 id="时间复杂度分析"><a href="#时间复杂度分析" class="headerlink" title="时间复杂度分析"></a>时间复杂度分析</h3><p>看下边的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int i, j;</span><br><span class="line">for(i=0; i &lt; n; i++) &#123;</span><br><span class="line">    function(i);</span><br><span class="line">&#125;</span><br><span class="line">void function(int count) &#123;</span><br><span class="line">    printf(&quot;%d&quot;, count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数体是打印这个参数，这很好理解。function函数的时间复杂度是O(1),所以整体的时间复杂度就是循环的次数O(n)。</p>
+<p>假如function是下面这样，又该如何呢：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void function(int count) &#123;</span><br><span class="line">    int j;</span><br><span class="line">    for(j=count; j &lt; n; j++) &#123;</span><br><span class="line">        printf(&quot;%d&quot;, j);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>事实上，这和之前说平方阶举的第二个例子一样：function内部的循环次数随count的增加(接近n)而减少，所以根据游戏攻略算法的时间复杂度为O(n^2)。</p>
+<h3 id="常见的时间复杂度"><a href="#常见的时间复杂度" class="headerlink" title="常见的时间复杂度"></a>常见的时间复杂度</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">例子： 5433453  3n+4  3n^2+4n+5  3log(2)n+4  2n+3nlog(2)n+14  n^3+2n^2+4n+6  2^n</span><br><span class="line">时间复杂度：O(1)  O(n)  O(n^2)      O(logn)      O(nlogn)        O(n^3)    O(2^n)</span><br><span class="line">术语：   常数阶   线性阶  平方阶     对数阶        nlogn阶         立方阶    指数阶</span><br></pre></td></tr></table></figure>
+<p>常用的时间复杂度所耗费的时间从小到大依次是：<br>O(1) &lt; O(logn) &lt; (n) &lt;O(nlogn) &lt; O(n^2) &lt;O(n^3) &lt; O(2^n) &lt; O(n!) &lt; O(n^n)</p>
+<h3 id="最坏情况与平均情况"><a href="#最坏情况与平均情况" class="headerlink" title="最坏情况与平均情况"></a>最坏情况与平均情况</h3><p>查找一个有n个随机数字数组中的某个数字，最好的情况是第一个数字就是，那么算法的时间复杂度为O(1),但也有只能这个数字就在最后一个位置，那么时间复杂度为On(n)。</p>
+<p>平均运行时间是期望的运行时间。</p>
+<p>最坏运行时间是一种保证。在应用中，这是一种最重要的需求，通常除非特别指定，我们提到的运行时间都是最坏情况的运行时间。</p>
+<h3 id="算法的空间复杂度"><a href="#算法的空间复杂度" class="headerlink" title="算法的空间复杂度"></a>算法的空间复杂度</h3><p>算法的空间复杂度通过计算算法所需的存储空间实现，算法的空间复杂度的计算公式记作：<br>S(n)=O(f(n))，其中，n为问题的规模，f(n)为语句关于n所占存储空间的函数。</p>
+<p>通常，我们都是用”时间复杂度”来指运行时间的需求，是用”空间复杂度”指空间需求。</p>
+<p>当直接要求我们求”复杂度”时，通常指的是时间复杂度。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -121,13 +127,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM2/">DOM2</a><a href="/tags/DOM3/">DOM3</a>
+  <span></span> <a href="/tags/algorithm/">algorithm</a>
   </div>
 
 </div>
@@ -136,7 +142,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/05/01/DOM2和DOM3/" data-title="DOM2和DOM3 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/05/09/函数调用的时间复杂度分析/" data-title="函数调用的时间复杂度分析 | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -150,18 +156,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/05/01/事件/" title="事件">
+ <a href="/2016/05/09/线性表/" title="线性表">
   <strong>上一篇：</strong><br/>
   <span>
-  事件</span>
+  线性表</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/05/01/DOM扩展/"  title="DOM 扩展">
+<a href="/2016/05/08/算法时间复杂度/"  title="算法时间复杂度">
  <strong>下一篇：</strong><br/> 
- <span>DOM 扩展
+ <span>算法时间复杂度
 </span>
 </a>
 </div>
@@ -176,7 +182,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#样式"><span class="toc-number">1.</span> <span class="toc-text">样式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DOM-样式属性和方法"><span class="toc-number">1.1.</span> <span class="toc-text">DOM 样式属性和方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作样式表"><span class="toc-number">1.2.</span> <span class="toc-text">操作样式表</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CSS-规则"><span class="toc-number">1.2.1.</span> <span class="toc-text">CSS 规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#删除规则"><span class="toc-number">1.2.2.</span> <span class="toc-text">删除规则</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#元素大小"><span class="toc-number">1.3.</span> <span class="toc-text">元素大小</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#客户区大小"><span class="toc-number">1.3.1.</span> <span class="toc-text">客户区大小</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#时间复杂度分析"><span class="toc-number">1.</span> <span class="toc-text">时间复杂度分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的时间复杂度"><span class="toc-number">2.</span> <span class="toc-text">常见的时间复杂度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最坏情况与平均情况"><span class="toc-number">3.</span> <span class="toc-text">最坏情况与平均情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法的空间复杂度"><span class="toc-number">4.</span> <span class="toc-text">算法的空间复杂度</span></a></li></ol>
  
   </div>
 
