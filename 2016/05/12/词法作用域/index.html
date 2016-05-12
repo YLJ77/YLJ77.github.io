@@ -4,23 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>随机取整 | fire on the world!</title>
+    <title>词法作用域 | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="1234function fnRand(m,n) &amp;#123;    var r = Math.round(Math.random()*(n-m) + m);    return r;&amp;#125;">
+    <meta name="description" content="作用域共有两种主要的工作模型。第一种是最为普遍的，被大多数编程语言所采用的词法作用域。另外一种叫作动态作用域，仍有一些编程语言在使用（比如Bash脚本、Perl中的一些模式等）。
+词法阶段大部分标准语言编译器的第一个工作阶段叫作词法化（也叫单词化）。词法化的过程会对源代码中的字符进行检查，如果是有状态的解析过程，还会赋予单词语义。这个概念是理解词法作用域及其名称来历的基础。简单地说，词法作用域就是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="随机取整">
-<meta property="og:url" content="http://yoursite.com/2016/05/04/随机取整/index.html">
+<meta property="og:title" content="词法作用域">
+<meta property="og:url" content="http://yoursite.com/2016/05/12/词法作用域/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="1234function fnRand(m,n) &amp;#123;    var r = Math.round(Math.random()*(n-m) + m);    return r;&amp;#125;">
-<meta property="og:updated_time" content="2016-05-04T03:56:11.375Z">
+<meta property="og:description" content="作用域共有两种主要的工作模型。第一种是最为普遍的，被大多数编程语言所采用的词法作用域。另外一种叫作动态作用域，仍有一些编程语言在使用（比如Bash脚本、Perl中的一些模式等）。
+词法阶段大部分标准语言编译器的第一个工作阶段叫作词法化（也叫单词化）。词法化的过程会对源代码中的字符进行检查，如果是有状态的解析过程，还会赋予单词语义。这个概念是理解词法作用域及其名称来历的基础。简单地说，词法作用域就是">
+<meta property="og:updated_time" content="2016-05-12T16:10:16.237Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="随机取整">
-<meta name="twitter:description" content="1234function fnRand(m,n) &amp;#123;    var r = Math.round(Math.random()*(n-m) + m);    return r;&amp;#125;">
+<meta name="twitter:title" content="词法作用域">
+<meta name="twitter:description" content="作用域共有两种主要的工作模型。第一种是最为普遍的，被大多数编程语言所采用的词法作用域。另外一种叫作动态作用域，仍有一些编程语言在使用（比如Bash脚本、Perl中的一些模式等）。
+词法阶段大部分标准语言编译器的第一个工作阶段叫作词法化（也叫单词化）。词法化的过程会对源代码中的字符进行检查，如果是有状态的解析过程，还会赋予单词语义。这个概念是理解词法作用域及其名称来历的基础。简单地说，词法作用域就是">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -80,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/04/随机取整/" title="随机取整" itemprop="url">随机取整</a>
+      <a href="/2016/05/12/词法作用域/" title="词法作用域" itemprop="url">词法作用域</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-04T03:02:27.746Z" itemprop="datePublished"> 发表于 2016-05-04</time>
+    <time datetime="2016-05-12T15:57:32.970Z" itemprop="datePublished"> 发表于 2016-05-12</time>
     
   </p>
 </header>
@@ -96,11 +99,16 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#词法阶段"><span class="toc-number">1.</span> <span class="toc-text">词法阶段</span></a></li></ol>
 		
 		</div>
 		
-		<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function fnRand(m,n) &#123;</span><br><span class="line">    var r = Math.round(Math.random()*(n-m) + m);</span><br><span class="line">    return r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+		<p>作用域共有两种主要的工作模型。第一种是最为普遍的，被大多数编程语言所采用的词法作用域。另外一种叫作动态作用域，仍有一些编程语言在使用（比如<br>Bash脚本、Perl中的一些模式等）。</p>
+<h3 id="词法阶段"><a href="#词法阶段" class="headerlink" title="词法阶段"></a>词法阶段</h3><p>大部分标准语言编译器的第一个工作阶段叫作词法化（也叫单词化）。词<br>法化的过程会对源代码中的字符进行检查，如果是有状态的解析过程，还会赋予单词语义。<br>这个概念是理解词法作用域及其名称来历的基础。<br>简单地说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域是由你在写代码时将<br>变量和块作用域写在哪里来决定的，因此当词法分析器处理代码时会保持作用域不变（大部分情<br>况下是这样的）。</p>
+<p>考虑以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo(a) &#123;</span><br><span class="line">    var b = a * 2;</span><br><span class="line">function bar(c) &#123;</span><br><span class="line">    console.log( a, b, c );</span><br><span class="line">&#125;</span><br><span class="line">bar( b * 3 );</span><br><span class="line">&#125;</span><br><span class="line">foo( 2 ); // 2, 4, 12</span><br></pre></td></tr></table></figure>
+<p>在这个例子中有三个逐级嵌套的作用域。为了帮助理解，可以将它们想象成几个逐级包含的气泡。</p>
+<p>!(Lexing_1)[img/Lexing_1.png]</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -114,7 +122,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/随机数/">随机数</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
   </div>
 
 </div>
@@ -123,7 +131,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/05/04/随机取整/" data-title="随机取整 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/05/12/词法作用域/" data-title="词法作用域 | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -136,19 +144,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/05/04/媒体查询/" title="媒体查询">
-  <strong>上一篇：</strong><br/>
-  <span>
-  媒体查询</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/05/01/事件/"  title="事件">
+<a href="/2016/05/12/作用域是什么/"  title="作用域是什么">
  <strong>下一篇：</strong><br/> 
- <span>事件
+ <span>作用域是什么
 </span>
 </a>
 </div>
@@ -163,7 +163,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#词法阶段"><span class="toc-number">1.</span> <span class="toc-text">词法阶段</span></a></li></ol>
  
   </div>
 
