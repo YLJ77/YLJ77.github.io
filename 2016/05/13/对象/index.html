@@ -4,26 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>DOM 扩展 | fire on the world!</title>
+    <title>对象 | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+    <meta name="description" content="类型简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符串”object”。1实际上，null本身是基本类型。
+原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被判断为object类">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DOM 扩展">
-<meta property="og:url" content="http://yoursite.com/2016/05/01/DOM扩展/index.html">
+<meta property="og:title" content="对象">
+<meta property="og:url" content="http://yoursite.com/2016/05/13/对象/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
-<meta property="og:updated_time" content="2016-05-03T09:07:00.211Z">
+<meta property="og:description" content="类型简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符串”object”。1实际上，null本身是基本类型。
+原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被判断为object类">
+<meta property="og:updated_time" content="2016-05-13T11:32:41.113Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DOM 扩展">
-<meta name="twitter:description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+<meta name="twitter:title" content="对象">
+<meta name="twitter:description" content="类型简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符串”object”。1实际上，null本身是基本类型。
+原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被判断为object类">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -83,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/01/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
+      <a href="/2016/05/13/对象/" title="对象" itemprop="url">对象</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-01T07:33:31.037Z" itemprop="datePublished"> 发表于 2016-05-01</time>
+    <time datetime="2016-05-13T11:27:26.049Z" itemprop="datePublished"> 发表于 2016-05-13</time>
     
   </p>
 </header>
@@ -99,18 +99,12 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#类型"><span class="toc-number">1.</span> <span class="toc-text">类型</span></a></li></ol>
 		
 		</div>
 		
-		<h3 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h3><p>跨浏览器遍历某元素的所有子元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstChild;</span><br><span class="line">while(child != element.lastChild) &#123;</span><br><span class="line">    if (child.nodeType == 1) &#123;</span><br><span class="line">        processChild(child);</span><br><span class="line">    &#125;</span><br><span class="line">    child = child.nextSibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>而使用 Element Traversal(IE 9+) 新增的元素，代码会更简洁</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstElementChild;</span><br><span class="line">while(child != element.lastElementChild) &#123;</span><br><span class="line">    processChild(child);</span><br><span class="line">    child = child.nextElementSbling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>删除类名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;bd user disabled&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">//删除&quot;user&quot;类</span><br><span class="line"></span><br><span class="line">//首先，取得类名字符串并拆分成数组</span><br><span class="line">var classNames = div.className.split(/\s/);</span><br><span class="line"></span><br><span class="line">//找到要删除的类名</span><br><span class="line">var pos = -1,</span><br><span class="line">    i,</span><br><span class="line">    len;</span><br><span class="line">for (i=0, len=classNames.length; i &lt; len; i++) &#123;</span><br><span class="line">    if (classNames[i] == &quot;user&quot;) &#123;</span><br><span class="line">        pos = i;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//删除类名</span><br><span class="line">classNames.splice(pos,1);</span><br><span class="line"></span><br><span class="line">//把剩下的类名拼成字符串并重新设置</span><br><span class="line">div.className = classNames.join(&quot; &quot;);</span><br></pre></td></tr></table></figure>
-<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>跨浏览器兼容 innerText</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function setInnerText(element, text) &#123;</span><br><span class="line">    if (typeof element.textContent == &quot;string&quot;) &#123;</span><br><span class="line">        element.textContent = text;  //兼容 Firefox</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        element.innerText = text;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+		<h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><p>简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当<br>作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符<br>串”object”。1实际上，null本身是基本类型。</p>
+<p>原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被<br>判断为object类型，null的二进制表示是全0，自然前三位也是0，所以执行typeof时会返<br>回”object”</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -124,7 +118,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/对象/">对象</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
   </div>
 
 </div>
@@ -133,7 +127,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/05/01/DOM扩展/" data-title="DOM 扩展 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/05/13/对象/" data-title="对象 | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -146,19 +140,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/05/01/DOM2和DOM3/" title="DOM2和DOM3">
-  <strong>上一篇：</strong><br/>
-  <span>
-  DOM2和DOM3</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/05/01/DOM/"  title="DOM">
+<a href="/2016/05/13/this全面解析/"  title="this全面解析">
  <strong>下一篇：</strong><br/> 
- <span>DOM
+ <span>this全面解析
 </span>
 </a>
 </div>
@@ -173,7 +159,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#类型"><span class="toc-number">1.</span> <span class="toc-text">类型</span></a></li></ol>
  
   </div>
 

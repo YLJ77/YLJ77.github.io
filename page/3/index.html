@@ -81,6 +81,87 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/05/01/DOM/" title="DOM" itemprop="url">DOM</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-01T01:58:29.235Z" itemprop="datePublished"> 发表于 2016-05-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h3><h4 id="Node-类型"><a href="#Node-类型" class="headerlink" title="Node 类型"></a>Node 类型</h4><p>确定节点类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (someNode.nodeType == Node.ELEMENT_NODE) &#123;    //在IE中无效</span><br><span class="line">    alert(&quot;Node is an element&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>跨浏览器兼容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (someNode.nodeType == 1) &#123;    //适用于所有浏览器</span><br><span class="line">    alert(&quot;Node is an element&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以将 NodeList 对象转为数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//在 IE8 及之前版本中无效</span><br><span class="line">var arrayOfNodes = Array.prototype.slice.call(someNode.childNodes,0);</span><br></pre></td></tr></table></figure>
+<p>跨浏览器兼容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function convertToArray(nodes) &#123;</span><br><span class="line">    var array = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        array = Array.prototype.slice.call(someNode.childNodes,0);  //针对非 IE 浏览器</span><br><span class="line">    &#125; catch (ex) &#123;</span><br><span class="line">        array = new Array();</span><br><span class="line">        for (var i=0, len = nodes.length; i &lt; len; i++) &#123;</span><br><span class="line">            array.push(nodes[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Element-类型"><a href="#Element-类型" class="headerlink" title="Element 类型"></a>Element 类型</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (elemeent.tagName == &quot;div&quot;) &#123;  //不能这样比较，很容易出错！</span><br><span class="line">    //在此执行某些操作</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (elemeent.tagName.toLowerCase() == &quot;div&quot;) &#123;  //这样最好(适用于任何文档)</span><br><span class="line">    //在此执行某些操作</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="取得特性"><a href="#取得特性" class="headerlink" title="取得特性"></a>取得特性</h5><p>在通过 JavaScript 以编程方式操作 DOM 时，开发人员经常不使用 getAttribute(),而是只使用对象的属性。只用在取得自定义特性值的情况下，才会使用 getAttribute() 方法。</p>
+<h4 id="DocumentFragment-类型"><a href="#DocumentFragment-类型" class="headerlink" title="DocumentFragment 类型"></a>DocumentFragment 类型</h4><p>假设想为这个 &lt;\ul id=”myList”&gt;&lt;\/ul&gt; 元素添加3个列表项。如果逐个添加列表项，将会导致浏览器反复渲染新信息。为了避免这个问题，可以像下面这样使用一个文档片段来保存创建的列表项，然后再一次性将他们添加到文档中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var fragment = document.createDocumentFragment();</span><br><span class="line">var ul = document.gtElementById(&quot;myList&quot;);</span><br><span class="line">var li = null;</span><br><span class="line"></span><br><span class="line">for (var i=0; i &lt; 3; i++) &#123;</span><br><span class="line">    li = document.createElement(&quot;li&quot;);</span><br><span class="line">    li.appendChid(document.createTextNode(&quot;Item &quot; + (i+1)));</span><br><span class="line">    fragment.appendChild(li);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ul.appendChild(fragment);</span><br></pre></td></tr></table></figure>
+<h3 id="DOM-操作技术"><a href="#DOM-操作技术" class="headerlink" title="DOM 操作技术"></a>DOM 操作技术</h3><h4 id="动态脚本"><a href="#动态脚本" class="headerlink" title="动态脚本"></a>动态脚本</h4><p>兼容 IE 和早期版本 Safari</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function loadScriptString(code) &#123;</span><br><span class="line">    var script = document.createElement(&quot;script&quot;);</span><br><span class="line">    script.type = &quot;text/javascript&quot;;</span><br><span class="line">    try &#123;</span><br><span class="line">        script.appendChild(document.createTextNode(code));</span><br><span class="line">    &#125; catch (ex) &#123;</span><br><span class="line">        script.text = code;</span><br><span class="line">    &#125;</span><br><span class="line">    document.body.appdendChild(script);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上，这样执行代码与在全局全局作用域中巴相同的字符串传递给eval()是一样的。</p>
+<h4 id="动态样式"><a href="#动态样式" class="headerlink" title="动态样式"></a>动态样式</h4><p>通用的解决方案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function loadStyleString(css) &#123;</span><br><span class="line">    var style = document.createElement(&quot;style&quot;);</span><br><span class="line">    style.type = &quot;text/css&quot;;</span><br><span class="line">    try &#123;</span><br><span class="line">        style.appendChild(document.createTextNode(css));</span><br><span class="line">    &#125; catch(ex) &#123;</span><br><span class="line">        style.styleSheet.cssText = css;    //兼容IE</span><br><span class="line">    &#125;</span><br><span class="line">    var head = document.getElementsByTagName(&quot;head&quot;)[0];</span><br><span class="line">    head.appendChild(style);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用这个函数的实例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loadStyleString(&quot;body&#123;background-color:red&#125;&quot;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果专门针对 IE 编写代码，务必小心使用 styleSheet.cssText 属性。在重用同一个&lt;\style&gt;元素并再次设置这个属性时，有可能导致浏览器崩溃。同样，将 cssText 属性设置为空字符串也可能导致浏览器崩溃。</p>
+</blockquote>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/04/30/BOM/" title="BOM" itemprop="url">BOM</a>
   </h1>
   <p class="article-author">By
@@ -605,7 +686,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>17</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>18</sup></a></li>
 		  
 		
 		  
@@ -622,11 +703,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>16</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>17</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Type-Grammar/" title="Type &amp; Grammar">Type &amp; Grammar<sup>7</sup></a></li>
+				<li><a href="/tags/Type-Grammar/" title="Type &amp; Grammar">Type &amp; Grammar<sup>8</sup></a></li>
 			
 		
 			
@@ -634,11 +715,7 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -646,15 +723,19 @@
 			
 		
 			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随机数/" title="随机数">随机数<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/继承/" title="继承">继承<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
 			
 		
 			
@@ -666,7 +747,7 @@
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
@@ -678,7 +759,7 @@
 			
 		
 			
-				<li><a href="/tags/随机数/" title="随机数">随机数<sup>1</sup></a></li>
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
@@ -690,15 +771,15 @@
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 		</ul>
