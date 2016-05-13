@@ -4,29 +4,32 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>算法效率的度量方法 | fire on the world!</title>
+    <title>函数作用域和块作用域 | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="事后统计方法这种方法主要是通过设计好的测试程序和数据，利用计算机计时器对不同算法编制的程序的运行时间进行比较，从而确定算法效率的高低。但这种方法显然是有很大缺陷的：- 必须依据算法事先编制好测试程序，通常需要花费大量时间和精力。- 不同测试环境差别不是一般的大！
-事前分析估算方法在计算机程序编写前，依据统计方法对算法进行估算。
-总结经过总结，发现一个高级语言编写的程序在计算机上运行时所消耗的时间取">
+    <meta name="description" content="块作用域withwith关键字不仅是一个难于理解的结构，同时也是块作用域的一个例子（块作用域的一种形式），用with从对象中创建出的作用域仅在with声明中而非外部作用域中有效。
+try/catch非常少有人会注意到JavaScript的ES3规范中规定try/catch的catch分句会创建一个块作用域，其中声明的变量仅在catch内部有效。
+
+尽管这个行为已经被标准化，并且被大部分的标准Jav">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法效率的度量方法">
-<meta property="og:url" content="http://yoursite.com/2016/05/08/算法效率的度量方法/index.html">
+<meta property="og:title" content="函数作用域和块作用域">
+<meta property="og:url" content="http://yoursite.com/2016/05/13/函数作用域和块作用域/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="事后统计方法这种方法主要是通过设计好的测试程序和数据，利用计算机计时器对不同算法编制的程序的运行时间进行比较，从而确定算法效率的高低。但这种方法显然是有很大缺陷的：- 必须依据算法事先编制好测试程序，通常需要花费大量时间和精力。- 不同测试环境差别不是一般的大！
-事前分析估算方法在计算机程序编写前，依据统计方法对算法进行估算。
-总结经过总结，发现一个高级语言编写的程序在计算机上运行时所消耗的时间取">
-<meta property="og:updated_time" content="2016-05-08T13:23:52.297Z">
+<meta property="og:description" content="块作用域withwith关键字不仅是一个难于理解的结构，同时也是块作用域的一个例子（块作用域的一种形式），用with从对象中创建出的作用域仅在with声明中而非外部作用域中有效。
+try/catch非常少有人会注意到JavaScript的ES3规范中规定try/catch的catch分句会创建一个块作用域，其中声明的变量仅在catch内部有效。
+
+尽管这个行为已经被标准化，并且被大部分的标准Jav">
+<meta property="og:updated_time" content="2016-05-13T05:45:37.940Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="算法效率的度量方法">
-<meta name="twitter:description" content="事后统计方法这种方法主要是通过设计好的测试程序和数据，利用计算机计时器对不同算法编制的程序的运行时间进行比较，从而确定算法效率的高低。但这种方法显然是有很大缺陷的：- 必须依据算法事先编制好测试程序，通常需要花费大量时间和精力。- 不同测试环境差别不是一般的大！
-事前分析估算方法在计算机程序编写前，依据统计方法对算法进行估算。
-总结经过总结，发现一个高级语言编写的程序在计算机上运行时所消耗的时间取">
+<meta name="twitter:title" content="函数作用域和块作用域">
+<meta name="twitter:description" content="块作用域withwith关键字不仅是一个难于理解的结构，同时也是块作用域的一个例子（块作用域的一种形式），用with从对象中创建出的作用域仅在with声明中而非外部作用域中有效。
+try/catch非常少有人会注意到JavaScript的ES3规范中规定try/catch的catch分句会创建一个块作用域，其中声明的变量仅在catch内部有效。
+
+尽管这个行为已经被标准化，并且被大部分的标准Jav">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -86,14 +89,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/08/算法效率的度量方法/" title="算法效率的度量方法" itemprop="url">算法效率的度量方法</a>
+      <a href="/2016/05/13/函数作用域和块作用域/" title="函数作用域和块作用域" itemprop="url">函数作用域和块作用域</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-08T12:15:31.389Z" itemprop="datePublished"> 发表于 2016-05-08</time>
+    <time datetime="2016-05-13T03:07:24.443Z" itemprop="datePublished"> 发表于 2016-05-13</time>
     
   </p>
 </header>
@@ -102,30 +105,22 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#事后统计方法"><span class="toc-number">1.</span> <span class="toc-text">事后统计方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#事前分析估算方法"><span class="toc-number">2.</span> <span class="toc-text">事前分析估算方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数的渐进增长"><span class="toc-number">4.</span> <span class="toc-text">函数的渐进增长</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#测试一"><span class="toc-number">4.1.</span> <span class="toc-text">测试一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试二"><span class="toc-number">4.2.</span> <span class="toc-text">测试二</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试三"><span class="toc-number">4.3.</span> <span class="toc-text">测试三</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试四"><span class="toc-number">4.4.</span> <span class="toc-text">测试四</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#块作用域"><span class="toc-number">1.</span> <span class="toc-text">块作用域</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#with"><span class="toc-number">1.1.</span> <span class="toc-text">with</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#try-catch"><span class="toc-number">1.2.</span> <span class="toc-text">try/catch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#let"><span class="toc-number">1.3.</span> <span class="toc-text">let</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h3 id="事后统计方法"><a href="#事后统计方法" class="headerlink" title="事后统计方法"></a>事后统计方法</h3><p>这种方法主要是通过设计好的测试程序和数据，利用计算机计时器对不同算法编制的程序的运行时间进行比较，从而确定算法效率的高低。<br>但这种方法显然是有很大缺陷的：<br>- 必须依据算法事先编制好测试程序，通常需要花费大量时间和精力。<br>- 不同测试环境差别不是一般的大！</p>
-<h3 id="事前分析估算方法"><a href="#事前分析估算方法" class="headerlink" title="事前分析估算方法"></a>事前分析估算方法</h3><p>在计算机程序编写前，依据统计方法对算法进行估算。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>经过总结，发现一个高级语言编写的程序在计算机上运行时所消耗的时间取决于下列因素：<br>- 1. 算法采用的策略，方案<br>- 2. 编译产生的代码质量<br>- 3. 问题的输入规模<br>- 4. 机器执行指令的速度</p>
-<p>由此可见，抛开这些与计算机硬件、软件有关的因素，一个程序的运行时间依赖于算法的好坏和问题的输入规模。(所谓的问题输入规模是指输入量的多少)</p>
-<p>研究算法的复杂度，侧重的是研究算法随着输入规模扩大增大量的一个抽象，而不是精确定位需要执行多少次。<br>不关心编写程序所用的语言是什么，也不关心这些程序将跑在什么样的计算机上，只关心它所实现的算法。<br>这样，不计那些循环索引的递增和循环终止条件、变量声明、打印结果等操作。最终，在分析程序的运行时间时，最重要的是把程序看成是独立于程序设计语言的算法或一系列步骤。<br>在分析一个算法的运行时间时，重要的是把几百年操作的数量和输入模式关联起来。</p>
-<h3 id="函数的渐进增长"><a href="#函数的渐进增长" class="headerlink" title="函数的渐进增长"></a>函数的渐进增长</h3><h4 id="测试一"><a href="#测试一" class="headerlink" title="测试一"></a>测试一</h4><p>判断以下两个算法A和B哪个更好？<br>假设两个算法的输入规模都是n，算法A要做2n+3次操作，可以这么理解:先执行n次的循环，执行完后再有一个n次的循环，最后有3次运算。<br>算法B要做3n+1次操作，理解同上，你觉得它们哪个更快？</p>
-<p>算法A1：(2n+3)<br>算法A2:(2n)<br>算法B1:(3n+1)<br>算法B2:(3n)</p>
-<p>当n=1时，算法A1效率不如算法B1，当n=2时，两者效率相同；当n&gt;2时，算法A1就开始由于算法B1了，随着n的继续增加，算法A1比算法B1逐步拉大差距。所以，所以总体上算法比算法B1优秀。</p>
-<p>函数的渐进增长：给定两个函数f(n)和g(n),如果存在一个整数N，使得对于所有的n&gt;N，fn(n)总是比g(n)大，那么，我们说f(n)的增长渐进快于g(n)。</p>
-<p>从刚才的对比中发现，随着n的增大，后面的+3和+1其实是不影响最终的算法变化曲线的。所以，可以忽略这些加法常数。</p>
-<h4 id="测试二"><a href="#测试二" class="headerlink" title="测试二"></a>测试二</h4><p>算法C1:(4n+8)<br>算法C2:(n)<br>算法D1:(2n^2+1)<br>算法D2:(n^2)</p>
-<p>观察发现：与最高次项相乘的常数并不重要，也可以忽略。</p>
-<h4 id="测试三"><a href="#测试三" class="headerlink" title="测试三"></a>测试三</h4><p>算法E1:(2n^2+3n+1)<br>算法E2:(n^2)<br>算法F1:(2n^3+3n+1)<br>算法F2:(n^3)</p>
-<p>观察发现：最高次项的指数大的，函数随着n的增长，结果也会变得增长特别快。</p>
-<h4 id="测试四"><a href="#测试四" class="headerlink" title="测试四"></a>测试四</h4><p>算法G:2n^2<br>算法H:3n+1<br>算法I:2n^2+3n+1</p>
-<p>观察发现：当n的值变得非常大的时候，3n+1已经没法和2n^2的结果相比较，最终可以忽略不计。而算法G在算法I基本已经重合了。</p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>判断一个算法的效率时，函数中的常数和其它次要项常常可以忽略，而更应该关注主项(最高项的阶数)</p>
+		<h3 id="块作用域"><a href="#块作用域" class="headerlink" title="块作用域"></a>块作用域</h3><h4 id="with"><a href="#with" class="headerlink" title="with"></a>with</h4><p>with关键字不仅是一个难于理解的结构，同时也是块作用域的一个例子<br>（块作用域的一种形式），用with从对象中创建出的作用域仅在with声明中而非外部作用域中有<br>效。</p>
+<h4 id="try-catch"><a href="#try-catch" class="headerlink" title="try/catch"></a>try/catch</h4><p>非常少有人会注意到JavaScript的ES3规范中规定try/catch的catch分句会创建一个块作用域，其<br>中声明的变量仅在catch内部有效。</p>
 <blockquote>
-<p>注意，判断一个算法好不好，只通过少量的数据是不能做出准确判断的，很容易以偏概全。</p>
+<p>尽管这个行为已经被标准化，并且被大部分的标准JavaScript环境（除了老版本的IE浏览<br>器）所支持，但是当同一个作用域中的两个或多个catch分句用同样的标识符名称声明错误变<br>量时，很多静态检查工具还是会发出警告。实际上这并不是重复定义，因为所有变量都被安全<br>地限制在块作用域内部，但是静态检查工具还是会很烦人地发出警告。<br>为了避免这个不必要的警告，很多开发者会将catch的参数命名为err1、err2等。也有开发者干<br>脆关闭了静态检查工具对重复变量名的检查。</p>
 </blockquote>
+<h4 id="let"><a href="#let" class="headerlink" title="let"></a>let</h4><p>let关键字可以将变量绑定到所在的任意作用域中（通常是{ ..}内部）。换句话说，let为其声明的变量隐式地了所在的块作用域。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var foo = true;</span><br><span class="line">if (foo) &#123;</span><br><span class="line">    let bar = foo * 2;</span><br><span class="line">    bar = something( bar );</span><br><span class="line">    console.log( bar );</span><br><span class="line">&#125;</span><br><span class="line">console.log( bar ); // ReferenceError</span><br></pre></td></tr></table></figure>
+<p>用let将变量附加在一个已经存在的块作用域上的行为是隐式的。在开发和修改代码的过程中，如<br>果没有密切关注哪些块作用域中有绑定的变量，并且习惯性地移动这些块或者将其包含在其他的<br>块中，就会导致代码变得混乱。<br>为块作用域显式地创建块可以部分解决这个问题，使变量的附属关系变得更加清晰。通常来讲，显<br>式的代码优于隐式或一些精巧但不清晰的代码。显式的块作用域风格非常容易书写，并且和其他<br>语言中块作用域的工作原理一致：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var foo = true;</span><br><span class="line">&lt;b&gt;if&lt;/b&gt; (foo) &#123;</span><br><span class="line">    &#123; // &lt;-- 显式的快</span><br><span class="line">        let bar = foo * 2;</span><br><span class="line">        bar = something( bar );</span><br><span class="line">        console.log( bar );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log( bar ); // ReferenceError</span><br></pre></td></tr></table></figure>
+<p>只要声明是有效的，在声明中的任意位置都可以使用{ .. }括号来为let创建一个用于绑定的块。在<br>这个例子中，我们在if声明内部显式地创建了一个块，如果需要对其进行重构，整个块都可以被方<br>便地移动而不会对外部if声明的位置和语义产生任何影响。</p>
+<p>使用let进行的声明不会在块作用域中进行提升。声明的代码被运行之前，声明并不”存在”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">console.log( bar ); // ReferenceError!</span><br><span class="line">let bar = 2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -133,13 +128,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/algorithm/">algorithm</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
   </div>
 
 </div>
@@ -148,7 +143,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/05/08/算法效率的度量方法/" data-title="算法效率的度量方法 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/05/13/函数作用域和块作用域/" data-title="函数作用域和块作用域 | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -162,18 +157,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/05/08/算法时间复杂度/" title="算法时间复杂度">
+ <a href="/2016/05/13/提升/" title="提升">
   <strong>上一篇：</strong><br/>
   <span>
-  算法时间复杂度</span>
+  提升</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/05/08/谈谈算法/"  title="谈谈算法">
+<a href="/2016/05/12/词法作用域/"  title="词法作用域">
  <strong>下一篇：</strong><br/> 
- <span>谈谈算法
+ <span>词法作用域
 </span>
 </a>
 </div>
@@ -188,7 +183,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#事后统计方法"><span class="toc-number">1.</span> <span class="toc-text">事后统计方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#事前分析估算方法"><span class="toc-number">2.</span> <span class="toc-text">事前分析估算方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数的渐进增长"><span class="toc-number">4.</span> <span class="toc-text">函数的渐进增长</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#测试一"><span class="toc-number">4.1.</span> <span class="toc-text">测试一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试二"><span class="toc-number">4.2.</span> <span class="toc-text">测试二</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试三"><span class="toc-number">4.3.</span> <span class="toc-text">测试三</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试四"><span class="toc-number">4.4.</span> <span class="toc-text">测试四</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">5.</span> <span class="toc-text">结论</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#块作用域"><span class="toc-number">1.</span> <span class="toc-text">块作用域</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#with"><span class="toc-number">1.1.</span> <span class="toc-text">with</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#try-catch"><span class="toc-number">1.2.</span> <span class="toc-text">try/catch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#let"><span class="toc-number">1.3.</span> <span class="toc-text">let</span></a></li></ol></li></ol>
  
   </div>
 

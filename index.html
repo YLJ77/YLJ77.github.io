@@ -81,6 +81,363 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/05/13/this全面解析/" title="this全面解析" itemprop="url">this全面解析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-13T08:51:12.684Z" itemprop="datePublished"> 发表于 2016-05-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/this/">this</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/13/关于this/" title="关于this" itemprop="url">关于this</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-13T08:39:43.508Z" itemprop="datePublished"> 发表于 2016-05-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="指向自身"><a href="#指向自身" class="headerlink" title="指向自身"></a>指向自身</h3><p>使用foo标识符替代this来引用函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function foo(num) &#123;</span><br><span class="line">    console.log( &quot;foo: &quot; + num );</span><br><span class="line">    // 记录foo被调用的次数</span><br><span class="line">    foo.count++;</span><br><span class="line">&#125;</span><br><span class="line">foo.count = 0</span><br><span class="line">var i;</span><br><span class="line">for (i=0; i&lt;10; i++) &#123;</span><br><span class="line">    if (i &gt; 5) &#123;</span><br><span class="line">        foo( i );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// foo: 6</span><br><span class="line">// foo: 7</span><br><span class="line">// foo: 8</span><br><span class="line">// foo: 9</span><br><span class="line">// foo被调用了多少次？</span><br><span class="line">console.log( foo.count ); // 4</span><br></pre></td></tr></table></figure></p>
+<p>然而，这种方法同样回避了this的问题，并且完全依赖于变量foo的词法作用域。<br>另一种方法是强制this指向foo函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function foo(num) &#123;</span><br><span class="line">    console.log( &quot;foo: &quot; + num );</span><br><span class="line">    // 记录foo被调用的次数</span><br><span class="line">    // 注意，在当前的调用方式下（参见下方代码），this确实指向foo</span><br><span class="line">    this.count++;</span><br><span class="line">&#125;</span><br><span class="line">foo.count = 0;</span><br><span class="line">var i;</span><br><span class="line">for (i=0; i&lt;10; i++) &#123;</span><br><span class="line">    if (i &gt; 5) &#123;</span><br><span class="line">        // 使用call(..)可以确保this指向函数对象foo本身</span><br><span class="line">        foo.call( foo, i );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// foo: 6</span><br><span class="line">// foo: 7</span><br><span class="line">// foo: 8</span><br><span class="line">// foo: 9</span><br><span class="line">// foo被调用了多少次？</span><br><span class="line">console.log( foo.count ); // 4</span><br></pre></td></tr></table></figure></p>
+<h3 id="this到底是什么"><a href="#this到底是什么" class="headerlink" title="this到底是什么"></a>this到底是什么</h3><p>this是在运行时进行绑定的，并不是在编写时绑定，它的上下文取决于函数调用时<br>的各种条件。this的绑定和函数声明的位置没有任何关系，只取决于函数的调用方式。<br>当一个函数被调用时，会创建一个活动记录（有时候也称为执行上下文）。这个记录会包含函数在<br>哪里被调用（调用栈）、函数的调用方法、传入的参数等信息。this就是记录的其中一个属性，会在<br>函数执行的过程中用到。</p>
+<p><b>this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。</b></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/this/">this</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/13/作用域和闭包/" title="作用域和闭包" itemprop="url">作用域和闭包</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-13T06:04:54.787Z" itemprop="datePublished"> 发表于 2016-05-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="实质问题"><a href="#实质问题" class="headerlink" title="实质问题"></a>实质问题</h3><p>下面用一些代码来解释这个定义。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    var a = 2;</span><br><span class="line">    function bar() &#123;</span><br><span class="line">        console.log( a ); // 2</span><br><span class="line">    &#125;</span><br><span class="line">    bar();</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br></pre></td></tr></table></figure></p>
+<p>这段代码看起来和嵌套作用域中的示例代码很相似。基于词法作用域的查找规则，函数bar()可以<br>访问外部作用域中的变量a（这个例子中的是一个RHS引用查询）。<br>这是闭包吗？<br>技术上来讲，也许是。但根据前面的定义，确切地说并不是。我认为最准确地用来解释bar()对a的<br>引用的方法是词法作用域的查找规则，而这些规则只是闭包的一部分。（但却是非常重要的一部<br>分！）</p>
+<p>从纯学术的角度说，在上面的代码片段中，函数bar()具有一个涵盖foo()作用域的闭包（事实上，涵<br>盖了它能访问的所有作用域，比如全局作用域）。也可以认为bar()被封闭在了foo()的作用域中。为<br>什么呢？原因简单明了，因为bar()嵌套在foo()内部。<br>但是通过这种方式定义的闭包并不能直接进行观察，也无法明白在这个代码片段中闭包是如何工<br>作的。我们可以很容易地理解词法作用域，而闭包则隐藏在代码之后的神秘阴影里，并不那么容易<br>理解。<br>下面我们来看一段代码，清晰地展示了闭包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    var a = 2;</span><br><span class="line">    function bar() &#123;</span><br><span class="line">        console.log( a );</span><br><span class="line">    &#125;</span><br><span class="line">    return bar;</span><br><span class="line">&#125;</span><br><span class="line">var baz = foo();</span><br><span class="line">baz(); // 2 ———— 朋友，这就是闭包的效果。</span><br></pre></td></tr></table></figure></p>
+<p>函数bar()的词法作用域能够访问foo()的内部作用域。然后我们将bar()函数本身当作一个值类型<br>进行传递。在这个例子中，我们将bar所引用的函数对象本身当作返回值。<br>在foo()执行后，其返回值（也就是内部的bar()函数）赋值给变量baz并调用baz()，实际上只是通过<br>不同的标识符引用调用了内部的函数bar()。<br>bar()显然可以被正常执行。但是在这个例子中，它在自己定义的词法作用域以外的地方执行。<br>在foo()执行后，通常会期待foo()的整个内部作用域都被销毁，因为我们知道引擎有垃圾回收器用<br>来释放不再使用的内存空间。由于看上去foo()的内容不会再被使用，所以很自然地会考虑对其进<br>行回收。<br>而闭包的“神奇”之处正是可以阻止这件事情的发生。事实上内部作用域依然存在，因此没有被回<br>收。谁在使用这个内部作用域？原来是bar()本身在使用。<br>拜bar()所声明的位置所赐，它拥有涵盖foo()内部作用域的闭包，使得该作用域能够一直存活，以<br>供bar()在之后任何时间进行引用。<br>bar()依然持有对该作用域的引用，而这个引用就叫作闭包。<br>因此，在几微秒之后变量baz被实际调用（调用内部函数bar），不出意料它可以访问定义时的词法<br>作用域，因此它也可以如预期般访问变量a。<br>这个函数在定义时的词法作用域以外的地方被调用。闭包使得函数可以继续访问定义时的词法作<br>用域。<br>当然，无论使用何种方式对函数类型的值进行传递，当函数在别处被调用时都可以观察到闭包。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">var a = 2;</span><br><span class="line">function baz() &#123;</span><br><span class="line">    console.log( a ); // 2</span><br><span class="line">&#125;</span><br><span class="line">bar( baz );</span><br><span class="line">&#125;</span><br><span class="line">function bar(fn) &#123;</span><br><span class="line">    fn(); // 妈妈快看呀，这就是闭包！</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>把内部函数baz传递给bar，当调用这个内部函数时（现在叫作fn），它涵盖的foo()内部作用域的闭<br>包就可以观察到了，因为它能够访问a。<br>传递函数当然也可以是间接的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var fn;</span><br><span class="line">function foo() &#123;</span><br><span class="line">var a = 2;</span><br><span class="line">function baz() &#123;</span><br><span class="line">    console.log( a );</span><br><span class="line">&#125;</span><br><span class="line">fn = baz; // 将baz分配给全局变量</span><br><span class="line">&#125;</span><br><span class="line">function bar() &#123;</span><br><span class="line">    fn(); // 妈妈快看呀，这就是闭包！</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line">bar(); // 2</span><br></pre></td></tr></table></figure></p>
+<p>无论通过何种手段将内部函数传递到所在的词法作用域以外，它都会持有对原始定义作用域的引<br>用，无论在何处执行这个函数都会使用闭包。</p>
+<p>本质上无论何时何地，如果将函数（访问它们各自的词法作用域）当作第一级的值类<br>型并到处传递，你就会看到闭包在这些函数中的应用。在定时器、事件监听器、Ajax请求、跨窗口通<br>信、Web Workers或者任何其他的异步（或者同步）任务中，只要使用了回调函数，实际上就是在使<br>用闭包！</p>
+<blockquote>
+<p>通常认为IIFE是典型的闭包例子，但根据先前对闭包的定义，我并<br>不是很同意这个观点。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var a = 2;</span><br><span class="line">(function IIFE() &#123;</span><br><span class="line">    console.log( a );</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>虽然这段代码可以正常工作，但严格来讲它并不是闭包。为什么？因为函数（示例代码中的IIFE）并<br>不是在它本身的词法作用域以外执行的。它在定义时所在的作用域中执行（而外部作用域，也就是<br>全局作用域也持有a）。a是通过普通的词法作用域查找而非闭包被发现的。<br>尽管技术上来讲，闭包是发生在定义时的，但并不非常明显，就好像六祖慧能所说：”既非风动，亦<br>非幡动，仁者心动耳。”</p>
+<p>尽管IIFE本身并不是观察闭包的恰当例子，但它的确创建了闭包，并且也是最常用来创建可以被<br>封闭起来的闭包的工具。因此IIFE的确同闭包息息相关，即使本身并不会真的使用闭包。</p>
+<h3 id="循环和闭包"><a href="#循环和闭包" class="headerlink" title="循环和闭包"></a>循环和闭包</h3><p>要说明闭包，for循环是最常见的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for (var i=1; i&lt;=5; i++) &#123;</span><br><span class="line">    setTimeout( function timer() &#123;</span><br><span class="line">        console.log( i );</span><br><span class="line">    &#125;, i*1000 );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>正常情况下，我们对这段代码行为的预期是分别输出数字1~5，每秒一次，每次一个。<br>但实际上，这段代码在运行时会以每秒一次的频率输出五次6。<br>这是为什么？<br>首先解释6是从哪里来的。这个循环的终止条件是i不再&lt;=5。条件首次成立时i的值是6。因此，输出<br>显示的是循环结束时i的最终值。<br>仔细想一下，这好像又是显而易见的，延迟函数的回调会在循环结束时才执行。事实上，当定时器<br>运行时即使每个迭代中执行的是setTimeout(.., 0)，所有的回调函数依然是在循环结束后才会被<br>执行，因此会每次输出一个6出来。<br>这里引伸出一个更深入的问题，代码中到底有什么缺陷导致它的行为同语义所暗示的不一致呢？<br>缺陷是我们试图假设循环中的每个迭代在运行时都会给自己“捕获”一个i的副本。但是根据作用域<br>的工作原理，实际情况是尽管循环中的五个函数是在各个迭代中分别定义的，但是它们都被封闭<br>在一个共享的全局作用域中，因此实际上只有一个i。<br>下面回到正题。缺陷是什么？我们需要更多的闭包作用域，特别是在循环的过程中每个迭代都需要<br>一个闭包作用域。<br>IIFE会通过声明并立即执行一个函数来创建作用域。<br>我们来试一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for (var i=1; i&lt;=5; i++) &#123;</span><br><span class="line">(function() &#123;</span><br><span class="line">setTimeout( function timer() &#123;</span><br><span class="line">console.log( i );</span><br><span class="line">&#125;, i*1000 );</span><br><span class="line">&#125;)();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>。这样不行。但是为什么呢？我们现在显然拥有更多的词法作用域了。的确每个延迟<br>函数都会将IIFE在每次迭代中创建的作用域封闭起来。<br>如果作用域是空的，那么仅仅将它们进行封闭是不够的。仔细看一下，我们的IIFE只是一个什么都<br>没有的空作用域。它需要包含一点实质内容才能为我们所用。<br>它需要有自己的变量，用来在每个迭代中储存i的值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for (var i=1; i&lt;=5; i++) &#123;</span><br><span class="line">    (function() &#123;</span><br><span class="line">        var j = i;</span><br><span class="line">        setTimeout( function timer() &#123;</span><br><span class="line">            console.log( j );</span><br><span class="line">        &#125;, j*1000 );</span><br><span class="line">    &#125;)();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>行了！它能正常工作了！。<br>可以对这段代码进行一些改进：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for (var i=1; i&lt;=5; i++) &#123;</span><br><span class="line">    (function(j) &#123;</span><br><span class="line">        setTimeout( function timer() &#123;</span><br><span class="line">            console.log( j );</span><br><span class="line">        &#125;, j*1000 );</span><br><span class="line">    &#125;)( i );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>let声明，可以用来劫持块作用域，并且<br>在这个块作用域中声明一个变量。<br>本质上这是将一个块转换成一个可以被关闭的作用域。因此，下面这些看起来很酷的代码就可以<br>正常运行了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for (var i=1; i&lt;=5; i++) &#123;</span><br><span class="line">    let j = i; // 是的，闭包的块作用域！</span><br><span class="line">    setTimeout( function timer() &#123;</span><br><span class="line">        console.log( j );</span><br><span class="line">    &#125;, j*1000 );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>但是，这还不是全部！for循环头部的let声明还会有一个特殊的行<br>为。这个行为指出变量在循环过程中不止被声明一次，每次迭代都会声明。随后的每个迭代都会使<br>用上一个迭代结束时的值来初始化这个变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for (let i=1; i&lt;=5; i++) &#123;</span><br><span class="line">    setTimeout( function timer() &#123;</span><br><span class="line">        console.log( i );</span><br><span class="line">    &#125;, i*1000 );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h3><p>还有其他的代码模式利用闭包的强大威力，但从表面上看，它们似乎与回调无关。下面一起来研究<br>其中最强大的一个：模块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    var something = &quot;cool&quot;;</span><br><span class="line">    var another = [1, 2, 3];</span><br><span class="line">    function doSomething() &#123;</span><br><span class="line">        console.log( something );</span><br><span class="line">    &#125;</span><br><span class="line">    function doAnother() &#123;</span><br><span class="line">        console.log( another.join( &quot; ! &quot; ) );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>正如在这段代码中所看到的，这里并没有明显的闭包，只有两个私有数据变量something<br>和another，以及doSomething()和doAnother()两个内部函数，它们的词法作用域（而这就是闭包）也<br>就是foo()的内部作用域。<br>接下来考虑以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function CoolModule() &#123;</span><br><span class="line">    var something = &quot;cool&quot;;</span><br><span class="line">    var another = [1, 2, 3];</span><br><span class="line">    function doSomething() &#123;</span><br><span class="line">        console.log( something );</span><br><span class="line">    &#125;</span><br><span class="line">    function doAnother() &#123;</span><br><span class="line">        console.log( another.join( &quot; ! &quot; ) );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        doSomething: doSomething,</span><br><span class="line">        doAnother: doAnother</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">var foo = CoolModule();</span><br><span class="line">foo.doSomething(); // cool</span><br><span class="line">foo.doAnother(); // 1 ! 2 ! 3</span><br></pre></td></tr></table></figure></p>
+<p>这个模式在JavaScript中被称为模块。最常见的实现模块模式的方法通常被称为模块暴露，这里展<br>示的是其变体。<br>我们仔细研究一下这些代码。<br>首先，CoolModule()只是一个函数，必须要通过调用它来创建一个模块实例。如果不执行外部函数，<br>内部作用域和闭包都无法被创建。<br>其次，CoolModule()返回一个用对象字面量语法{ key: value, … }来表示的对象。这个返回的对<br>象中含有对内部函数而不是内部数据变量的引用。我们保持内部数据变量是隐藏且私有的状态。<br>可以将这个对象类型的返回值看作本质上是模块的公共API。<br>这个对象类型的返回值最终被赋值给外部的变量foo，然后就可以通过它来访问API中的属性方<br>法，比如foo.doSomething()。</p>
+<p>doSomething()和doAnother()函数具有涵盖模块实例内部作用域的闭包（通过调用CoolModule()实<br>现）。当通过返回一个含有属性引用的对象的方式来将函数传递到词法作用域外部时，我们已经创<br>造了可以观察和实践闭包的条件。<br>如果要更简单的描述，模块模式需要具备两个必要条件。</p>
+<ol>
+<li>必须有外部的封闭函数，该函数必须至少被调用一次（每次调用都会创建一个新的模块实例）。</li>
+<li>封闭函数必须返回至少一个内部函数，这样内部函数才能在私有作用域中形成闭包，并且可以<br>访问或者修改私有的状态。<br>一个具有函数属性的对象本身并不是真正的模块。从方便观察的角度看，一个从函数调用所返回<br>的，只有数据属性而没有闭包函数的对象并不是真正的模块。<br>上一个示例代码中有一个叫作CoolModule()的独立的模块创建器，可以被调用任意多次，每次调用<br>都会创建一个新的模块实例。当只需要一个实例时，可以对这个模式进行简单的改进来实现单例<br>模式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var foo = (function CoolModule() &#123;</span><br><span class="line">    var something = &quot;cool&quot;;</span><br><span class="line">    var another = [1, 2, 3];</span><br><span class="line">    function doSomething() &#123;</span><br><span class="line">        console.log( something );</span><br><span class="line">    &#125;</span><br><span class="line">    function doAnother() &#123;</span><br><span class="line">        console.log( another.join( &quot; ! &quot; ) );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        doSomething: doSomething,</span><br><span class="line">        doAnother: doAnother</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line">foo.doSomething(); // cool</span><br><span class="line">foo.doAnother(); // 1 ! 2 ! 3</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>我们将模块函数转换成了IIFE，立即调用这个函数并将返回值直接赋值给单例的模<br>块实例标识符foo。<br>模块也是普通的函数，因此可以接受参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function CoolModule(id) &#123;</span><br><span class="line">    function identify() &#123;</span><br><span class="line">    console.log( id );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        identify: identify</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">var foo1 = CoolModule( &quot;foo 1&quot; );</span><br><span class="line">var foo2 = CoolModule( &quot;foo 2&quot; );</span><br><span class="line">foo1.identify(); // &quot;foo 1&quot;</span><br><span class="line">foo2.identify(); // &quot;foo 2&quot;</span><br></pre></td></tr></table></figure></p>
+<p>模块模式另一个简单但强大的变化用法是，命名将要作为公共API返回的对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var foo = (function CoolModule(id) &#123;</span><br><span class="line">    function change() &#123;</span><br><span class="line">    // 修改公共API</span><br><span class="line">    publicAPI.identify = identify2;</span><br><span class="line">    &#125;</span><br><span class="line">    function identify1() &#123;</span><br><span class="line">        console.log( id );</span><br><span class="line">    &#125;</span><br><span class="line">    function identify2() &#123;</span><br><span class="line">        console.log( id.toUpperCase() );</span><br><span class="line">    &#125;</span><br><span class="line">    var publicAPI = &#123;</span><br><span class="line">        change: change,</span><br><span class="line">        identify: identify1</span><br><span class="line">    &#125;;</span><br><span class="line">    return publicAPI;</span><br><span class="line">&#125;)( &quot;foo module&quot; );</span><br><span class="line">foo.identify(); // foo module</span><br><span class="line">foo.change();</span><br><span class="line">foo.identify(); // FOO MODULE</span><br></pre></td></tr></table></figure></p>
+<p>通过在模块实例的内部保留对公共API对象的内部引用，可以从内部对模块实例进行修改，包括添<br>加或删除方法和属性，以及修改它们的值。</p>
+<p>大多数模块依赖加载器/管理器本质上都是将这种模块定义封装进一个友好的API。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var MyModules = (function Manager() &#123;</span><br><span class="line">    var modules = &#123;&#125;;</span><br><span class="line">    function define(name, deps, impl) &#123;</span><br><span class="line">        for (var i=0; i&lt;deps.length; i++) &#123;</span><br><span class="line">            deps[i] = modules[deps[i]];</span><br><span class="line">        &#125;</span><br><span class="line">    modules[name] = impl.apply( impl, deps );</span><br><span class="line">    &#125;</span><br><span class="line">    function get(name) &#123;</span><br><span class="line">        return modules[name];</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        define: define,</span><br><span class="line">        get: get</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<p>这段代码的核心是modules[name] = impl.apply(impl, deps)。为了模块的定义引入了包装函数（可<br>以传入任何依赖），并且将返回值，也就是模块的API，储存在一个根据名字来管理的模块列表中。<br>下面展示了如何使用它来定义模块：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">MyModules.define( &quot;bar&quot;, [], function() &#123;</span><br><span class="line">    function hello(who) &#123;</span><br><span class="line">    return &quot;Let me introduce: &quot; + who;</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        hello: hello</span><br><span class="line">    &#125;;</span><br><span class="line">&#125; );</span><br><span class="line">MyModules.define( &quot;foo&quot;, [&quot;bar&quot;], function(bar) &#123;</span><br><span class="line">    var hungry = &quot;hippo&quot;;</span><br><span class="line">    function awesome() &#123;</span><br><span class="line">        console.log( bar.hello( hungry ).toUpperCase() );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        awesome: awesome</span><br><span class="line">    &#125;;</span><br><span class="line">&#125; );</span><br><span class="line">var bar = MyModules.get( &quot;bar&quot; );</span><br><span class="line">var foo = MyModules.get( &quot;foo&quot; );</span><br><span class="line">console.log(</span><br><span class="line">bar.hello( &quot;hippo&quot; )</span><br><span class="line">); // &lt;i&gt;Let me introduce: hippo&lt;/i&gt;</span><br><span class="line">foo.awesome(); // LET ME INTRODUCE: HIPPO</span><br></pre></td></tr></table></figure></p>
+<p>“foo”和”bar”模块都是通过一个返回公共API的函数来定义的。”foo”甚至接受”bar”的示例作为依<br>赖参数，并能相应地使用它。<br>要理解模块管理器没有任何特殊的“魔力”。它们符合前面列出的模块模式的两个特点：为函数定义<br>引入包装函数，并保证它的返回值和模块的API保持一致。<br>换句话说，模块就是模块，即使在它们外层加上一个友好的包装工具也不会发生任何变化。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/闭包/">闭包</a><a href="/tags/模块/">模块</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/13/提升/" title="提升" itemprop="url">提升</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-13T05:45:45.018Z" itemprop="datePublished"> 发表于 2016-05-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>当你看到var a = 2;时，可能会认为这是一个声明。但JavaScript实际上会将其看成两个声<br>明：var a;和a = 2;。第一个定义声明是在编译阶段进行的。第二个赋值声明会被留在原地等待执<br>行阶段。<br>我们的第一个代码片段会以如下形式进行处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a;</span><br><span class="line">a = 2;</span><br><span class="line">console.log( a );</span><br></pre></td></tr></table></figure></p>
+<p>其中第一部分是编译，而第二部分是执行。</p>
+<p>函数声明会被提升，但是函数表达式却不会被提升。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo(); // 不是ReferenceError, 而是TypeError!</span><br><span class="line">var foo = function bar() &#123;</span><br><span class="line">    // ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这段程序中的变量标识符foo()被提升并分配给所在作用域（在这里是全局作用域），因此foo()不<br>会导致ReferenceError。但是foo此时并没有赋值（如果它是一个函数声明而不是函数表达式，那么<br>就会赋值）。foo()由于对undefined值进行函数调用而导致非法操作，因此抛出TypeError异常。<br>同时也要记住，即使是具名的函数表达式，名称标识符在赋值之前也无法在所在作用域中使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">foo(); // TypeError</span><br><span class="line">bar(); // ReferenceError</span><br><span class="line">var foo = function bar() &#123;</span><br><span class="line">    // ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这个代码片段经过提升后，实际上会被理解为以下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var foo;</span><br><span class="line">foo(); // TypeError</span><br><span class="line">bar(); // ReferenceError</span><br><span class="line">foo = function() &#123;</span><br><span class="line">    var bar = ...self...</span><br><span class="line">    // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="函数优先"><a href="#函数优先" class="headerlink" title="函数优先"></a>函数优先</h3><p>函数声明和变量声明都会被提升。但是一个值得注意的细节（这个细节可以出现在有多个“重复”声<br>明的代码中）是函数会首先被提升，然后才是变量。<br>考虑以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">foo(); // 1</span><br><span class="line">var foo;</span><br><span class="line">function foo() &#123;</span><br><span class="line">    console.log( 1 );</span><br><span class="line">&#125;</span><br><span class="line">foo = function() &#123;</span><br><span class="line">    console.log( 2 );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>会输出1而不是2！这个代码片段会被引擎理解为如下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    console.log( 1 );</span><br><span class="line">&#125;</span><br><span class="line">foo(); // 1</span><br><span class="line">foo = function() &#123;</span><br><span class="line">    console.log( 2 );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>注意，var foo尽管出现在function foo()…的声明之前，但它是重复的声明（因此被忽略了），因为<br>函数声明会被提升到普通变量之前。</p>
+<p>尽管重复的var声明会被忽略掉，但出现在后面的函数声明还是可以覆盖前面的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">foo(); // 3</span><br><span class="line">function foo() &#123;</span><br><span class="line">console.log( 1 );</span><br><span class="line">&#125;</span><br><span class="line">var foo = function() &#123;</span><br><span class="line">console.log( 2 );</span><br><span class="line">&#125;;</span><br><span class="line">function foo() &#123;</span><br><span class="line">console.log( 3 );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>虽然这些听起来都是些无用的学院理论，但是它说明了在同一个作用域中进行重复定义是非常糟<br>糕的，而且经常会导致各种奇怪的问题。</p>
+<p>一个普通块内部的函数声明通常会被提升到所在作用域的顶部，这个过程不会像下面的代码暗示<br>的那样可以被条件判断所控制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">foo(); // &quot;b&quot;</span><br><span class="line">var a = true;</span><br><span class="line">if (a) &#123;</span><br><span class="line">function foo() &#123; console.log(&quot;a&quot;); &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">function foo() &#123; console.log(&quot;b&quot;); &#125;</span><br><span class="line">&#125;</span><br><span class="line">但是需要注意这个行为并不可靠，在JavaScript未来的版本中有可能发生改变，因此应该尽可能避</span><br><span class="line">免在块内部声明函数。</span><br></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/13/函数作用域和块作用域/" title="函数作用域和块作用域" itemprop="url">函数作用域和块作用域</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-13T03:07:24.443Z" itemprop="datePublished"> 发表于 2016-05-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="块作用域"><a href="#块作用域" class="headerlink" title="块作用域"></a>块作用域</h3><h4 id="with"><a href="#with" class="headerlink" title="with"></a>with</h4><p>with关键字不仅是一个难于理解的结构，同时也是块作用域的一个例子<br>（块作用域的一种形式），用with从对象中创建出的作用域仅在with声明中而非外部作用域中有<br>效。</p>
+<h4 id="try-catch"><a href="#try-catch" class="headerlink" title="try/catch"></a>try/catch</h4><p>非常少有人会注意到JavaScript的ES3规范中规定try/catch的catch分句会创建一个块作用域，其<br>中声明的变量仅在catch内部有效。</p>
+<blockquote>
+<p>尽管这个行为已经被标准化，并且被大部分的标准JavaScript环境（除了老版本的IE浏览<br>器）所支持，但是当同一个作用域中的两个或多个catch分句用同样的标识符名称声明错误变<br>量时，很多静态检查工具还是会发出警告。实际上这并不是重复定义，因为所有变量都被安全<br>地限制在块作用域内部，但是静态检查工具还是会很烦人地发出警告。<br>为了避免这个不必要的警告，很多开发者会将catch的参数命名为err1、err2等。也有开发者干<br>脆关闭了静态检查工具对重复变量名的检查。</p>
+</blockquote>
+<h4 id="let"><a href="#let" class="headerlink" title="let"></a>let</h4><p>let关键字可以将变量绑定到所在的任意作用域中（通常是{ ..}内部）。换句话说，let为其声明的变量隐式地了所在的块作用域。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var foo = true;</span><br><span class="line">if (foo) &#123;</span><br><span class="line">    let bar = foo * 2;</span><br><span class="line">    bar = something( bar );</span><br><span class="line">    console.log( bar );</span><br><span class="line">&#125;</span><br><span class="line">console.log( bar ); // ReferenceError</span><br></pre></td></tr></table></figure>
+<p>用let将变量附加在一个已经存在的块作用域上的行为是隐式的。在开发和修改代码的过程中，如<br>果没有密切关注哪些块作用域中有绑定的变量，并且习惯性地移动这些块或者将其包含在其他的<br>块中，就会导致代码变得混乱。<br>为块作用域显式地创建块可以部分解决这个问题，使变量的附属关系变得更加清晰。通常来讲，显<br>式的代码优于隐式或一些精巧但不清晰的代码。显式的块作用域风格非常容易书写，并且和其他<br>语言中块作用域的工作原理一致：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var foo = true;</span><br><span class="line">&lt;b&gt;if&lt;/b&gt; (foo) &#123;</span><br><span class="line">    &#123; // &lt;-- 显式的快</span><br><span class="line">        let bar = foo * 2;</span><br><span class="line">        bar = something( bar );</span><br><span class="line">        console.log( bar );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log( bar ); // ReferenceError</span><br></pre></td></tr></table></figure>
+<p>只要声明是有效的，在声明中的任意位置都可以使用{ .. }括号来为let创建一个用于绑定的块。在<br>这个例子中，我们在if声明内部显式地创建了一个块，如果需要对其进行重构，整个块都可以被方<br>便地移动而不会对外部if声明的位置和语义产生任何影响。</p>
+<p>使用let进行的声明不会在块作用域中进行提升。声明的代码被运行之前，声明并不”存在”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">console.log( bar ); // ReferenceError!</span><br><span class="line">let bar = 2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/12/词法作用域/" title="词法作用域" itemprop="url">词法作用域</a>
   </h1>
   <p class="article-author">By
@@ -99,7 +456,38 @@
 <p>考虑以下代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo(a) &#123;</span><br><span class="line">    var b = a * 2;</span><br><span class="line">function bar(c) &#123;</span><br><span class="line">    console.log( a, b, c );</span><br><span class="line">&#125;</span><br><span class="line">bar( b * 3 );</span><br><span class="line">&#125;</span><br><span class="line">foo( 2 ); // 2, 4, 12</span><br></pre></td></tr></table></figure>
 <p>在这个例子中有三个逐级嵌套的作用域。为了帮助理解，可以将它们想象成几个逐级包含的气泡。</p>
-<p>!(Lexing_1)[img/blog/Lexing_1.png]</p>
+<p><img src="img/blog/Lexing_1.png"></p>
+<p>气泡1包含着整个全局作用域，其中只有一个标识符：foo。<br>气泡2包含着foo所创建的作用域，其中有三个标识符：a、bar和b。<br>气泡3包含着bar所创建的作用域，其中只有一个标识符：c。<br>作用域气泡由其对应的作用域块代码写在哪里决定，它们是逐级包含的。</p>
+<p>作用域查找会在找到第一个匹配的标识符时停止。在多层的嵌套作用域中可以定义同名的标识<br>符，这叫作“遮蔽效应”（内部的标识符“遮蔽”了外部的标识符）。抛开遮蔽效应，作用域查找始终从<br>运行时所处的最内部作用域开始，逐级向外或者说向上进行，直到遇见第一个匹配的标识符为止。</p>
+<blockquote>
+<p>全局变量会自动成为全局对象（比如浏览器中的window对象）的属性，因此可以不直接通<br>过全局对象的词法名称，而是间接地通过对全局对象属性的引用来对其进行访问。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.a</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>通过这种技术可以访问那些被同名变量所遮蔽的全局变量。但非全局的变量如果被遮蔽了，无<br>论如何都无法被访问到。</p>
+</blockquote>
+<p><b>无论函数在哪里被调用，也无论它如何被调用，它的词法作用域都只由函数被声明时所处的位置<br>决定。</b><br>词法作用域查找只会查找一级标识符，比如a、b和c。如果代码中引用了foo.bar.baz，词法作用域查<br>找只会试图查找foo标识符，找到这个变量后，对象属性访问规则会分别接管对bar和baz属性的访<br>问。</p>
+<h3 id="欺骗词法"><a href="#欺骗词法" class="headerlink" title="欺骗词法"></a>欺骗词法</h3><p>如果词法作用域完全由写代码期间函数所声明的位置来定义，怎样才能在运行时来“修改”（也可以<br>说欺骗）词法作用域呢？<br>JavaScript中有两种机制来实现这个目的。社区普遍认为在代码中使用这两种机制并不是什么好<br>方法。但是关于它们的争论通常会忽略掉最重要的点：欺骗词法作用域会导致性能下降。</p>
+<h4 id="eval"><a href="#eval" class="headerlink" title="eval"></a>eval</h4><p>JavaScript中的eval(..)函数可以接受一个字符串为参数，并将其中的内容视为好像在书写时就存<br>在于程序中这个位置的代码。换句话说，可以在你写的代码中用程序生成代码并运行，就好像代码<br>是写在那个位置的一样。</p>
+<p>考虑以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo(str, a) &#123;</span><br><span class="line">eval( str ); // 欺骗！</span><br><span class="line">console.log( a, b );</span><br><span class="line">&#125;</span><br><span class="line">var b = 2;</span><br><span class="line">foo( &quot;var b = 3;&quot;, 1 ); // 1, 3</span><br></pre></td></tr></table></figure>
+<p>eval(..)调用中的”var b = 3;”这段代码会被当作本来就在那里一样来处理。由于那段代码声明了<br>一个新的变量b，因此它对已经存在的foo(..)的词法作用域进行了修改。事实上，和前面提到的原<br>理一样，这段代码实际上在foo(..)内部创建了一个变量b，并遮蔽了外部（全局）作用域中的同名<br>变量。</p>
+<blockquote>
+<p>在严格模式的程序中，eval(..)在运行时有其自己的词法作用域，意味着其中的声明无法<br>修改所在的作用域。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo(str) &#123;</span><br><span class="line">&quot;use strict&quot;;</span><br><span class="line">eval( str );</span><br><span class="line">console.log( a ); // ReferenceError: a is not defined</span><br><span class="line">&#125;</span><br><span class="line">foo( &quot;var a = 2&quot;);</span><br></pre></td></tr></table></figure>
+<p>JavaScript中还有其他一些功能效果和eval(..)很相似。setTimeout(..)和setInterval(..)的第一<br>个参数可以是字符串，字符串的内容可以被解释为一段动态生成的函数代码。这些功能已经过时<br>且并不被提倡。不要使用它们！<br>new Function(..)函数的行为也很类似，最后一个参数可以接受代码字符串，并将其转化为动态生<br>成的函数（前面的参数是这个新生成的函数的形参）。这种构建函数的语法比eval(..)略微安全一<br>些，但也要尽量避免使用。<br>在程序中动态生成代码的使用场景非常罕见，因为它所带来的好处无法抵消性能上的损失。</p>
+<h4 id="with"><a href="#with" class="headerlink" title="with"></a>with</h4><p>JavaScript中另一个难以掌握（并且现在也不推荐使用）的用来欺骗词法作用域的功能是with关键<br>字。可以有很多方法来解释with，在这里我选择从这个角度来解释它：它如何同被它所影响的词法<br>作用域进行交互。<br>with通常被当作重复引用同一个对象中的多个属性的快捷方式，可以不需要重复引用对象本身。<br>比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">a: 1,</span><br><span class="line">b: 2,</span><br><span class="line">c: 3</span><br><span class="line">&#125;;</span><br><span class="line">// 单调乏味的重复&quot;obj&quot;</span><br><span class="line">obj.a = 2;</span><br><span class="line">obj.b = 3;</span><br><span class="line">obj.c = 4;</span><br><span class="line">// 简单的快捷方式</span><br><span class="line">with (obj) &#123;</span><br><span class="line">a = 3;</span><br><span class="line">b = 4;</span><br><span class="line">c = 5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>但实际上这不仅仅是为了方便地访问对象属性。考虑如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function foo(obj) &#123;</span><br><span class="line">with (obj) &#123;</span><br><span class="line">a = 2;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">var o1 = &#123;</span><br><span class="line">a: 3</span><br><span class="line">&#125;;</span><br><span class="line">var o2 = &#123;</span><br><span class="line">b: 3</span><br><span class="line">&#125;;</span><br><span class="line">foo( o1 );</span><br><span class="line">console.log( o1.a ); // 2</span><br><span class="line">foo( o2 );</span><br><span class="line">console.log( o2.a ); // undefined</span><br><span class="line">console.log( a ); // 2——不好，a被泄漏到全局作用域上了！</span><br></pre></td></tr></table></figure></p>
+<p>这个例子中创建了o1和o2两个对象。其中一个具有a属性，另外一个没有。foo(..)函数接受一个obj<br>参数，该参数是一个对象引用，并对这个对象引用执行了with(obj) {..}。在with块内部，我们写的<br>代码看起来只是对变量a进行简单的词法引用，实际上就是一个LHS引用（查看第1章），并将2赋值<br>给它。<br>当我们将o1传递进去，a = 2赋值操作找到了o1.a并将2赋值给它，这在后面的console.log(o1.a)中<br>可以体现。而当o2传递进去，o2并没有a属性，因此不会创建这个属性，o2.a保持undefined。<br>但是可以注意到一个奇怪的副作用，实际上a = 2赋值操作创建了一个全局的变量a。这是怎么回<br>事？<br>with可以将一个没有或有多个属性的对象处理为一个完全隔离的词法作用域，因此这个对象的属<br>性也会被处理为定义在这个作用域中的词法标识符。</p>
+<blockquote>
+<p>尽管with块可以将一个对象处理为词法作用域，但是这个块内部正常的var声明并不会被<br>限制在这个块的作用域中，而是被添加到with所处的函数作用域中。</p>
+</blockquote>
+<p>eval(..)函数如果接受了含有一个或多个声明的代码，就会修改其所处的词法作用域，而with声明<br>实际上是根据你传递给它的对象凭空创建了一个全新的词法作用域。<br>可以这样理解，当我们传递o1给with时，with所声明的作用域是o1，而这个作用域中含有一个<br>同o1.a属性相符的标识符。但当我们将o2作为作用域时，其中并没有a标识符，因此进行了正常的<br>LHS标识符查找。<br>o2的作用域、foo(..)的作用域和全局作用域中都没有找到标识符a，因此当a = 2执行时，自动创建<br>了一个全局变量（因为是非严格模式）。</p>
+<blockquote>
+<p>另外一个不推荐使用eval(..)和with的原因是会被严格模式所影响（限制）。with被完全<br>禁止，而在保留核心功能的前提下，间接或非安全地使用eval(..)也被禁止了。</p>
+</blockquote>
+<h4 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h4><p>如果代码中大量使用eval(..)或with，那么运行起来一定会变得非常慢。无论引擎多聪明，试图将<br>这些悲观情况的副作用限制在最小范围内，也无法避免如果没有这些优化，代码会运行得更慢这<br>个事实。</p>
 
         
         
@@ -476,400 +864,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/08/算法效率的度量方法/" title="算法效率的度量方法" itemprop="url">算法效率的度量方法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-08T12:15:31.389Z" itemprop="datePublished"> 发表于 2016-05-08</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="事后统计方法"><a href="#事后统计方法" class="headerlink" title="事后统计方法"></a>事后统计方法</h3><p>这种方法主要是通过设计好的测试程序和数据，利用计算机计时器对不同算法编制的程序的运行时间进行比较，从而确定算法效率的高低。<br>但这种方法显然是有很大缺陷的：<br>- 必须依据算法事先编制好测试程序，通常需要花费大量时间和精力。<br>- 不同测试环境差别不是一般的大！</p>
-<h3 id="事前分析估算方法"><a href="#事前分析估算方法" class="headerlink" title="事前分析估算方法"></a>事前分析估算方法</h3><p>在计算机程序编写前，依据统计方法对算法进行估算。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>经过总结，发现一个高级语言编写的程序在计算机上运行时所消耗的时间取决于下列因素：<br>- 1. 算法采用的策略，方案<br>- 2. 编译产生的代码质量<br>- 3. 问题的输入规模<br>- 4. 机器执行指令的速度</p>
-<p>由此可见，抛开这些与计算机硬件、软件有关的因素，一个程序的运行时间依赖于算法的好坏和问题的输入规模。(所谓的问题输入规模是指输入量的多少)</p>
-<p>研究算法的复杂度，侧重的是研究算法随着输入规模扩大增大量的一个抽象，而不是精确定位需要执行多少次。<br>不关心编写程序所用的语言是什么，也不关心这些程序将跑在什么样的计算机上，只关心它所实现的算法。<br>这样，不计那些循环索引的递增和循环终止条件、变量声明、打印结果等操作。最终，在分析程序的运行时间时，最重要的是把程序看成是独立于程序设计语言的算法或一系列步骤。<br>在分析一个算法的运行时间时，重要的是把几百年操作的数量和输入模式关联起来。</p>
-<h3 id="函数的渐进增长"><a href="#函数的渐进增长" class="headerlink" title="函数的渐进增长"></a>函数的渐进增长</h3><h4 id="测试一"><a href="#测试一" class="headerlink" title="测试一"></a>测试一</h4><p>判断以下两个算法A和B哪个更好？<br>假设两个算法的输入规模都是n，算法A要做2n+3次操作，可以这么理解:先执行n次的循环，执行完后再有一个n次的循环，最后有3次运算。<br>算法B要做3n+1次操作，理解同上，你觉得它们哪个更快？</p>
-<p>算法A1：(2n+3)<br>算法A2:(2n)<br>算法B1:(3n+1)<br>算法B2:(3n)</p>
-<p>当n=1时，算法A1效率不如算法B1，当n=2时，两者效率相同；当n&gt;2时，算法A1就开始由于算法B1了，随着n的继续增加，算法A1比算法B1逐步拉大差距。所以，所以总体上算法比算法B1优秀。</p>
-<p>函数的渐进增长：给定两个函数f(n)和g(n),如果存在一个整数N，使得对于所有的n&gt;N，fn(n)总是比g(n)大，那么，我们说f(n)的增长渐进快于g(n)。</p>
-<p>从刚才的对比中发现，随着n的增大，后面的+3和+1其实是不影响最终的算法变化曲线的。所以，可以忽略这些加法常数。</p>
-<h4 id="测试二"><a href="#测试二" class="headerlink" title="测试二"></a>测试二</h4><p>算法C1:(4n+8)<br>算法C2:(n)<br>算法D1:(2n^2+1)<br>算法D2:(n^2)</p>
-<p>观察发现：与最高次项相乘的常数并不重要，也可以忽略。</p>
-<h4 id="测试三"><a href="#测试三" class="headerlink" title="测试三"></a>测试三</h4><p>算法E1:(2n^2+3n+1)<br>算法E2:(n^2)<br>算法F1:(2n^3+3n+1)<br>算法F2:(n^3)</p>
-<p>观察发现：最高次项的指数大的，函数随着n的增长，结果也会变得增长特别快。</p>
-<h4 id="测试四"><a href="#测试四" class="headerlink" title="测试四"></a>测试四</h4><p>算法G:2n^2<br>算法H:3n+1<br>算法I:2n^2+3n+1</p>
-<p>观察发现：当n的值变得非常大的时候，3n+1已经没法和2n^2的结果相比较，最终可以忽略不计。而算法G在算法I基本已经重合了。</p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>判断一个算法的效率时，函数中的常数和其它次要项常常可以忽略，而更应该关注主项(最高项的阶数)</p>
-<blockquote>
-<p>注意，判断一个算法好不好，只通过少量的数据是不能做出准确判断的，很容易以偏概全。</p>
-</blockquote>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/algorithm/">algorithm</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/08/谈谈算法/" title="谈谈算法" itemprop="url">谈谈算法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-08T10:34:17.379Z" itemprop="datePublished"> 发表于 2016-05-08</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="算法初体验"><a href="#算法初体验" class="headerlink" title="算法初体验"></a>算法初体验</h3><p>小学学过珠算的应该很有印象，计算1+2+…+99+100。<br>思路是1+100=101，2+99=101，3+98=101，所以有50个101，即答案是5050。</p>
-<p>按照普通的写法，可以这么写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int i, sum = 0, n = 100;</span><br><span class="line">for(i=1; i &lt;=n; i++) &#123;</span><br><span class="line">    sum = sum + i;</span><br><span class="line">&#125;</span><br><span class="line">printf(&apos;%d&apos;, sum);</span><br></pre></td></tr></table></figure></p>
-<p>换成刚才的思路写(高斯发明的算法)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int i, sum = 0, n = 100;</span><br><span class="line">sum = (1+n) * n/2;</span><br><span class="line">printf(&quot;%d&quot;, sum);</span><br></pre></td></tr></table></figure>
-<p>对比下两个算法，一个要计算100次，而一个只要计算一次。虽然以计算机的速度，两个算法都可以按秒解决，但如果把条件换成1加到1千亿，差距就可想而知了，甚至人脑都可以比电脑计算的快。</p>
-<h3 id="什么是算法？"><a href="#什么是算法？" class="headerlink" title="什么是算法？"></a>什么是算法？</h3><p>- 算法是解决特定问题求解决步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。<br>- 通俗点算法就是泡妞的技巧和方式。</p>
-<h3 id="算法的特性"><a href="#算法的特性" class="headerlink" title="算法的特性"></a>算法的特性</h3><p>算法具有五个基本特征：输入，输出，有穷性，确定性和可行性。</p>
-<h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><p>- 算法具有零个或多个输入。<br>- 尽管对于绝大多数算法来说，输入参数都是必要的。但是有些时候，像打印” hello world”,就不需要参数。</p>
-<h4 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h4><p>- 算法至少有一个或多个输出。</p>
-<h4 id="有穷性"><a href="#有穷性" class="headerlink" title="有穷性"></a>有穷性</h4><p>- 指算法在执行有限的步骤后，自动结束而不会出现无限循环，并且每一个步骤在可接受的时间内完成。</p>
-<h4 id="确定性"><a href="#确定性" class="headerlink" title="确定性"></a>确定性</h4><p>- 算法的每一个步骤都具有确定的含义，不会出现二义性。<br>- 算法在一定条件下，只有一条执行路径，相同的输入只能有唯一的输出结果。<br>- 算法的每个步骤都应该被精确定义而无歧义。</p>
-<h4 id="可行性"><a href="#可行性" class="headerlink" title="可行性"></a>可行性</h4><p>- 算法的每一步都必须是可行的，也就是说，每一步都能通过执行有限次数完成。</p>
-<h3 id="算法设计的要求"><a href="#算法设计的要求" class="headerlink" title="算法设计的要求"></a>算法设计的要求</h3><h4 id="正确性"><a href="#正确性" class="headerlink" title="正确性"></a>正确性</h4><p>- 算法的正确性是指算法至少应该具有输入，输出和加工处理无歧义性，能正确反映问题的需求，能够得到问题的正确答案。</p>
-<p>- 大体分为以下四个层次：</p>
-<ul>
-<li>算法程序没有语法错误。</li>
-<li>算法程序对于合法输入能够产生满足要求的输出。</li>
-<li>算法程序对于非法输入能够满足规格的说明。</li>
-<li>算法程序对于故意刁难的测试输入都有满足要求的输出结果。</li>
-</ul>
-<h4 id="可读性"><a href="#可读性" class="headerlink" title="可读性"></a>可读性</h4><p>- 算法设计另一目的是为了便于阅读、理解和交流。</p>
-<h4 id="健壮性"><a href="#健壮性" class="headerlink" title="健壮性"></a>健壮性</h4><p>- 当输入数据不合法时，算法也能做出相关处理，而不是产生异常，崩溃或莫名其妙的结果。</p>
-<h4 id="时间效率高和存储量低"><a href="#时间效率高和存储量低" class="headerlink" title="时间效率高和存储量低"></a>时间效率高和存储量低</h4><p>- 好算法应该具备时间效率高和存储量低的特点。所以在设计算法的时候我们应该尽量思考这两方面的问题！。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/algorithm/">algorithm</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/08/数据结构和算法绪论/" title="数据结构和算法绪论" itemprop="url">数据结构和算法绪论</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-08T09:49:40.325Z" itemprop="datePublished"> 发表于 2016-05-08</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="什么事数据结构"><a href="#什么事数据结构" class="headerlink" title="什么事数据结构"></a>什么事数据结构</h3><p>数据结构是一门研究非数值计算的程序设计问题中的操作对象，以及它们之间的关系和操作相关问题的学科。<br>事实上就是：<br>- 程序设计 = 数据结构 + 算法<br>- 数据元素相互之间存在的一种或多种特定关系的集合</p>
-<h3 id="逻辑结构和物理结构"><a href="#逻辑结构和物理结构" class="headerlink" title="逻辑结构和物理结构"></a>逻辑结构和物理结构</h3><ul>
-<li>传统上，把数据结构分为逻辑结构和物理结构。</li>
-<li>逻辑结构：指数据对象 中数据元素之间的相互关系(最需要关注和讨论的问题)。</li>
-<li>物理结构：指数据的逻辑结构在计算机中的存储形式(次之)。</li>
-</ul>
-<h4 id="逻辑结构"><a href="#逻辑结构" class="headerlink" title="逻辑结构"></a>逻辑结构</h4><h5 id="结合结构"><a href="#结合结构" class="headerlink" title="结合结构"></a>结合结构</h5><p>集合结构中的数据元素除了同属于一个集合外，他们之间没有其它关系。</p>
-<h5 id="线性结构"><a href="#线性结构" class="headerlink" title="线性结构"></a>线性结构</h5><p>线性结构中的数据元素之间是一对一的关系。</p>
-<h5 id="树形结构"><a href="#树形结构" class="headerlink" title="树形结构"></a>树形结构</h5><p>树形结构中的数据元素之间存在一种一对多的层次关系。</p>
-<h5 id="图形结构"><a href="#图形结构" class="headerlink" title="图形结构"></a>图形结构</h5><p>图形结构的数据元素是多对多的关系。</p>
-<h4 id="物理结构"><a href="#物理结构" class="headerlink" title="物理结构"></a>物理结构</h4><ul>
-<li>根据物理结构的定义，实际上研究的就是如何把数据元素存储到计算机的存储器中。</li>
-<li>存储器主要是针对内存而言的，像硬盘，软盘，光盘等外部存储器的数据组织通常用文件结构来描述。</li>
-<li>数据元素的存储结构形式有两种：顺序存储和链式存储。</li>
-</ul>
-<h5 id="顺序存储结构"><a href="#顺序存储结构" class="headerlink" title="顺序存储结构"></a>顺序存储结构</h5><p>把数据元素存放在地址连续的存储单元里，其数据间的逻辑关系和物理关系是一致的。</p>
-<h4 id="链式存储结构"><a href="#链式存储结构" class="headerlink" title="链式存储结构"></a>链式存储结构</h4><ul>
-<li>现在如银行，医院等地方，都设置了排队系统。也就是每个人去了，先领一个号，等着叫好，叫到你的时候就可以去存一百块看病。</li>
-<li>而在等待的时候，你爱哪在哪，可以坐着，站着或者四处看看，只要你及时回来就行。</li>
-<li>这些情况下，你关注的是前一个好有没有被叫到，叫到了，下一个就该轮到你了。</li>
-<li>链式存储结构就是这样的原理，相比起顺序存储结构就灵活多了。</li>
-<li>链式存储结构：是把数据元素存放在任意的存储单元里，这组存储单元可以是连续的，也可以是不连续的。</li>
-<li>很显然，这样说的话链式存储结构的数据元素存储关系不能反映其逻辑关系，因此需要用一个指针存放数据元素的地址，这样子通过地址就可以找到相关联数据元素的位置。</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/algorithm/">algorithm</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/06/表单脚本/" title="表单脚本" itemprop="url">表单脚本</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-06T02:37:23.521Z" itemprop="datePublished"> 发表于 2016-05-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="表单字段"><a href="#表单字段" class="headerlink" title="表单字段"></a>表单字段</h3><h4 id="避免多次提交表单"><a href="#避免多次提交表单" class="headerlink" title="避免多次提交表单"></a>避免多次提交表单</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(form, &quot;submit&quot;, function(event)&#123;</span><br><span class="line">    event = EventUtil.getEvent(event);</span><br><span class="line">    var target = EventUtil.getTarget(event);</span><br><span class="line"></span><br><span class="line">    //取得提交按钮</span><br><span class="line">    var btn = target.elements[&quot;submit-btn&quot;];</span><br><span class="line"></span><br><span class="line">    //禁用它</span><br><span class="line">    btn.disabled = true;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>HTML5 为表单字段新增了一个 autofocus 属性。在支持这个属性的浏览器中，只要设置这个属性，不用javascript 就能自动把焦点移动到相应字段。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; autofocus&gt;</span><br></pre></td></tr></table></figure>
-<p>为了保证前面的代码在设置 autofocus 的浏览器中正常运行，必须先检查是否设置了改属性，如果设置了，就不用再调用 foucus() 了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(window, &quot;load&quot;, function(event)&#123;</span><br><span class="line">    var element = document.forms[0].elements[0];</span><br><span class="line">    if (element.autofocus != true) &#123;</span><br><span class="line">        element.focus();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="选择文本"><a href="#选择文本" class="headerlink" title="选择文本"></a>选择文本</h3><h4 id="跨浏览器取得选择文本"><a href="#跨浏览器取得选择文本" class="headerlink" title="跨浏览器取得选择文本"></a>跨浏览器取得选择文本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function getSelectedText(textbox) &#123;</span><br><span class="line">    if (typeof textbox.selectionStart == &quot;number&quot;) &#123;</span><br><span class="line">        return textbox.value.substring(textbox.selectionStart,textbox.selectionEnd);</span><br><span class="line">    &#125; else if (document.selection) &#123;  //IE 8-=</span><br><span class="line">        return document.selection.createRange().text;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="跨浏览器选择部分文本"><a href="#跨浏览器选择部分文本" class="headerlink" title="跨浏览器选择部分文本"></a>跨浏览器选择部分文本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function selectText(textbox, startIndex, stopIndex) &#123;</span><br><span class="line">    if (textbox.setSelectionRange) &#123;</span><br><span class="line">        textbox.setSelectionRange(startIndex, stopIndex);</span><br><span class="line">    &#125; else if (textbox.createTextRange) &#123;    //IE 8-=</span><br><span class="line">        var range = textbox.createTextRange();</span><br><span class="line">        range.collapse(true);</span><br><span class="line">        range.moveStart(&quot;character&quot;, startIndex);</span><br><span class="line">        range.moveEnd(&quot;character&quot;, stopIndex - startIndex);</span><br><span class="line">        range.select();</span><br><span class="line">    &#125;</span><br><span class="line">    textbox.focus();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">textbox.value = &quot;Hello world!&quot;</span><br><span class="line"></span><br><span class="line">//选择所有文本</span><br><span class="line">selectText(textbox, 0, textbox.value.length);    //&quot;Hello world!&quot;</span><br><span class="line"></span><br><span class="line">//选择前3个字符</span><br><span class="line">selectText(text, 0, 3);    //&quot;Hel&quot;</span><br><span class="line"></span><br><span class="line">//选择第 4 到第 6 个字符</span><br><span class="line">selectText(textbox, 4, 7); //&quot;o w&quot;</span><br></pre></td></tr></table></figure>
-<p>选择部分文本的技术在实现高级文本输入框时很有用，例如提供自动完成建议的文本框就可以使用这种技术。</p>
-<h3 id="过滤输入"><a href="#过滤输入" class="headerlink" title="过滤输入"></a>过滤输入</h3><h4 id="屏蔽字符"><a href="#屏蔽字符" class="headerlink" title="屏蔽字符"></a>屏蔽字符</h4><p>下列代码只允许用户输入数值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(textbox, &quot;keypress&quot;, function(event)&#123;</span><br><span class="line">    event = EventUtil.getEvent(event);</span><br><span class="line">    var target = EventUtil.getTarget(event);</span><br><span class="line">    var charCode = EventUtil.getCharCode(event);</span><br><span class="line"></span><br><span class="line">    if(!/\d/.test(String.fromCharCode(charCode)) &amp;&amp; charCode &gt; 9 &amp;&amp; !event.ctrlKey) &#123;   //Safari 3-</span><br><span class="line">        EventUtil.preventDefault(event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<h4 id="操作剪贴板"><a href="#操作剪贴板" class="headerlink" title="操作剪贴板"></a>操作剪贴板</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">getClipboardText: function(event) &#123;</span><br><span class="line">    var clipboardData = (event.clipboardData || window.clipboardData);</span><br><span class="line">    return clipboardData.getData(&quot;text&quot;);</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">setClipboardText: function(event)&#123;</span><br><span class="line">    if (event.clipboardData) &#123;</span><br><span class="line">        return event.clipboardData.setData(&quot;text/plain&quot;, value);</span><br><span class="line">    &#125; else if (window.clipboardData) &#123;</span><br><span class="line">        return window.clipboardData.setData(&quot;text&quot;, value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-<p>在需要确保黏贴到文本框中的文本中包含某些字符，或者符合某种格式要求时，能够访问剪贴板是非常有用的。例如，如果一个文本框只接受数值，那么久必须检测黏贴过来的值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(textbox, &quot;paste&quot;, function(event)&#123;</span><br><span class="line">    event = EventUtil.getEvent(event);</span><br><span class="line">    var text = EventUtil.getClipboardText(event);</span><br><span class="line"></span><br><span class="line">    if(!/^\d*$/.test(text)) &#123;</span><br><span class="line">        EventUtil.preventDefault(event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="自动切换焦点"><a href="#自动切换焦点" class="headerlink" title="自动切换焦点"></a>自动切换焦点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    function tabForward(event) &#123;</span><br><span class="line">        event = EventUtil.getEvent(event);</span><br><span class="line">        var target = EventUtil.getTarget(event);</span><br><span class="line"></span><br><span class="line">        if (target.value.length == target.maxLength) &#123;</span><br><span class="line">            var form = target.form;</span><br><span class="line"></span><br><span class="line">            for(var i=0, len=form.elements.length; i &lt; len; i++) &#123;</span><br><span class="line">                if (form.elements[i] == target) &#123;</span><br><span class="line">                    if (form.elements[i+1]) &#123;</span><br><span class="line">                        form.elements[i+1].focus();</span><br><span class="line">                    &#125;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">var textbox1 = document.getElementById(&quot;txtTel1&quot;);</span><br><span class="line">var textbox2 = document.getElementById(&quot;txtTel2&quot;);</span><br><span class="line">var textbox3 = document.getElementById(&quot;txtTel3&quot;);</span><br><span class="line"></span><br><span class="line">EventUtil.addHandler(textbox1, &quot;keyup&quot;, tabForward);</span><br><span class="line">EventUtil.addHandler(textbox2, &quot;keyup&quot;, tabForward);</span><br><span class="line">EventUtil.addHandler(textbox3, &quot;keyup&quot;, tabForward);</span><br></pre></td></tr></table></figure>
-<p>不过这些代码只适用于前面给出的标记，而且没有考虑隐藏字段。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JS/">JS</a><a href="/tags/表单脚本/">表单脚本</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/04/媒体查询/" title="媒体查询" itemprop="url">媒体查询</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-04T11:35:09.233Z" itemprop="datePublished"> 发表于 2016-05-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="媒体查询语法"><a href="#媒体查询语法" class="headerlink" title="媒体查询语法"></a>媒体查询语法</h3><p>纵向媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</span><br></pre></td></tr></table></figure>
-<p>在媒体查询的开头追加not则会颠倒查询的逻辑</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</span><br></pre></td></tr></table></figure>
-<p>限制视口宽度</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait) and (min-width:800px)&quot; href=&quot;portrait-screen.css&quot; /&gt;</span><br></pre></td></tr></table></figure>
-<p>CSS样式表中使用媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@media screen and (max-device-width: 400px) &#123;</span><br><span class="line">    h1 &#123; color: green&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用CSS的@import指令在当前样式表中按条件引入其他样式表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@import url(&quot;phone.css&quot;) screen and (max-width:360px);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>使用CSS的@import方式会增加HTTP请求(这会影响加载速度)，要谨慎使用。</p>
-</blockquote>
-<h3 id="媒体查询特性"><a href="#媒体查询特性" class="headerlink" title="媒体查询特性"></a>媒体查询特性</h3><p>视口宽度: width<br>屏幕宽度: device-width</p>
-<pre><code>
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/CSS/">CSS</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/响应式/">响应式</a><a href="/tags/媒体查询/">媒体查询</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
@@ -901,7 +898,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>12</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>17</sup></a></li>
 		  
 		
 		  
@@ -918,7 +915,11 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>11</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Type-Grammar/" title="Type &amp; Grammar">Type &amp; Grammar<sup>7</sup></a></li>
 			
 		
 			
@@ -926,7 +927,7 @@
 			
 		
 			
-				<li><a href="/tags/Type-Grammar/" title="Type &amp; Grammar">Type &amp; Grammar<sup>2</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
 			
 		
 			
@@ -934,15 +935,11 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
@@ -950,11 +947,11 @@
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
+				<li><a href="/tags/调试/" title="调试">调试<sup>1</sup></a></li>
 			
 		
 			
@@ -962,11 +959,11 @@
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>1</sup></a></li>
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
 			
 		
 			
@@ -986,11 +983,15 @@
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/调试/" title="调试">调试<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 		</ul>
