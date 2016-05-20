@@ -81,6 +81,143 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/05/01/DOM2和DOM3/" title="DOM2和DOM3" itemprop="url">DOM2和DOM3</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-01T08:18:11.444Z" itemprop="datePublished"> 发表于 2016-05-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><h4 id="DOM-样式属性和方法"><a href="#DOM-样式属性和方法" class="headerlink" title="DOM 样式属性和方法"></a>DOM 样式属性和方法</h4><p>取得 CSS 属性名和值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var prop, value, i, len;</span><br><span class="line">for (i=0, len=myDiv.style.length; i &lt; len; i++) &#123;</span><br><span class="line">    prop = myDiv.style[i];    //或者 myDiv.style.item(i)</span><br><span class="line">    value = myDiv.style.getPropertyValue(prop);</span><br><span class="line">    alert(prop + &quot;:&quot; + value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="操作样式表"><a href="#操作样式表" class="headerlink" title="操作样式表"></a>操作样式表</h4><p>跨浏览器取得样式表对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function getStyleSheet(element) &#123;</span><br><span class="line">    return element.sheet || element.styleSheet;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//取得第一个&lt;link/&gt;元素引入的样式表</span><br><span class="line">var link = document.getElementsByTagName(&quot;link&quot;)[0];</span><br><span class="line">var sheet = getStyleSheet(link);</span><br></pre></td></tr></table></figure>
+<h5 id="CSS-规则"><a href="#CSS-规则" class="headerlink" title="CSS 规则"></a>CSS 规则</h5><p>跨浏览器向样式表中添加规则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function insertRule(sheet, selectorText, cssText, position) &#123;</span><br><span class="line">    if (sheet.insertRule) &#123;</span><br><span class="line">        sheet.insertRule(selectorText + &quot;&#123;&quot; + cssText + &quot;&#125;&quot;, position);</span><br><span class="line">    &#125; else if (sheet.addRule) &#123;  //兼容 IE</span><br><span class="line">        sheet.addRule(selectorText, cssText, position);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">insertRule(document.styleSheets[0], &quot;body&quot;, &quot;background-color:silver&quot;, 0);</span><br></pre></td></tr></table></figure>
+<h5 id="删除规则"><a href="#删除规则" class="headerlink" title="删除规则"></a>删除规则</h5><p>跨浏览器删除规则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function deleteRule(sheet, index) &#123;</span><br><span class="line">    if (sheet.deleteRule) &#123;</span><br><span class="line">        sheet.deleteRule(index);</span><br><span class="line">    &#125; else if (sheet.removeRule) &#123;</span><br><span class="line">        sheet.removeRule(index);   //兼容 IE</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">deleteRule(document.styleSheet[0], 0);</span><br></pre></td></tr></table></figure>
+<p><strong>与添加规则相似，删除规则也不是实际 Web 开发中常见的做法。 考虑到删除规则可能会影响 CSS 层叠的效果，因此要慎重使用</strong></p>
+<h4 id="元素大小"><a href="#元素大小" class="headerlink" title="元素大小"></a>元素大小</h4><h5 id="客户区大小"><a href="#客户区大小" class="headerlink" title="客户区大小"></a>客户区大小</h5><p>确定浏览器视口大小</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function getViewport() &#123;</span><br><span class="line">    if (document.compatMode == &quot;BackCompat&quot;) &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            width: document.body.clientWidth,  // IE</span><br><span class="line">            height: document.body.clientHeight</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            width: document.documentElement.clientWidth,</span><br><span class="line">            height: document.documentElement.clientHeight</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM2/">DOM2</a><a href="/tags/DOM3/">DOM3</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/01/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-01T07:33:31.037Z" itemprop="datePublished"> 发表于 2016-05-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h3><p>跨浏览器遍历某元素的所有子元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstChild;</span><br><span class="line">while(child != element.lastChild) &#123;</span><br><span class="line">    if (child.nodeType == 1) &#123;</span><br><span class="line">        processChild(child);</span><br><span class="line">    &#125;</span><br><span class="line">    child = child.nextSibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而使用 Element Traversal(IE 9+) 新增的元素，代码会更简洁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstElementChild;</span><br><span class="line">while(child != element.lastElementChild) &#123;</span><br><span class="line">    processChild(child);</span><br><span class="line">    child = child.nextElementSbling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>删除类名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;bd user disabled&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">//删除&quot;user&quot;类</span><br><span class="line"></span><br><span class="line">//首先，取得类名字符串并拆分成数组</span><br><span class="line">var classNames = div.className.split(/\s/);</span><br><span class="line"></span><br><span class="line">//找到要删除的类名</span><br><span class="line">var pos = -1,</span><br><span class="line">    i,</span><br><span class="line">    len;</span><br><span class="line">for (i=0, len=classNames.length; i &lt; len; i++) &#123;</span><br><span class="line">    if (classNames[i] == &quot;user&quot;) &#123;</span><br><span class="line">        pos = i;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//删除类名</span><br><span class="line">classNames.splice(pos,1);</span><br><span class="line"></span><br><span class="line">//把剩下的类名拼成字符串并重新设置</span><br><span class="line">div.className = classNames.join(&quot; &quot;);</span><br></pre></td></tr></table></figure>
+<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>跨浏览器兼容 innerText</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function setInnerText(element, text) &#123;</span><br><span class="line">    if (typeof element.textContent == &quot;string&quot;) &#123;</span><br><span class="line">        element.textContent = text;  //兼容 Firefox</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        element.innerText = text;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/01/DOM/" title="DOM" itemprop="url">DOM</a>
   </h1>
   <p class="article-author">By
@@ -686,7 +823,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>18</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
 		  
 		
 		  
@@ -703,7 +840,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>17</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>19</sup></a></li>
 			
 		
 			
@@ -715,11 +852,15 @@
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -727,19 +868,15 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/随机数/" title="随机数">随机数<sup>1</sup></a></li>
+				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/继承/" title="继承">继承<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/调试/" title="调试">调试<sup>1</sup></a></li>
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 			
@@ -747,11 +884,11 @@
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
@@ -759,7 +896,7 @@
 			
 		
 			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+				<li><a href="/tags/随机数/" title="随机数">随机数<sup>1</sup></a></li>
 			
 		
 			
@@ -771,15 +908,15 @@
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/继承/" title="继承">继承<sup>1</sup></a></li>
 			
 		
 		</ul>

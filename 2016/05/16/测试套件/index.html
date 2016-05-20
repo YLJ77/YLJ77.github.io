@@ -4,26 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>DOM2和DOM3 | fire on the world!</title>
+    <title>测试套件 | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="样式DOM 样式属性和方法取得 CSS 属性名和值
-123456var prop, value, i, len;for (i=0, len=myDiv.style.length; i &amp;lt; len; i++) &amp;#123;    prop = myDiv.style[i];    //或者 myDiv.style.item(i)    value = myDiv.style.getProper">
+    <meta name="description" content="断言单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。从下面的代码清单中，可以看到一个简单的实现。
+12345678910111213141516171819202">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DOM2和DOM3">
-<meta property="og:url" content="http://yoursite.com/2016/05/01/DOM2和DOM3/index.html">
+<meta property="og:title" content="测试套件">
+<meta property="og:url" content="http://yoursite.com/2016/05/16/测试套件/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="样式DOM 样式属性和方法取得 CSS 属性名和值
-123456var prop, value, i, len;for (i=0, len=myDiv.style.length; i &amp;lt; len; i++) &amp;#123;    prop = myDiv.style[i];    //或者 myDiv.style.item(i)    value = myDiv.style.getProper">
-<meta property="og:updated_time" content="2016-05-03T09:07:16.311Z">
+<meta property="og:description" content="断言单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。从下面的代码清单中，可以看到一个简单的实现。
+12345678910111213141516171819202">
+<meta property="og:updated_time" content="2016-05-16T11:41:56.843Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DOM2和DOM3">
-<meta name="twitter:description" content="样式DOM 样式属性和方法取得 CSS 属性名和值
-123456var prop, value, i, len;for (i=0, len=myDiv.style.length; i &amp;lt; len; i++) &amp;#123;    prop = myDiv.style[i];    //或者 myDiv.style.item(i)    value = myDiv.style.getProper">
+<meta name="twitter:title" content="测试套件">
+<meta name="twitter:description" content="断言单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。从下面的代码清单中，可以看到一个简单的实现。
+12345678910111213141516171819202">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -83,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/01/DOM2和DOM3/" title="DOM2和DOM3" itemprop="url">DOM2和DOM3</a>
+      <a href="/2016/05/16/测试套件/" title="测试套件" itemprop="url">测试套件</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-01T08:18:11.444Z" itemprop="datePublished"> 发表于 2016-05-01</time>
+    <time datetime="2016-05-16T11:29:06.952Z" itemprop="datePublished"> 发表于 2016-05-16</time>
     
   </p>
 </header>
@@ -99,21 +99,13 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#样式"><span class="toc-number">1.</span> <span class="toc-text">样式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DOM-样式属性和方法"><span class="toc-number">1.1.</span> <span class="toc-text">DOM 样式属性和方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作样式表"><span class="toc-number">1.2.</span> <span class="toc-text">操作样式表</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CSS-规则"><span class="toc-number">1.2.1.</span> <span class="toc-text">CSS 规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#删除规则"><span class="toc-number">1.2.2.</span> <span class="toc-text">删除规则</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#元素大小"><span class="toc-number">1.3.</span> <span class="toc-text">元素大小</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#客户区大小"><span class="toc-number">1.3.1.</span> <span class="toc-text">客户区大小</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#断言"><span class="toc-number">1.</span> <span class="toc-text">断言</span></a></li></ol>
 		
 		</div>
 		
-		<h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><h4 id="DOM-样式属性和方法"><a href="#DOM-样式属性和方法" class="headerlink" title="DOM 样式属性和方法"></a>DOM 样式属性和方法</h4><p>取得 CSS 属性名和值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var prop, value, i, len;</span><br><span class="line">for (i=0, len=myDiv.style.length; i &lt; len; i++) &#123;</span><br><span class="line">    prop = myDiv.style[i];    //或者 myDiv.style.item(i)</span><br><span class="line">    value = myDiv.style.getPropertyValue(prop);</span><br><span class="line">    alert(prop + &quot;:&quot; + value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="操作样式表"><a href="#操作样式表" class="headerlink" title="操作样式表"></a>操作样式表</h4><p>跨浏览器取得样式表对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function getStyleSheet(element) &#123;</span><br><span class="line">    return element.sheet || element.styleSheet;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//取得第一个&lt;link/&gt;元素引入的样式表</span><br><span class="line">var link = document.getElementsByTagName(&quot;link&quot;)[0];</span><br><span class="line">var sheet = getStyleSheet(link);</span><br></pre></td></tr></table></figure>
-<h5 id="CSS-规则"><a href="#CSS-规则" class="headerlink" title="CSS 规则"></a>CSS 规则</h5><p>跨浏览器向样式表中添加规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function insertRule(sheet, selectorText, cssText, position) &#123;</span><br><span class="line">    if (sheet.insertRule) &#123;</span><br><span class="line">        sheet.insertRule(selectorText + &quot;&#123;&quot; + cssText + &quot;&#125;&quot;, position);</span><br><span class="line">    &#125; else if (sheet.addRule) &#123;  //兼容 IE</span><br><span class="line">        sheet.addRule(selectorText, cssText, position);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">insertRule(document.styleSheets[0], &quot;body&quot;, &quot;background-color:silver&quot;, 0);</span><br></pre></td></tr></table></figure>
-<h5 id="删除规则"><a href="#删除规则" class="headerlink" title="删除规则"></a>删除规则</h5><p>跨浏览器删除规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function deleteRule(sheet, index) &#123;</span><br><span class="line">    if (sheet.deleteRule) &#123;</span><br><span class="line">        sheet.deleteRule(index);</span><br><span class="line">    &#125; else if (sheet.removeRule) &#123;</span><br><span class="line">        sheet.removeRule(index);   //兼容 IE</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">deleteRule(document.styleSheet[0], 0);</span><br></pre></td></tr></table></figure>
-<p><strong>与添加规则相似，删除规则也不是实际 Web 开发中常见的做法。 考虑到删除规则可能会影响 CSS 层叠的效果，因此要慎重使用</strong></p>
-<h4 id="元素大小"><a href="#元素大小" class="headerlink" title="元素大小"></a>元素大小</h4><h5 id="客户区大小"><a href="#客户区大小" class="headerlink" title="客户区大小"></a>客户区大小</h5><p>确定浏览器视口大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function getViewport() &#123;</span><br><span class="line">    if (document.compatMode == &quot;BackCompat&quot;) &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            width: document.body.clientWidth,  // IE</span><br><span class="line">            height: document.body.clientHeight</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            width: document.documentElement.clientWidth,</span><br><span class="line">            height: document.documentElement.clientHeight</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+		<h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><p>单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。<br>从下面的代码清单中，可以看到一个简单的实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;title&gt;Test Suite&lt;/title&gt;</span><br><span class="line">        &lt;script&gt;</span><br><span class="line">            function assert(value, desc) &#123;</span><br><span class="line">                var li = document.createElement(&quot;li&quot;);</span><br><span class="line">                li.className = value ? &quot;pass&quot; : &quot;fail&quot;;</span><br><span class="line">                li.appendChild(document.createTextNode(desc));</span><br><span class="line">                document.getElementById(&apos;results&apos;).appendChild(li);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            window.onload = function() &#123;</span><br><span class="line">                assert(true, &apos;The test suite is running.&apos;)；</span><br><span class="line">                assert(false, &apos;Fail!&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">        &lt;/script&gt;</span><br><span class="line"></span><br><span class="line">        &lt;style&gt;</span><br><span class="line">            #results li.pass&#123; color:green; &#125;</span><br><span class="line">            #results li.fail&#123; color:red; &#125;</span><br><span class="line">        &lt;/style&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line"></span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;ul id=&apos;results&apos;&gt;&lt;/ul&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>该测试套件包括两个微不足道的测试：一个总是成功，另一个总是失败。pass和fail的样式规则，则使用颜色在视觉上表示成功或失败。<br>该函数很简单，但对于未来开发，它将会是良好的构件块。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -127,7 +119,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM2/">DOM2</a><a href="/tags/DOM3/">DOM3</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/调试/">调试</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a>
   </div>
 
 </div>
@@ -136,7 +128,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/05/01/DOM2和DOM3/" data-title="DOM2和DOM3 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/05/16/测试套件/" data-title="测试套件 | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -150,18 +142,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/05/01/事件/" title="事件">
+ <a href="/2016/05/20/技巧干货/" title="技巧干货">
   <strong>上一篇：</strong><br/>
   <span>
-  事件</span>
+  技巧干货</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/05/01/DOM扩展/"  title="DOM 扩展">
+<a href="/2016/05/13/对象/"  title="对象">
  <strong>下一篇：</strong><br/> 
- <span>DOM 扩展
+ <span>对象
 </span>
 </a>
 </div>
@@ -176,7 +168,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#样式"><span class="toc-number">1.</span> <span class="toc-text">样式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DOM-样式属性和方法"><span class="toc-number">1.1.</span> <span class="toc-text">DOM 样式属性和方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作样式表"><span class="toc-number">1.2.</span> <span class="toc-text">操作样式表</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CSS-规则"><span class="toc-number">1.2.1.</span> <span class="toc-text">CSS 规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#删除规则"><span class="toc-number">1.2.2.</span> <span class="toc-text">删除规则</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#元素大小"><span class="toc-number">1.3.</span> <span class="toc-text">元素大小</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#客户区大小"><span class="toc-number">1.3.1.</span> <span class="toc-text">客户区大小</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#断言"><span class="toc-number">1.</span> <span class="toc-text">断言</span></a></li></ol>
  
   </div>
 
