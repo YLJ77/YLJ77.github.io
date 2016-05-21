@@ -313,6 +313,7 @@ function Send() {
             self.increaseId();
             self.log_obj[self.lady_name + '_log']['id_block_profile_or_never_sent'] += 1;
             setCookie('log', JSON.stringify(self.log_obj), 3560);
+            console.log(self.id_letter_obj[self.lady_name]['current_id']);
             location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + self.id_letter_obj[self.lady_name]['current_id'] + '&type=newLetter';
           }
         }
@@ -430,7 +431,7 @@ Send.prototype = {
     
     
   },
-  increaseId: function () {alert('increaseId: '+this.lady_name);
+  increaseId: function () {
     var today_sent_quantity = this.log_obj[this.lady_name + '_log']['today_sent_quantity'];
     var id_index = this.id_letter_obj[this.lady_name]['id_index'];
     var id_quantity = id_source['lady_name'].length;
