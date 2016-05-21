@@ -310,6 +310,7 @@ function Send() {
       try {
         if (/.*type=newLetter$/i.test(location)) {
           if (self.lady_name) {
+            alert(self.lady_name);
             self.increaseId();
             self.log_obj[self.lady_name + '_log']['id_block_profile_or_never_sent'] += 1;
             setCookie('log', JSON.stringify(self.log_obj), 3560);
