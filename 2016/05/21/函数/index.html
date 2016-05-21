@@ -4,26 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>DOM 扩展 | fire on the world!</title>
+    <title>函数 | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+    <meta name="description" content="内联命名函数123456789var ninja = function myNinja()&amp;#123;    //在内联函数中，验证两个名字是等价的    assert(ninja == myNinja,&amp;quot;Thi function is named two things at once!&amp;quot;);&amp;#125;;ninja();  //调用函数执行内部验证//验证内联函数的名称在内联">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DOM 扩展">
-<meta property="og:url" content="http://yoursite.com/2016/05/01/DOM扩展/index.html">
+<meta property="og:title" content="函数">
+<meta property="og:url" content="http://yoursite.com/2016/05/21/函数/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
-<meta property="og:updated_time" content="2016-05-03T09:07:00.211Z">
+<meta property="og:description" content="内联命名函数123456789var ninja = function myNinja()&amp;#123;    //在内联函数中，验证两个名字是等价的    assert(ninja == myNinja,&amp;quot;Thi function is named two things at once!&amp;quot;);&amp;#125;;ninja();  //调用函数执行内部验证//验证内联函数的名称在内联">
+<meta property="og:updated_time" content="2016-05-21T03:18:12.613Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DOM 扩展">
-<meta name="twitter:description" content="元素遍历跨浏览器遍历某元素的所有子元素
-123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+<meta name="twitter:title" content="函数">
+<meta name="twitter:description" content="内联命名函数123456789var ninja = function myNinja()&amp;#123;    //在内联函数中，验证两个名字是等价的    assert(ninja == myNinja,&amp;quot;Thi function is named two things at once!&amp;quot;);&amp;#125;;ninja();  //调用函数执行内部验证//验证内联函数的名称在内联">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -83,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/01/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
+      <a href="/2016/05/21/函数/" title="函数" itemprop="url">函数</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-01T07:33:31.037Z" itemprop="datePublished"> 发表于 2016-05-01</time>
+    <time datetime="2016-05-21T02:13:07.635Z" itemprop="datePublished"> 发表于 2016-05-21</time>
     
   </p>
 </header>
@@ -99,18 +96,20 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内联命名函数"><span class="toc-number">1.</span> <span class="toc-text">内联命名函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储函数"><span class="toc-number">2.</span> <span class="toc-text">存储函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自记忆函数"><span class="toc-number">3.</span> <span class="toc-text">自记忆函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#缓存记忆昂贵的计算结果"><span class="toc-number">3.1.</span> <span class="toc-text">缓存记忆昂贵的计算结果</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h3 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h3><p>跨浏览器遍历某元素的所有子元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstChild;</span><br><span class="line">while(child != element.lastChild) &#123;</span><br><span class="line">    if (child.nodeType == 1) &#123;</span><br><span class="line">        processChild(child);</span><br><span class="line">    &#125;</span><br><span class="line">    child = child.nextSibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>而使用 Element Traversal(IE 9+) 新增的元素，代码会更简洁</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var i,</span><br><span class="line">    len,</span><br><span class="line">    child = element.firstElementChild;</span><br><span class="line">while(child != element.lastElementChild) &#123;</span><br><span class="line">    processChild(child);</span><br><span class="line">    child = child.nextElementSbling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>删除类名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;bd user disabled&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">//删除&quot;user&quot;类</span><br><span class="line"></span><br><span class="line">//首先，取得类名字符串并拆分成数组</span><br><span class="line">var classNames = div.className.split(/\s/);</span><br><span class="line"></span><br><span class="line">//找到要删除的类名</span><br><span class="line">var pos = -1,</span><br><span class="line">    i,</span><br><span class="line">    len;</span><br><span class="line">for (i=0, len=classNames.length; i &lt; len; i++) &#123;</span><br><span class="line">    if (classNames[i] == &quot;user&quot;) &#123;</span><br><span class="line">        pos = i;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//删除类名</span><br><span class="line">classNames.splice(pos,1);</span><br><span class="line"></span><br><span class="line">//把剩下的类名拼成字符串并重新设置</span><br><span class="line">div.className = classNames.join(&quot; &quot;);</span><br></pre></td></tr></table></figure>
-<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>跨浏览器兼容 innerText</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function setInnerText(element, text) &#123;</span><br><span class="line">    if (typeof element.textContent == &quot;string&quot;) &#123;</span><br><span class="line">        element.textContent = text;  //兼容 Firefox</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        element.innerText = text;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+		<h3 id="内联命名函数"><a href="#内联命名函数" class="headerlink" title="内联命名函数"></a>内联命名函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var ninja = function myNinja()&#123;</span><br><span class="line">    //在内联函数中，验证两个名字是等价的</span><br><span class="line">    assert(ninja == myNinja,&quot;Thi function is named two things at once!&quot;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ninja();  //调用函数执行内部验证</span><br><span class="line"></span><br><span class="line">//验证内联函数的名称在内联外部是不是可用的</span><br><span class="line">assert(typeof myNinja == &apos;undefined&apos;, &apos;But myNinja isn&apos;t defined outside of the function);</span><br></pre></td></tr></table></figure>
+<p>尽管可以给内联函数进行命名，但这些名称只能在自身函数内部才是可见的。匿名函数的名称和变量名称有点像，它们的作用域仅限于它们的函数。</p>
+<blockquote>
+<p>这就是为什么要将全局函数作为window的方法进行创建的原因。不使用window的属性，我们没有办法引用这些函数。</p>
+</blockquote>
+<h3 id="存储函数"><a href="#存储函数" class="headerlink" title="存储函数"></a>存储函数</h3><p>有时候，我们可能需要存储一组相关但独立的函数，事件回调管理是最明显的例子。向这个函数添加函数时，我们面临的挑战是要确定哪些函数在集合众不存在，而应该添加，以及哪些函数已经存在并且不需要再添加了。<br>显而易见但天真的做法是，将所有的函数保存在一个数组里，然后遍历数组检查重复的函数。只不过这种方式很一般，我们可以利用函数属性的特性，给函数添加一个附加属性从而实现上述目的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var store = &#123;</span><br><span class="line">    //持续跟踪要赋值的nextId</span><br><span class="line">    nextId: 1,</span><br><span class="line">    //创建一个对象作为缓存，用于存储函数</span><br><span class="line">    cache: &#123;&#125;,</span><br><span class="line">    //向缓存中添加函数，但只有缓存不存在的情况下才能添加成功</span><br><span class="line">    add: function(fn) &#123;</span><br><span class="line">        if (!fn.id) &#123;</span><br><span class="line">            fn.id = store.nextId++;</span><br><span class="line">            return !!(store.cache[fn.id] = fn);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function ninja()&#123;&#125;</span><br><span class="line"></span><br><span class="line">assert(store.add(ninja),&quot;Function was safely added.&quot;);</span><br><span class="line">assert(!store.add(ninja),&quot;But it was only added once.&quot;);</span><br></pre></td></tr></table></figure>
+<h3 id="自记忆函数"><a href="#自记忆函数" class="headerlink" title="自记忆函数"></a>自记忆函数</h3><p>缓存记忆是构建函数的过程，这种函数能够记忆先前计算的结果。通过避免已经执行过的不必要复杂的计算，这种方式可以显著提高性能。</p>
+<h4 id="缓存记忆昂贵的计算结果"><a href="#缓存记忆昂贵的计算结果" class="headerlink" title="缓存记忆昂贵的计算结果"></a>缓存记忆昂贵的计算结果</h4><p>作为一个基本的示例，让我们看一个计算素数的简单算法(当然不是特别有效)。这只是一个复杂计算的简单例子，但这种方法却很容易适用于其它昂贵的计算，例如字符串的MD5哈希计算，比这里的实例复杂得多。</p>
+<p>记忆之前计算出的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function isPrime(value) &#123;</span><br><span class="line">    !isPrime.answers &amp;&amp; isPrime.answers = &#123;&#125;;  //创建缓存</span><br><span class="line">    //检测缓存过的值</span><br><span class="line">    isPrime.answers[value] != null &amp;&amp; return isPrime.answers[value];</span><br><span class="line">    var prime = value !=1;  //1 can never be prime</span><br><span class="line"></span><br><span class="line">    for(var i=2; i &lt; value; i++) &#123;</span><br><span class="line">        if(vaule % i ==0) &#123;</span><br><span class="line">            prime = false;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return isPrime.answers[value] = prime;  //保存计算出的值</span><br><span class="line">&#125;</span><br><span class="line">//测试是否正常</span><br><span class="line">assert(isPrime(5), &quot;5 is prime!&quot;);</span><br><span class="line">assert(isPrime.answers[5],&quot;The answer was cached!&quot;);</span><br></pre></td></tr></table></figure></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -124,7 +123,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/函数/">函数</a>
   </div>
 
 </div>
@@ -133,7 +132,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2016/05/01/DOM扩展/" data-title="DOM 扩展 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2016/05/21/函数/" data-title="函数 | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -146,19 +145,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/05/01/DOM2和DOM3/" title="DOM2和DOM3">
-  <strong>上一篇：</strong><br/>
-  <span>
-  DOM2和DOM3</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/05/01/DOM/"  title="DOM">
+<a href="/2016/05/20/技巧干货/"  title="技巧干货">
  <strong>下一篇：</strong><br/> 
- <span>DOM
+ <span>技巧干货
 </span>
 </a>
 </div>
@@ -173,7 +164,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内联命名函数"><span class="toc-number">1.</span> <span class="toc-text">内联命名函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储函数"><span class="toc-number">2.</span> <span class="toc-text">存储函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自记忆函数"><span class="toc-number">3.</span> <span class="toc-text">自记忆函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#缓存记忆昂贵的计算结果"><span class="toc-number">3.1.</span> <span class="toc-text">缓存记忆昂贵的计算结果</span></a></li></ol></li></ol>
  
   </div>
 

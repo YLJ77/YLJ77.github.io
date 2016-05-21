@@ -81,6 +81,102 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/05/12/作用域是什么/" title="作用域是什么" itemprop="url">作用域是什么</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-12T14:57:27.869Z" itemprop="datePublished"> 发表于 2016-05-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="理解作用域"><a href="#理解作用域" class="headerlink" title="理解作用域"></a>理解作用域</h3><h4 id="RHS-LHS"><a href="#RHS-LHS" class="headerlink" title="RHS LHS"></a>RHS LHS</h4><p>它们分别代表左侧和右侧。<br>什么东西的左侧和右侧？是一个赋值操作的左侧和右侧。<br>换句话说，当变量出现在赋值操作的左侧时进行LHS查询，出现在右侧时进行RHS查询。<br>讲得更准确一点，RHS查询与简单地查找某个变量的值别无二致，而LHS查询则是试图找到变量<br>的容器本身，从而可以对其赋值。从这个角度说，RHS并不是真正意义上的“赋值操作的右侧”，更准<br>确地说是“非左侧”。<br>你可以将RHS理解成retrieve his source value（取到它的源值），这意味着“得到某某的值”。</p>
+<p>考虑以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">console.log( a );</span><br></pre></td></tr></table></figure>
+<p>其中对a的引用是一个RHS引用，因为这里a并没有赋予任何值。相应地，需要查找并取得a的值，这<br>样才能将值传递给console.log(..)。<br>相比之下，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a = 2;</span><br></pre></td></tr></table></figure>
+<p>这里对a的引用则是LHS引用，因为实际上我们并不关心当前的值是什么，只是想要为= 2这个赋<br>值操作找到一个目标。</p>
+<blockquote>
+<p>LHS和RHS的含义是“赋值操作的左侧或右侧”并不一定意味着就是“=赋值操作符的左侧<br>或右侧”。赋值操作还有其他几种形式，因此在概念上最好将其理解为“赋值操作的目标是谁<br>（LHS）”以及“谁是赋值操作的源头（RHS）”。</p>
+</blockquote>
+<p>考虑下面的程序，其中既有LHS也有RHS引用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function foo(a) &#123;</span><br><span class="line">    console.log( a ); // 2</span><br><span class="line">&#125;</span><br><span class="line">foo( 2 );</span><br></pre></td></tr></table></figure>
+<p>最后一行foo(..)函数的调用需要对foo进行RHS引用，意味着“去找到foo的值，并把它给我”。并<br>且(..)意味着foo的值需要被执行，因此它最好真的是一个函数类型的值！<br>这里还有一个容易被忽略却非常重要的细节。<br>代码中隐式的a = 2操作可能很容易被你忽略掉。这个操作发生在2被当作参数传递给foo(..)函数<br>时，2会被分配给参数a。为了给参数a（隐式地）分配值，需要进行一次LHS查询。<br>这里还有对a进行的RHS引用，并且将得到的值传给了console.log(..)。console.log(..)本身也需<br>要一个引用才能执行，因此会对console对象进行RHS查询，并且检查得到的值中是否有一个叫<br>作log的方法。<br>最后，在概念上可以理解为在LHS和RHS之间通过对值2进行交互来将其传递进log(..)（通过变<br>量a的RHS查询）。假设在log(..)函数的原生实现中它可以接受参数，在将2赋值给其中第一个（也<br>许叫作arg1）参数之前，这个参数需要进行LHS引用查询。</p>
+<blockquote>
+<p>你可能会倾向于将函数声明function foo(a) {…概念化为普通的变量声明和赋值，比<br>如var foo、foo ＝ function(a) {…。如果这样理解的话，这个函数声明将需要进行LHS查询。<br>然而还有一个重要的细微差别，编译器可以在代码生成的同时处理声明和值的定义，比如在引<br>擎执行代码时，并不会有线程专门用来将一个函数值“分配给”foo。因此，将函数声明理解成前<br>面讨论的LHS查询和赋值的形式并不合适。</p>
+</blockquote>
+<h4 id="引擎和作用域的对话"><a href="#引擎和作用域的对话" class="headerlink" title="引擎和作用域的对话"></a>引擎和作用域的对话</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function foo(a) &#123;</span><br><span class="line">    console.log( a ); // 2</span><br><span class="line">&#125;</span><br><span class="line">foo( 2 );</span><br></pre></td></tr></table></figure>
+<p>让我们把上面这段代码的处理过程想象成一段对话，这段对话可能是下面这样的。</p>
+<blockquote>
+<p>引擎：我说作用域，我需要为foo进行RHS引用。你见过它吗？<br>作用域：别说，我还真见过，编译器那小子刚刚声明了它。它是一个函数，给你。<br>引擎：哥们太够意思了！好吧，我来执行一下foo。<br>引擎：作用域，还有个事儿。我需要为a进行LHS引用，这个你见过吗？<br>作用域：这个也见过，编译器最近把它声名为foo的一个形式参数了，拿去吧。<br>引擎：大恩不言谢，你总是这么棒。现在我要把2赋值给a。<br>引擎：哥们，不好意思又来打扰你。我要为console进行RHS引用，你见过它吗？<br>作用域：咱俩谁跟谁啊，再说我就是干这个的。这个我也有，console是个内置对象。给你。<br>引擎：么么哒。我得看看这里面是不是有log(..)。太好了，找到了，是一个函数。<br>引擎：哥们，能帮我再找一下对a的RHS引用吗？虽然我记得它，但想再确认一次。<br>作用域：放心吧，这个变量没有变动过，拿走，不谢。<br>引擎：真棒。我来把a的值，也就是2，传递进log(..)。<br>……</p>
+</blockquote>
+<h3 id="作用域嵌套"><a href="#作用域嵌套" class="headerlink" title="作用域嵌套"></a>作用域嵌套</h3><p>作用域是根据名称查找变量的一套规则。实际情况中，通常需要同时顾及几个作用域。<br>当一个块或函数嵌套在另一个块或函数中时，就发生了作用域的嵌套。因此，在当前作用域中无法<br>找到某个变量时，引擎就会在外层嵌套的作用域中继续查找，直到找到该变量，或抵达最外层的作<br>用域（也就是全局作用域）为止。</p>
+<p>考虑以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function foo(a) &#123;</span><br><span class="line">    console.log( a + b );</span><br><span class="line">&#125;</span><br><span class="line">var b = 2;</span><br><span class="line">foo( 2 ); // 4</span><br></pre></td></tr></table></figure>
+<p>对b进行的RHS引用无法在函数foo内部完成，但可以在上一级作用域（在这个例子中就是全局作<br>用域）中完成。<br>因此，回顾一下引擎和作用域之间的对话，会进一步听到：</p>
+<blockquote>
+<p>引擎：foo的作用域兄弟，你见过b吗？我需要对它进行RHS引用。<br>作用域：听都没听过，走开。<br>引擎：foo的上级作用域兄弟，咦？有眼不识泰山，原来你是全局作用域大哥，太好了。你见过b<br>吗？我需要对它进行RHS引用。<br>作用域：当然了，给你吧。</p>
+</blockquote>
+<p>遍历嵌套作用域链的规则很简单：引擎从当前的执行作用域开始查找变量，如果找不到，就向上一<br>级继续查找。当抵达最外层的全局作用域时，无论找到还是没找到，查找过程都会停止。</p>
+<h3 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h3><p>为什么区分LHS和RHS是一件重要的事情？<br>因为在变量还没有声明（在任何作用域中都无法找到该变量）的情况下，这两种查询的行为是不一<br>样的。</p>
+<p>考虑如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function foo(a) &#123;</span><br><span class="line">    console.log( a + b );</span><br><span class="line">b = a;</span><br><span class="line">&#125;</span><br><span class="line">foo( 2 );</span><br></pre></td></tr></table></figure>
+<p>第一次对b进行RHS查询时是无法找到该变量的。也就是说，这是一个“未声明”的变量，因为在任何<br>相关的作用域中都无法找到它。<br>如果RHS查询在所有嵌套的作用域中遍寻不到所需的变量，引擎就会抛出ReferenceError异常。值<br>得注意的是，ReferenceError是非常重要的异常类型。<br>相较之下，当引擎执行LHS查询时，如果在顶层（全局作用域）中也无法找到目标变量，全局作用域<br>中就会创建一个具有该名称的变量，并将其返还给引擎，前提是程序运行在非“严格模式”下。<br>“不，这个变量之前并不存在，但是我很热心地帮你创建了一个。”<br>ES5中引入了“严格模式”。同正常模式，或者说宽松/懒惰模式相比，严格模式在行为上有很多不<br>同。其中一个不同的行为是严格模式禁止自动或隐式地创建全局变量。因此，在严格模式中LHS查<br>询失败时，并不会创建并返回一个全局变量，引擎会抛出同RHS查询失败时类似的ReferenceError<br>异常。<br>接下来，如果RHS查询找到了一个变量，但是你尝试对这个变量的值进行不合理的操作，比如试图<br>对一个非函数类型的值进行函数调用，或着引用null或undefined类型的值中的属性，那么引擎会<br>抛出另外一种类型的异常，叫作TypeError。<br>ReferenceError同作用域判别失败相关，而TypeError则代表作用域判别成功了，但是对结果的操作<br>是非法或不合理的。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>作用域是一套规则，用于确定在何处以及如何查找变量（标识符）。如果查找的目的是对变量进行<br>赋值，那么就会使用LHS查询；如果目的是获取变量的值，就会使用RHS查询。<br>赋值操作符会导致LHS查询。＝操作符或调用函数时传入参数的操作都会导致关联作用域的赋值<br>操作。<br>JavaScript引擎首先会在代码执行前对其进行编译，在这个过程中，像var a = 2这样的声明会被分<br>解成两个独立的步骤：</p>
+<ol>
+<li>首先，var a在其作用域中声明新变量。这会在最开始的阶段，也就是代码执行前进行。</li>
+<li>接下来，a = 2会查询（LHS查询）变量a并对其进行赋值。<br>LHS和RHS查询都会在当前执行作用域中开始，如果有需要（也就是说它们没有找到所需的标识<br>符），就会向上级作用域继续查找目标标识符，这样每次上升一级作用域（一层楼），最后抵达全局<br>作用域（顶层），无论找到或没找到都将停止。<br>不成功的RHS引用会导致抛出ReferenceError异常。不成功的LHS引用会导致自动隐式地创建一个<br>全局变量（非严格模式下），该变量使用LHS引用的目标作为标识符，或者抛出ReferenceError异常<br>（严格模式下）。</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/09/线性表/" title="线性表" itemprop="url">线性表</a>
   </h1>
   <p class="article-author">By
@@ -766,80 +862,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/01/事件/" title="事件" itemprop="url">事件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-01T09:41:48.309Z" itemprop="datePublished"> 发表于 2016-05-01</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="事件处理程序"><a href="#事件处理程序" class="headerlink" title="事件处理程序"></a>事件处理程序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line">var EventUtil = &#123;</span><br><span class="line">        //跨浏览器的事件处理程序</span><br><span class="line">        addHandler: function(element, type, handler) &#123;</span><br><span class="line">            if (element.addEventListener) &#123;</span><br><span class="line">                element.addEventListener(type, handler, false);</span><br><span class="line">            &#125; else if (element.attachEvent) &#123;</span><br><span class="line">                element.attachEvent(&quot;on&quot; + type, handler);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                element[&quot;on&quot; + type] = handler;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        removeHandler: function(element, type, handler) &#123;</span><br><span class="line">            if (element.removeEventListener) &#123;</span><br><span class="line">                element.removeEventListener(type, handler, false);</span><br><span class="line">            &#125; else if (element.detachEvent) &#123;</span><br><span class="line">                element.detachEvent(&quot;on&quot; + type, handler);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                element[&quot;on&quot; + type] = null;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        //跨浏览器的事件对象</span><br><span class="line">        getEvent: function(event) &#123;</span><br><span class="line">            return event ? event : window.event;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        getTarget: function(event) &#123;</span><br><span class="line">            return event.target || event.srcElement;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        preventDefault: function(event) &#123;</span><br><span class="line">            if (event.preventDefault) &#123;</span><br><span class="line">                event.preventDefault();</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                event.returnValue = false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        stopPropagation: function(event) &#123;</span><br><span class="line">            if (event.stopPropagation) &#123;</span><br><span class="line">                event.stopPropagation();</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                event.cancelBubble = true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        //跨浏览器取得相关元素</span><br><span class="line">        getRelatedTarget: function(event) &#123;</span><br><span class="line">            if (event.relatedTarget) &#123;</span><br><span class="line">                return event.relatedTarget;</span><br><span class="line">            &#125; else if (event.toElement) &#123;</span><br><span class="line">                return event.toElement;</span><br><span class="line">            &#125; else if (event.fromElement) &#123;</span><br><span class="line">                return event.fromElement;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        //鼠标按钮</span><br><span class="line">        getButton: function(event) &#123;</span><br><span class="line">            if (document.implementation.hasFeature(&quot;MouseEvents&quot;, &quot;2.0&quot;)) &#123;</span><br><span class="line">                return event.button;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                switch(event.button) &#123;</span><br><span class="line">                    case 0:</span><br><span class="line">                    case 1:</span><br><span class="line">                    case 3:</span><br><span class="line">                    case 5:</span><br><span class="line">                    case 7:</span><br><span class="line">                        return 0;</span><br><span class="line">                    case 2:</span><br><span class="line">                    case 6:</span><br><span class="line">                        return 2;</span><br><span class="line">                    case 4:</span><br><span class="line">                        return 1;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        //鼠标滚轮事件</span><br><span class="line">        getWheelDelta: function(event) &#123;</span><br><span class="line">            if (event.wheelDelta) &#123;</span><br><span class="line">                return (client.engine.opera &amp;&amp; client.engine.opera &lt; 9.5 ? -event.wheelDelta : event.wheelDelta);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return -event.detail * 40;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        //字符编码</span><br><span class="line">        getCharCode: function(event) &#123;</span><br><span class="line">            if (typeof event.charCode == &quot;number&quot;) &#123;</span><br><span class="line">                return event.charCode;    //只有在发生keypress事件才包含值</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return event.keyCode;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        //操作剪贴板</span><br><span class="line">        getClipboardText: function(event) &#123;</span><br><span class="line">            var clipboardData = (event.clipboardData || window.clipboardData);</span><br><span class="line">            return clipboardData.getData(&quot;text&quot;);</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        setClipboardText: function(event)&#123;</span><br><span class="line">            if (event.clipboardData) &#123;</span><br><span class="line">                return event.clipboardData.setData(&quot;text/plain&quot;, value);</span><br><span class="line">            &#125; else if (window.clipboardData) &#123;</span><br><span class="line">                return window.clipboardData.setData(&quot;text&quot;, value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"> //跨浏览器的事件处理程序示例：</span><br><span class="line">var btn = document.getElementById(&quot;myBtn&quot;);</span><br><span class="line">var handler = function()&#123;</span><br><span class="line">    alert(&quot;Clicked&quot;);</span><br><span class="line">&#125;;</span><br><span class="line">EventUtil.addHandler(btn, &quot;click&quot;, handler);</span><br><span class="line"></span><br><span class="line">//这里省略其它代码</span><br><span class="line"></span><br><span class="line">EventUtil.removeHandler(btn, &quot;click&quot;, handler);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//跨浏览器取得相关元素示例：</span><br><span class="line">var div = document.getElementById(&quot;myDiv&quot;);</span><br><span class="line">EventUtil.addHandler(div, &quot;mouseout&quot;, function(event)&#123;</span><br><span class="line">    event = Event.getEvent(event);</span><br><span class="line">    var target = EventUtil.getTarget(event);</span><br><span class="line">    var relatedTarget = EventUtil.getRelatedTarget(event);</span><br><span class="line">    alert(&quot;Moused out fo &quot; + target.tagName + &quot; to &quot; + relatedTarget.tagName);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="鼠标与滚轮事件"><a href="#鼠标与滚轮事件" class="headerlink" title="鼠标与滚轮事件"></a>鼠标与滚轮事件</h3><h4 id="客户区坐标位置"><a href="#客户区坐标位置" class="headerlink" title="客户区坐标位置"></a>客户区坐标位置</h4><p>可以使用类似下列代码取得鼠标事件的客户端坐标信息:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var div = document.getElementById(&quot;myDiv&quot;);</span><br><span class="line">EventUtil.addHandler(div, &quot;click&quot;, function(event)&#123;</span><br><span class="line">    event = EventUtil.getEvent(event);</span><br><span class="line">    alert(&quot;Client coordinates: &quot; + event.clientX + &quot;,&quot; + event.clientY);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<h4 id="修改键"><a href="#修改键" class="headerlink" title="修改键"></a>修改键</h4><p>当某个鼠标事件发生时，通过检测这几个属性就可以确定用户是否同时按下了其中的键。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var div = document.getElementById(&quot;myDiv&quot;);</span><br><span class="line">EventUtil.addHandler(div, &quot;click&quot;, function(event)&#123;</span><br><span class="line">    event = EventUtil.getEvent(event);</span><br><span class="line">    var keys = new Array();</span><br><span class="line"></span><br><span class="line">    if (event.shiftKey) &#123;</span><br><span class="line">        keys.push(&quot;shift&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (event.ctrlKey) &#123;</span><br><span class="line">        keys.push(&quot;ctrlKey&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (event.altKey) &#123;</span><br><span class="line">        keys.push(&quot;altKey&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (event.metaKey) &#123;</span><br><span class="line">        keys.push(&quot;metaKey&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    alert(&quot;Keys: &quot; + keys.join(&quot;,&quot;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="键盘与文本事件"><a href="#键盘与文本事件" class="headerlink" title="键盘与文本事件"></a>键盘与文本事件</h3><h4 id="textInput-事件"><a href="#textInput-事件" class="headerlink" title="textInput 事件"></a>textInput 事件</h4><p>这个用于替代 keypress 的textInput 事件的行为稍有不同。区别之一就是任何可以获得焦点的元素都可以触发 keypress 事件，但只有可编辑区域才能触发 textInput 事件。区别之二是 textInput 事件只会在用户按下能够输入实际字符的键时才会触发，而 keypress 事件则在按下那些能够影响文本显示的键时也会触发(例如退格键)。</p>
-<p>由于 textInput 主要考虑的是字符，因此它的 event 对象中还包含一个 data 属性，这个属性的值就是用户输入的字符(而非字符编码)。话句话说，用户在没有按上档键的情况下按下了S键，data 的值就是”s”,而如果在按住上档键时按下该键，data 的值就是”s”。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var textbox = document.getElementById(&quot;myText&quot;);</span><br><span class="line">EventUtil.addHandler(textbox, &quot;textInput&quot;, function(event) &#123;</span><br><span class="line">    event = EventUtil.getEvent(event);</span><br><span class="line">    alert(event.data);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h3 id="HTML5-事件"><a href="#HTML5-事件" class="headerlink" title="HTML5 事件"></a>HTML5 事件</h3><h4 id="contextmenu-事件"><a href="#contextmenu-事件" class="headerlink" title="contextmenu 事件"></a>contextmenu 事件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(window, &quot;load&quot;, function(event) &#123;</span><br><span class="line">    var div = document.getElementById(&apos;myDiv&apos;);</span><br><span class="line"></span><br><span class="line">    EventUtil.addHandler(div, &quot;contextmenu&quot;, function(event)&#123;</span><br><span class="line">        event = EventUtil.getEvent(event);</span><br><span class="line">        EventUtil.preventDefault(event);</span><br><span class="line"></span><br><span class="line">        var menu = document.getElementById(&apos;myMenu&apos;);</span><br><span class="line">        menu.style.left = event.clientX + &apos;px&apos;;</span><br><span class="line">        menu.style.top = event.clientY = &apos;px&apos;;</span><br><span class="line">        menu,style.visibility = &quot;visible&quot;;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    EventUtil.addHandler(document, &apos;click&apos;, function()&#123;</span><br><span class="line">        document.getElementById(&apos;myMenu&apos;).style.visibility = &apos;hidden&apos;;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="beforeunload-页面卸载前-事件"><a href="#beforeunload-页面卸载前-事件" class="headerlink" title="beforeunload(页面卸载前) 事件"></a>beforeunload(页面卸载前) 事件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(window, &quot;beforeunload&quot;, function(event)&#123;</span><br><span class="line">    event = EventUtil.getEvent(event);</span><br><span class="line">    var message = &quot;I&apos;m really going to miss you if you go.&quot;;</span><br><span class="line">    event.returnValue = message;</span><br><span class="line">    return message;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h4 id="DOMContentLoaded-IE-9-事件"><a href="#DOMContentLoaded-IE-9-事件" class="headerlink" title="DOMContentLoaded(IE 9+) 事件"></a>DOMContentLoaded(IE 9+) 事件</h4><p>DOMContentLoaded 事件在形成完整的 DOM 树之后就会触发，不理会图像、JavaScript 文件、CSS 文件或其他资源是否已经下载完毕。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(document, &quot;DOMContentLoaded&quot;, function(event)&#123;</span><br><span class="line">    alert(&apos;Content loaded&apos;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h4 id="readystatechange-事件"><a href="#readystatechange-事件" class="headerlink" title="readystatechange 事件"></a>readystatechange 事件</h4><p>readyState 属性： uninitialized|loading|loaded|interactive|complete</p>
-<h3 id="内存和性能"><a href="#内存和性能" class="headerlink" title="内存和性能"></a>内存和性能</h3><h4 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">//一下面的 HTML 代码为例</span><br><span class="line">&lt;ul id=&quot;myLinks&quot;&gt;</span><br><span class="line">    &lt;li id=&quot;goSomewhere&quot;&gt;Go somewhere&lt;/li&gt;</span><br><span class="line">    &lt;li id=&quot;doSomething&quot;&gt;Do something&lt;/li&gt;</span><br><span class="line">    &lt;li id=&quot;sayHi&quot;&gt;Say hi&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">var list = document.getElementById(&apos;myLinks&apos;);</span><br><span class="line">EventUtil.addHandler(list, &quot;click&quot;, function(event)&#123;</span><br><span class="line">    event = EventUtil.getEvent(event);</span><br><span class="line">    var target = EventUtil.getTarget(event);</span><br><span class="line"></span><br><span class="line">    switch(target.id) &#123;</span><br><span class="line">        case &quot;doSomething&quot;:</span><br><span class="line">            document.title = &quot;I changed the document&apos;s title&quot;;</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case &quot;goSomewhere&quot;:</span><br><span class="line">            location.href = &apos;http://www.google.com&apos;;</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case &quot;sayHi&quot;:</span><br><span class="line">            alert(&quot;hi&quot;);</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>最适合采用事件委托技术的事件包括 click、mousedown、mouseup、keydown、keyup、和keypress。虽然 moseover 和 mouseout 事件也冒泡，但要适当处理它们并不容易，而且经常需要计算元素的位置。(因为当鼠标从一个元素移到其子节点时，或者当鼠标移出该元素时，都会触发 mouseout事件。)</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/事件/">事件</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -874,7 +896,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>21</sup></a></li>
 		  
 		
 		  
@@ -891,7 +913,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>19</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>20</sup></a></li>
 			
 		
 			
@@ -923,7 +945,7 @@
 			
 		
 			
-				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>1</sup></a></li>
+				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>2</sup></a></li>
 			
 		
 			

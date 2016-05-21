@@ -279,7 +279,7 @@ function Send() {
 }
     
   //if (/.*type=newLetter$/i.test(location)) {
-  if (/.*ladyID=\d{7,}&manID=\d{8,}.*/i.test(location)) {
+  if (/.*ladyID=\d{7,}&manID=(\d{8,}|undefined).*/i.test(location)) {
     try {
       var lady_name_element = document.getElementById('ctl00_ctl00_ctl00_ContentPlaceHolder1_nestedContentPlaceHolder_ContentIndex_cntrlViewLadyCorrespondence_ctrlGirlInfo_pnlGirlInfo').getElementsByTagName('table') [0].firstElementChild.children[0].children[1].innerHTML;
       var lady_name = stripHTML(lady_name_element).trim().substring(7).split(' ') [0].trim();
@@ -438,7 +438,7 @@ Send.prototype = {
     this.id_letter_obj['id_quantity']['id_quantity'] = id_quantity;
     if (id_index < id_quantity) {
       id_index += 1;
-      today_sent_quantity += 1
+      today_sent_quantity += 1;
       this.id_letter_obj[this.lady_name]['id_index'] = id_index;
       this.id_letter_obj[this.lady_name]['current_id'] = id_source['lady_name'][id_index];
     } else {
