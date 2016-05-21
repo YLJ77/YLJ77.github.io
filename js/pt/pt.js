@@ -250,8 +250,6 @@ function getDaysInMonth(year, month) {
 }
 
 function Send() {
-  //PublicProperty.call(this);
-  alert('boom');
   var self = this;
   var accountArray = [
   ];
@@ -311,6 +309,7 @@ function Send() {
       try {
         if (/.*type=newLetter$/i.test(location)) {
           if (self.lady_name) {
+            console.log('orange');
             self.increaseId();
             self.log_obj[self.lady_name + '_log']['id_block_profile_or_never_sent'] += 1;
             setCookie('log', JSON.stringify(self.log_obj), 3560);
