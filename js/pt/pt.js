@@ -314,7 +314,7 @@ function Send() {
             self.log_obj[self.lady_name + '_log']['id_block_profile_or_never_sent'] += 1;
             setCookie('log', JSON.stringify(self.log_obj), 3560);
             console.log(self.id_letter_obj[self.lady_name]['current_id']);
-            location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + self.id_letter_obj[self.lady_name]['current_id'] + '&type=newLetter';
+            location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + 'hello' + '&type=newLetter';
           }
         }
 
