@@ -251,7 +251,7 @@ function getDaysInMonth(year, month) {
 
 function Send() {
   //PublicProperty.call(this);
-  alert('hello');
+  alert('hey');
   var self = this;
   var accountArray = [
   ];
@@ -271,7 +271,7 @@ function Send() {
     pwd_input.value = account.login.pwd;
     enter.click();
 } catch (e) {
-    document.title = 'login: ' + e;
+    console.log('login: ' + e);
     location.href = location;
 }
 }
@@ -307,7 +307,7 @@ function Send() {
       sendBtn.click();
       //location = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + self.id_letter_obj[self.man_name]['current_id'] + '&type=newLetter';
     } catch (e) {
-      document.title = 'send: ' + e;
+      console.log('send: ' + e);
       try {
         if (/.*type=newLetter$/i.test(location)) {
           if (self.lady_name) {
@@ -315,7 +315,7 @@ function Send() {
             self.log_obj[self.lady_name + '_log']['id_block_profile_or_never_sent'] += 1;
             setCookie('log', JSON.stringify(self.log_obj), 3560);
             console.log(self.id_letter_obj[self.lady_name]['current_id']);
-            location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + 'hello' + '&type=newLetter';
+            location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + self.id_letter_obj[self.lady_name]['current_id'] + '&type=newLetter';
           }
         }
 
@@ -324,8 +324,8 @@ function Send() {
         var LadyAccount = location.substr(-38,7);
         location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + LadyAccount + '&manID=' + currentId + '&type=newLetter';
       } catch (msg) {
-        document.title = 'increaseId:' + msg;
-        location.reload();
+        console.log('increaseId:' + msg);
+        //location.reload();
       }
     }
   }
@@ -336,7 +336,7 @@ function Send() {
         window.open('http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.accountArray[i]]['lady_account'] + '&manID=' + self.id_letter_obj[self.accountArray[i]]['current_id'] + '&type=newLetter');
       }
     } catch (e) {
-      document.title = 'default: ' + e;
+      console.log('default: ' + e);
       //location = location;
     }
   }
