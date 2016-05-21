@@ -61,7 +61,11 @@ var timer = null;
 */
 
 
-
+var id_source = {
+  lady_name: [
+  
+  ]
+}
 
 
 
@@ -321,6 +325,7 @@ function Send() {
         }
 
         var currentId = self.id_letter_obj[self.lady_name]['current_id'] || 11111111;
+        alert(self.id_letter_obj[self.lady_name]['current_id']);
         var LadyAccount = location.substr(-38,7);
         location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + LadyAccount + '&manID=' + currentId + '&type=newLetter';
       } catch (msg) {
