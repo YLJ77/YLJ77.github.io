@@ -251,6 +251,7 @@ function getDaysInMonth(year, month) {
 
 function Send() {
   //PublicProperty.call(this);
+  alert('hello');
   var self = this;
   var accountArray = [
   ];
