@@ -61,13 +61,6 @@ var timer = null;
 */
 
 
-var id_source = {
-  lady_name: [
-  
-  ]
-}
-
-
 
 var script = document.createElement('script');
 var code = document.createTextNode('var sheet=(function(){var style=document.createElement("style");style.appendChild(document.createTextNode(""));document.head.appendChild(style);return style.sheet})();var div1=document.createElement("div");var div3=document.createElement("div");div1.setAttribute("id","wrap");div3.setAttribute("class","divs");div3.setAttribute("id","delay_sec");sheet.insertRule("#wrap{height:100px;width:200px;position:absolute;left:70px;top:30px;}",0);sheet.insertRule(".divs{width:100px;height:100px;color:red;font-size:36px;text-align:center;line-height:100px;float:left;}",1);div1.appendChild(div3);document.body.appendChild(div1);var sec=0;var timer=null;if(/.*ladyID=\d{7,}&manID=\d{8,}.*/i.test(location)||/.*type=newLetter$/i.test(location)){var timer=setInterval(function(){div3.innerHTML=sec;sec+=1;if(sec>=29){sec=0;location.href=location}},1000)};');
