@@ -430,7 +430,7 @@ Send.prototype = {
     
     
   },
-  increaseId: function () {alert(this.lady_name);
+  increaseId: function () {alert('increaseId: '+this.lady_name);
     var today_sent_quantity = this.log_obj[this.lady_name + '_log']['today_sent_quantity'];
     var id_index = this.id_letter_obj[this.lady_name]['id_index'];
     var id_quantity = id_source['lady_name'].length;
