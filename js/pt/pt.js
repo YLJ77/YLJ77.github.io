@@ -321,9 +321,9 @@ function Send() {
         }
 
         var currentId = self.id_letter_obj[self.lady_name]['current_id'] || 11111111;
-        var account = location.substr(-38,7);
+        var ladyAccount = location.substr(-38,7);
         console.log(account);
-        location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account + '&manID=' + currentId + '&type=newLetter';
+        location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + ladyAccount + '&manID=' + currentId + '&type=newLetter';
       } catch (msg) {
         document.title = 'increaseId:' + msg;
         location.reload();
