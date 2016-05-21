@@ -281,7 +281,6 @@ function Send() {
   //if (/.*type=newLetter$/i.test(location)) {
   if (/.*ladyID=\d{7,}&manID=(\d{8,}|undefined).*/i.test(location)) {
     try {
-      console.log('undefined');
       var lady_name_element = document.getElementById('ctl00_ctl00_ctl00_ContentPlaceHolder1_nestedContentPlaceHolder_ContentIndex_cntrlViewLadyCorrespondence_ctrlGirlInfo_pnlGirlInfo').getElementsByTagName('table') [0].firstElementChild.children[0].children[1].innerHTML;
       var lady_name = stripHTML(lady_name_element).trim().substring(7).split(' ') [0].trim();
       if (/\(/.test(lady_name)) {
@@ -320,6 +319,12 @@ function Send() {
             location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + self.id_letter_obj[self.lady_name]['current_id'] + '&type=newLetter';
           }
         }
+        if(!self.id_letter_obj[self.lady_name]['current_id']){
+          console.log('self.id_letter_obj[self.lady_name]['current_id']');
+          this.id_letter_obj[this.lady_name]['current_id'] = id_source['lady_name'][id_index];
+          console.log('self.id_letter_obj[self.lady_name]['current_id']');
+        }
+        
         location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + self.id_letter_obj[self.lady_name]['current_id'] + '&type=newLetter';
       } catch (msg) {
         document.title = 'increaseId:' + msg;
