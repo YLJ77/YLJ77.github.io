@@ -310,7 +310,6 @@ function Send() {
       try {
         if (/.*type=newLetter$/i.test(location)) {
           if (self.lady_name) {
-            alert(self.lady_name);
             self.increaseId();
             self.log_obj[self.lady_name + '_log']['id_block_profile_or_never_sent'] += 1;
             setCookie('log', JSON.stringify(self.log_obj), 3560);
@@ -431,7 +430,7 @@ Send.prototype = {
     
     
   },
-  increaseId: function () {
+  increaseId: function () {alert(this.lady_name);
     var today_sent_quantity = this.log_obj[this.lady_name + '_log']['today_sent_quantity'];
     var id_index = this.id_letter_obj[this.lady_name]['id_index'];
     var id_quantity = id_source['lady_name'].length;
