@@ -282,7 +282,7 @@ function Send() {
   if (/.*ladyID=\d{7,}&manID=(\d{8,}|undefined).*/i.test(location)) {
     try {
       var lady_name_element = document.getElementById('ctl00_ctl00_ctl00_ContentPlaceHolder1_nestedContentPlaceHolder_ContentIndex_cntrlViewLadyCorrespondence_ctrlGirlInfo_pnlGirlInfo').getElementsByTagName('table') [0].firstElementChild.children[0].children[1].innerHTML;
-      var lady_name = stripHTML(lady_name_element).trim().substring(7).split(' ') [0].trim();
+      var lady_name = stripHTML(lady_name_element).trim().substring(7).split(' ')[0].trim();
       if (/\(/.test(lady_name)) {
         var bracket_index = lady_name.indexOf('(');
         lady_name = lady_name.substring(0, bracket_index);
@@ -319,13 +319,11 @@ function Send() {
             location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + self.id_letter_obj[self.lady_name]['current_id'] + '&type=newLetter';
           }
         }
-        if(!self.id_letter_obj[self.lady_name]['current_id']){
-          console.log(self.id_letter_obj[self.lady_name]['current_id']);
-          this.id_letter_obj[this.lady_name]['current_id'] = id_source['lady_name'][id_index];
-          console.log(self.id_letter_obj[self.lady_name]['current_id']);
-        }
-        
-        location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + self.id_letter_obj[self.lady_name]['current_id'] + '&type=newLetter';
+
+        var currentId = self.id_letter_obj[self.lady_name]['current_id'] || 11111111;
+        var account = location.substr(-38,7);
+        console.log(account);
+        location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account + '&manID=' + currentId + '&type=newLetter';
       } catch (msg) {
         document.title = 'increaseId:' + msg;
         location.reload();
@@ -347,15 +345,16 @@ function Send() {
 Send.prototype = {
   cookieInitialize: function () {
     var id_letter_cookie = getCookie('id_letter_cookie');
-    var log_cookie = getCookie('log');
+    //var log_cookie = getCookie('log');
+    var log_cookie = localStorage.log;
     this.id_letter_cookie = id_letter_cookie;
     this.log_cookie = log_cookie;
     var date = new Date();
     var today = date.getDate();
-    if (!reachMaxSize(this.log_cookie)) {
-      setCookie('log', '', - 1);
-    }
-    log_cookie = getCookie('log');
+    // if (!reachMaxSize(this.log_cookie)) {
+    //   setCookie('log', '', - 1);
+    // }
+    //log_cookie = getCookie('log');
     if (log_cookie === '') {
       var time = (new Date()).Format('yyyy-MM-dd hh:mm:ss');
       this.log_cookie = '{';
@@ -363,7 +362,8 @@ Send.prototype = {
         this.log_cookie += this.accountArray[i] + '_log:{today_sent_quantity: 0,log: \'\',id_block_profile_or_never_sent: 0},';
       }
       this.log_cookie += 'today: ' + today + '}';
-      setCookie('log', this.log_cookie, '3560');
+      //setCookie('log', this.log_cookie, '3560');
+      localStorage.log = this.log_cookie;
     }
     if (this.id_letter_cookie === '') {
       this.id_letter_cookie = '{';
@@ -396,7 +396,8 @@ Send.prototype = {
         this.log_obj[lady_name + '_log']['today_sent_quantity'] = 0;
       }
       this.log_obj['today'] = today;
-      setCookie('log', JSON.stringify(this.log_obj), 3560);
+      //setCookie('log', JSON.stringify(this.log_obj), 3560);
+      localStorage.obj = JSON.stringify(this.log_obj);
     }
   },
   setLetter: function () {
