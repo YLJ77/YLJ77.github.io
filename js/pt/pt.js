@@ -251,7 +251,7 @@ function getDaysInMonth(year, month) {
 
 function Send() {
   //PublicProperty.call(this);
-  alert('world');
+  alert('boom');
   var self = this;
   var accountArray = [
   ];
@@ -321,7 +321,7 @@ function Send() {
 
         var currentId = self.id_letter_obj[self.lady_name]['current_id'] || 11111111;
         console.log(self.id_letter_obj[self.lady_name]['current_id']);
-        var LadyAccount = location.substr(-38,7);
+        var LadyAccount = (location.href).substr(-38,7);
         location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + LadyAccount + '&manID=' + currentId + '&type=newLetter';
       } catch (msg) {
         console.log('increaseId:' + msg);
