@@ -81,6 +81,129 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/05/22/闭包/" title="闭包" itemprop="url">闭包</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-22T09:11:33.275Z" itemprop="datePublished"> 发表于 2016-05-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="偏应用函数"><a href="#偏应用函数" class="headerlink" title="偏应用函数"></a>偏应用函数</h3><p>“分部应用”一个函数是一项特别有趣的技术，在函数调用之前，我们可以预先传入一些函数。实际上，偏应用函数返回了一个含有预处理参数的新函数，以便后期可以调用。<br>这类代理函数--代理的是另外一个函数，并且在执行的时候会调用所代理的函数。<br>这种在一个函数中首先填充几个参数(然后再返回一个新函数)的技术称之为柯里化(curring)。</p>
+<p>柯里化函数示例(在第一个特定参数中进行填充)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.curry = function() &#123;</span><br><span class="line">    //该函数以及预填充的参数是保存在闭包中的</span><br><span class="line">    var fn = this,</span><br><span class="line">        args = Array.prototype.slice.call(arguments);</span><br><span class="line">    //创建一个匿名柯里化函数</span><br><span class="line">    return function()&#123;</span><br><span class="line">        return fn.apply(this,args.concat(Array.prototype.slice.call(arguments)));</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这种技术是另外一个利用闭包记住状态的很好例子。在本例中，我们要记住新增加的函数(这里的this参数不会存在于任何闭包中，因为每个函数调用的时候都有自己的this)以及预填充参数，并将它们转移到新创建的函数中。该新函数将有预填充的参数以及刚传入的新参数。其结果就是，这样的方法可以让我们预先传入一些参数，然后返回给我们一个新的简单函数供我们使用。</p>
+<p>虽然这种风格的分部函数非常有用，但我们可以做的更好。如果我们给特定函数传递遗漏的参数，而不是从参数列表一开始就传。</p>
+<p>一个更复杂的”分部”函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.partial = function() &#123;</span><br><span class="line">    var fn = this, args = Array.prototype.slice.call(arguments);</span><br><span class="line">    return function()&#123;</span><br><span class="line">        var arg = 0;</span><br><span class="line">        for (var i=0; i &lt; args.length &amp;&amp; arg &lt; arguments.length; i++) &#123;</span><br><span class="line">            if (args[i] === undefined) &#123;</span><br><span class="line">                args[i] = arguments[arg++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return fn.apply(this, args);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>该实现的本质类似于Prototype的curry()方法，但它有几个重要的差异。值得注意的是，用户可以在参数列表的任意位置指定参数，然后在后续的调用中，根据遗漏的参数值是否等于undefined来判断参数的遗漏，要实现这种功能，我们添加了参数合并功能。很有效果，遍历传入的所有参数参数，判断相应的参数是否遗漏了(是否是undefined)，然后沿着顺序填充遗漏的参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var delay = setTimeout.partial(undefined, 10);</span><br><span class="line"></span><br><span class="line">delay(function()&#123;</span><br><span class="line">    assert(true, &quot;A call to this function will be delayed 10 ms.&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这段代码创建了一个新的函数，名为delay()，通过该函数，我们可以传入另外一个10毫秒后进行调用的异步函数。<br>我们也可以创建一个简单的函数用于事件绑定:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var bindClick = document.body.addEventListener.partial(&quot;click&quot;, undefined, false);</span><br><span class="line"></span><br><span class="line">bindClick(function()&#123;</span><br><span class="line">    assert(true, &quot;Click event bound via curried function&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/闭包/">闭包</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/函数/">函数</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/21/二进制/" title="二进制" itemprop="url">二进制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-21T15:33:22.666Z" itemprop="datePublished"> 发表于 2016-05-21</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><img src="blog/01.png"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/涉及底层/">涉及底层</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/21/函数/" title="函数" itemprop="url">函数</a>
   </h1>
   <p class="article-author">By
@@ -104,6 +227,26 @@
 <h3 id="自记忆函数"><a href="#自记忆函数" class="headerlink" title="自记忆函数"></a>自记忆函数</h3><p>缓存记忆是构建函数的过程，这种函数能够记忆先前计算的结果。通过避免已经执行过的不必要复杂的计算，这种方式可以显著提高性能。</p>
 <h4 id="缓存记忆昂贵的计算结果"><a href="#缓存记忆昂贵的计算结果" class="headerlink" title="缓存记忆昂贵的计算结果"></a>缓存记忆昂贵的计算结果</h4><p>作为一个基本的示例，让我们看一个计算素数的简单算法(当然不是特别有效)。这只是一个复杂计算的简单例子，但这种方法却很容易适用于其它昂贵的计算，例如字符串的MD5哈希计算，比这里的实例复杂得多。</p>
 <p>记忆之前计算出的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function isPrime(value) &#123;</span><br><span class="line">    !isPrime.answers &amp;&amp; isPrime.answers = &#123;&#125;;  //创建缓存</span><br><span class="line">    //检测缓存过的值</span><br><span class="line">    isPrime.answers[value] != null &amp;&amp; return isPrime.answers[value];</span><br><span class="line">    var prime = value !=1;  //1 can never be prime</span><br><span class="line"></span><br><span class="line">    for(var i=2; i &lt; value; i++) &#123;</span><br><span class="line">        if(vaule % i ==0) &#123;</span><br><span class="line">            prime = false;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return isPrime.answers[value] = prime;  //保存计算出的值</span><br><span class="line">&#125;</span><br><span class="line">//测试是否正常</span><br><span class="line">assert(isPrime(5), &quot;5 is prime!&quot;);</span><br><span class="line">assert(isPrime.answers[5],&quot;The answer was cached!&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="伪造数组方法"><a href="#伪造数组方法" class="headerlink" title="伪造数组方法"></a>伪造数组方法</h3><p>有时，我们可能想创建一个包含一组数据的对象。如果只是集合，则只需要创建一个数组即可。但在某些情况下，除了集合本身，可能会有更多的状态需要保存，比如集合项有关的一些数据。<br>Array(构造器)上已经存在可以进行集合处理的方法。可以将这些功能嫁接到我们自己的对象上。</p>
+<p>模拟类似数组的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;input id=&quot;first&quot;/&gt;</span><br><span class="line">    &lt;input id=&quot;second&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var elems = &#123;</span><br><span class="line">            //保存元素的个数。我们要假装成是数组，那就需要保存元素项的个数</span><br><span class="line">            length:0,</span><br><span class="line"></span><br><span class="line">            //实现将元素添加到集合的方法。Array的原型中的一个方法可以做到。</span><br><span class="line">            add: function(elem) &#123;</span><br><span class="line">                Array.prototype.push.call(this, elem);</span><br><span class="line">            &#125;,</span><br><span class="line"></span><br><span class="line">            //实现一个gather()方法，根据id值查找元素，并将其添加到集合中</span><br><span class="line">            gather: function(id) &#123;</span><br><span class="line">                this.add(document.getElementById(id));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        elems.gather(&quot;first&quot;);</span><br><span class="line">        assert(elems.length == 1 &amp;&amp; elems[0].nodeType,&quot;Verify that we have an element in our stash&quot;);</span><br><span class="line">        elems.gather(&quot;second&quot;);</span><br><span class="line">        assert(elems.length == 2 &amp;&amp; elems[1].nodeType,&quot;Verify the other insertion&quot;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h3><h4 id="函数的length属性"><a href="#函数的length属性" class="headerlink" title="函数的length属性"></a>函数的length属性</h4><p>所有的函数都有一个有趣的属性，它并不为人知，但却让我们可以了解函数的声明，那就是length属性。不要将该属性和arguments参数的length属性弄混淆了。该属性值等于该函数声明时所要传入的形参数量。<br>因此，如果声明一个接收单个参数的函数，那这个函数的length属性值应该是1.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function makeNinja(name) &#123;&#125;</span><br><span class="line">function makeSamurai(name,rank)&#123;&#125;</span><br><span class="line">assert(makeNinja.length == 1,&quot;Only expecting a single argument&quot;);</span><br><span class="line">assert(makeSamurai.length == 2, &quot;Two arguments expected&quot;);</span><br></pre></td></tr></table></figure>
+<p>因此，对于一个函数，在参数方面，我们可以确定两件事。</p>
+<blockquote>
+<p>通过其length属性，可以知道声明了多少命名参数。<br>通过arguments.length,可以知道在调用时传入了多少参数。</p>
+</blockquote>
+<h3 id="利用参数个数进行重载"><a href="#利用参数个数进行重载" class="headerlink" title="利用参数个数进行重载"></a>利用参数个数进行重载</h3><p>基于传入的参数，有很多种方法可以判断并进行函数重载。一种通用的方法是，根据传入参数的类型执行不同的操作。另一种方法是，可以通过某些特定参数是否存在来进行判断。还有一种方法是通过传入参数的个数进行判断。</p>
+<p>重载函数的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function addMethod(object,name,fn) &#123;</span><br><span class="line">    //保存原有的函数，因为调用的时候可能不匹配传入的参数个数</span><br><span class="line">    var old = object[name];</span><br><span class="line">    object[name] = function()&#123;</span><br><span class="line">        //如果该匿名函数的形参个数和实参个数匹配，就调用该函数</span><br><span class="line">        if (fn.length == arguments.length) return fn.apply(this, arguments)</span><br><span class="line">        //如果传入的参数不匹配，则调用原有的参数</span><br><span class="line">        else if (typeof old == &apos;function&apos;) return old.apply(this.arguments);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试addMethod()函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//创建一个基础对象，实现加载一些测试数据</span><br><span class="line">var ninjas = &#123;</span><br><span class="line">    values: [&apos;Dean Edwards&apos;, &apos;Sam Stephenson&apos;, &apos;Alex Russell&apos;];</span><br><span class="line">&#125;;</span><br><span class="line">//在基础对象上绑定一个无参数方法</span><br><span class="line">addMethod(ninjas, &apos;find&apos;, function()&#123;</span><br><span class="line">    return this.values;</span><br><span class="line">&#125;);</span><br><span class="line">//在基础对象上绑定一个单参数的方法</span><br><span class="line">addMethod(ninjas, &apos;find&apos;,function(name)&#123;</span><br><span class="line">    var ret = [];</span><br><span class="line">    for (var i = 0; i &lt; this.values.length; i++) </span><br><span class="line">        if (this.values[i].indexOf(name) == 0) ret.push(this.values[i]);</span><br><span class="line">    return ret;</span><br><span class="line">&#125;);</span><br><span class="line">//在基础对象上绑定一个两个参数的方法</span><br><span class="line">addMethod(ninjas, &apos;find&apos;, function(first, last) &#123;</span><br><span class="line">    var ret = [];</span><br><span class="line">    for (var i = 0; i &lt; this.values.length; i++)</span><br><span class="line">        if (this.values[i] == (first + &apos; &apos; + last)) ret.push(this.values[i]);</span><br><span class="line">    return ret;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>重载只适用于不同数量的参数，但并不区分类型，参数名称或其它东西。<br>这样的重载方法会有一些函数调用的开销，要考虑在高性能时用的情况。</p>
+</blockquote>
+<h3 id="函数判断"><a href="#函数判断" class="headerlink" title="函数判断"></a>函数判断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function isFunction(fn) &#123;</span><br><span class="line">    return Object.prototype.toString.call(fn) == &apos;[object Function]&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为什么不直接调用fn.toString()获取结果，原因有两个。</p>
+<blockquote>
+<p>不同的对象可能有自己的toString()方法实现<br>JavaScript 中的大多数类型都已经有一个预定义的toString方法覆盖了Object.prototype提供的toString()方法</p>
+</blockquote>
+<p>通过直接访问Object.prototype的方法，可以确保我们得到的不是覆盖版本的toString()，而且最终得到的准确信息正是我们所需要的。</p>
 
         
         
@@ -686,176 +829,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/13/函数作用域和块作用域/" title="函数作用域和块作用域" itemprop="url">函数作用域和块作用域</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-13T03:07:24.443Z" itemprop="datePublished"> 发表于 2016-05-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="块作用域"><a href="#块作用域" class="headerlink" title="块作用域"></a>块作用域</h3><h4 id="with"><a href="#with" class="headerlink" title="with"></a>with</h4><p>with关键字不仅是一个难于理解的结构，同时也是块作用域的一个例子<br>（块作用域的一种形式），用with从对象中创建出的作用域仅在with声明中而非外部作用域中有<br>效。</p>
-<h4 id="try-catch"><a href="#try-catch" class="headerlink" title="try/catch"></a>try/catch</h4><p>非常少有人会注意到JavaScript的ES3规范中规定try/catch的catch分句会创建一个块作用域，其<br>中声明的变量仅在catch内部有效。</p>
-<blockquote>
-<p>尽管这个行为已经被标准化，并且被大部分的标准JavaScript环境（除了老版本的IE浏览<br>器）所支持，但是当同一个作用域中的两个或多个catch分句用同样的标识符名称声明错误变<br>量时，很多静态检查工具还是会发出警告。实际上这并不是重复定义，因为所有变量都被安全<br>地限制在块作用域内部，但是静态检查工具还是会很烦人地发出警告。<br>为了避免这个不必要的警告，很多开发者会将catch的参数命名为err1、err2等。也有开发者干<br>脆关闭了静态检查工具对重复变量名的检查。</p>
-</blockquote>
-<h4 id="let"><a href="#let" class="headerlink" title="let"></a>let</h4><p>let关键字可以将变量绑定到所在的任意作用域中（通常是{ ..}内部）。换句话说，let为其声明的变量隐式地了所在的块作用域。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var foo = true;</span><br><span class="line">if (foo) &#123;</span><br><span class="line">    let bar = foo * 2;</span><br><span class="line">    bar = something( bar );</span><br><span class="line">    console.log( bar );</span><br><span class="line">&#125;</span><br><span class="line">console.log( bar ); // ReferenceError</span><br></pre></td></tr></table></figure>
-<p>用let将变量附加在一个已经存在的块作用域上的行为是隐式的。在开发和修改代码的过程中，如<br>果没有密切关注哪些块作用域中有绑定的变量，并且习惯性地移动这些块或者将其包含在其他的<br>块中，就会导致代码变得混乱。<br>为块作用域显式地创建块可以部分解决这个问题，使变量的附属关系变得更加清晰。通常来讲，显<br>式的代码优于隐式或一些精巧但不清晰的代码。显式的块作用域风格非常容易书写，并且和其他<br>语言中块作用域的工作原理一致：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var foo = true;</span><br><span class="line">&lt;b&gt;if&lt;/b&gt; (foo) &#123;</span><br><span class="line">    &#123; // &lt;-- 显式的快</span><br><span class="line">        let bar = foo * 2;</span><br><span class="line">        bar = something( bar );</span><br><span class="line">        console.log( bar );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log( bar ); // ReferenceError</span><br></pre></td></tr></table></figure>
-<p>只要声明是有效的，在声明中的任意位置都可以使用{ .. }括号来为let创建一个用于绑定的块。在<br>这个例子中，我们在if声明内部显式地创建了一个块，如果需要对其进行重构，整个块都可以被方<br>便地移动而不会对外部if声明的位置和语义产生任何影响。</p>
-<p>使用let进行的声明不会在块作用域中进行提升。声明的代码被运行之前，声明并不”存在”。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">console.log( bar ); // ReferenceError!</span><br><span class="line">let bar = 2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/12/词法作用域/" title="词法作用域" itemprop="url">词法作用域</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-12T15:57:32.970Z" itemprop="datePublished"> 发表于 2016-05-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>作用域共有两种主要的工作模型。第一种是最为普遍的，被大多数编程语言所采用的词法作用域。另外一种叫作动态作用域，仍有一些编程语言在使用（比如<br>Bash脚本、Perl中的一些模式等）。</p>
-<h3 id="词法阶段"><a href="#词法阶段" class="headerlink" title="词法阶段"></a>词法阶段</h3><p>大部分标准语言编译器的第一个工作阶段叫作词法化（也叫单词化）。词<br>法化的过程会对源代码中的字符进行检查，如果是有状态的解析过程，还会赋予单词语义。<br>这个概念是理解词法作用域及其名称来历的基础。<br>简单地说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域是由你在写代码时将<br>变量和块作用域写在哪里来决定的，因此当词法分析器处理代码时会保持作用域不变（大部分情<br>况下是这样的）。</p>
-<p>考虑以下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo(a) &#123;</span><br><span class="line">    var b = a * 2;</span><br><span class="line">function bar(c) &#123;</span><br><span class="line">    console.log( a, b, c );</span><br><span class="line">&#125;</span><br><span class="line">bar( b * 3 );</span><br><span class="line">&#125;</span><br><span class="line">foo( 2 ); // 2, 4, 12</span><br></pre></td></tr></table></figure>
-<p>在这个例子中有三个逐级嵌套的作用域。为了帮助理解，可以将它们想象成几个逐级包含的气泡。</p>
-<p><img src="img/blog/Lexing_1.png"></p>
-<p>气泡1包含着整个全局作用域，其中只有一个标识符：foo。<br>气泡2包含着foo所创建的作用域，其中有三个标识符：a、bar和b。<br>气泡3包含着bar所创建的作用域，其中只有一个标识符：c。<br>作用域气泡由其对应的作用域块代码写在哪里决定，它们是逐级包含的。</p>
-<p>作用域查找会在找到第一个匹配的标识符时停止。在多层的嵌套作用域中可以定义同名的标识<br>符，这叫作“遮蔽效应”（内部的标识符“遮蔽”了外部的标识符）。抛开遮蔽效应，作用域查找始终从<br>运行时所处的最内部作用域开始，逐级向外或者说向上进行，直到遇见第一个匹配的标识符为止。</p>
-<blockquote>
-<p>全局变量会自动成为全局对象（比如浏览器中的window对象）的属性，因此可以不直接通<br>过全局对象的词法名称，而是间接地通过对全局对象属性的引用来对其进行访问。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.a</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>通过这种技术可以访问那些被同名变量所遮蔽的全局变量。但非全局的变量如果被遮蔽了，无<br>论如何都无法被访问到。</p>
-</blockquote>
-<p><b>无论函数在哪里被调用，也无论它如何被调用，它的词法作用域都只由函数被声明时所处的位置<br>决定。</b><br>词法作用域查找只会查找一级标识符，比如a、b和c。如果代码中引用了foo.bar.baz，词法作用域查<br>找只会试图查找foo标识符，找到这个变量后，对象属性访问规则会分别接管对bar和baz属性的访<br>问。</p>
-<h3 id="欺骗词法"><a href="#欺骗词法" class="headerlink" title="欺骗词法"></a>欺骗词法</h3><p>如果词法作用域完全由写代码期间函数所声明的位置来定义，怎样才能在运行时来“修改”（也可以<br>说欺骗）词法作用域呢？<br>JavaScript中有两种机制来实现这个目的。社区普遍认为在代码中使用这两种机制并不是什么好<br>方法。但是关于它们的争论通常会忽略掉最重要的点：欺骗词法作用域会导致性能下降。</p>
-<h4 id="eval"><a href="#eval" class="headerlink" title="eval"></a>eval</h4><p>JavaScript中的eval(..)函数可以接受一个字符串为参数，并将其中的内容视为好像在书写时就存<br>在于程序中这个位置的代码。换句话说，可以在你写的代码中用程序生成代码并运行，就好像代码<br>是写在那个位置的一样。</p>
-<p>考虑以下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo(str, a) &#123;</span><br><span class="line">    eval( str ); // 欺骗！</span><br><span class="line">    console.log( a, b );</span><br><span class="line">&#125;</span><br><span class="line">var b = 2;</span><br><span class="line">foo( &quot;var b = 3;&quot;, 1 ); // 1, 3</span><br></pre></td></tr></table></figure>
-<p>eval(..)调用中的”var b = 3;”这段代码会被当作本来就在那里一样来处理。由于那段代码声明了<br>一个新的变量b，因此它对已经存在的foo(..)的词法作用域进行了修改。事实上，和前面提到的原<br>理一样，这段代码实际上在foo(..)内部创建了一个变量b，并遮蔽了外部（全局）作用域中的同名<br>变量。</p>
-<blockquote>
-<p>在严格模式的程序中，eval(..)在运行时有其自己的词法作用域，意味着其中的声明无法<br>修改所在的作用域。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo(str) &#123;</span><br><span class="line">    &quot;use strict&quot;;</span><br><span class="line">    eval( str );</span><br><span class="line">    console.log( a ); // ReferenceError: a is not defined</span><br><span class="line">&#125;</span><br><span class="line">foo( &quot;var a = 2&quot;);</span><br></pre></td></tr></table></figure>
-<p>JavaScript中还有其他一些功能效果和eval(..)很相似。setTimeout(..)和setInterval(..)的第一<br>个参数可以是字符串，字符串的内容可以被解释为一段动态生成的函数代码。这些功能已经过时<br>且并不被提倡。不要使用它们！<br>new Function(..)函数的行为也很类似，最后一个参数可以接受代码字符串，并将其转化为动态生<br>成的函数（前面的参数是这个新生成的函数的形参）。这种构建函数的语法比eval(..)略微安全一<br>些，但也要尽量避免使用。<br>在程序中动态生成代码的使用场景非常罕见，因为它所带来的好处无法抵消性能上的损失。</p>
-<h4 id="with"><a href="#with" class="headerlink" title="with"></a>with</h4><p>JavaScript中另一个难以掌握（并且现在也不推荐使用）的用来欺骗词法作用域的功能是with关键<br>字。可以有很多方法来解释with，在这里我选择从这个角度来解释它：它如何同被它所影响的词法<br>作用域进行交互。<br>with通常被当作重复引用同一个对象中的多个属性的快捷方式，可以不需要重复引用对象本身。<br>比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    a: 1,</span><br><span class="line">    b: 2,</span><br><span class="line">    c: 3</span><br><span class="line">&#125;;</span><br><span class="line">// 单调乏味的重复&quot;obj&quot;</span><br><span class="line">obj.a = 2;</span><br><span class="line">obj.b = 3;</span><br><span class="line">obj.c = 4;</span><br><span class="line">// 简单的快捷方式</span><br><span class="line">with (obj) &#123;</span><br><span class="line">    a = 3;</span><br><span class="line">    b = 4;</span><br><span class="line">    c = 5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>但实际上这不仅仅是为了方便地访问对象属性。考虑如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function foo(obj) &#123;</span><br><span class="line">    with (obj) &#123;</span><br><span class="line">        a = 2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">var o1 = &#123;</span><br><span class="line">    a: 3</span><br><span class="line">&#125;;</span><br><span class="line">var o2 = &#123;</span><br><span class="line">    b: 3</span><br><span class="line">&#125;;</span><br><span class="line">foo( o1 );</span><br><span class="line">console.log( o1.a ); // 2</span><br><span class="line">foo( o2 );</span><br><span class="line">console.log( o2.a ); // undefined</span><br><span class="line">console.log( a ); // 2——不好，a被泄漏到全局作用域上了！</span><br></pre></td></tr></table></figure></p>
-<p>这个例子中创建了o1和o2两个对象。其中一个具有a属性，另外一个没有。foo(..)函数接受一个obj<br>参数，该参数是一个对象引用，并对这个对象引用执行了with(obj) {..}。在with块内部，我们写的<br>代码看起来只是对变量a进行简单的词法引用，实际上就是一个LHS引用（查看第1章），并将2赋值<br>给它。<br>当我们将o1传递进去，a = 2赋值操作找到了o1.a并将2赋值给它，这在后面的console.log(o1.a)中<br>可以体现。而当o2传递进去，o2并没有a属性，因此不会创建这个属性，o2.a保持undefined。<br>但是可以注意到一个奇怪的副作用，实际上a = 2赋值操作创建了一个全局的变量a。这是怎么回<br>事？<br>with可以将一个没有或有多个属性的对象处理为一个完全隔离的词法作用域，因此这个对象的属<br>性也会被处理为定义在这个作用域中的词法标识符。</p>
-<blockquote>
-<p>尽管with块可以将一个对象处理为词法作用域，但是这个块内部正常的var声明并不会被<br>限制在这个块的作用域中，而是被添加到with所处的函数作用域中。</p>
-</blockquote>
-<p>eval(..)函数如果接受了含有一个或多个声明的代码，就会修改其所处的词法作用域，而with声明<br>实际上是根据你传递给它的对象凭空创建了一个全新的词法作用域。<br>可以这样理解，当我们传递o1给with时，with所声明的作用域是o1，而这个作用域中含有一个<br>同o1.a属性相符的标识符。但当我们将o2作为作用域时，其中并没有a标识符，因此进行了正常的<br>LHS标识符查找。<br>o2的作用域、foo(..)的作用域和全局作用域中都没有找到标识符a，因此当a = 2执行时，自动创建<br>了一个全局变量（因为是非严格模式）。</p>
-<blockquote>
-<p>另外一个不推荐使用eval(..)和with的原因是会被严格模式所影响（限制）。with被完全<br>禁止，而在保留核心功能的前提下，间接或非安全地使用eval(..)也被禁止了。</p>
-</blockquote>
-<h4 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h4><p>如果代码中大量使用eval(..)或with，那么运行起来一定会变得非常慢。无论引擎多聪明，试图将<br>这些悲观情况的副作用限制在最小范围内，也无法避免如果没有这些优化，代码会运行得更慢这<br>个事实。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
@@ -887,11 +863,15 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>21</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>22</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/algorithm/" title="algorithm">algorithm<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/涉及底层/" title="涉及底层">涉及底层<sup>1</sup></a></li>
 		  
 		
 		</ul>
@@ -904,7 +884,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>20</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>21</sup></a></li>
 			
 		
 			
@@ -913,6 +893,26 @@
 		
 			
 				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
 			
 		
 			
@@ -928,31 +928,11 @@
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/装逼/" title="装逼">装逼<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
@@ -972,15 +952,15 @@
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/继承/" title="继承">继承<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>

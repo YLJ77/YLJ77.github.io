@@ -4,23 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>面向对象的程序设计 | fire on the world!</title>
+    <title>fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="面向对象(Object-Oriented,OO) 的语言有一个标志，那就是它们都有类的概念，而通过类可以创建任意多个具有相同属性和方法的对象。ECMAScript中没有类的概念，因此它的对象也与基于类的语言中的对象有所不同。ECMAScript-262把对象定义为：”无序属性的集合，其属性可以包含基本值，对象或者函数。”严格地讲，这就相当于说对象是一组没有特定顺序的值。对象的每个属性或方法都有一个">
-<meta property="og:type" content="article">
-<meta property="og:title" content="面向对象的程序设计">
-<meta property="og:url" content="http://yoursite.com/2016/04/27/面向对象的程序设计/index.html">
+    <meta name="description" content="学习总结与感悟">
+<meta property="og:type" content="website">
+<meta property="og:title" content="fire on the world!">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="面向对象(Object-Oriented,OO) 的语言有一个标志，那就是它们都有类的概念，而通过类可以创建任意多个具有相同属性和方法的对象。ECMAScript中没有类的概念，因此它的对象也与基于类的语言中的对象有所不同。ECMAScript-262把对象定义为：”无序属性的集合，其属性可以包含基本值，对象或者函数。”严格地讲，这就相当于说对象是一组没有特定顺序的值。对象的每个属性或方法都有一个">
-<meta property="og:updated_time" content="2016-05-03T09:08:08.165Z">
+<meta property="og:description" content="学习总结与感悟">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="面向对象的程序设计">
-<meta name="twitter:description" content="面向对象(Object-Oriented,OO) 的语言有一个标志，那就是它们都有类的概念，而通过类可以创建任意多个具有相同属性和方法的对象。ECMAScript中没有类的概念，因此它的对象也与基于类的语言中的对象有所不同。ECMAScript-262把对象定义为：”无序属性的集合，其属性可以包含基本值，对象或者函数。”严格地讲，这就相当于说对象是一组没有特定顺序的值。对象的每个属性或方法都有一个">
+<meta name="twitter:title" content="fire on the world!">
+<meta name="twitter:description" content="学习总结与感悟">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -74,10 +73,12 @@
 </div>
     </header>
     <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-  
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
   <h1 itemprop="name">
     
       <a href="/2016/04/27/面向对象的程序设计/" title="面向对象的程序设计" itemprop="url">面向对象的程序设计</a>
@@ -91,16 +92,9 @@
     
   </p>
 </header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建对象"><span class="toc-number">1.</span> <span class="toc-text">创建对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#工厂模式"><span class="toc-number">1.1.</span> <span class="toc-text">工厂模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造函数模式"><span class="toc-number">1.2.</span> <span class="toc-text">构造函数模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#构造函数的问题"><span class="toc-number">1.2.1.</span> <span class="toc-text">构造函数的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原型模式"><span class="toc-number">1.3.</span> <span class="toc-text">原型模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#原型与in操作符"><span class="toc-number">1.3.1.</span> <span class="toc-text">原型与in操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更简单的原型语法"><span class="toc-number">1.3.2.</span> <span class="toc-text">更简单的原型语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原型的动态性"><span class="toc-number">1.3.3.</span> <span class="toc-text">原型的动态性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原型对象的问题"><span class="toc-number">1.3.4.</span> <span class="toc-text">原型对象的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组合使用构造函数模式和原型模式"><span class="toc-number">1.4.</span> <span class="toc-text">组合使用构造函数模式和原型模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态原型模式"><span class="toc-number">1.5.</span> <span class="toc-text">动态原型模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#寄生构造函数模式"><span class="toc-number">1.6.</span> <span class="toc-text">寄生构造函数模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#稳妥构造函数模式"><span class="toc-number">1.7.</span> <span class="toc-text">稳妥构造函数模式</span></a></li></ol></li></ol>
-		
-		</div>
-		
-		<p>面向对象(Object-Oriented,OO) 的语言有一个标志，那就是它们都有类的概念，而通过类可以创建任意多个具有相同属性和方法的对象。ECMAScript中没有类的概念，因此它的对象也与基于类的语言中的对象有所不同。<br>ECMAScript-262把对象定义为：”无序属性的集合，其属性可以包含基本值，对象或者函数。”严格地讲，这就相当于说对象是一组没有特定顺序的值。对象的每个属性或方法都有一个名字，而每个名字都映射到一个值。正因为这样，我们可以把ECMAScript的对象想象成散列表：无非就是一组名值对，其中值可以是数据或函数。<br>每个对象都是基于一个引用类型创建的，这个引用类型可以是原生类型，也可以是开发人员定义的类型。</p>
+    <div class="article-content">
+        
+        <p>面向对象(Object-Oriented,OO) 的语言有一个标志，那就是它们都有类的概念，而通过类可以创建任意多个具有相同属性和方法的对象。ECMAScript中没有类的概念，因此它的对象也与基于类的语言中的对象有所不同。<br>ECMAScript-262把对象定义为：”无序属性的集合，其属性可以包含基本值，对象或者函数。”严格地讲，这就相当于说对象是一组没有特定顺序的值。对象的每个属性或方法都有一个名字，而每个名字都映射到一个值。正因为这样，我们可以把ECMAScript的对象想象成散列表：无非就是一组名值对，其中值可以是数据或函数。<br>每个对象都是基于一个引用类型创建的，这个引用类型可以是原生类型，也可以是开发人员定义的类型。</p>
 <h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p>工厂模式是软件工程领域一种广为人知的设计模式，这种模式抽象了创建具体对象的过程。考虑到ECMAScript中无法创建类，开发人员就发明了一种函数，用函数来封装特定接口创建对象的细节。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> createPerson(name,age,job) &#123;</span><br><span class="line">    var o = new Object();</span><br><span class="line">    o.name = name;</span><br><span class="line">    o.age = age;</span><br><span class="line">    o.job = job;</span><br><span class="line">    o.sayName = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        alert(this.name);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">return</span> o;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var person1 = createPerson(<span class="string">"Nicholas"</span>, 29, <span class="string">"Software Engineer"</span>);</span><br><span class="line">var person2 = createPerson(<span class="string">"Greg"</span>, 27, <span class="string">"Doctor"</span>);</span><br></pre></td></tr></table></figure>
 <p>工厂模式虽然解决了创建多个相似对象的问题，但却没有解决对象识别的问题（即怎样知道一个对象的类型）。</p>
@@ -170,9 +164,14 @@
 <blockquote>
 <p>与寄生构造函数模式类型，使用稳妥构造函数模式创建的对象与构造函数之间也没有什么关系，因此 instanceof 操作符对这种对象也没有意义。</p>
 </blockquote>
-  
-	</div>
-		<footer class="article-footer clearfix">
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
@@ -190,43 +189,28 @@
 
 
 
-	<div class="article-share" id="share">
-	
-	  <div data-url="http://yoursite.com/2016/04/27/面向对象的程序设计/" data-title="面向对象的程序设计 | fire on the world!" data-tsina="null" class="share clearfix">
-	  </div>
-	
-	</div>
 
+<div class="comments-count">
+	
+</div>
 
 </footer>
 
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2016/04/29/继承/" title="继承">
-  <strong>上一篇：</strong><br/>
-  <span>
-  继承</span>
-</a>
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
+
 </div>
-
-
-</nav>
-
-	
-
-</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建对象"><span class="toc-number">1.</span> <span class="toc-text">创建对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#工厂模式"><span class="toc-number">1.1.</span> <span class="toc-text">工厂模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造函数模式"><span class="toc-number">1.2.</span> <span class="toc-text">构造函数模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#构造函数的问题"><span class="toc-number">1.2.1.</span> <span class="toc-text">构造函数的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原型模式"><span class="toc-number">1.3.</span> <span class="toc-text">原型模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#原型与in操作符"><span class="toc-number">1.3.1.</span> <span class="toc-text">原型与in操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更简单的原型语法"><span class="toc-number">1.3.2.</span> <span class="toc-text">更简单的原型语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原型的动态性"><span class="toc-number">1.3.3.</span> <span class="toc-text">原型的动态性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原型对象的问题"><span class="toc-number">1.3.4.</span> <span class="toc-text">原型对象的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组合使用构造函数模式和原型模式"><span class="toc-number">1.4.</span> <span class="toc-text">组合使用构造函数模式和原型模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态原型模式"><span class="toc-number">1.5.</span> <span class="toc-text">动态原型模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#寄生构造函数模式"><span class="toc-number">1.6.</span> <span class="toc-text">寄生构造函数模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#稳妥构造函数模式"><span class="toc-number">1.7.</span> <span class="toc-text">稳妥构造函数模式</span></a></li></ol></li></ol>
- 
-  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -479,89 +463,12 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
-  });
-});
-</script>
-
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina'),
-      description = $this.attr('description');
-  var html = [
-  '<div class="hoverqrcode clearfix"></div>',
-  '<a class="overlay" id="qrcode"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
-  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-
-  $('.hoverqrcode').hide();
-
-  var myWidth = 0;
-  function updatehoverqrcode(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-    var qrsize = myWidth > 1024 ? 200:100;
-    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
-    var p = $('.article-share-qrcode').position();
-    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
-                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
-                          .qrcode(options);
-  };
-  $(window).resize(function(){
-    $('.hoverqrcode').hide();
-  });
-  $('.article-share-qrcode').click(function(){
-    updatehoverqrcode();
-    $('.hoverqrcode').toggle();
-  });
-  $('.article-share-qrcode').hover(function(){}, function(){
-      $('.hoverqrcode').hide();
-  });
-});   
-</script>
 
 
 
@@ -632,4 +539,4 @@ var _hmt = _hmt || [];
 <!-- Tiny_search End -->
 
   </body>
-</html>
+ </html>

@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/05/21/函数/index.html">
 <meta property="og:site_name" content="fire on the world!">
 <meta property="og:description" content="内联命名函数123456789var ninja = function myNinja()&amp;#123;    //在内联函数中，验证两个名字是等价的    assert(ninja == myNinja,&amp;quot;Thi function is named two things at once!&amp;quot;);&amp;#125;;ninja();  //调用函数执行内部验证//验证内联函数的名称在内联">
-<meta property="og:updated_time" content="2016-05-21T03:18:12.613Z">
+<meta property="og:updated_time" content="2016-05-22T04:55:19.910Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="函数">
 <meta name="twitter:description" content="内联命名函数123456789var ninja = function myNinja()&amp;#123;    //在内联函数中，验证两个名字是等价的    assert(ninja == myNinja,&amp;quot;Thi function is named two things at once!&amp;quot;);&amp;#125;;ninja();  //调用函数执行内部验证//验证内联函数的名称在内联">
@@ -96,7 +96,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内联命名函数"><span class="toc-number">1.</span> <span class="toc-text">内联命名函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储函数"><span class="toc-number">2.</span> <span class="toc-text">存储函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自记忆函数"><span class="toc-number">3.</span> <span class="toc-text">自记忆函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#缓存记忆昂贵的计算结果"><span class="toc-number">3.1.</span> <span class="toc-text">缓存记忆昂贵的计算结果</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内联命名函数"><span class="toc-number">1.</span> <span class="toc-text">内联命名函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储函数"><span class="toc-number">2.</span> <span class="toc-text">存储函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自记忆函数"><span class="toc-number">3.</span> <span class="toc-text">自记忆函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#缓存记忆昂贵的计算结果"><span class="toc-number">3.1.</span> <span class="toc-text">缓存记忆昂贵的计算结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪造数组方法"><span class="toc-number">4.</span> <span class="toc-text">伪造数组方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数重载"><span class="toc-number">5.</span> <span class="toc-text">函数重载</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#函数的length属性"><span class="toc-number">5.1.</span> <span class="toc-text">函数的length属性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用参数个数进行重载"><span class="toc-number">6.</span> <span class="toc-text">利用参数个数进行重载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数判断"><span class="toc-number">7.</span> <span class="toc-text">函数判断</span></a></li></ol>
 		
 		</div>
 		
@@ -110,6 +110,26 @@
 <h3 id="自记忆函数"><a href="#自记忆函数" class="headerlink" title="自记忆函数"></a>自记忆函数</h3><p>缓存记忆是构建函数的过程，这种函数能够记忆先前计算的结果。通过避免已经执行过的不必要复杂的计算，这种方式可以显著提高性能。</p>
 <h4 id="缓存记忆昂贵的计算结果"><a href="#缓存记忆昂贵的计算结果" class="headerlink" title="缓存记忆昂贵的计算结果"></a>缓存记忆昂贵的计算结果</h4><p>作为一个基本的示例，让我们看一个计算素数的简单算法(当然不是特别有效)。这只是一个复杂计算的简单例子，但这种方法却很容易适用于其它昂贵的计算，例如字符串的MD5哈希计算，比这里的实例复杂得多。</p>
 <p>记忆之前计算出的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function isPrime(value) &#123;</span><br><span class="line">    !isPrime.answers &amp;&amp; isPrime.answers = &#123;&#125;;  //创建缓存</span><br><span class="line">    //检测缓存过的值</span><br><span class="line">    isPrime.answers[value] != null &amp;&amp; return isPrime.answers[value];</span><br><span class="line">    var prime = value !=1;  //1 can never be prime</span><br><span class="line"></span><br><span class="line">    for(var i=2; i &lt; value; i++) &#123;</span><br><span class="line">        if(vaule % i ==0) &#123;</span><br><span class="line">            prime = false;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return isPrime.answers[value] = prime;  //保存计算出的值</span><br><span class="line">&#125;</span><br><span class="line">//测试是否正常</span><br><span class="line">assert(isPrime(5), &quot;5 is prime!&quot;);</span><br><span class="line">assert(isPrime.answers[5],&quot;The answer was cached!&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="伪造数组方法"><a href="#伪造数组方法" class="headerlink" title="伪造数组方法"></a>伪造数组方法</h3><p>有时，我们可能想创建一个包含一组数据的对象。如果只是集合，则只需要创建一个数组即可。但在某些情况下，除了集合本身，可能会有更多的状态需要保存，比如集合项有关的一些数据。<br>Array(构造器)上已经存在可以进行集合处理的方法。可以将这些功能嫁接到我们自己的对象上。</p>
+<p>模拟类似数组的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;input id=&quot;first&quot;/&gt;</span><br><span class="line">    &lt;input id=&quot;second&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var elems = &#123;</span><br><span class="line">            //保存元素的个数。我们要假装成是数组，那就需要保存元素项的个数</span><br><span class="line">            length:0,</span><br><span class="line"></span><br><span class="line">            //实现将元素添加到集合的方法。Array的原型中的一个方法可以做到。</span><br><span class="line">            add: function(elem) &#123;</span><br><span class="line">                Array.prototype.push.call(this, elem);</span><br><span class="line">            &#125;,</span><br><span class="line"></span><br><span class="line">            //实现一个gather()方法，根据id值查找元素，并将其添加到集合中</span><br><span class="line">            gather: function(id) &#123;</span><br><span class="line">                this.add(document.getElementById(id));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        elems.gather(&quot;first&quot;);</span><br><span class="line">        assert(elems.length == 1 &amp;&amp; elems[0].nodeType,&quot;Verify that we have an element in our stash&quot;);</span><br><span class="line">        elems.gather(&quot;second&quot;);</span><br><span class="line">        assert(elems.length == 2 &amp;&amp; elems[1].nodeType,&quot;Verify the other insertion&quot;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h3><h4 id="函数的length属性"><a href="#函数的length属性" class="headerlink" title="函数的length属性"></a>函数的length属性</h4><p>所有的函数都有一个有趣的属性，它并不为人知，但却让我们可以了解函数的声明，那就是length属性。不要将该属性和arguments参数的length属性弄混淆了。该属性值等于该函数声明时所要传入的形参数量。<br>因此，如果声明一个接收单个参数的函数，那这个函数的length属性值应该是1.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function makeNinja(name) &#123;&#125;</span><br><span class="line">function makeSamurai(name,rank)&#123;&#125;</span><br><span class="line">assert(makeNinja.length == 1,&quot;Only expecting a single argument&quot;);</span><br><span class="line">assert(makeSamurai.length == 2, &quot;Two arguments expected&quot;);</span><br></pre></td></tr></table></figure>
+<p>因此，对于一个函数，在参数方面，我们可以确定两件事。</p>
+<blockquote>
+<p>通过其length属性，可以知道声明了多少命名参数。<br>通过arguments.length,可以知道在调用时传入了多少参数。</p>
+</blockquote>
+<h3 id="利用参数个数进行重载"><a href="#利用参数个数进行重载" class="headerlink" title="利用参数个数进行重载"></a>利用参数个数进行重载</h3><p>基于传入的参数，有很多种方法可以判断并进行函数重载。一种通用的方法是，根据传入参数的类型执行不同的操作。另一种方法是，可以通过某些特定参数是否存在来进行判断。还有一种方法是通过传入参数的个数进行判断。</p>
+<p>重载函数的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function addMethod(object,name,fn) &#123;</span><br><span class="line">    //保存原有的函数，因为调用的时候可能不匹配传入的参数个数</span><br><span class="line">    var old = object[name];</span><br><span class="line">    object[name] = function()&#123;</span><br><span class="line">        //如果该匿名函数的形参个数和实参个数匹配，就调用该函数</span><br><span class="line">        if (fn.length == arguments.length) return fn.apply(this, arguments)</span><br><span class="line">        //如果传入的参数不匹配，则调用原有的参数</span><br><span class="line">        else if (typeof old == &apos;function&apos;) return old.apply(this.arguments);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试addMethod()函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//创建一个基础对象，实现加载一些测试数据</span><br><span class="line">var ninjas = &#123;</span><br><span class="line">    values: [&apos;Dean Edwards&apos;, &apos;Sam Stephenson&apos;, &apos;Alex Russell&apos;];</span><br><span class="line">&#125;;</span><br><span class="line">//在基础对象上绑定一个无参数方法</span><br><span class="line">addMethod(ninjas, &apos;find&apos;, function()&#123;</span><br><span class="line">    return this.values;</span><br><span class="line">&#125;);</span><br><span class="line">//在基础对象上绑定一个单参数的方法</span><br><span class="line">addMethod(ninjas, &apos;find&apos;,function(name)&#123;</span><br><span class="line">    var ret = [];</span><br><span class="line">    for (var i = 0; i &lt; this.values.length; i++) </span><br><span class="line">        if (this.values[i].indexOf(name) == 0) ret.push(this.values[i]);</span><br><span class="line">    return ret;</span><br><span class="line">&#125;);</span><br><span class="line">//在基础对象上绑定一个两个参数的方法</span><br><span class="line">addMethod(ninjas, &apos;find&apos;, function(first, last) &#123;</span><br><span class="line">    var ret = [];</span><br><span class="line">    for (var i = 0; i &lt; this.values.length; i++)</span><br><span class="line">        if (this.values[i] == (first + &apos; &apos; + last)) ret.push(this.values[i]);</span><br><span class="line">    return ret;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>重载只适用于不同数量的参数，但并不区分类型，参数名称或其它东西。<br>这样的重载方法会有一些函数调用的开销，要考虑在高性能时用的情况。</p>
+</blockquote>
+<h3 id="函数判断"><a href="#函数判断" class="headerlink" title="函数判断"></a>函数判断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function isFunction(fn) &#123;</span><br><span class="line">    return Object.prototype.toString.call(fn) == &apos;[object Function]&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为什么不直接调用fn.toString()获取结果，原因有两个。</p>
+<blockquote>
+<p>不同的对象可能有自己的toString()方法实现<br>JavaScript 中的大多数类型都已经有一个预定义的toString方法覆盖了Object.prototype提供的toString()方法</p>
+</blockquote>
+<p>通过直接访问Object.prototype的方法，可以确保我们得到的不是覆盖版本的toString()，而且最终得到的准确信息正是我们所需要的。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -145,6 +165,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2016/05/21/二进制/" title="二进制">
+  <strong>上一篇：</strong><br/>
+  <span>
+  二进制</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2016/05/20/技巧干货/"  title="技巧干货">
@@ -164,7 +192,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内联命名函数"><span class="toc-number">1.</span> <span class="toc-text">内联命名函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储函数"><span class="toc-number">2.</span> <span class="toc-text">存储函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自记忆函数"><span class="toc-number">3.</span> <span class="toc-text">自记忆函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#缓存记忆昂贵的计算结果"><span class="toc-number">3.1.</span> <span class="toc-text">缓存记忆昂贵的计算结果</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内联命名函数"><span class="toc-number">1.</span> <span class="toc-text">内联命名函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储函数"><span class="toc-number">2.</span> <span class="toc-text">存储函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自记忆函数"><span class="toc-number">3.</span> <span class="toc-text">自记忆函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#缓存记忆昂贵的计算结果"><span class="toc-number">3.1.</span> <span class="toc-text">缓存记忆昂贵的计算结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪造数组方法"><span class="toc-number">4.</span> <span class="toc-text">伪造数组方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数重载"><span class="toc-number">5.</span> <span class="toc-text">函数重载</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#函数的length属性"><span class="toc-number">5.1.</span> <span class="toc-text">函数的length属性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用参数个数进行重载"><span class="toc-number">6.</span> <span class="toc-text">利用参数个数进行重载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数判断"><span class="toc-number">7.</span> <span class="toc-text">函数判断</span></a></li></ol>
  
   </div>
 
@@ -194,11 +222,15 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>21</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>22</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/algorithm/" title="algorithm">algorithm<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/涉及底层/" title="涉及底层">涉及底层<sup>1</sup></a></li>
 		  
 		
 		</ul>
@@ -211,7 +243,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>20</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>21</sup></a></li>
 			
 		
 			
@@ -220,6 +252,26 @@
 		
 			
 				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
 			
 		
 			
@@ -235,31 +287,11 @@
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/装逼/" title="装逼">装逼<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
@@ -279,15 +311,15 @@
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/继承/" title="继承">继承<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>
