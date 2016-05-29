@@ -121899,11 +121899,13 @@ function Send(){
       var newLetterUrl = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][lady_name]['lady_account'] + '&manID=' + account_info[lady_name]['current_id'] + '&type=newLetter';
       location.href = newLetterUrl;
       return;
-    }
+    } 
     var textarea_element = document.getElementById('ctl00_ctl00_ctl00_ContentPlaceHolder1_nestedContentPlaceHolder_ContentIndex_cntrlViewLadyCorrespondence_txtBoxLetterText');
-    var id_td = document.getElementsByTagName('table') [7].getElementsByTagName('table') [0].getElementsByTagName('table') [0].getElementsByTagName('table') [3].lastElementChild.firstElementChild.firstElementChild.nextElementSibling;
+    debugger;
     //如果打开的是被屏蔽的页面
-    if(!WarningMessage && !id_td) {
+    try{
+        var id_td = document.getElementsByTagName('table') [7].getElementsByTagName('table') [0].getElementsByTagName('table') [0].getElementsByTagName('table') [3].lastElementChild.firstElementChild.firstElementChild.nextElementSibling;
+    }catch(e){
         showMsg('被男士屏蔽的页面');
         this.increaseId();
         //记录日志
@@ -121915,6 +121917,8 @@ function Send(){
         location.href = newLetterUrl;
         return;
     }
+    
+    
     var man_name = id_td.parentNode.nextElementSibling.lastElementChild.innerHTML.trim();
     if (/\s+/.test(man_name)) {
       var blank = man_name.indexOf(' ');
