@@ -121901,24 +121901,20 @@ function Send(){
       return;
     }
     var textarea_element = document.getElementById('ctl00_ctl00_ctl00_ContentPlaceHolder1_nestedContentPlaceHolder_ContentIndex_cntrlViewLadyCorrespondence_txtBoxLetterText');
-    //如果打开的是被屏蔽的页面
-    if(!WarningMessage &&!textarea_element){
-      showMsg('被男士屏蔽的页面');
-      this.increaseId();
-      //记录日志
-      var log = eval('('+localStorage.log+')');
-      temp = parseInt(log[lady_name + '_log']['id_block_profile_or_never_sent']) + 1;
-      log[lady_name + '_log']['id_block_profile_or_never_sent'] = temp;
-      localStorage.log = JSON.stringify(log);
-      var newLetterUrl = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][lady_name]['lady_account'] + '&manID=' + account_info[lady_name]['current_id'] + '&type=newLetter';
-      location.href = newLetterUrl;
-      return;
-    }
-    showMsg('在发页面');
-    var sendBtn = document.getElementById('btnReply2');
-    var checkBox = document.querySelector('input[type=checkbox]');
-    
     var id_td = document.getElementsByTagName('table') [7].getElementsByTagName('table') [0].getElementsByTagName('table') [0].getElementsByTagName('table') [3].lastElementChild.firstElementChild.firstElementChild.nextElementSibling;
+    //如果打开的是被屏蔽的页面
+    if(!WarningMessage && !id_td) {
+        showMsg('被男士屏蔽的页面');
+        this.increaseId();
+        //记录日志
+        var log = eval('('+localStorage.log+')');
+        temp = parseInt(log[lady_name + '_log']['id_block_profile_or_never_sent']) + 1;
+        log[lady_name + '_log']['id_block_profile_or_never_sent'] = temp;
+        localStorage.log = JSON.stringify(log);
+        var newLetterUrl = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][lady_name]['lady_account'] + '&manID=' + account_info[lady_name]['current_id'] + '&type=newLetter';
+        location.href = newLetterUrl;
+        return;
+    }
     var man_name = id_td.parentNode.nextElementSibling.lastElementChild.innerHTML.trim();
     if (/\s+/.test(man_name)) {
       var blank = man_name.indexOf(' ');
@@ -121926,6 +121922,9 @@ function Send(){
     }
 
     this.man_name = man_name;
+    showMsg('在发页面');
+    var sendBtn = document.getElementById('btnReply2');
+    var checkBox = document.querySelector('input[type=checkbox]');
 
     var lady_current_letter = this.setLetter();
     if (!lady_current_letter) return;
