@@ -121901,7 +121901,7 @@ function Send(){
       return;
     } 
     var textarea_element = document.getElementById('ctl00_ctl00_ctl00_ContentPlaceHolder1_nestedContentPlaceHolder_ContentIndex_cntrlViewLadyCorrespondence_txtBoxLetterText');
-    debugger;
+    //debugger;
     //如果打开的是被屏蔽的页面
     try{
         var id_td = document.getElementsByTagName('table') [7].getElementsByTagName('table') [0].getElementsByTagName('table') [0].getElementsByTagName('table') [3].lastElementChild.firstElementChild.firstElementChild.nextElementSibling;
