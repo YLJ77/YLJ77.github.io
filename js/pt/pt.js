@@ -121940,10 +121940,10 @@ function Send(){
     checkBox.click();
 
     //======test
-    account_info = eval('('+localStorage.account_info+')');
-    var newLetterUrl = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][lady_name]['lady_account'] + '&manID=' + account_info[lady_name]['current_id'];
-    location.href = newLetterUrl;
-    //sendBtn.click();
+    // account_info = eval('('+localStorage.account_info+')');
+    // var newLetterUrl = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][lady_name]['lady_account'] + '&manID=' + account_info[lady_name]['current_id'];
+    // location.href = newLetterUrl;
+    sendBtn.click();
   }catch(e){
     //var loc= e.stack.replace(/Error\n/).split(/\n/)[1].replace(/^\s+|\s+$/, "");
     //display_info('sending page:<br>'+"Stack:" + e.stack+'<br>'+"Location: "+loc);
