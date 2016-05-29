@@ -81,6 +81,76 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/05/13/提升/" title="提升" itemprop="url">提升</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-13T05:45:45.018Z" itemprop="datePublished"> 发表于 2016-05-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>当你看到var a = 2;时，可能会认为这是一个声明。但JavaScript实际上会将其看成两个声<br>明：var a;和a = 2;。第一个定义声明是在编译阶段进行的。第二个赋值声明会被留在原地等待执<br>行阶段。<br>我们的第一个代码片段会以如下形式进行处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a;</span><br><span class="line">a = 2;</span><br><span class="line">console.log( a );</span><br></pre></td></tr></table></figure></p>
+<p>其中第一部分是编译，而第二部分是执行。</p>
+<p>函数声明会被提升，但是函数表达式却不会被提升。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo(); // 不是ReferenceError, 而是TypeError!</span><br><span class="line">var foo = function bar() &#123;</span><br><span class="line">    // ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这段程序中的变量标识符foo()被提升并分配给所在作用域（在这里是全局作用域），因此foo()不<br>会导致ReferenceError。但是foo此时并没有赋值（如果它是一个函数声明而不是函数表达式，那么<br>就会赋值）。foo()由于对undefined值进行函数调用而导致非法操作，因此抛出TypeError异常。<br>同时也要记住，即使是具名的函数表达式，名称标识符在赋值之前也无法在所在作用域中使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">foo(); // TypeError</span><br><span class="line">bar(); // ReferenceError</span><br><span class="line">var foo = function bar() &#123;</span><br><span class="line">    // ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这个代码片段经过提升后，实际上会被理解为以下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var foo;</span><br><span class="line">foo(); // TypeError</span><br><span class="line">bar(); // ReferenceError</span><br><span class="line">foo = function() &#123;</span><br><span class="line">    var bar = ...self...</span><br><span class="line">    // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="函数优先"><a href="#函数优先" class="headerlink" title="函数优先"></a>函数优先</h3><p>函数声明和变量声明都会被提升。但是一个值得注意的细节（这个细节可以出现在有多个“重复”声<br>明的代码中）是函数会首先被提升，然后才是变量。<br>考虑以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">foo(); // 1</span><br><span class="line">var foo;</span><br><span class="line">function foo() &#123;</span><br><span class="line">    console.log( 1 );</span><br><span class="line">&#125;</span><br><span class="line">foo = function() &#123;</span><br><span class="line">    console.log( 2 );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>会输出1而不是2！这个代码片段会被引擎理解为如下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    console.log( 1 );</span><br><span class="line">&#125;</span><br><span class="line">foo(); // 1</span><br><span class="line">foo = function() &#123;</span><br><span class="line">    console.log( 2 );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>注意，var foo尽管出现在function foo()…的声明之前，但它是重复的声明（因此被忽略了），因为<br>函数声明会被提升到普通变量之前。</p>
+<p>尽管重复的var声明会被忽略掉，但出现在后面的函数声明还是可以覆盖前面的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">foo(); // 3</span><br><span class="line">function foo() &#123;</span><br><span class="line">console.log( 1 );</span><br><span class="line">&#125;</span><br><span class="line">var foo = function() &#123;</span><br><span class="line">console.log( 2 );</span><br><span class="line">&#125;;</span><br><span class="line">function foo() &#123;</span><br><span class="line">console.log( 3 );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>虽然这些听起来都是些无用的学院理论，但是它说明了在同一个作用域中进行重复定义是非常糟<br>糕的，而且经常会导致各种奇怪的问题。</p>
+<p>一个普通块内部的函数声明通常会被提升到所在作用域的顶部，这个过程不会像下面的代码暗示<br>的那样可以被条件判断所控制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">foo(); // &quot;b&quot;</span><br><span class="line">var a = true;</span><br><span class="line">if (a) &#123;</span><br><span class="line">function foo() &#123; console.log(&quot;a&quot;); &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">function foo() &#123; console.log(&quot;b&quot;); &#125;</span><br><span class="line">&#125;</span><br><span class="line">但是需要注意这个行为并不可靠，在JavaScript未来的版本中有可能发生改变，因此应该尽可能避</span><br><span class="line">免在块内部声明函数。</span><br></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/13/函数作用域和块作用域/" title="函数作用域和块作用域" itemprop="url">函数作用域和块作用域</a>
   </h1>
   <p class="article-author">By
@@ -822,79 +892,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/06/表单脚本/" title="表单脚本" itemprop="url">表单脚本</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-06T02:37:23.521Z" itemprop="datePublished"> 发表于 2016-05-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="表单字段"><a href="#表单字段" class="headerlink" title="表单字段"></a>表单字段</h3><h4 id="避免多次提交表单"><a href="#避免多次提交表单" class="headerlink" title="避免多次提交表单"></a>避免多次提交表单</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(form, &quot;submit&quot;, function(event)&#123;</span><br><span class="line">    event = EventUtil.getEvent(event);</span><br><span class="line">    var target = EventUtil.getTarget(event);</span><br><span class="line"></span><br><span class="line">    //取得提交按钮</span><br><span class="line">    var btn = target.elements[&quot;submit-btn&quot;];</span><br><span class="line"></span><br><span class="line">    //禁用它</span><br><span class="line">    btn.disabled = true;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>HTML5 为表单字段新增了一个 autofocus 属性。在支持这个属性的浏览器中，只要设置这个属性，不用javascript 就能自动把焦点移动到相应字段。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; autofocus&gt;</span><br></pre></td></tr></table></figure>
-<p>为了保证前面的代码在设置 autofocus 的浏览器中正常运行，必须先检查是否设置了改属性，如果设置了，就不用再调用 foucus() 了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(window, &quot;load&quot;, function(event)&#123;</span><br><span class="line">    var element = document.forms[0].elements[0];</span><br><span class="line">    if (element.autofocus != true) &#123;</span><br><span class="line">        element.focus();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="选择文本"><a href="#选择文本" class="headerlink" title="选择文本"></a>选择文本</h3><h4 id="跨浏览器取得选择文本"><a href="#跨浏览器取得选择文本" class="headerlink" title="跨浏览器取得选择文本"></a>跨浏览器取得选择文本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function getSelectedText(textbox) &#123;</span><br><span class="line">    if (typeof textbox.selectionStart == &quot;number&quot;) &#123;</span><br><span class="line">        return textbox.value.substring(textbox.selectionStart,textbox.selectionEnd);</span><br><span class="line">    &#125; else if (document.selection) &#123;  //IE 8-=</span><br><span class="line">        return document.selection.createRange().text;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="跨浏览器选择部分文本"><a href="#跨浏览器选择部分文本" class="headerlink" title="跨浏览器选择部分文本"></a>跨浏览器选择部分文本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function selectText(textbox, startIndex, stopIndex) &#123;</span><br><span class="line">    if (textbox.setSelectionRange) &#123;</span><br><span class="line">        textbox.setSelectionRange(startIndex, stopIndex);</span><br><span class="line">    &#125; else if (textbox.createTextRange) &#123;    //IE 8-=</span><br><span class="line">        var range = textbox.createTextRange();</span><br><span class="line">        range.collapse(true);</span><br><span class="line">        range.moveStart(&quot;character&quot;, startIndex);</span><br><span class="line">        range.moveEnd(&quot;character&quot;, stopIndex - startIndex);</span><br><span class="line">        range.select();</span><br><span class="line">    &#125;</span><br><span class="line">    textbox.focus();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">textbox.value = &quot;Hello world!&quot;</span><br><span class="line"></span><br><span class="line">//选择所有文本</span><br><span class="line">selectText(textbox, 0, textbox.value.length);    //&quot;Hello world!&quot;</span><br><span class="line"></span><br><span class="line">//选择前3个字符</span><br><span class="line">selectText(text, 0, 3);    //&quot;Hel&quot;</span><br><span class="line"></span><br><span class="line">//选择第 4 到第 6 个字符</span><br><span class="line">selectText(textbox, 4, 7); //&quot;o w&quot;</span><br></pre></td></tr></table></figure>
-<p>选择部分文本的技术在实现高级文本输入框时很有用，例如提供自动完成建议的文本框就可以使用这种技术。</p>
-<h3 id="过滤输入"><a href="#过滤输入" class="headerlink" title="过滤输入"></a>过滤输入</h3><h4 id="屏蔽字符"><a href="#屏蔽字符" class="headerlink" title="屏蔽字符"></a>屏蔽字符</h4><p>下列代码只允许用户输入数值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(textbox, &quot;keypress&quot;, function(event)&#123;</span><br><span class="line">    event = EventUtil.getEvent(event);</span><br><span class="line">    var target = EventUtil.getTarget(event);</span><br><span class="line">    var charCode = EventUtil.getCharCode(event);</span><br><span class="line"></span><br><span class="line">    if(!/\d/.test(String.fromCharCode(charCode)) &amp;&amp; charCode &gt; 9 &amp;&amp; !event.ctrlKey) &#123;   //Safari 3-</span><br><span class="line">        EventUtil.preventDefault(event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<h4 id="操作剪贴板"><a href="#操作剪贴板" class="headerlink" title="操作剪贴板"></a>操作剪贴板</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">getClipboardText: function(event) &#123;</span><br><span class="line">    var clipboardData = (event.clipboardData || window.clipboardData);</span><br><span class="line">    return clipboardData.getData(&quot;text&quot;);</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">setClipboardText: function(event)&#123;</span><br><span class="line">    if (event.clipboardData) &#123;</span><br><span class="line">        return event.clipboardData.setData(&quot;text/plain&quot;, value);</span><br><span class="line">    &#125; else if (window.clipboardData) &#123;</span><br><span class="line">        return window.clipboardData.setData(&quot;text&quot;, value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-<p>在需要确保黏贴到文本框中的文本中包含某些字符，或者符合某种格式要求时，能够访问剪贴板是非常有用的。例如，如果一个文本框只接受数值，那么久必须检测黏贴过来的值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">EventUtil.addHandler(textbox, &quot;paste&quot;, function(event)&#123;</span><br><span class="line">    event = EventUtil.getEvent(event);</span><br><span class="line">    var text = EventUtil.getClipboardText(event);</span><br><span class="line"></span><br><span class="line">    if(!/^\d*$/.test(text)) &#123;</span><br><span class="line">        EventUtil.preventDefault(event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="自动切换焦点"><a href="#自动切换焦点" class="headerlink" title="自动切换焦点"></a>自动切换焦点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    function tabForward(event) &#123;</span><br><span class="line">        event = EventUtil.getEvent(event);</span><br><span class="line">        var target = EventUtil.getTarget(event);</span><br><span class="line"></span><br><span class="line">        if (target.value.length == target.maxLength) &#123;</span><br><span class="line">            var form = target.form;</span><br><span class="line"></span><br><span class="line">            for(var i=0, len=form.elements.length; i &lt; len; i++) &#123;</span><br><span class="line">                if (form.elements[i] == target) &#123;</span><br><span class="line">                    if (form.elements[i+1]) &#123;</span><br><span class="line">                        form.elements[i+1].focus();</span><br><span class="line">                    &#125;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">var textbox1 = document.getElementById(&quot;txtTel1&quot;);</span><br><span class="line">var textbox2 = document.getElementById(&quot;txtTel2&quot;);</span><br><span class="line">var textbox3 = document.getElementById(&quot;txtTel3&quot;);</span><br><span class="line"></span><br><span class="line">EventUtil.addHandler(textbox1, &quot;keyup&quot;, tabForward);</span><br><span class="line">EventUtil.addHandler(textbox2, &quot;keyup&quot;, tabForward);</span><br><span class="line">EventUtil.addHandler(textbox3, &quot;keyup&quot;, tabForward);</span><br></pre></td></tr></table></figure>
-<p>不过这些代码只适用于前面给出的标记，而且没有考虑隐藏字段。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JS/">JS</a><a href="/tags/表单脚本/">表单脚本</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -929,7 +926,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>22</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>23</sup></a></li>
 		  
 		
 		  
@@ -950,7 +947,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>21</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>22</sup></a></li>
 			
 		
 			
@@ -966,15 +963,7 @@
 			
 		
 			
-				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -990,19 +979,27 @@
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/装逼/" title="装逼">装逼<sup>1</sup></a></li>
+				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
@@ -1018,15 +1015,15 @@
 			
 		
 			
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/继承/" title="继承">继承<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>
