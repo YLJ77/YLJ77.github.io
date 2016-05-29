@@ -122016,24 +122016,22 @@ Send.prototype = {
     var id_index = parseInt(account_info[lady_name]['id_index']);
     var letter_index = parseInt(account_info[lady_name]['letter_index']);
     var id_quantity = id_source['lady_name'].length;
-    var letter_quantity = account_info[lady_name]['letter_quantity'];
+    var letter_quantity = parseInt(account_info[lady_name]['letter_quantity']);
     if (id_index < id_quantity-1) {
-      account_info[lady_name]['id_index'] += 1;
+      account_info[lady_name]['id_index'] = parseInt(account_info[lady_name]['id_index'])+1;
       account_info[lady_name]['current_id'] = id_source['lady_name'][id_index];
     } else {
       account_info[lady_name]['id_index'] = 0;
       log[lady_name + '_log']['id_block_profile_or_never_sent'] = 0;
       localStorage.log = JSON.stringify(log);
       if (letter_index < letter_quantity-1) {
-        var step = parseInt(account_info[lady_name]['letter_index']) + 1;
-        account_info[lady_name]['letter_index'] = step;
+        account_info[lady_name]['letter_index'] = parseInt(account_info[lady_name]['letter_index']) + 1;
       } else {
         account_info[lady_name]['letter_index'] = 0;
         if(!localStorage.reSendTimes) {
           localStorage.reSendTimes = 1;
         } else {
-          var times = parseInt(localStorage.reSendTimes) + 1;
-          localStorage.reSendTimes = times;
+          localStorage.reSendTimes = parseInt(localStorage.reSendTimes) + 1;
         }
       }
     }
