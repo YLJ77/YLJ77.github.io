@@ -1,14 +1,13 @@
 // ==UserScript==
 // @name         send
-// @namespace    http://tampermonkey.net/
+// @namespace    orientbrides
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
 //@include      *agency.orientbrides.net*
 // @grant        none
 // ==/UserScript==
-/* jshint -W097 */
-//'use strict';
+
 /*
 查找目标：(\.|\?|\!|:\)|"|,)\s{0,3}\n{0,1}\r\n
 替换为：$1\\n\\n
@@ -23,50 +22,7 @@ TracePrint "整理完毕"
 End Sub
 
 Call 整理()
-
-
-var sheet = (function(){
-  var style = document.createElement('style');
-  style.appendChild(document.createTextNode(''));
-  document.head.appendChild(style);
-  return style.sheet;
-})();
-
-var div1 = document.createElement('div');
-var div3 = document.createElement('div');
-div1.setAttribute('id','wrap');
-div3.setAttribute('class','divs');
-div3.setAttribute('id','delay_sec');
-sheet.insertRule('#wrap{height:100px;width:200px;position:absolute;left:70px;top:30px;}',0);
-sheet.insertRule('.divs{width:100px;height:100px;color:red;font-size:36px;text-align:center;line-height:100px;float:left;}',1);
-//sheet.insertRule('#reload_times{background-color:blue;}',2);
-//sheet.insertRule('#delay_sec{background-color:green;}',3);
-div1.appendChild(div3);
-document.body.appendChild(div1);
-
-var sec = 0;
-var timer = null;
 */
- //if (/.*ladyID=\d{7,}&manID=\d{8,}.*/i.test(location) || /.*type=newLetter$/i.test(location)) {
- /*
-   var timer = setInterval(function(){
-     div3.innerHTML = sec;
-     sec += 1;
-     if (sec >= 29) {
-       sec = 0;
-       location.href = location;
-     } 
-    },1000);
- }
-*/
-
-
-
-var script = document.createElement('script');
-var code = document.createTextNode('var sheet=(function(){var style=document.createElement("style");style.appendChild(document.createTextNode(""));document.head.appendChild(style);return style.sheet})();var div1=document.createElement("div");var div3=document.createElement("div");div1.setAttribute("id","wrap");div3.setAttribute("class","divs");div3.setAttribute("id","delay_sec");sheet.insertRule("#wrap{height:100px;width:200px;position:absolute;left:70px;top:30px;}",0);sheet.insertRule(".divs{width:100px;height:100px;color:red;font-size:36px;text-align:center;line-height:100px;float:left;}",1);div1.appendChild(div3);document.body.appendChild(div1);var sec=0;var timer=null;if(/.*ladyID=\d{7,}&manID=\d{8,}.*/i.test(location)||/.*type=newLetter$/i.test(location)){var timer=setInterval(function(){div3.innerHTML=sec;sec+=1;if(sec>=29){sec=0;location.href=location}},1000)};');
-script.appendChild(code);
-document.head.appendChild(script);
-
 
 var account = {
   login: {
@@ -136,72 +92,226 @@ var account = {
   }
 };
 
+var ladyName = [];
+for (var name in account.ladys) {
+  ladyName.push(name);
+}
+function initial_var(){
+  //lady_name可以改为每个会员的名字
+  if(!localStorage.Login_page_reload_times) localStorage.Login_page_reload_times = 0;
 
-
-(function (win, doc) {
-  contentLoaded = function (fn) {
-    var done = false,
-    top = true,
-    doc = win.document,
-    root = doc.documentElement,
-    add = doc.addEventListener ? 'addEventListener' : 'attachEvent',
-    rem = doc.addEventListener ? 'removeEventListener' : 'detachEvent',
-    pre = doc.addEventListener ? '' : 'on',
-    init = function (e) {
-      if (e.type == 'readystatechange' && doc.readyState != 'complete') return;
-      (e.type == 'load' ? win : doc) [rem](pre + e.type, init, false);
-      if (!done && (done = true)) fn.call(win, e.type || e);
-    },
-    poll = function () {
-      try {
-        root.doScroll('left');
-      } catch (e) {
-        setTimeout(poll, 50);
-        return;
-      }
-      init('poll');
-    };
-    if (doc.readyState == 'complete') fn.call(win, 'lazy');
-     else {
-      if (doc.createEventObject && root.doScroll) {
-        try {
-          top = !win.frameElement;
-        } catch (e) {
-        }
-        if (top) poll();
-      }
-      doc[add](pre + 'DOMContentLoaded', init, false);
-      doc[add](pre + 'readystatechange', init, false);
-      win[add](pre + 'load', init, false);
+  var account_info = '';
+  var initialed = false;
+  account_info = '{';
+  for (var i = 0; i < ladyName.length; i++) {
+    var letter_amount = 0;
+    for(var values in account['ladys'][ladyName[i]]['letters']) {
+      letter_amount += 1;
     }
-  };
-}) (window, document);
+    if(!localStorage.account_info) {//如果是第一次执行脚本
+      initialed = true;
+      account_info += ladyName[i] + ':{id_index: 0,letter_index: 0,letter_quantity: '+letter_amount+',current_id: '+id_source['lady_name'][0]+',lady_account: ' + account['ladys'][ladyName[i]]['lady_account'] + ',id_quantity: '+id_source['lady_name'].length+'},';
+    } else {
+      var info = eval('('+localStorage.account_info+')');
+      if(!info[ladyName[i]]) {//如果新增了会员
+        var newAccount = '{id_index: 0,letter_index: 0,letter_quantity: '+letter_amount+',current_id: '+id_source['lady_name'][0]+',lady_account: ' + account['ladys'][ladyName[i]]['lady_account'] + ',id_quantity: '+id_source['lady_name'].length+'}';
+        newAccount = eval('('+newAccount+')');
+        info[ladyName[i]] = newAccount;
+      }
+     
+      //如果改动了account对象信息
+      with(info[ladyName[i]]){
+        letter_quantity = letter_amount;
+        lady_account = account['ladys'][ladyName[i]]['lady_account'];
+        id_quantity = id_source['lady_name'].length;
+      }
 
-function stripHTML(lady_name_tr) {
-  var reTag = /<(?:.|\s)*?>/g;
-  return lady_name_tr.replace(reTag, '');
-}
-function setCookie(c_name, value, expiredays)
-{
-  var exdate = new Date();
-  exdate.setDate(exdate.getDate() + expiredays);
-  document.cookie = c_name + '=' + value + ((expiredays  === null) ? '' : '; path=/;expires=' + exdate.toGMTString());
-}
-function getCookie(c_name)
-{
-  if (document.cookie.length > 0)
-  {
-    c_start = document.cookie.indexOf(c_name + '=');
-    if (c_start != - 1)
-    {
-      c_start = c_start + c_name.length + 1;
-      c_end = document.cookie.indexOf(';', c_start);
-      if (c_end == - 1) c_end = document.cookie.length;
-      return unescape(document.cookie.substring(c_start, c_end));
+      //如果删除了会员
+      for(var stored in info){
+        var deleted = true;
+        for(var ladyName_index=0, len=ladyName.length; ladyName_index<len; ladyName_index++){
+          if(stored == ladyName[ladyName_index]) deleted = false;
+        }
+        if(deleted) delete info[stored];
+      }
+      localStorage.account_info = JSON.stringify(info);
     }
   }
-  return '';
+  if(initialed) {
+    account_info += '}';
+    localStorage.account_info = account_info;
+  }
+  //日志变量初始化
+  if(!localStorage.log) {
+    var date = new Date();
+    var today = date.getDate();
+    var month = date.getMonth();
+    log = '{';
+    for (var i = 0; i < ladyName.length; i++) {
+      log += ladyName[i] + '_log:{today_sent_quantity: 0,log: \'\',id_block_profile_or_never_sent: 0},';
+    }
+    log += 'today: ' + today + ',month: '+month+'}';
+    localStorage.log = log;
+  }
 }
+function addCss(css,index){
+  var style = document.createElement('style');
+  style.appendChild(document.createTextNode(''));
+  document.head.appendChild(style);
+  var sheet = style.sheet;
+  sheet.insertRule(css,index);
+}
+
+function getQueryStringArgs(){
+    //取得查询字符串并去掉开头的问号
+    var qs = (location.search.length > 0 ? location.search.substring(1) : ""),
+        args = {},
+        items = qs.length ? qs.split("&") : [],
+        item = null,
+        name = null,
+        value = null,
+        //在 for 循环中使用
+        i = 0,
+        len = items.length;
+    //逐个将每一项添加到 args 对象中
+    for (i=0; i < len; i++) {
+        item = items[i].split("=");
+        name = decodeURIComponent(item[0]);
+        value = decodeURIComponent(item[1]);
+
+        if (name.length) {
+            args[name] = value;
+        }
+    }
+    return args;
+}
+
+function showMsg(html){
+  var content = document.getElementById('msg');
+  content.innerHTML = html;
+}
+
+function display_info(){
+  var div1 = addDiv(0,200);
+  div1.setAttribute('id', 'display_info');
+  div1.setAttribute('class', 'display_info');
+  addCss('.display_info:hover{cursor:move;}',0);
+  var html1 = '';
+  var account_info = eval('('+localStorage.account_info+')');
+  var log = eval('('+localStorage.log+')');
+  var LadyAccount = getQueryStringArgs()['ladyID'];
+   //LadyAccount = '1187357';
+  //判断是否已设置会员
+  var setAccount = false;
+  for(var name in account['ladys']){
+      if(LadyAccount == account['ladys'][name]['lady_account']) {
+        setAccount = true;
+        break;
+      }
+  }
+  if(!setAccount) {
+    alert('未设置此会员！');
+    return false;
+  }
+
+  if(localStorage.reSendTimes) html1 += '<div class="errorMsg">重复发第 '+localStorage.reSendTimes+' 次！</div>';
+  html1 += '<div id="msg" class="errorMsg"></div>';
+  addCss('.errorMsg{font-size:20px;font-weight:bolder;color:red;background:#fff;}',0);
+
+  html1 += '<table id="account_info" class="account_info" cellspacing="1">';
+  html1 += '<tr><th>name</th><th>id_index</th><th>letter_index</th><th>letter_quantity</th><th>current_id</th><th>lady_account</th><th>id_quantity</th></tr>';
+  for(var name in account_info) {
+      html1 += '<tr class=class'+account['ladys'][name]['lady_account']+'><td>'+name+'</td><td class="editable">'+account_info[name]['id_index']+'</td><td class="editable">'+account_info[name]['letter_index']+'</td><td>'+account_info[name]['letter_quantity']+'</td><td>'+account_info[name]['current_id']+'</td><td>'+account_info[name]['lady_account']+'</td><td>'+account_info[name]['id_quantity']+'</td></tr>';
+  }
+  html1 += '<tr><td colspan=7><input id="edit" type="button" value="Edit"><input id="submit" type="button" value="Submit"></td></tr>';
+  html1 += '</table>';
+
+  html1 += '<table class="account_info" cellspacing="1">';
+  html1 += '<tr><th>name</th><th>today_sent_quantity</th><th>id_block_profile_or_never_sent</th></tr>'
+  for(var name in log) {
+    if(name != 'log' && name != 'today' && name != 'month') {
+      var pure_name = name.split('_')[0];
+      html1 += '<tr class=class'+account['ladys'][pure_name]['lady_account']+'><td>'+name+'</td><td>'+log[name]['today_sent_quantity']+'</td><td>'+log[name]['id_block_profile_or_never_sent']+'</td></tr>';
+    }
+  }
+  html1 += '</table>';
+
+  div1.innerHTML = html1;
+  document.body.appendChild(div1);
+  addCss('.account_info {margin-top:10px;background:#ccc;}',0);
+  addCss('.account_info td,.account_info th {padding:3px;text-align:center;background:#fff}',0);
+  addCss('.account_info input {margin:0 10px;}',0);
+  addCss('.class'+LadyAccount+' td{background:#F0FFFF}',0);
+  edit_info();
+  return true;
+}
+
+function edit_info(){
+  var edit = document.getElementById('edit');
+  var submit = document.getElementById('submit');
+  var account_info = document.getElementById('account_info');
+  var td = account_info.getElementsByClassName('editable');
+  var accountInfo = eval('('+localStorage.account_info+')');
+  document.addEventListener('click',function(e){
+    var e = e || window.event;
+    var target = e.target || e.srcElement;
+    switch(target.id) {
+      case 'edit':
+        [].forEach.call(td,function(td){
+          td.contentEditable = true;
+        });
+        addCss('.account_info .editable{background:#CCFFCC;cursor:text}',0);
+        edit_info.clickedEdit = true;
+        window.stop(); 
+        break;
+      case 'submit':
+        //var j = 0;
+        // for(var i=0,len = td.length; i < len; i++) {
+        //   if(i>0 && i%2 == 0) j+=1;
+        //   console.log(ladyName[j]);
+        //   i%2 == 0 ? accountInfo[ladyName[j]]['id_index'] = td[i].innerText : accountInfo[ladyName[j]]['letter_index'] = td[i].innerText;
+        // }
+
+        var ask = confirm('确定修改这些值吗？');
+        if(!ask) return;
+        for(var i=0,len = ladyName.length; i < len; i++) {
+          for(var j=0,len2=td.length; j<len2;j++){
+              if('class'+account['ladys'][ladyName[i]]['lady_account'] == td[j].parentNode.className) {
+              accountInfo[ladyName[i]]['id_index'] = td[j].innerText;
+              accountInfo[ladyName[i]]['letter_index'] = td[j].nextElementSibling.innerText;
+              break;
+            }
+          }
+        }
+
+        localStorage.account_info = JSON.stringify(accountInfo);
+        console.log(localStorage.account_info);
+        location.reload();
+        break;
+    }
+    switch(target.className) {
+      case 'editable':
+        if(edit_info.clickedEdit) {
+          [].forEach.call(td,function(td){
+            td.style.backgroundColor = '#CCFFCC';
+          });
+          target.style.backgroundColor = '#FFFFCC';
+        }
+        break;
+    }
+  },false);
+}
+
+
+function addDiv(left,top){
+  var div = document.createElement('div');
+  div.style.position = 'fixed';
+  div.style.left = left + 'px';
+  div.style.top = top + 'px';
+  div.style.backgroundColor = '#fff';
+  return div;
+}
+
 // 对Date的扩展，将 Date 转化为指定格式的String 
 // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
 // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
@@ -228,240 +338,286 @@ Date.prototype.Format = function Format(fmt)
   fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k])  : (('00' + o[k]).substr(('' + o[k]).length)));
   return fmt;
 };
-function reachMaxSize(str) {
-  var bytesCount = 0;
-  for (var i = 0; i < str.length; i++)
-  {
-    var c = str.charAt(i);
-    if (/^[\u0000-\u00ff]$/.test(c)) //匹配双字节
-    {
-      bytesCount += 1;
-    } 
-    else
-    {
-      bytesCount += 2;
+
+function Drag(wrap,drag){
+  drag.onmousedown = function(e){
+    var e = e || window.event;
+    var outsideX = e.clientX - drag.offsetLeft;
+    var outsideY = e.clientY - drag.offsetTop;
+
+    drag.onmousemove = function(e){
+      var e = e || window.event;
+      var insideX = e.clientX - outsideX;
+      var insideY = e.clientY - outsideY;
+      var maxX = wrap.clientWidth - drag.clientWidth;
+      var maxY = wrap.clientHeight - drag.clientHeight;
+
+      if(insideX < 0) insideX = 0;
+      if(insideX > maxX) insideX = maxX;
+      if(insideY < 0) insideY = 0;
+      if(insideY > maxY) insideY = maxY;
+
+      drag.style.left = insideX + 'px';
+      drag.style.top = insideY + 'px';
+    }
+
+    document.onmouseup = function(){
+      drag.onmousemove = null;
     }
   }
-  return bytesCount < 1600; //max size
-}
-function getDaysInMonth(year, month) {
-  var day = new Date(year, month, 0);
-  return day.getDate();
 }
 
-function Send() {
-  var self = this;
-  var accountArray = [
-  ];
-  for (var ladyName in account.ladys) {
-    accountArray.push(ladyName);
-  }
-  self.accountArray = accountArray;
-  self.cookieInitialize();
-    
-          if(/.*agency.orientbrides.net\/index\/Login.aspx.*/i.test(location)){
+function stripHTML(lady_name_tr) {
+  var reTag = /<(?:.|\s)*?>/g;
+  return lady_name_tr.replace(reTag, '');
+}
 
-    try {
-    var login_input = document.getElementById('ctl00_ContentPlaceHolder1_txtBoxLogin');
-    var pwd_input = document.getElementById('ctl00_ContentPlaceHolder1_txtBoxPWD');
-    var enter = document.getElementById('ctl00_ContentPlaceHolder1_btnLogin');
+function login(){
+  var login_input = document.getElementById('ctl00_ContentPlaceHolder1_txtBoxLogin');
+  var pwd_input = document.getElementById('ctl00_ContentPlaceHolder1_txtBoxPWD');
+  var enter = document.getElementById('ctl00_ContentPlaceHolder1_btnLogin');
+  if(!!login_input && !!pwd_input && !!enter) {
     login_input.value = account.login.login;
     pwd_input.value = account.login.pwd;
     enter.click();
-} catch (e) {
-    console.log('login: ' + e);
-    location.href = location;
+  } else {
+    localStorage.Login_page_reload_times+= 1;
+    display_info("bad connect or login_input is undefined!<br>Login_page_reload_times: "+localStorage.Login_page_reload_times+"<br>line:95");
+    setTimout(function(){
+      location = location;
+    }, 2000);
+  }
 }
+
+
+function defaultPage(){
+  var account_info = eval('('+localStorage.account_info+')');
+  for (var i = 0; i < ladyName.length; i++) {
+    if(!account_info[ladyName[i]]['current_id']) showError('current_id is not defined!');
+    window.open('http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][ladyName[i]]['lady_account'] + '&manID=' + account_info[ladyName[i]]['current_id'] + '&type=newLetter');
+  }
 }
+
+// function getLadyName(){
+//   var lady_name_element = document.getElementById('ctl00_ctl00_ctl00_ContentPlaceHolder1_nestedContentPlaceHolder_ContentIndex_cntrlViewLadyCorrespondence_ctrlGirlInfo_pnlGirlInfo').getElementsByTagName('table') [0].firstElementChild.children[0].children[1].innerHTML;
+//   lady_name = stripHTML(lady_name_element).trim().substring(7).split(' ')[0].trim();
+//   if (/\(/.test(lady_name)) {
+//     var bracket_index = lady_name.indexOf('(');
+//     lady_name = lady_name.substring(0, bracket_index);
+//   }
+//   lady_name = lady_name.toLowerCase();
+//   return lady_name;
+// }
+
+function getLadyName(){
+  var LadyAccount = getQueryStringArgs()['ladyID'];
+  var lady_name = '';
+  for(var lady in account['ladys']) {
+    if(account['ladys'][lady]['lady_account'] == LadyAccount) lady_name = lady;
+  }
+  return lady_name;
+}
+
+function Send(){
+  try{
+    this.lady_name = getLadyName();
+    var lady_name = this.lady_name;
+    this.record_log();
+    var temp = 0;
+    var account_info = eval('('+localStorage.account_info+')');
+    var WarningMessage = document.getElementById('ctl00_ctl00_ctl00_ContentPlaceHolder1_nestedContentPlaceHolder_ContentIndex_cntrlViewLadyCorrespondence_divWarningMessage') || undefined;
+    //如果打开的是未通信过的页面
+    if(!!WarningMessage){
+      showMsg('未通信过的页面');
+      this.increaseId();
+      //记录日志
+      var log = eval('('+localStorage.log+')');
+      temp = parseInt(log[lady_name + '_log']['id_block_profile_or_never_sent']) + 1;
+      log[lady_name + '_log']['id_block_profile_or_never_sent'] = temp;
+      localStorage.log = JSON.stringify(log);
+      var newLetterUrl = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][lady_name]['lady_account'] + '&manID=' + account_info[lady_name]['current_id'] + '&type=newLetter';
+      location.href = newLetterUrl;
+      return;
+    }
+    var textarea_element = document.getElementById('ctl00_ctl00_ctl00_ContentPlaceHolder1_nestedContentPlaceHolder_ContentIndex_cntrlViewLadyCorrespondence_txtBoxLetterText');
+    //如果打开的是被屏蔽的页面
+    if(!WarningMessage &&!textarea_element){
+      showMsg('被男士屏蔽的页面');
+      this.increaseId();
+      //记录日志
+      var log = eval('('+localStorage.log+')');
+      temp = parseInt(log[lady_name + '_log']['id_block_profile_or_never_sent']) + 1;
+      log[lady_name + '_log']['id_block_profile_or_never_sent'] = temp;
+      localStorage.log = JSON.stringify(log);
+      var newLetterUrl = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][lady_name]['lady_account'] + '&manID=' + account_info[lady_name]['current_id'] + '&type=newLetter';
+      location.href = newLetterUrl;
+      return;
+    }
+    showMsg('在发页面');
+    var sendBtn = document.getElementById('btnReply2');
+    var checkBox = document.querySelector('input[type=checkbox]');
     
-  //if (/.*type=newLetter$/i.test(location)) {
-  if (/.*ladyID=\d{7,}&manID=(\d{8,}|undefined).*/i.test(location)) {
-    try {
-      var lady_name_element = document.getElementById('ctl00_ctl00_ctl00_ContentPlaceHolder1_nestedContentPlaceHolder_ContentIndex_cntrlViewLadyCorrespondence_ctrlGirlInfo_pnlGirlInfo').getElementsByTagName('table') [0].firstElementChild.children[0].children[1].innerHTML;
-      var lady_name = stripHTML(lady_name_element).trim().substring(7).split(' ')[0].trim();
-      if (/\(/.test(lady_name)) {
-        var bracket_index = lady_name.indexOf('(');
-        lady_name = lady_name.substring(0, bracket_index);
-      }
-      self.lady_name = lady_name.toLowerCase();
-      self.record_log();
-      var id_td = document.getElementsByTagName('table') [7].getElementsByTagName('table') [0].getElementsByTagName('table') [0].getElementsByTagName('table') [3].lastElementChild.firstElementChild.firstElementChild.nextElementSibling;
-      var man_name = id_td.parentNode.nextElementSibling.lastElementChild.innerHTML.trim();
-      if (/\s+/.test(man_name)) {
-        var blank = man_name.indexOf(' ');
-        man_name = man_name.substring(0, blank);
-      }
-      self.man_name = man_name;
-      var lady_current_letter = self.setLetter();
-      if (!lady_current_letter) return false;
-      var textarea_element = document.getElementById('ctl00_ctl00_ctl00_ContentPlaceHolder1_nestedContentPlaceHolder_ContentIndex_cntrlViewLadyCorrespondence_txtBoxLetterText');
-      var tip_element = document.getElementsByTagName('table') [0].firstElementChild.firstElementChild.firstElementChild;
-      tip_element.innerHTML = 'IdIndex:\n\n' + self.id_letter_obj[self.lady_name]['id_index'] + '\n\nid_quantity:\n\n' + self.id_letter_obj['id_quantity']['id_quantity'] + '\n\nletter_index:\n\n' + self.id_letter_obj[self.lady_name]['letter_index'] + '\n\nletter_quantity:\n\n' + self.id_letter_obj[self.lady_name]['letter_quantity'];
-      var sendBtn = document.getElementById('btnReply2');
-      var checkBox = document.querySelector('input[type=checkbox]');
-      textarea_element.value = lady_current_letter
-      self.increaseId();
-      checkBox.click();
-      sendBtn.click();
-      location = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + self.id_letter_obj[self.man_name]['current_id'] + '&type=newLetter';
-    } catch (e) {
-      console.log('send: ' + e);
-      try {
-        if (/.*type=newLetter$/i.test(location)) {
-          if (self.lady_name) {
-            console.log('orange');
-            self.increaseId();
-            self.log_obj[self.lady_name + '_log']['id_block_profile_or_never_sent'] += 1;
-            setCookie('log', JSON.stringify(self.log_obj), 3560);
-            console.log(self.id_letter_obj[self.lady_name]['current_id']);
-            location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.lady_name]['lady_account'] + '&manID=' + self.id_letter_obj[self.lady_name]['current_id'] + '&type=newLetter';
-          }
-        }
-
-        var currentId = self.id_letter_obj[self.lady_name]['current_id'] || 11111111;
-        console.log(self.id_letter_obj[self.lady_name]['current_id']);
-        var LadyAccount = (location.href).substr(-38,7);
-        location.href = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + LadyAccount + '&manID=' + currentId + '&type=newLetter';
-      } catch (msg) {
-        console.log('increaseId:' + msg);
-        //location.reload();
-      }
+    var id_td = document.getElementsByTagName('table') [7].getElementsByTagName('table') [0].getElementsByTagName('table') [0].getElementsByTagName('table') [3].lastElementChild.firstElementChild.firstElementChild.nextElementSibling;
+    var man_name = id_td.parentNode.nextElementSibling.lastElementChild.innerHTML.trim();
+    if (/\s+/.test(man_name)) {
+      var blank = man_name.indexOf(' ');
+      man_name = man_name.substring(0, blank);
     }
-  }
 
-  if (/.*agency.orientbrides.net\/default.aspx.*/.test(location)) {
-    try {
-      for (var i = 0; i < self.accountArray.length; i++) {
-        window.open('http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][self.accountArray[i]]['lady_account'] + '&manID=' + self.id_letter_obj[self.accountArray[i]]['current_id'] + '&type=newLetter');
-      }
-    } catch (e) {
-      console.log('default: ' + e);
-      //location = location;
-    }
+    this.man_name = man_name;
+
+    var lady_current_letter = this.setLetter();
+    if (!lady_current_letter) return;
+   
+    textarea_element.value = lady_current_letter;
+    this.increaseId();
+    //记录日志
+    var log = eval('('+localStorage.log+')');
+    log[lady_name + '_log']['today_sent_quantity'] += 1;
+    localStorage.log = JSON.stringify(log);
+
+    checkBox.click();
+
+    //======test
+    //account_info = eval('('+localStorage.account_info+')');
+    // var newLetterUrl = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + account['ladys'][lady_name]['lady_account'] + '&manID=' + account_info[lady_name]['current_id'];
+    // location.href = newLetterUrl;
+    sendBtn.click();
+  }catch(e){
+    //var loc= e.stack.replace(/Error\n/).split(/\n/)[1].replace(/^\s+|\s+$/, "");
+    //display_info('sending page:<br>'+"Stack:" + e.stack+'<br>'+"Location: "+loc);
+    showMsg(e);
   }
+  
 }
+
 Send.prototype = {
-  cookieInitialize: function () {
-    var id_letter_cookie = getCookie('id_letter_cookie');
-    var log_cookie = getCookie('log');
-    this.id_letter_cookie = id_letter_cookie;
-    this.log_cookie = log_cookie;
-    var date = new Date();
-    var today = date.getDate();
-    if (!reachMaxSize(this.log_cookie)) {
-      setCookie('log', '', - 1);
-    }
-    log_cookie = getCookie('log');
-    if (log_cookie === '') {
-      var time = (new Date()).Format('yyyy-MM-dd hh:mm:ss');
-      this.log_cookie = '{';
-      for (var i = 0; i < this.accountArray.length; i++) {
-        this.log_cookie += this.accountArray[i] + '_log:{today_sent_quantity: 0,log: \'\',id_block_profile_or_never_sent: 0},';
-      }
-      this.log_cookie += 'today: ' + today + '}';
-      setCookie('log', this.log_cookie, '3560');
-    }
-    if (this.id_letter_cookie === '') {
-      this.id_letter_cookie = '{';
-      for (var i = 0; i < this.accountArray.length; i++) {
-        this.id_letter_cookie += this.accountArray[i] + ':{id_index: 0,letter_index: 0,letter_quantity: 0,current_id: 11111111,lady_account: ' + account['ladys'][this.accountArray[i]]['lady_account'] + '},';
-      }
-      this.id_letter_cookie += 'id_quantity:{id_quantity: 0}}';
-      setCookie('id_letter_cookie', this.id_letter_cookie, 3560);
-    }
-    var id_letter_obj = eval('(' + this.id_letter_cookie + ')');
-    var log_obj = eval('(' + this.log_cookie + ')');
-    this.id_letter_obj = id_letter_obj;
-    this.log_obj = log_obj;
-  },
-  record_log: function () {
+  record_log:function(){
     var date = new Date();
     var year = date.getFullYear();
     var month = date.getMonth();
     var today = date.getDate();
-    var log_today = this.log_obj['today'];
+    var log = eval('('+localStorage.log+')');
+    var account_info = eval('('+localStorage.account_info+')');
+    var log_today = log['today'];
+    var log_month = log['month'];
+    var lady_name = this.lady_name;
+    
+    //是否到达下一个月
+    if(month != log_month) {
+      log_today = 0;
+    }
     if (today > log_today) {
-      for (var lady_name in account['ladys']) {
-        var log_obj_log = this.log_obj[lady_name + '_log']['log'];
-        var time = (new Date()).Format('yyyy-MM-dd hh:mm:ss');
-        var today_sent_quantity = this.log_obj[lady_name + '_log']['today_sent_quantity'];
-        var id_index = this.id_letter_obj[lady_name]['id_index'];
-        var letter_index = this.id_letter_obj[lady_name]['letter_index'];
-        log_obj_log += 'time: ' + time + '\ntoday_sent_quantity: ' + today_sent_quantity + '\nid_index: ' + id_index + '\nletter_index: ' + letter_index + '\n\n';
-        this.log_obj[lady_name + '_log']['log'] = log_obj_log;
-        this.log_obj[lady_name + '_log']['today_sent_quantity'] = 0;
+      var log_log = log[lady_name + '_log']['log'];
+      var time = (new Date()).Format('yyyy-MM-dd hh:mm:ss');
+      var today_sent_quantity = log[lady_name + '_log']['today_sent_quantity'];
+      var id_block_profile_or_never_sent  = log[lady_name + '_log']['id_block_profile_or_never_sent'];
+      var id_index = account_info[lady_name]['id_index'];
+      var letter_index = account_info[lady_name]['letter_index'];
+
+      if(month != log_month) {
+        log_log = '';
+        log['month'] = month;
+      } else {
+        log_log += 'time: ' + time + '--today_sent_quantity: ' + today_sent_quantity + '--id_index: ' + id_index + '--letter_index: ' + letter_index + 'id_block_profile_or_never_sent: '+ id_block_profile_or_never_sent + '|';
       }
-      this.log_obj['today'] = today;
-      setCookie('log', JSON.stringify(this.log_obj), 3560);
+      
+      log[lady_name + '_log']['log'] = log_log;
+      log[lady_name + '_log']['today_sent_quantity'] = 0;
+      log['today'] = today;
     }
+    localStorage.log = JSON.stringify(log);
   },
-  setLetter: function () {
-    var letter_quantity = [
-    ];
-    var flag = false;
-    for (var i = 0; i < this.accountArray.length; i++) {
-      var temp = [
-      ];
-      if (this.lady_name == this.accountArray[i]) flag = true;
-      for (var letter_key in account['ladys'][this.accountArray[i]]['letters']) {
-        temp.push(letter_key);
-      }
-      this.id_letter_obj[this.accountArray[i]]['letter_quantity'] = temp.length;
-    }
-    if (!flag) {
-      alert('未设置 ' + this.lady_name + ' 对象！');
-      return false;
-    }
-    setCookie('id_letter_cookie', JSON.stringify(this.id_letter_obj), 3560)
+  setLetter:function(){
+    var lady_name = this.lady_name;
+    var man_name = this.man_name;
+    var account_info = eval('('+localStorage.account_info+')');
     //设置当前账号的信件
-    var lady_letters = [
-    ];
-    for (var letter in account['ladys'][this.lady_name]['letters']) {
-      lady_letters.push(account['ladys'][this.lady_name]['letters'][letter]);
+    var lady_letters = [];
+    for (var letter in account['ladys'][lady_name]['letters']) {
+      lady_letters.push(account['ladys'][lady_name]['letters'][letter]);
     }
-    var current_account_letter_index = parseInt(this.id_letter_obj[this.lady_name]['letter_index']);
+    var current_account_letter_index = parseInt(account_info[lady_name]['letter_index']);
     var current_letter = lady_letters[current_account_letter_index];
     
     if (current_letter != undefined) {
-      current_letter = 'Dear ' + this.man_name + '\n\n' + current_letter  + this.lady_name;
+      current_letter = 'Dear ' + man_name + '\n\n' + current_letter  + lady_name;
       return current_letter;
     } else {
       alert('信件耗尽！');
+      return false;
     }
-    
-    
   },
-  increaseId: function () {
-    var today_sent_quantity = this.log_obj[this.lady_name + '_log']['today_sent_quantity'];
-    var id_index = this.id_letter_obj[this.lady_name]['id_index'];
+  increaseId:function(){
+    var lady_name = this.lady_name;
+    var account_info = eval('('+localStorage.account_info+')');
+    var log = eval('('+localStorage.log+')');
+    var id_index = parseInt(account_info[lady_name]['id_index']);
+    var letter_index = parseInt(account_info[lady_name]['letter_index']);
     var id_quantity = id_source['lady_name'].length;
-    var letter_index = this.id_letter_obj[this.lady_name]['letter_index'];
-    var letter_quantity = this.id_letter_obj[this.lady_name]['letter_quantity'];
-    this.id_letter_obj['id_quantity']['id_quantity'] = id_quantity;
-    if (id_index < id_quantity) {
-      id_index += 1;
-      today_sent_quantity += 1;
-      this.id_letter_obj[this.lady_name]['id_index'] = id_index;
-      this.id_letter_obj[this.lady_name]['current_id'] = id_source['lady_name'][id_index];
+    var letter_quantity = account_info[lady_name]['letter_quantity'];
+    if (id_index < id_quantity-1) {
+      account_info[lady_name]['id_index'] += 1;
+      account_info[lady_name]['current_id'] = id_source['lady_name'][id_index];
     } else {
-      id_index = 0;
-      this.id_letter_obj[this.lady_name]['id_index'] = id_index;
-      if (letter_index < letter_quantity) {
-        letter_index += 1;
-        this.id_letter_obj[this.lady_name]['letter_index'] = letter_index;
+      account_info[lady_name]['id_index'] = 0;
+      log[lady_name + '_log']['id_block_profile_or_never_sent'] = 0;
+      localStorage.log = JSON.stringify(log);
+      if (letter_index < letter_quantity-1) {
+        var step = parseInt(account_info[lady_name]['letter_index']) + 1;
+        account_info[lady_name]['letter_index'] = step;
       } else {
-        letter_index = 0;
-        this.id_letter_obj[this.lady_name]['letter_index'] = letter_index;
+        account_info[lady_name]['letter_index'] = 0;
+        if(!localStorage.reSendTimes) {
+          localStorage.reSendTimes = 1;
+        } else {
+          var times = parseInt(localStorage.reSendTimes) + 1;
+          localStorage.reSendTimes = times;
+        }
       }
     }
-    this.log_obj[this.lady_name + '_log']['today_sent_quantity'] = today_sent_quantity;
-    setCookie('log', JSON.stringify(this.log_obj), 3560);
-    setCookie('id_letter_cookie', JSON.stringify(this.id_letter_obj), 3560);
+    localStorage.account_info = JSON.stringify(account_info);
   }
-};
+}
+
+initial_var();
+// test
+// var setAccounted = display_info('error beats you!');
+// if(setAccounted) {
+//   var html = document.getElementsByTagName('html')[0];
+//   var display = document.getElementById('display_info');
+//   Drag(html,display);
+// }
 
 
 
-contentLoaded(function(){
+
+if(/.*agency.orientbrides.net\/index\/Login.aspx.*/i.test(location)){
+  login();
+} else if(/.*agency.orientbrides.net\/default.aspx.*/i.test(location)) {
+  defaultPage();
+} else if(/.*type=newLetter/i.test(location)) {
+  var setAccounted = display_info('发信页面');
+  if(setAccounted) {
+    var html = document.getElementsByTagName('html')[0];
+    var display = document.getElementById('display_info');
+    Drag(html,display);
     new Send();
-});
+  }
+} else if(/.*ladyID=\d{1,10}&manID=(\d{1,10}|undefined)$/i.test(location)) {
+  var setAccounted = display_info();
+  showMsg('已发页面');
+  if(setAccounted) {
+   try{
+      var LadyAccount = getQueryStringArgs()['ladyID'];
+      var lady_name = getLadyName();
+      var account_info = eval('('+localStorage.account_info+')');
+      var newLetterUrl = 'http://agency.orientbrides.net/index/ViewLadyCorrespondence.aspx?ladyID=' + LadyAccount + '&manID=' + account_info[lady_name]['current_id'] + '&type=newLetter';
+      location.href = newLetterUrl;
+    }catch(e){
+      // var loc= e.stack.replace(/Error\n/).split(/\n/)[1].replace(/^\s+|\s+$/, "");
+      // display_info('sended page:<br>'+"Stack:" + e.stack+'<br>'+"Location: "+loc);
+      showMsg(e);
+    }
+  }
+}
