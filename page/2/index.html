@@ -81,6 +81,100 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/05/13/作用域和闭包/" title="作用域和闭包" itemprop="url">作用域和闭包</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-13T06:04:54.787Z" itemprop="datePublished"> 发表于 2016-05-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="实质问题"><a href="#实质问题" class="headerlink" title="实质问题"></a>实质问题</h3><p>下面用一些代码来解释这个定义。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    var a = 2;</span><br><span class="line">    function bar() &#123;</span><br><span class="line">        console.log( a ); // 2</span><br><span class="line">    &#125;</span><br><span class="line">    bar();</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br></pre></td></tr></table></figure></p>
+<p>这段代码看起来和嵌套作用域中的示例代码很相似。基于词法作用域的查找规则，函数bar()可以<br>访问外部作用域中的变量a（这个例子中的是一个RHS引用查询）。<br>这是闭包吗？<br>技术上来讲，也许是。但根据前面的定义，确切地说并不是。我认为最准确地用来解释bar()对a的<br>引用的方法是词法作用域的查找规则，而这些规则只是闭包的一部分。（但却是非常重要的一部<br>分！）</p>
+<p>从纯学术的角度说，在上面的代码片段中，函数bar()具有一个涵盖foo()作用域的闭包（事实上，涵<br>盖了它能访问的所有作用域，比如全局作用域）。也可以认为bar()被封闭在了foo()的作用域中。为<br>什么呢？原因简单明了，因为bar()嵌套在foo()内部。<br>但是通过这种方式定义的闭包并不能直接进行观察，也无法明白在这个代码片段中闭包是如何工<br>作的。我们可以很容易地理解词法作用域，而闭包则隐藏在代码之后的神秘阴影里，并不那么容易<br>理解。<br>下面我们来看一段代码，清晰地展示了闭包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    var a = 2;</span><br><span class="line">    function bar() &#123;</span><br><span class="line">        console.log( a );</span><br><span class="line">    &#125;</span><br><span class="line">    return bar;</span><br><span class="line">&#125;</span><br><span class="line">var baz = foo();</span><br><span class="line">baz(); // 2 ———— 朋友，这就是闭包的效果。</span><br></pre></td></tr></table></figure></p>
+<p>函数bar()的词法作用域能够访问foo()的内部作用域。然后我们将bar()函数本身当作一个值类型<br>进行传递。在这个例子中，我们将bar所引用的函数对象本身当作返回值。<br>在foo()执行后，其返回值（也就是内部的bar()函数）赋值给变量baz并调用baz()，实际上只是通过<br>不同的标识符引用调用了内部的函数bar()。<br>bar()显然可以被正常执行。但是在这个例子中，它在自己定义的词法作用域以外的地方执行。<br>在foo()执行后，通常会期待foo()的整个内部作用域都被销毁，因为我们知道引擎有垃圾回收器用<br>来释放不再使用的内存空间。由于看上去foo()的内容不会再被使用，所以很自然地会考虑对其进<br>行回收。<br>而闭包的“神奇”之处正是可以阻止这件事情的发生。事实上内部作用域依然存在，因此没有被回<br>收。谁在使用这个内部作用域？原来是bar()本身在使用。<br>拜bar()所声明的位置所赐，它拥有涵盖foo()内部作用域的闭包，使得该作用域能够一直存活，以<br>供bar()在之后任何时间进行引用。<br>bar()依然持有对该作用域的引用，而这个引用就叫作闭包。<br>因此，在几微秒之后变量baz被实际调用（调用内部函数bar），不出意料它可以访问定义时的词法<br>作用域，因此它也可以如预期般访问变量a。<br>这个函数在定义时的词法作用域以外的地方被调用。闭包使得函数可以继续访问定义时的词法作<br>用域。<br>当然，无论使用何种方式对函数类型的值进行传递，当函数在别处被调用时都可以观察到闭包。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">var a = 2;</span><br><span class="line">function baz() &#123;</span><br><span class="line">    console.log( a ); // 2</span><br><span class="line">&#125;</span><br><span class="line">bar( baz );</span><br><span class="line">&#125;</span><br><span class="line">function bar(fn) &#123;</span><br><span class="line">    fn(); // 妈妈快看呀，这就是闭包！</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>把内部函数baz传递给bar，当调用这个内部函数时（现在叫作fn），它涵盖的foo()内部作用域的闭<br>包就可以观察到了，因为它能够访问a。<br>传递函数当然也可以是间接的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var fn;</span><br><span class="line">function foo() &#123;</span><br><span class="line">var a = 2;</span><br><span class="line">function baz() &#123;</span><br><span class="line">    console.log( a );</span><br><span class="line">&#125;</span><br><span class="line">fn = baz; // 将baz分配给全局变量</span><br><span class="line">&#125;</span><br><span class="line">function bar() &#123;</span><br><span class="line">    fn(); // 妈妈快看呀，这就是闭包！</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line">bar(); // 2</span><br></pre></td></tr></table></figure></p>
+<p>无论通过何种手段将内部函数传递到所在的词法作用域以外，它都会持有对原始定义作用域的引<br>用，无论在何处执行这个函数都会使用闭包。</p>
+<p>本质上无论何时何地，如果将函数（访问它们各自的词法作用域）当作第一级的值类<br>型并到处传递，你就会看到闭包在这些函数中的应用。在定时器、事件监听器、Ajax请求、跨窗口通<br>信、Web Workers或者任何其他的异步（或者同步）任务中，只要使用了回调函数，实际上就是在使<br>用闭包！</p>
+<blockquote>
+<p>通常认为IIFE是典型的闭包例子，但根据先前对闭包的定义，我并<br>不是很同意这个观点。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var a = 2;</span><br><span class="line">(function IIFE() &#123;</span><br><span class="line">    console.log( a );</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>虽然这段代码可以正常工作，但严格来讲它并不是闭包。为什么？因为函数（示例代码中的IIFE）并<br>不是在它本身的词法作用域以外执行的。它在定义时所在的作用域中执行（而外部作用域，也就是<br>全局作用域也持有a）。a是通过普通的词法作用域查找而非闭包被发现的。<br>尽管技术上来讲，闭包是发生在定义时的，但并不非常明显，就好像六祖慧能所说：”既非风动，亦<br>非幡动，仁者心动耳。”</p>
+<p>尽管IIFE本身并不是观察闭包的恰当例子，但它的确创建了闭包，并且也是最常用来创建可以被<br>封闭起来的闭包的工具。因此IIFE的确同闭包息息相关，即使本身并不会真的使用闭包。</p>
+<h3 id="循环和闭包"><a href="#循环和闭包" class="headerlink" title="循环和闭包"></a>循环和闭包</h3><p>要说明闭包，for循环是最常见的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for (var i=1; i&lt;=5; i++) &#123;</span><br><span class="line">    setTimeout( function timer() &#123;</span><br><span class="line">        console.log( i );</span><br><span class="line">    &#125;, i*1000 );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>正常情况下，我们对这段代码行为的预期是分别输出数字1~5，每秒一次，每次一个。<br>但实际上，这段代码在运行时会以每秒一次的频率输出五次6。<br>这是为什么？<br>首先解释6是从哪里来的。这个循环的终止条件是i不再&lt;=5。条件首次成立时i的值是6。因此，输出<br>显示的是循环结束时i的最终值。<br>仔细想一下，这好像又是显而易见的，延迟函数的回调会在循环结束时才执行。事实上，当定时器<br>运行时即使每个迭代中执行的是setTimeout(.., 0)，所有的回调函数依然是在循环结束后才会被<br>执行，因此会每次输出一个6出来。<br>这里引伸出一个更深入的问题，代码中到底有什么缺陷导致它的行为同语义所暗示的不一致呢？<br>缺陷是我们试图假设循环中的每个迭代在运行时都会给自己“捕获”一个i的副本。但是根据作用域<br>的工作原理，实际情况是尽管循环中的五个函数是在各个迭代中分别定义的，但是它们都被封闭<br>在一个共享的全局作用域中，因此实际上只有一个i。<br>下面回到正题。缺陷是什么？我们需要更多的闭包作用域，特别是在循环的过程中每个迭代都需要<br>一个闭包作用域。<br>IIFE会通过声明并立即执行一个函数来创建作用域。<br>我们来试一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for (var i=1; i&lt;=5; i++) &#123;</span><br><span class="line">(function() &#123;</span><br><span class="line">setTimeout( function timer() &#123;</span><br><span class="line">console.log( i );</span><br><span class="line">&#125;, i*1000 );</span><br><span class="line">&#125;)();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>。这样不行。但是为什么呢？我们现在显然拥有更多的词法作用域了。的确每个延迟<br>函数都会将IIFE在每次迭代中创建的作用域封闭起来。<br>如果作用域是空的，那么仅仅将它们进行封闭是不够的。仔细看一下，我们的IIFE只是一个什么都<br>没有的空作用域。它需要包含一点实质内容才能为我们所用。<br>它需要有自己的变量，用来在每个迭代中储存i的值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for (var i=1; i&lt;=5; i++) &#123;</span><br><span class="line">    (function() &#123;</span><br><span class="line">        var j = i;</span><br><span class="line">        setTimeout( function timer() &#123;</span><br><span class="line">            console.log( j );</span><br><span class="line">        &#125;, j*1000 );</span><br><span class="line">    &#125;)();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>行了！它能正常工作了！。<br>可以对这段代码进行一些改进：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for (var i=1; i&lt;=5; i++) &#123;</span><br><span class="line">    (function(j) &#123;</span><br><span class="line">        setTimeout( function timer() &#123;</span><br><span class="line">            console.log( j );</span><br><span class="line">        &#125;, j*1000 );</span><br><span class="line">    &#125;)( i );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>let声明，可以用来劫持块作用域，并且<br>在这个块作用域中声明一个变量。<br>本质上这是将一个块转换成一个可以被关闭的作用域。因此，下面这些看起来很酷的代码就可以<br>正常运行了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for (var i=1; i&lt;=5; i++) &#123;</span><br><span class="line">    let j = i; // 是的，闭包的块作用域！</span><br><span class="line">    setTimeout( function timer() &#123;</span><br><span class="line">        console.log( j );</span><br><span class="line">    &#125;, j*1000 );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>但是，这还不是全部！for循环头部的let声明还会有一个特殊的行<br>为。这个行为指出变量在循环过程中不止被声明一次，每次迭代都会声明。随后的每个迭代都会使<br>用上一个迭代结束时的值来初始化这个变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for (let i=1; i&lt;=5; i++) &#123;</span><br><span class="line">    setTimeout( function timer() &#123;</span><br><span class="line">        console.log( i );</span><br><span class="line">    &#125;, i*1000 );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h3><p>还有其他的代码模式利用闭包的强大威力，但从表面上看，它们似乎与回调无关。下面一起来研究<br>其中最强大的一个：模块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    var something = &quot;cool&quot;;</span><br><span class="line">    var another = [1, 2, 3];</span><br><span class="line">    function doSomething() &#123;</span><br><span class="line">        console.log( something );</span><br><span class="line">    &#125;</span><br><span class="line">    function doAnother() &#123;</span><br><span class="line">        console.log( another.join( &quot; ! &quot; ) );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>正如在这段代码中所看到的，这里并没有明显的闭包，只有两个私有数据变量something<br>和another，以及doSomething()和doAnother()两个内部函数，它们的词法作用域（而这就是闭包）也<br>就是foo()的内部作用域。<br>接下来考虑以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function CoolModule() &#123;</span><br><span class="line">    var something = &quot;cool&quot;;</span><br><span class="line">    var another = [1, 2, 3];</span><br><span class="line">    function doSomething() &#123;</span><br><span class="line">        console.log( something );</span><br><span class="line">    &#125;</span><br><span class="line">    function doAnother() &#123;</span><br><span class="line">        console.log( another.join( &quot; ! &quot; ) );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        doSomething: doSomething,</span><br><span class="line">        doAnother: doAnother</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">var foo = CoolModule();</span><br><span class="line">foo.doSomething(); // cool</span><br><span class="line">foo.doAnother(); // 1 ! 2 ! 3</span><br></pre></td></tr></table></figure></p>
+<p>这个模式在JavaScript中被称为模块。最常见的实现模块模式的方法通常被称为模块暴露，这里展<br>示的是其变体。<br>我们仔细研究一下这些代码。<br>首先，CoolModule()只是一个函数，必须要通过调用它来创建一个模块实例。如果不执行外部函数，<br>内部作用域和闭包都无法被创建。<br>其次，CoolModule()返回一个用对象字面量语法{ key: value, … }来表示的对象。这个返回的对<br>象中含有对内部函数而不是内部数据变量的引用。我们保持内部数据变量是隐藏且私有的状态。<br>可以将这个对象类型的返回值看作本质上是模块的公共API。<br>这个对象类型的返回值最终被赋值给外部的变量foo，然后就可以通过它来访问API中的属性方<br>法，比如foo.doSomething()。</p>
+<p>doSomething()和doAnother()函数具有涵盖模块实例内部作用域的闭包（通过调用CoolModule()实<br>现）。当通过返回一个含有属性引用的对象的方式来将函数传递到词法作用域外部时，我们已经创<br>造了可以观察和实践闭包的条件。<br>如果要更简单的描述，模块模式需要具备两个必要条件。</p>
+<ol>
+<li>必须有外部的封闭函数，该函数必须至少被调用一次（每次调用都会创建一个新的模块实例）。</li>
+<li>封闭函数必须返回至少一个内部函数，这样内部函数才能在私有作用域中形成闭包，并且可以<br>访问或者修改私有的状态。<br>一个具有函数属性的对象本身并不是真正的模块。从方便观察的角度看，一个从函数调用所返回<br>的，只有数据属性而没有闭包函数的对象并不是真正的模块。<br>上一个示例代码中有一个叫作CoolModule()的独立的模块创建器，可以被调用任意多次，每次调用<br>都会创建一个新的模块实例。当只需要一个实例时，可以对这个模式进行简单的改进来实现单例<br>模式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var foo = (function CoolModule() &#123;</span><br><span class="line">    var something = &quot;cool&quot;;</span><br><span class="line">    var another = [1, 2, 3];</span><br><span class="line">    function doSomething() &#123;</span><br><span class="line">        console.log( something );</span><br><span class="line">    &#125;</span><br><span class="line">    function doAnother() &#123;</span><br><span class="line">        console.log( another.join( &quot; ! &quot; ) );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        doSomething: doSomething,</span><br><span class="line">        doAnother: doAnother</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line">foo.doSomething(); // cool</span><br><span class="line">foo.doAnother(); // 1 ! 2 ! 3</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>我们将模块函数转换成了IIFE，立即调用这个函数并将返回值直接赋值给单例的模<br>块实例标识符foo。<br>模块也是普通的函数，因此可以接受参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function CoolModule(id) &#123;</span><br><span class="line">    function identify() &#123;</span><br><span class="line">    console.log( id );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        identify: identify</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">var foo1 = CoolModule( &quot;foo 1&quot; );</span><br><span class="line">var foo2 = CoolModule( &quot;foo 2&quot; );</span><br><span class="line">foo1.identify(); // &quot;foo 1&quot;</span><br><span class="line">foo2.identify(); // &quot;foo 2&quot;</span><br></pre></td></tr></table></figure></p>
+<p>模块模式另一个简单但强大的变化用法是，命名将要作为公共API返回的对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var foo = (function CoolModule(id) &#123;</span><br><span class="line">    function change() &#123;</span><br><span class="line">    // 修改公共API</span><br><span class="line">    publicAPI.identify = identify2;</span><br><span class="line">    &#125;</span><br><span class="line">    function identify1() &#123;</span><br><span class="line">        console.log( id );</span><br><span class="line">    &#125;</span><br><span class="line">    function identify2() &#123;</span><br><span class="line">        console.log( id.toUpperCase() );</span><br><span class="line">    &#125;</span><br><span class="line">    var publicAPI = &#123;</span><br><span class="line">        change: change,</span><br><span class="line">        identify: identify1</span><br><span class="line">    &#125;;</span><br><span class="line">    return publicAPI;</span><br><span class="line">&#125;)( &quot;foo module&quot; );</span><br><span class="line">foo.identify(); // foo module</span><br><span class="line">foo.change();</span><br><span class="line">foo.identify(); // FOO MODULE</span><br></pre></td></tr></table></figure></p>
+<p>通过在模块实例的内部保留对公共API对象的内部引用，可以从内部对模块实例进行修改，包括添<br>加或删除方法和属性，以及修改它们的值。</p>
+<p>大多数模块依赖加载器/管理器本质上都是将这种模块定义封装进一个友好的API。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var MyModules = (function Manager() &#123;</span><br><span class="line">    var modules = &#123;&#125;;</span><br><span class="line">    function define(name, deps, impl) &#123;</span><br><span class="line">        for (var i=0; i&lt;deps.length; i++) &#123;</span><br><span class="line">            deps[i] = modules[deps[i]];</span><br><span class="line">        &#125;</span><br><span class="line">    modules[name] = impl.apply( impl, deps );</span><br><span class="line">    &#125;</span><br><span class="line">    function get(name) &#123;</span><br><span class="line">        return modules[name];</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        define: define,</span><br><span class="line">        get: get</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<p>这段代码的核心是modules[name] = impl.apply(impl, deps)。为了模块的定义引入了包装函数（可<br>以传入任何依赖），并且将返回值，也就是模块的API，储存在一个根据名字来管理的模块列表中。<br>下面展示了如何使用它来定义模块：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">MyModules.define( &quot;bar&quot;, [], function() &#123;</span><br><span class="line">    function hello(who) &#123;</span><br><span class="line">    return &quot;Let me introduce: &quot; + who;</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        hello: hello</span><br><span class="line">    &#125;;</span><br><span class="line">&#125; );</span><br><span class="line">MyModules.define( &quot;foo&quot;, [&quot;bar&quot;], function(bar) &#123;</span><br><span class="line">    var hungry = &quot;hippo&quot;;</span><br><span class="line">    function awesome() &#123;</span><br><span class="line">        console.log( bar.hello( hungry ).toUpperCase() );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        awesome: awesome</span><br><span class="line">    &#125;;</span><br><span class="line">&#125; );</span><br><span class="line">var bar = MyModules.get( &quot;bar&quot; );</span><br><span class="line">var foo = MyModules.get( &quot;foo&quot; );</span><br><span class="line">console.log(</span><br><span class="line">bar.hello( &quot;hippo&quot; )</span><br><span class="line">); // &lt;i&gt;Let me introduce: hippo&lt;/i&gt;</span><br><span class="line">foo.awesome(); // LET ME INTRODUCE: HIPPO</span><br></pre></td></tr></table></figure></p>
+<p>“foo”和”bar”模块都是通过一个返回公共API的函数来定义的。”foo”甚至接受”bar”的示例作为依<br>赖参数，并能相应地使用它。<br>要理解模块管理器没有任何特殊的“魔力”。它们符合前面列出的模块模式的两个特点：为函数定义<br>引入包装函数，并保证它的返回值和模块的API保持一致。<br>换句话说，模块就是模块，即使在它们外层加上一个友好的包装工具也不会发生任何变化。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/闭包/">闭包</a><a href="/tags/模块/">模块</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/13/提升/" title="提升" itemprop="url">提升</a>
   </h1>
   <p class="article-author">By
@@ -809,89 +903,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/08/数据结构和算法绪论/" title="数据结构和算法绪论" itemprop="url">数据结构和算法绪论</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-08T09:49:40.325Z" itemprop="datePublished"> 发表于 2016-05-08</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="什么事数据结构"><a href="#什么事数据结构" class="headerlink" title="什么事数据结构"></a>什么事数据结构</h3><p>数据结构是一门研究非数值计算的程序设计问题中的操作对象，以及它们之间的关系和操作相关问题的学科。<br>事实上就是：<br>- 程序设计 = 数据结构 + 算法<br>- 数据元素相互之间存在的一种或多种特定关系的集合</p>
-<h3 id="逻辑结构和物理结构"><a href="#逻辑结构和物理结构" class="headerlink" title="逻辑结构和物理结构"></a>逻辑结构和物理结构</h3><ul>
-<li>传统上，把数据结构分为逻辑结构和物理结构。</li>
-<li>逻辑结构：指数据对象 中数据元素之间的相互关系(最需要关注和讨论的问题)。</li>
-<li>物理结构：指数据的逻辑结构在计算机中的存储形式(次之)。</li>
-</ul>
-<h4 id="逻辑结构"><a href="#逻辑结构" class="headerlink" title="逻辑结构"></a>逻辑结构</h4><h5 id="结合结构"><a href="#结合结构" class="headerlink" title="结合结构"></a>结合结构</h5><p>集合结构中的数据元素除了同属于一个集合外，他们之间没有其它关系。</p>
-<h5 id="线性结构"><a href="#线性结构" class="headerlink" title="线性结构"></a>线性结构</h5><p>线性结构中的数据元素之间是一对一的关系。</p>
-<h5 id="树形结构"><a href="#树形结构" class="headerlink" title="树形结构"></a>树形结构</h5><p>树形结构中的数据元素之间存在一种一对多的层次关系。</p>
-<h5 id="图形结构"><a href="#图形结构" class="headerlink" title="图形结构"></a>图形结构</h5><p>图形结构的数据元素是多对多的关系。</p>
-<h4 id="物理结构"><a href="#物理结构" class="headerlink" title="物理结构"></a>物理结构</h4><ul>
-<li>根据物理结构的定义，实际上研究的就是如何把数据元素存储到计算机的存储器中。</li>
-<li>存储器主要是针对内存而言的，像硬盘，软盘，光盘等外部存储器的数据组织通常用文件结构来描述。</li>
-<li>数据元素的存储结构形式有两种：顺序存储和链式存储。</li>
-</ul>
-<h5 id="顺序存储结构"><a href="#顺序存储结构" class="headerlink" title="顺序存储结构"></a>顺序存储结构</h5><p>把数据元素存放在地址连续的存储单元里，其数据间的逻辑关系和物理关系是一致的。</p>
-<h4 id="链式存储结构"><a href="#链式存储结构" class="headerlink" title="链式存储结构"></a>链式存储结构</h4><ul>
-<li>现在如银行，医院等地方，都设置了排队系统。也就是每个人去了，先领一个号，等着叫好，叫到你的时候就可以去存一百块看病。</li>
-<li>而在等待的时候，你爱哪在哪，可以坐着，站着或者四处看看，只要你及时回来就行。</li>
-<li>这些情况下，你关注的是前一个好有没有被叫到，叫到了，下一个就该轮到你了。</li>
-<li>链式存储结构就是这样的原理，相比起顺序存储结构就灵活多了。</li>
-<li>链式存储结构：是把数据元素存放在任意的存储单元里，这组存储单元可以是连续的，也可以是不连续的。</li>
-<li>很显然，这样说的话链式存储结构的数据元素存储关系不能反映其逻辑关系，因此需要用一个指针存放数据元素的地址，这样子通过地址就可以找到相关联数据元素的位置。</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/algorithm/">algorithm</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -926,7 +937,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>23</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>24</sup></a></li>
 		  
 		
 		  
@@ -947,7 +958,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>22</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>23</sup></a></li>
 			
 		
 			

@@ -11,22 +11,16 @@
     
 
     
-    <meta name="description" content="闭包整个函数在一个闭包中，避免污染全局变量。通过传入this（其实就是window对象）来改变函数的作用域。
-1(function()&amp;#123; ... &amp;#125;.call(this))
-格式12345varnativeIsArray      = Array.isArray,nativeKeys         = Object.keys,nativeBind         = Func">
+    <meta name="description" content="被引用到的函数1234567891011121314151617181920212223242526272829303132333435363738// Shortcut function for checking if an object has a given property directly// on itself (in other words, not on a prototype).">
 <meta property="og:type" content="article">
 <meta property="og:title" content="underscore">
 <meta property="og:url" content="http://yoursite.com/2016/05/29/underscore/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="闭包整个函数在一个闭包中，避免污染全局变量。通过传入this（其实就是window对象）来改变函数的作用域。
-1(function()&amp;#123; ... &amp;#125;.call(this))
-格式12345varnativeIsArray      = Array.isArray,nativeKeys         = Object.keys,nativeBind         = Func">
-<meta property="og:updated_time" content="2016-05-29T15:17:50.691Z">
+<meta property="og:description" content="被引用到的函数1234567891011121314151617181920212223242526272829303132333435363738// Shortcut function for checking if an object has a given property directly// on itself (in other words, not on a prototype).">
+<meta property="og:updated_time" content="2016-05-31T01:08:23.947Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="underscore">
-<meta name="twitter:description" content="闭包整个函数在一个闭包中，避免污染全局变量。通过传入this（其实就是window对象）来改变函数的作用域。
-1(function()&amp;#123; ... &amp;#125;.call(this))
-格式12345varnativeIsArray      = Array.isArray,nativeKeys         = Object.keys,nativeBind         = Func">
+<meta name="twitter:description" content="被引用到的函数1234567891011121314151617181920212223242526272829303132333435363738// Shortcut function for checking if an object has a given property directly// on itself (in other words, not on a prototype).">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -102,11 +96,12 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#闭包"><span class="toc-number">1.</span> <span class="toc-text">闭包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式"><span class="toc-number">2.</span> <span class="toc-text">格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据判断"><span class="toc-number">3.</span> <span class="toc-text">数据判断</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#闭包"><span class="toc-number">1.</span> <span class="toc-text">闭包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式"><span class="toc-number">2.</span> <span class="toc-text">格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据判断"><span class="toc-number">3.</span> <span class="toc-text">数据判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#noop"><span class="toc-number">4.</span> <span class="toc-text">noop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#random"><span class="toc-number">5.</span> <span class="toc-text">random</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uniqueId"><span class="toc-number">6.</span> <span class="toc-text">uniqueId</span></a></li></ol>
 		
 		</div>
 		
-		<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>整个函数在一个闭包中，避免污染全局变量。通过传入this（其实就是window对象）来改变函数的作用域。</p>
+		<p>被引用到的函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// Shortcut function for checking if an object has a given property directly</span><br><span class="line">// on itself (in other words, not on a prototype).</span><br><span class="line">function has(obj, key) &#123;</span><br><span class="line">    return obj != null &amp;&amp; hasOwnProperty.call(obj, key);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Is a given variable an object?</span><br><span class="line">function isObject(obj) &#123;</span><br><span class="line">    var type = typeof obj;</span><br><span class="line">    return type === &apos;function&apos; || type === &apos;object&apos; &amp;&amp; !!obj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Retrieve the names of an object&apos;s own properties.</span><br><span class="line">function keys(obj) &#123;</span><br><span class="line">    if(!isObject(obj)) return [];</span><br><span class="line">    if(Object.keys) return Object.keys(obj);</span><br><span class="line">    var keys = [];</span><br><span class="line">    for (var key in obj) if(has(obj, key)) keys.push(key);</span><br><span class="line">    return keys;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Returns the first index on an array-like that passes a predicate test</span><br><span class="line">function findIndex(array, fn)&#123;</span><br><span class="line">    var length = array != null ? array.length : 0;</span><br><span class="line">    for (var i = 0; i &lt; length; i++) &#123;</span><br><span class="line">        if (fn(array[i], i, array)) return i;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Returns the first key on an object that passes a predicate test</span><br><span class="line">function findKey(obj, fn)&#123;</span><br><span class="line">    var keys = keys(obj), key;</span><br><span class="line">    for (var i = 0, length = keys.length; i &lt; length; i++) &#123;</span><br><span class="line">        key = keys[i];</span><br><span class="line">        if (fn(obj[key], key, obj)) return key;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>整个函数在一个闭包中，避免污染全局变量。通过传入this（其实就是window对象）来改变函数的作用域。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123; ... &#125;.call(this))</span><br></pre></td></tr></table></figure>
 <h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var</span><br><span class="line">nativeIsArray      = Array.isArray,</span><br><span class="line">nativeKeys         = Object.keys,</span><br><span class="line">nativeBind         = FuncProto.bind,</span><br><span class="line">nativeCreate       = Object.create;</span><br></pre></td></tr></table></figure>
 <p>这种定义的方式省略了多余的var，格式也美观</p>
@@ -117,13 +112,20 @@
 <p>判断是否为对象。先用typeof判断数据类型。函数也属于对象，但是由于typeof null也是object，所以用!!obj来区分这种情况。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">isObject = function(obj) &#123;</span><br><span class="line">    var type = typeof obj;</span><br><span class="line">    return type === &apos;function&apos; || type === &apos;object&apos; &amp;&amp; !!obj;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>判断是否为arguments,很简单，arguments有个特有属性callee。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">has = function(obj, key) &#123;</span><br><span class="line">    return obj != null &amp;&amp; Object.prototype.hasOwnProperty.call(obj, key);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">isArguments = function(obj) &#123;</span><br><span class="line">  return has(obj, &apos;callee&apos;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">isArguments = function(obj) &#123;</span><br><span class="line">  return has(obj, &apos;callee&apos;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>NaN这个值有两个特点：1.它是一个数；2.不等于它自己。<br>‘+’放在变量前面一般作用是把后面的变量变成一个数，在这里已经判断为一个数仍加上’+’，是为了把var num = new Number()这种没有值的数字也归为NaN。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">isNumber = function(obj) &#123;</span><br><span class="line">    return Object.prototype.toString.call(obj) === &apos;[object &apos; + isNumber + &apos;]&apos;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">isNaN = function(obj) &#123;</span><br><span class="line">    return isNumber(obj) &amp;&amp; obj !== +obj;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>var b = new Boolean()。b也是布尔值。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">isBoolean = function(obj) &#123;</span><br><span class="line">return obj === true || obj === false || Object.prototype.toString.call(obj) === &apos;[object Boolean]&apos;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>用void 0来表示undefined，非常有意思的小技巧。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">isUndefined = function(obj) &#123;</span><br><span class="line">return obj === void 0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">isUndefined = function(obj) &#123;</span><br><span class="line">    return obj === void 0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Return the first value which passes a truth test.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function find(obj, fn) &#123;</span><br><span class="line">    var key;</span><br><span class="line">    if (obj.length === +obj.length) &#123;</span><br><span class="line">        key = findIndex(obj, fn);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        key = findKey(obj, fn);</span><br><span class="line">    &#125;</span><br><span class="line">    if (key !== void 0 &amp;&amp; key !== -1) return obj[key];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="noop"><a href="#noop" class="headerlink" title="noop"></a>noop</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_.noop = function()&#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>noop仅仅是一个空函数。因为函数不写返回值，可以是返回undefined。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var a ;</span><br><span class="line">undefined = 2;</span><br><span class="line">if(a === undefined)&#123;</span><br><span class="line">        alert(&quot;2222&quot;);</span><br><span class="line">&#125;</span><br><span class="line">if(a===_.noop())&#123;</span><br><span class="line">        alert(&quot;2222&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>es3下，undefined是可以修改的，所以ie第一个alert是不执行的。这样通过函数执行可以拿到undefined的.</p>
+<h3 id="random"><a href="#random" class="headerlink" title="random"></a>random</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">_.random = function(min,max)&#123;</span><br><span class="line">    if(max == null)&#123;</span><br><span class="line">            max = min;</span><br><span class="line">            min = 0;</span><br><span class="line">    &#125;</span><br><span class="line">    return min + Math.floor(Math.random()*(max - min + 1));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="uniqueId"><a href="#uniqueId" class="headerlink" title="uniqueId"></a>uniqueId</h3><p>生成dom的id<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var idCounter = 0;</span><br><span class="line">_.uniqueId = function(prefix)&#123;</span><br><span class="line">        var id = ++idCounter + &apos;&apos;;//转为字符串格式</span><br><span class="line">        return prefix ？ prefix + id ：id；</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -159,6 +161,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2016/05/30/jQuery源码分析/" title="jQuery源码分析">
+  <strong>上一篇：</strong><br/>
+  <span>
+  jQuery源码分析</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2016/05/22/闭包/"  title="闭包">
@@ -178,7 +188,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#闭包"><span class="toc-number">1.</span> <span class="toc-text">闭包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式"><span class="toc-number">2.</span> <span class="toc-text">格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据判断"><span class="toc-number">3.</span> <span class="toc-text">数据判断</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#闭包"><span class="toc-number">1.</span> <span class="toc-text">闭包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式"><span class="toc-number">2.</span> <span class="toc-text">格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据判断"><span class="toc-number">3.</span> <span class="toc-text">数据判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#noop"><span class="toc-number">4.</span> <span class="toc-text">noop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#random"><span class="toc-number">5.</span> <span class="toc-text">random</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uniqueId"><span class="toc-number">6.</span> <span class="toc-text">uniqueId</span></a></li></ol>
  
   </div>
 
@@ -208,7 +218,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>23</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>24</sup></a></li>
 		  
 		
 		  
@@ -229,7 +239,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/js/" title="js">js<sup>22</sup></a></li>
+				<li><a href="/tags/js/" title="js">js<sup>23</sup></a></li>
 			
 		
 			

@@ -1,0 +1,591 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>jQuery源码分析 | fire on the world!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="YLJ77">
+    
+
+    
+    <meta name="description" content="总体架构自调用匿名函数为什么要为自调用匿名函数设置参数window，并传入window 对象？通过传入window 对象，可以使window 对象变为局部变量（即把函数参数作为局部变量使用），这样当在jQuery 代码块中访问window 对象时，不需要将作用域链回退到顶层作用域，从而可以更快地访问window 对象，这是原因之一；另外，将window 对象作为参数传入，可以在压缩代码时进行优化，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery源码分析">
+<meta property="og:url" content="http://yoursite.com/2016/05/30/jQuery源码分析/index.html">
+<meta property="og:site_name" content="fire on the world!">
+<meta property="og:description" content="总体架构自调用匿名函数为什么要为自调用匿名函数设置参数window，并传入window 对象？通过传入window 对象，可以使window 对象变为局部变量（即把函数参数作为局部变量使用），这样当在jQuery 代码块中访问window 对象时，不需要将作用域链回退到顶层作用域，从而可以更快地访问window 对象，这是原因之一；另外，将window 对象作为参数传入，可以在压缩代码时进行优化，">
+<meta property="og:image" content="http://yoursite.com/img/blog/table2_1.png">
+<meta property="og:image" content="http://yoursite.com/img/blog/table2_1x.png">
+<meta property="og:image" content="http://yoursite.com/img/blog/table2_4.png">
+<meta property="og:updated_time" content="2016-05-31T03:51:16.697Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery源码分析">
+<meta name="twitter:description" content="总体架构自调用匿名函数为什么要为自调用匿名函数设置参数window，并传入window 对象？通过传入window 对象，可以使window 对象变为局部变量（即把函数参数作为局部变量使用），这样当在jQuery 代码块中访问window 对象时，不需要将作用域链回退到顶层作用域，从而可以更快地访问window 对象，这是原因之一；另外，将window 对象作为参数传入，可以在压缩代码时进行优化，">
+<meta name="twitter:image" content="http://yoursite.com/img/blog/table2_1.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="fire on the world!" title="fire on the world!"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="fire on the world!">fire on the world!</a></h1>
+				<h2 class="blog-motto">try to take over the world</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/30/jQuery源码分析/" title="jQuery源码分析" itemprop="url">jQuery源码分析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-30T12:12:05.285Z" itemprop="datePublished"> 发表于 2016-05-30</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#总体架构"><span class="toc-number">1.</span> <span class="toc-text">总体架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#自调用匿名函数"><span class="toc-number">1.1.</span> <span class="toc-text">自调用匿名函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要为自调用匿名函数设置参数window，并传入window-对象？"><span class="toc-number">1.1.1.</span> <span class="toc-text">为什么要为自调用匿名函数设置参数window，并传入window 对象？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意到自调用匿名函数最后的分号（-）了吗？"><span class="toc-number">1.1.2.</span> <span class="toc-text">注意到自调用匿名函数最后的分号（;）了吗？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#构造jQuery对象"><span class="toc-number">2.</span> <span class="toc-text">构造jQuery对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造函数jQuery"><span class="toc-number">2.1.</span> <span class="toc-text">构造函数jQuery()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery-selector-context"><span class="toc-number">2.1.1.</span> <span class="toc-text">jQuery( selector [, context] )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery-html-ownerDocument-、jQuery-html-props"><span class="toc-number">2.1.2.</span> <span class="toc-text">　jQuery( html [, ownerDocument] )、jQuery( html, props )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery-element-、jQuery-elementArray"><span class="toc-number">2.1.3.</span> <span class="toc-text">jQuery( element )、jQuery( elementArray )</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总体结构"><span class="toc-number">2.2.</span> <span class="toc-text">总体结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery-fn-init-selector-context-rootjQuery"><span class="toc-number">2.3.</span> <span class="toc-text">jQuery.fn.init( selector, context, rootjQuery )</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#12-个分支"><span class="toc-number">2.3.1.</span> <span class="toc-text">12 个分支</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-number">3.</span> <span class="toc-text">小结</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="总体架构"><a href="#总体架构" class="headerlink" title="总体架构"></a>总体架构</h1><h2 id="自调用匿名函数"><a href="#自调用匿名函数" class="headerlink" title="自调用匿名函数"></a>自调用匿名函数</h2><h3 id="为什么要为自调用匿名函数设置参数window，并传入window-对象？"><a href="#为什么要为自调用匿名函数设置参数window，并传入window-对象？" class="headerlink" title="为什么要为自调用匿名函数设置参数window，并传入window 对象？"></a>为什么要为自调用匿名函数设置参数window，并传入window 对象？</h3><p>通过传入window 对象，可以使window 对象变为局部变量（即把函数参数作为局部<br>变量使用），这样当在jQuery 代码块中访问window 对象时，不需要将作用域链回退到顶<br>层作用域，从而可以更快地访问window 对象，这是原因之一；另外，将window 对象作<br>为参数传入，可以在压缩代码时进行优化，在压缩文件jquery-1.7.1.min.js 中可以看到下<br>面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(function(a,b)&#123; ... &#125;)(window);</span><br><span class="line">// 参数 window 被压缩为 a，参数 undefined 被压缩为 b</span><br></pre></td></tr></table></figure>
+<h3 id="注意到自调用匿名函数最后的分号（-）了吗？"><a href="#注意到自调用匿名函数最后的分号（-）了吗？" class="headerlink" title="注意到自调用匿名函数最后的分号（;）了吗？"></a>注意到自调用匿名函数最后的分号（;）了吗？</h3><p>通常在JavaScript 中，如果语句分别放置在不同的行中，则分号（;）是可选的，但是对<br>于自调用匿名函数来说，在之前或之后省略分号都可能会引起语法错误。例如，执行下面的<br>两个例子，就会抛出异常。<br>例1　在下面的代码中，如果自调用匿名函数的前一行末尾没有加分号，则自调用匿名<br>函数的第一对括号会被当作是函数调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var n = 1</span><br><span class="line">( function()&#123;&#125; )()</span><br><span class="line">// TypeError: number is not a function</span><br></pre></td></tr></table></figure></p>
+<p>例2　在下面的代码中，如果未在第一个自调用匿名函数的末尾加分号，则下一行自调<br>用匿名函数的第一对括号会被当作是函数调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">( function()&#123;&#125; )()</span><br><span class="line">( function()&#123;&#125; )()</span><br><span class="line">// TypeError: undefined is not a function</span><br></pre></td></tr></table></figure></p>
+<p>所以，在使用自调用匿名函数时，最好不要省略自调用匿名函数之前和之后的分号。</p>
+<h1 id="构造jQuery对象"><a href="#构造jQuery对象" class="headerlink" title="构造jQuery对象"></a>构造jQuery对象</h1><h2 id="构造函数jQuery"><a href="#构造函数jQuery" class="headerlink" title="构造函数jQuery()"></a>构造函数jQuery()</h2><h3 id="jQuery-selector-context"><a href="#jQuery-selector-context" class="headerlink" title="jQuery( selector [, context] )"></a>jQuery( selector [, context] )</h3><p>如果传入一个字符串参数，jQuery 会检查这个字符串是选择器表达式还是HTML 代<br>码。如果是选择器表达式，则遍历文档，查找与之匹配的DOM 元素，并创建一个包含了<br>这些DOM 元素引用的jQuery 对象；如果没有元素与之匹配，则创建一个空jQuery 对象，<br>其中不包含任何元素，其属性length 等于0。字符串参数是HTML 代码的情况会在下一小<br>节介绍。<br>默认情况下，对匹配元素的查找将从根元素document 对象开始，即查找范围是整个文<br>档树，不过也可以传入第二个参数context 来限定查找范围（本书中把参数context 称为“选<br>择器的上下文”，或简称“上下文”）。例如，在一个事件监听函数中，可以像下面这样限制<br>查找范围：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&apos;div.foo&apos;).click(function() &#123;</span><br><span class="line">    $(&apos;span&apos;, this).addClass(&apos;bar&apos;); // 限定查找范围</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>在这个例子中，对选择器表达式“ span”的查找被限制在了this 的范围内，即只有被点<br>击元素内的span 元素才会被添加类样式“bar ”。<br>如果选择器表达式selector 是简单的“ #id”，且没有指定上下文context，则调用浏览器<br>原生方法document.getElementById() 查找属性id 等于指定值的元素；如果是比“ #id”复杂<br>的选择器表达式或指定了上下文，则通过jQuery 方法.find() 查找，因此$(‘span’, this) 等价<br>于$(this).find(‘span’)。<br>至于方法.find()，会调用CSS 选择器引擎Sizzle 实现</p>
+<h3 id="jQuery-html-ownerDocument-、jQuery-html-props"><a href="#jQuery-html-ownerDocument-、jQuery-html-props" class="headerlink" title="　jQuery( html [, ownerDocument] )、jQuery( html, props )"></a>　jQuery( html [, ownerDocument] )、jQuery( html, props )</h3><p>如果传入的字符串参数看起来像一段HTML 代码（例如，字符串中含有<tag…>），<br>jQuery 则尝试用这段HTML 代码创建新的DOM 元素，并创建一个包含了这些DOM 元素引<br>用的jQuery 对象。例如，下面的代码将把HTML 代码转换成DOM 元素并插入body 节点的<br>末尾：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(&apos;&lt;p id=&quot;test&quot;&gt;My &lt;em&gt;new&lt;/em&gt; text&lt;/p&gt;&apos;).appendTo(&apos;body&apos;);</span><br></pre></td></tr></table></figure></tag…></p>
+<p>如果HTML 代码是一个单独标签，例如，$(‘<img>‘) 或$(‘<a></a>‘)，jQuery 会使<br>用浏览器原生方法document.createElement() 创建DOM 元素。如果是比单独标签更复杂的<br>HTML 片段，例如上面例子中的$(‘</p><p id="test">My<em>new</em>text</p>‘)，则利用<br>浏览器的innerHTML 机制创建DOM 元素，这个过程由方法jQuery.buildFragment() 和方法<br>jQuery.clean() 实现。<p></p>
+<p>第二个参数ownerDocument 用于指定创建新DOM 元素的文档对象，如果不传入，则默<br>认为当前文档对象。<br>如果HTML 代码是一个单独标签，那么第二个参数还可以是props，props 是一个包含了<br>属性、事件的普通对象；在调用document.createElement() 创建DOM 元素后，参数props 会被传给jQuery 方法.attr()，然后由.attr() 负责把参数props 中的属性、事件设置到新创建的<br>DOM 元素上。<br>参数props 的属性可以是任意的事件类型（如“ click”），此时属性值应该是事件监听<br>函数，它将被绑定到新创建的DOM 元素上；参数props 可以含有以下特殊属性：val、css、<br>html、text、data、width、height、offset，相应的jQuery 方法：.val()、.css()、.html()、.text()、.<br>data()、.width()、.height()、.offset() 将被执行，并且属性值会作为参数传入；其他类型的属性<br>则会被设置到新创建的DOM 元素上，某些特殊属性还会做跨浏览器兼容（如type、value、<br>tabindex 等）；可以通过属性名class 设置类样式，但要用引号把class 包裹起来，因为class<br>是JavaScript 保留字。例如，在下面的例子中，创建一个div 元素，并设置类样式为“ test ”、<br>设置文本内容为“ Click me!”、绑定一个click 事件，然后插入body 节点的末尾，当点击该<br>div 元素时，还会切换类样式test：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;&lt;div/&gt;&quot;, &#123;</span><br><span class="line">    &quot;class&quot;: &quot;test&quot;,</span><br><span class="line">    text: &quot;Click me!&quot;,</span><br><span class="line">    click: function()&#123;</span><br><span class="line">        $(this).toggleClass(&quot;test&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).appendTo(&quot;body&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="jQuery-element-、jQuery-elementArray"><a href="#jQuery-element-、jQuery-elementArray" class="headerlink" title="jQuery( element )、jQuery( elementArray )"></a>jQuery( element )、jQuery( elementArray )</h3><p>如果传入一个DOM 元素或DOM元素数组，则把DOM 元素封装到jQuery 对象中并返回。<br>这个功能常见于事件监听函数，即把关键字this 引用的DOM 元素封装为jQuery 对象，<br>然后在该jQuery 对象上调用jQuery 方法。例如，在下面的例子中，先调用$(this) 把被点击<br>的div 元素封装为jQuery 对象，然后调用方法slideUp() 以滑动动画隐藏该div 元素：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(&apos;div.foo&apos;).click(function() &#123;</span><br><span class="line">    $(this).slideUp();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>###　jQuery( object )<br>如果传入一个普通JavaScript 对象，则把该对象封装到jQuery 对象中并返回。<br>这个功能可以方便地在普通JavaScript 对象上实现自定义事件的绑定和触发，例如，执<br>行下面的代码会在对象foo 上绑定一个自定义事件custom，然后手动触发这个事件，执行绑<br>定的custom 事件监听函数，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 定义一个普通 JavaScript 对象</span><br><span class="line">var foo = &#123;foo:&apos;bar&apos;, hello:&apos;world&apos;&#125;;</span><br><span class="line">// 封装成 jQuery 对象</span><br><span class="line">var $foo = $(foo);</span><br><span class="line">// 绑定一个事件</span><br><span class="line">$foo.on(&apos;custom&apos;, function ()&#123;</span><br><span class="line">console.log(&apos;custom event was called&apos;);</span><br><span class="line">&#125;);</span><br><span class="line">// 触发这个事件</span><br><span class="line">$foo.trigger(&apos;custom&apos;); // 在控制台打印&quot;custom event was called&quot;</span><br></pre></td></tr></table></figure></p>
+<p>###　jQuery( callback )<br>如果传入一个函数，则在document 上绑定一个ready 事件监听函数，当DOM 结构加载<br>完成时执行。ready 事件的触发要早于load 事件。ready 事件并不是浏览器原生事件，而是<br>DOMContentLoaded 事件、onreadystatechange 事件和函数doScrollCheck() 的统称。</p>
+<p>###　jQuery( jQuery object )<br>如果传入一个jQuery 对象，则创建该jQuery 对象的一个副本并返回，副本与传入的<br>jQuery 对象引用完全相同的DOM 元素。</p>
+<p>###　jQuery()<br>如果不传入任何参数，则返回一个空的jQuery 对象，属性length 为0。注意，在jQuery<br>1.4 之前，会返回一个含有document 对象的jQuery 对象。<br>这个功能可以用来复用jQuery 对象，例如，创建一个空的jQuery 对象，然后在需要时<br>先手动修改其中的元素，再调用jQuery 方法，从而避免重复创建jQuery 对象。</p>
+<h2 id="总体结构"><a href="#总体结构" class="headerlink" title="总体结构"></a>总体结构</h2><p>构造jQuery 对象模块的总体源码结构如代码清单2-1 所示。</p>
+<p>代码清单2-1　构造 jQuery 对象模块的总体源码结构</p>
+<p><hr><br>16　(function( window, undefined ) {<br>// 构造 jQuery 对象<br>22　 var jQuery = (function() {<br>25　 var jQuery = function( selector, context ) {<br>27　 return new jQuery.fn.init( selector, context, root jQuery );<br>28　 },<br>// 一堆局部变量声明<br>97　 jQuery.fn = jQuery.prototype = {<br>98　 constructor: jQuery,<br>99　 init: function( selector, context, rootjQuery ) { … },<br>// 一堆原型属性和方法<br>319　 };<br>322　 jQuery.fn.init.prototype = jQuery.fn;<br>324　 jQuery.extend = jQuery.fn.extend = function() { … };<br>388　 jQuery.extend({<br>// 一堆静态属性和方法<br>892　 });<br>955　 return jQuery;<br>957 })();<br>// 省略其他模块的代码<br>9246　 window.jQuery = window.$ = jQuery;<br>9266　})( window );</p>
+<p>下面简要梳理下这段源码。<br>第16 ～ 9266 行是最外层的自调用匿名函数，第1 章中介绍过，当jQuery 初始化时，这<br>个自调用匿名函数包含的所有JavaScript 代码将被执行。<br>第22 行定义了一个变量jQuery，第22 ～ 957 行的自调用匿名函数返回jQuery 构造函<br>数并赋值给变量jQuery，最后在第9246 行把这个jQuery 变量暴露给全局作用域window，并<br>定义了别名$。<br>在第22 ～ 957 行的自调用匿名函数内，第25 行又定义了一个变量jQuery，它的值是<br>jQuery 构造函数，在第955 行返回并赋值给第22 行的变量jQuery。因此，这两个jQuery 变<br>量是等价的，都指向jQuery 构造函数，为了方便描述，在后面中统一称为构造函数jQuery()。<br>第97 ～ 319 行覆盖了构造函数jQuery() 的原型对象。第98 行覆盖了原型对象的属性<br>constructor，使它指向jQuery 构造函数；第99 行定义了原型方法jQuery.fn.init()，它负责<br>解析参数selector 和context 的类型并执行相应的查找；在第27 行可以看到，当我们调用<br>jQuery 构造函数时，实际返回的是jQuery.fn.init() 的实例；此外，还定义了一堆其他的原型<br>属性和方法，例如，selector、length、size()、toArray() 等。<br>第322 行用jQuery 构造函数的原型对象jQuery.fn 覆盖了jQuery.fn.init() 的原型对象。<br>第324 行定义了jQuery.extend() 和jQuery.fn.extend()，用于合并两个或多个对象的属性<br>到第一个对象；第388 ～ 892 行执行jQuery.extend() 在jQuery 构造函数上定义了一堆静态属<br>性和方法，例如，noConflict()、isReady、readyWait、holdReady() 等。<br>看上去代码清单2-1 所述的总体源码结构有些复杂，下面把疑问和难点一一罗列，逐个分析。<br>1）为什么要在构造函数jQuery() 内部用运算符new 创建并返回另一个构造函数的实例？<br>通常我们创建一个对象或实例的方式是在运算符new 后紧跟一个构造函数，例如，<br>newDate() 会返回一个Date 对象；但是，如果构造函数有返回值，运算符new 所创建的对象<br>会被丢弃，返回值将作为new 表达式的值。<br>jQuery 利用了这一特性，通过在构造函数jQuery() 内部用运算符new 创建并返回另一个<br>构造函数的实例，省去了构造函数jQuery() 前面的运算符new，即我们创建jQuery 对象时，<br>可以省略运算符new 直接写jQuery()。<br>为了拼写更方便，在第9246 行还为构造函数jQuery() 定义了别名$，因此，创建jQuery<br>对象的常见写法是$()。<br>2）为什么在第97 行执行jQuery.fn = jQuery.prototype，设置jQuery.fn 指向构造函数<br>jQuery() 的原型对象jQuery.prototype ？<br>jQuery.fn 是jQuery.prototype 的简写，可以少写7 个字符，以方便拼写。<br>3）既然调用构造函数jQuery() 返回的jQuery 对象实际上是构造函数jQuery.fn.init() 的<br>实例，为什么能在构造函数jQuery.fn.init() 的实例上调用构造函数jQuery() 的原型方法和属<br>性？例如，$(‘#id’).length 和$(‘#id’).size()。<br>在第322 行执行jQuery.fn.init.prototype = jQuery.fn 时，用构造函数jQuery() 的原型对象<br>覆盖了构造函数jQuery.fn.init() 的原型对象，从而使构造函数jQuery.fn.init() 的实例也可以访<br>问构造函数jQuery() 的原型方法和属性。<br>4）为什么要把第25 ～ 955 行的代码包裹在一个自调用匿名函数中，然后把第25 行定<br>义的构造函数jQuery() 作为返回值赋值给第22 行的jQuery 变量？去掉这个自调用匿名函<br>数，直接在第25 行定义构造函数jQuery() 不也可以吗？去掉了不是更容易阅读和理解吗？<br>去掉第25 ～ 955 行的自调用匿名函数当然可以，但会潜在地增加构造jQuery 对象模块<br>与其他模块的耦合度。在第25 ～ 97 行之间还定义了很多其他的局部变量，这些局部变量只<br>在构造jQuery 对象模块内部使用。通过把这些局部变量包裹在一个自调用匿名函数中，实现<br>了高内聚低耦合的设计思想。<br>5）为什么要覆盖构造函数jQuery() 的原型对象jQuery.prototype ？<br>在原型对象jQuery.prototype 上定义的属性和方法会被所有jQuery 对象继承，可以有<br>效减少每个jQuery 对象所需的内存。事实上，jQuery 对象只包含5 种非继承属性，其余都<br>继承自原型对象jQuery.prototype ；在构造函数jQuery.fn.init() 中设置了整型属性、length、<br>selector、context ；在原型方法.pushStack() 中设置了prevObject。因此，也不必因为jQuery<br>对象带有太多的属性和方法而担心会占用太多的内存。</p>
+<h2 id="jQuery-fn-init-selector-context-rootjQuery"><a href="#jQuery-fn-init-selector-context-rootjQuery" class="headerlink" title="jQuery.fn.init( selector, context, rootjQuery )"></a>jQuery.fn.init( selector, context, rootjQuery )</h2><h3 id="12-个分支"><a href="#12-个分支" class="headerlink" title="12 个分支"></a>12 个分支</h3><p>构造函数jQuery.fn.init() 负责解析参数selector 和context 的类型，并执行相应的逻辑，最<br>后返回jQuery.fn.init() 的实例。参数selector 和context 共有12 个有效分支，如表2-1 所示。</p>
+<p>表2-1　参数selector 和context 的12 个分支<br><img src="img/blog/table2_1.png"><br><img src="img/blog/table2_1x.png"></p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p><img src="img/blog/table2_4.png"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/05/30/jQuery源码分析/" data-title="jQuery源码分析 | fire on the world!" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/05/29/underscore/"  title="underscore">
+ <strong>下一篇：</strong><br/> 
+ <span>underscore
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#总体架构"><span class="toc-number">1.</span> <span class="toc-text">总体架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#自调用匿名函数"><span class="toc-number">1.1.</span> <span class="toc-text">自调用匿名函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要为自调用匿名函数设置参数window，并传入window-对象？"><span class="toc-number">1.1.1.</span> <span class="toc-text">为什么要为自调用匿名函数设置参数window，并传入window 对象？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意到自调用匿名函数最后的分号（-）了吗？"><span class="toc-number">1.1.2.</span> <span class="toc-text">注意到自调用匿名函数最后的分号（;）了吗？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#构造jQuery对象"><span class="toc-number">2.</span> <span class="toc-text">构造jQuery对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造函数jQuery"><span class="toc-number">2.1.</span> <span class="toc-text">构造函数jQuery()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery-selector-context"><span class="toc-number">2.1.1.</span> <span class="toc-text">jQuery( selector [, context] )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery-html-ownerDocument-、jQuery-html-props"><span class="toc-number">2.1.2.</span> <span class="toc-text">　jQuery( html [, ownerDocument] )、jQuery( html, props )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery-element-、jQuery-elementArray"><span class="toc-number">2.1.3.</span> <span class="toc-text">jQuery( element )、jQuery( elementArray )</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总体结构"><span class="toc-number">2.2.</span> <span class="toc-text">总体结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery-fn-init-selector-context-rootjQuery"><span class="toc-number">2.3.</span> <span class="toc-text">jQuery.fn.init( selector, context, rootjQuery )</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#12-个分支"><span class="toc-number">2.3.1.</span> <span class="toc-text">12 个分支</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-number">3.</span> <span class="toc-text">小结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="YLJ77" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/algorithm/" title="algorithm">algorithm<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/涉及底层/" title="涉及底层">涉及底层<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>23</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Type-Grammar/" title="Type &amp; Grammar">Type &amp; Grammar<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/algorithm/" title="algorithm">algorithm<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随机数/" title="随机数">随机数<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/表单脚本/" title="表单脚本">表单脚本<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/继承/" title="继承">继承<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://http:YLJ77.github.io" target="_blank" title="lin&#39;s Blog">lin&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m linjie Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/YLJ77" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:linjieyang77@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="YLJ77">YLJ77</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
