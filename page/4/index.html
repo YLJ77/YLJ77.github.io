@@ -81,6 +81,61 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/15/二进制/" title="二进制" itemprop="url">二进制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><img src="img/blog/01.png"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/涉及底层/">涉及底层</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/15/jQuery源码分析/" title="jQuery源码分析" itemprop="url">jQuery源码分析</a>
   </h1>
   <p class="article-author">By
@@ -256,87 +311,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/DOM/" title="DOM" itemprop="url">DOM</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h3><h4 id="Node-类型"><a href="#Node-类型" class="headerlink" title="Node 类型"></a>Node 类型</h4><p>确定节点类型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (someNode.nodeType == Node.ELEMENT_NODE) &#123;    //在IE中无效</div><div class="line">    alert(&quot;Node is an element&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>跨浏览器兼容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (someNode.nodeType == 1) &#123;    //适用于所有浏览器</div><div class="line">    alert(&quot;Node is an element&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以将 NodeList 对象转为数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//在 IE8 及之前版本中无效</div><div class="line">var arrayOfNodes = Array.prototype.slice.call(someNode.childNodes,0);</div></pre></td></tr></table></figure>
-<p>跨浏览器兼容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function convertToArray(nodes) &#123;</div><div class="line">    var array = null;</div><div class="line">    try &#123;</div><div class="line">        array = Array.prototype.slice.call(someNode.childNodes,0);  //针对非 IE 浏览器</div><div class="line">    &#125; catch (ex) &#123;</div><div class="line">        array = new Array();</div><div class="line">        for (var i=0, len = nodes.length; i &lt; len; i++) &#123;</div><div class="line">            array.push(nodes[i]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return array;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="Element-类型"><a href="#Element-类型" class="headerlink" title="Element 类型"></a>Element 类型</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if (elemeent.tagName == &quot;div&quot;) &#123;  //不能这样比较，很容易出错！</div><div class="line">    //在此执行某些操作</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (elemeent.tagName.toLowerCase() == &quot;div&quot;) &#123;  //这样最好(适用于任何文档)</div><div class="line">    //在此执行某些操作</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="取得特性"><a href="#取得特性" class="headerlink" title="取得特性"></a>取得特性</h5><p>在通过 JavaScript 以编程方式操作 DOM 时，开发人员经常不使用 getAttribute(),而是只使用对象的属性。只用在取得自定义特性值的情况下，才会使用 getAttribute() 方法。</p>
-<h4 id="DocumentFragment-类型"><a href="#DocumentFragment-类型" class="headerlink" title="DocumentFragment 类型"></a>DocumentFragment 类型</h4><p>假设想为这个 &lt;\ul id=”myList”&gt;&lt;\/ul&gt; 元素添加3个列表项。如果逐个添加列表项，将会导致浏览器反复渲染新信息。为了避免这个问题，可以像下面这样使用一个文档片段来保存创建的列表项，然后再一次性将他们添加到文档中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var fragment = document.createDocumentFragment();</div><div class="line">var ul = document.gtElementById(&quot;myList&quot;);</div><div class="line">var li = null;</div><div class="line"></div><div class="line">for (var i=0; i &lt; 3; i++) &#123;</div><div class="line">    li = document.createElement(&quot;li&quot;);</div><div class="line">    li.appendChid(document.createTextNode(&quot;Item &quot; + (i+1)));</div><div class="line">    fragment.appendChild(li);</div><div class="line">&#125;</div><div class="line"></div><div class="line">ul.appendChild(fragment);</div></pre></td></tr></table></figure>
-<h3 id="DOM-操作技术"><a href="#DOM-操作技术" class="headerlink" title="DOM 操作技术"></a>DOM 操作技术</h3><h4 id="动态脚本"><a href="#动态脚本" class="headerlink" title="动态脚本"></a>动态脚本</h4><p>兼容 IE 和早期版本 Safari</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function loadScriptString(code) &#123;</div><div class="line">    var script = document.createElement(&quot;script&quot;);</div><div class="line">    script.type = &quot;text/javascript&quot;;</div><div class="line">    try &#123;</div><div class="line">        script.appendChild(document.createTextNode(code));</div><div class="line">    &#125; catch (ex) &#123;</div><div class="line">        script.text = code;</div><div class="line">    &#125;</div><div class="line">    document.body.appdendChild(script);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>实际上，这样执行代码与在全局全局作用域中巴相同的字符串传递给eval()是一样的。</p>
-<h4 id="动态样式"><a href="#动态样式" class="headerlink" title="动态样式"></a>动态样式</h4><p>通用的解决方案</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function loadStyleString(css) &#123;</div><div class="line">    var style = document.createElement(&quot;style&quot;);</div><div class="line">    style.type = &quot;text/css&quot;;</div><div class="line">    try &#123;</div><div class="line">        style.appendChild(document.createTextNode(css));</div><div class="line">    &#125; catch(ex) &#123;</div><div class="line">        style.styleSheet.cssText = css;    //兼容IE</div><div class="line">    &#125;</div><div class="line">    var head = document.getElementsByTagName(&quot;head&quot;)[0];</div><div class="line">    head.appendChild(style);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>调用这个函数的实例如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">loadStyleString(&quot;body&#123;background-color:red&#125;&quot;);</div></pre></td></tr></table></figure>
-<blockquote>
-<p>如果专门针对 IE 编写代码，务必小心使用 styleSheet.cssText 属性。在重用同一个&lt;\style&gt;元素并再次设置这个属性时，有可能导致浏览器崩溃。同样，将 cssText 属性设置为空字符串也可能导致浏览器崩溃。</p>
-</blockquote>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/DOM2和DOM3/" title="DOM2和DOM3" itemprop="url">DOM2和DOM3</a>
   </h1>
   <p class="article-author">By
@@ -401,6 +375,73 @@
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h3><p>跨浏览器遍历某元素的所有子元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var i,</div><div class="line">    len,</div><div class="line">    child = element.firstChild;</div><div class="line">while(child != element.lastChild) &#123;</div><div class="line">    if (child.nodeType == 1) &#123;</div><div class="line">        processChild(child);</div><div class="line">    &#125;</div><div class="line">    child = child.nextSibling;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>而使用 Element Traversal(IE 9+) 新增的元素，代码会更简洁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var i,</div><div class="line">    len,</div><div class="line">    child = element.firstElementChild;</div><div class="line">while(child != element.lastElementChild) &#123;</div><div class="line">    processChild(child);</div><div class="line">    child = child.nextElementSbling;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>删除类名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;bd user disabled&quot;&gt;&lt;/div&gt;</div><div class="line"></div><div class="line">//删除&quot;user&quot;类</div><div class="line"></div><div class="line">//首先，取得类名字符串并拆分成数组</div><div class="line">var classNames = div.className.split(/\s/);</div><div class="line"></div><div class="line">//找到要删除的类名</div><div class="line">var pos = -1,</div><div class="line">    i,</div><div class="line">    len;</div><div class="line">for (i=0, len=classNames.length; i &lt; len; i++) &#123;</div><div class="line">    if (classNames[i] == &quot;user&quot;) &#123;</div><div class="line">        pos = i;</div><div class="line">        break;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//删除类名</div><div class="line">classNames.splice(pos,1);</div><div class="line"></div><div class="line">//把剩下的类名拼成字符串并重新设置</div><div class="line">div.className = classNames.join(&quot; &quot;);</div></pre></td></tr></table></figure>
+<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>跨浏览器兼容 innerText</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function setInnerText(element, text) &#123;</div><div class="line">    if (typeof element.textContent == &quot;string&quot;) &#123;</div><div class="line">        element.textContent = text;  //兼容 Firefox</div><div class="line">    &#125; else &#123;</div><div class="line">        element.innerText = text;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
@@ -434,6 +475,10 @@
 		
 		  
 			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>25</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript-设计模式/" title="JavaScript 设计模式">JavaScript 设计模式<sup>1</sup></a></li>
 		  
 		
 		  
@@ -474,6 +519,10 @@
 			
 		
 			
+				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
 			
 		
@@ -482,19 +531,15 @@
 			
 		
 			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
 			
 		
 			
@@ -506,11 +551,15 @@
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Pro-JavaScript-Design-Patterns/" title="Pro JavaScript Design Patterns">Pro JavaScript Design Patterns<sup>1</sup></a></li>
 			
 		
 			
@@ -522,15 +571,11 @@
 			
 		
 			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/干货/" title="干货">干货<sup>1</sup></a></li>
 			
 		
 		</ul>

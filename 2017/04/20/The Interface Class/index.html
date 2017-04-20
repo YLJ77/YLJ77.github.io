@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>闭包 | fire on the world!</title>
+    <title>The Interface Class | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="偏应用函数“分部应用”一个函数是一项特别有趣的技术，在函数调用之前，我们可以预先传入一些函数。实际上，偏应用函数返回了一个含有预处理参数的新函数，以便后期可以调用。这类代理函数--代理的是另外一个函数，并且在执行的时候会调用所代理的函数。这种在一个函数中首先填充几个参数(然后再返回一个新函数)的技术称之为柯里化(curring)。 柯里化函数示例(在第一个特定参数中进行填充)123456789Fu">
-<meta name="keywords" content="js,闭包,Javascript_Ninja,函数">
+    <meta name="description" content="The Interface Class1234567891011121314151617181920212223242526272829303132333435363738// Constructor.var Interface = function(name, methods) &amp;#123;    if(arguments.length != 2) &amp;#123;        throw new">
+<meta name="keywords" content="Pro JavaScript Design Patterns">
 <meta property="og:type" content="article">
-<meta property="og:title" content="闭包">
-<meta property="og:url" content="http://yoursite.com/2017/04/15/闭包/index.html">
+<meta property="og:title" content="The Interface Class">
+<meta property="og:url" content="http://yoursite.com/2017/04/20/The Interface Class/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="偏应用函数“分部应用”一个函数是一项特别有趣的技术，在函数调用之前，我们可以预先传入一些函数。实际上，偏应用函数返回了一个含有预处理参数的新函数，以便后期可以调用。这类代理函数--代理的是另外一个函数，并且在执行的时候会调用所代理的函数。这种在一个函数中首先填充几个参数(然后再返回一个新函数)的技术称之为柯里化(curring)。 柯里化函数示例(在第一个特定参数中进行填充)123456789Fu">
-<meta property="og:updated_time" content="2016-05-22T09:47:16.194Z">
+<meta property="og:description" content="The Interface Class1234567891011121314151617181920212223242526272829303132333435363738// Constructor.var Interface = function(name, methods) &amp;#123;    if(arguments.length != 2) &amp;#123;        throw new">
+<meta property="og:updated_time" content="2017-04-20T15:32:00.594Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闭包">
-<meta name="twitter:description" content="偏应用函数“分部应用”一个函数是一项特别有趣的技术，在函数调用之前，我们可以预先传入一些函数。实际上，偏应用函数返回了一个含有预处理参数的新函数，以便后期可以调用。这类代理函数--代理的是另外一个函数，并且在执行的时候会调用所代理的函数。这种在一个函数中首先填充几个参数(然后再返回一个新函数)的技术称之为柯里化(curring)。 柯里化函数示例(在第一个特定参数中进行填充)123456789Fu">
+<meta name="twitter:title" content="The Interface Class">
+<meta name="twitter:description" content="The Interface Class1234567891011121314151617181920212223242526272829303132333435363738// Constructor.var Interface = function(name, methods) &amp;#123;    if(arguments.length != 2) &amp;#123;        throw new">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -81,14 +81,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/闭包/" title="闭包" itemprop="url">闭包</a>
+      <a href="/2017/04/20/The Interface Class/" title="The Interface Class" itemprop="url">The Interface Class</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    <time datetime="2017-04-20T15:26:51.396Z" itemprop="datePublished"> 发表于 2017-04-20</time>
     
   </p>
 </header>
@@ -97,33 +97,24 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#偏应用函数"><span class="toc-number">1.</span> <span class="toc-text">偏应用函数</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Interface-Class"><span class="toc-number">1.</span> <span class="toc-text">The Interface Class</span></a></li></ol>
 		
 		</div>
 		
-		<h3 id="偏应用函数"><a href="#偏应用函数" class="headerlink" title="偏应用函数"></a>偏应用函数</h3><p>“分部应用”一个函数是一项特别有趣的技术，在函数调用之前，我们可以预先传入一些函数。实际上，偏应用函数返回了一个含有预处理参数的新函数，以便后期可以调用。<br>这类代理函数--代理的是另外一个函数，并且在执行的时候会调用所代理的函数。<br>这种在一个函数中首先填充几个参数(然后再返回一个新函数)的技术称之为柯里化(curring)。</p>
-<p>柯里化函数示例(在第一个特定参数中进行填充)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Function.prototype.curry = function() &#123;</div><div class="line">    //该函数以及预填充的参数是保存在闭包中的</div><div class="line">    var fn = this,</div><div class="line">        args = Array.prototype.slice.call(arguments);</div><div class="line">    //创建一个匿名柯里化函数</div><div class="line">    return function()&#123;</div><div class="line">        return fn.apply(this,args.concat(Array.prototype.slice.call(arguments)));</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这种技术是另外一个利用闭包记住状态的很好例子。在本例中，我们要记住新增加的函数(这里的this参数不会存在于任何闭包中，因为每个函数调用的时候都有自己的this)以及预填充参数，并将它们转移到新创建的函数中。该新函数将有预填充的参数以及刚传入的新参数。其结果就是，这样的方法可以让我们预先传入一些参数，然后返回给我们一个新的简单函数供我们使用。</p>
-<p>虽然这种风格的分部函数非常有用，但我们可以做的更好。如果我们给特定函数传递遗漏的参数，而不是从参数列表一开始就传。</p>
-<p>一个更复杂的”分部”函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Function.prototype.partial = function() &#123;</div><div class="line">    var fn = this, args = Array.prototype.slice.call(arguments);</div><div class="line">    return function()&#123;</div><div class="line">        var arg = 0;</div><div class="line">        for (var i=0; i &lt; args.length &amp;&amp; arg &lt; arguments.length; i++) &#123;</div><div class="line">            if (args[i] === undefined) &#123;</div><div class="line">                args[i] = arguments[arg++];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return fn.apply(this, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>该实现的本质类似于Prototype的curry()方法，但它有几个重要的差异。值得注意的是，用户可以在参数列表的任意位置指定参数，然后在后续的调用中，根据遗漏的参数值是否等于undefined来判断参数的遗漏，要实现这种功能，我们添加了参数合并功能。很有效果，遍历传入的所有参数参数，判断相应的参数是否遗漏了(是否是undefined)，然后沿着顺序填充遗漏的参数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var delay = setTimeout.partial(undefined, 10);</div><div class="line"></div><div class="line">delay(function()&#123;</div><div class="line">    assert(true, &quot;A call to this function will be delayed 10 ms.&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>这段代码创建了一个新的函数，名为delay()，通过该函数，我们可以传入另外一个10毫秒后进行调用的异步函数。<br>我们也可以创建一个简单的函数用于事件绑定:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var bindClick = document.body.addEventListener.partial(&quot;click&quot;, undefined, false);</div><div class="line"></div><div class="line">bindClick(function()&#123;</div><div class="line">    assert(true, &quot;Click event bound via curried function&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-  
+		<h3 id="The-Interface-Class"><a href="#The-Interface-Class" class="headerlink" title="The Interface Class"></a>The Interface Class</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Constructor.</span></div><div class="line"><span class="keyword">var</span> Interface = <span class="function"><span class="keyword">function</span>(<span class="params">name, methods</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">arguments</span>.length != <span class="number">2</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Interface constructor called with "</span> + <span class="built_in">arguments</span>.length +</div><div class="line">            <span class="string">"arguments, but expected exactly 2."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.methods = [];</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>, len = methods.length; i &lt; len; i++) &#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> methods[i] !== <span class="string">'string'</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Interface constructor expects method names to be "</span></div><div class="line">                + <span class="string">"passed in as a string."</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.methods.push(methods[i]);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// Static class method.</span></div><div class="line">Interface.ensureImplements = <span class="function"><span class="keyword">function</span>(<span class="params">object</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">arguments</span>.length &lt; <span class="number">2</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Function Interface.ensureImplements called with "</span> +</div><div class="line">            <span class="built_in">arguments</span>.length + <span class="string">"arguments, but expected at least 2."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">1</span>, len = <span class="built_in">arguments</span>.length; i &lt; len; i++) &#123;</div><div class="line">        <span class="keyword">var</span> interface = <span class="built_in">arguments</span>[i];</div><div class="line">        <span class="keyword">if</span>(interface.constructor !== Interface) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Function Interface.ensureImplements expects arguments"</span></div><div class="line">                + <span class="string">"two and above to be instances of Interface."</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j = <span class="number">0</span>, methodsLen = interface.methods.length; j &lt; methodsLen; j++) &#123;</div><div class="line">            <span class="keyword">var</span> method = interface.methods[j];</div><div class="line">            <span class="keyword">if</span>(!object[method] || <span class="keyword">typeof</span> object[method] !== <span class="string">'function'</span>) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Function Interface.ensureImplements: object "</span></div><div class="line">                    + <span class="string">"does not implement the "</span> + interface.name</div><div class="line">                    + <span class="string">" interface. Method "</span> + method + <span class="string">" was not found."</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/JavaScript-设计模式/">JavaScript 设计模式</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/闭包/">闭包</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/函数/">函数</a>
+  <span></span> <a href="/tags/Pro-JavaScript-Design-Patterns/">Pro JavaScript Design Patterns</a>
   </div>
 
 </div>
@@ -132,7 +123,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/04/15/闭包/" data-title="闭包 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/04/20/The Interface Class/" data-title="The Interface Class | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -146,21 +137,13 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/04/15/随机取整/" title="随机取整">
+ <a href="/2017/04/15/面向对象的程序设计/" title="面向对象的程序设计">
   <strong>上一篇：</strong><br/>
   <span>
-  随机取整</span>
+  面向对象的程序设计</span>
 </a>
 </div>
 
-
-<div class="next">
-<a href="/2017/04/15/面向对象的程序设计/"  title="面向对象的程序设计">
- <strong>下一篇：</strong><br/> 
- <span>面向对象的程序设计
-</span>
-</a>
-</div>
 
 </nav>
 
@@ -172,7 +155,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#偏应用函数"><span class="toc-number">1.</span> <span class="toc-text">偏应用函数</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Interface-Class"><span class="toc-number">1.</span> <span class="toc-text">The Interface Class</span></a></li></ol>
  
   </div>
 
