@@ -81,7 +81,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/20/The_Interface_Class/" title="The" itemprop="url">The</a>
+      <a href="/2017/04/20/The_Interface_Class/" title="The Interface Class" itemprop="url">The Interface Class</a>
   </h1>
   <p class="article-author">By
        
@@ -106,13 +106,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript-设计模式/">JavaScript_设计模式</a>
+  <a class="article-category-link" href="/categories/JavaScript-设计模式/">JavaScript 设计模式</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Pro/">Pro</a>
+  <span></span> <a href="/tags/Pro-JavaScript-Design-Patterns/">Pro JavaScript Design Patterns</a>
   </div>
 
 </div>
@@ -479,7 +479,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/媒体查询/" title="媒体查询" itemprop="url">媒体查询</a>
+      <a href="/2017/04/15/对象/" title="对象" itemprop="url">对象</a>
   </h1>
   <p class="article-author">By
        
@@ -492,22 +492,9 @@
 </header>
     <div class="article-content">
         
-        <h3 id="媒体查询语法"><a href="#媒体查询语法" class="headerlink" title="媒体查询语法"></a>媒体查询语法</h3><p>纵向媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>在媒体查询的开头追加not则会颠倒查询的逻辑</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>限制视口宽度</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait) and (min-width:800px)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>CSS样式表中使用媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@media screen and (max-device-width: 400px) &#123;</div><div class="line">    h1 &#123; color: green&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用CSS的@import指令在当前样式表中按条件引入其他样式表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@import url(&quot;phone.css&quot;) screen and (max-width:360px);</div></pre></td></tr></table></figure>
-<blockquote>
-<p>使用CSS的@import方式会增加HTTP请求(这会影响加载速度)，要谨慎使用。</p>
-</blockquote>
-<h3 id="媒体查询特性"><a href="#媒体查询特性" class="headerlink" title="媒体查询特性"></a>媒体查询特性</h3><p>视口宽度: width<br>屏幕宽度: device-width</p>
-<pre><code>
-</code></pre>
+        <h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><p>简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当<br>作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符<br>串”object”。1实际上，null本身是基本类型。</p>
+<p>原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被<br>判断为object类型，null的二进制表示是全0，自然前三位也是0，所以执行typeof时会返<br>回”object”</p>
+
         
         
         <p class="article-more-link">
@@ -519,13 +506,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/CSS/">CSS</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/响应式/">响应式</a><a href="/tags/媒体查询/">媒体查询</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/对象/">对象</a>
   </div>
 
 </div>
@@ -914,7 +901,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript-设计模式/" title="JavaScript_设计模式">JavaScript_设计模式<sup>1</sup></a></li>
+			<li><a href="/categories/JavaScript-设计模式/" title="JavaScript 设计模式">JavaScript 设计模式<sup>1</sup></a></li>
 		  
 		
 		  
@@ -951,7 +938,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -967,11 +954,11 @@
 			
 		
 			
-				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
 			
 		
 			
@@ -979,7 +966,7 @@
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
@@ -987,7 +974,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 			
@@ -999,7 +986,7 @@
 			
 		
 			
-				<li><a href="/tags/Pro/" title="Pro">Pro<sup>1</sup></a></li>
+				<li><a href="/tags/Pro-JavaScript-Design-Patterns/" title="Pro JavaScript Design Patterns">Pro JavaScript Design Patterns<sup>1</sup></a></li>
 			
 		
 			

@@ -389,6 +389,223 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/15/提升/" title="提升" itemprop="url">提升</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>当你看到var a = 2;时，可能会认为这是一个声明。但JavaScript实际上会将其看成两个声<br>明：var a;和a = 2;。第一个定义声明是在编译阶段进行的。第二个赋值声明会被留在原地等待执<br>行阶段。<br>我们的第一个代码片段会以如下形式进行处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var a;</div><div class="line">a = 2;</div><div class="line">console.log( a );</div></pre></td></tr></table></figure></p>
+<p>其中第一部分是编译，而第二部分是执行。</p>
+<p>函数声明会被提升，但是函数表达式却不会被提升。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">foo(); // 不是ReferenceError, 而是TypeError!</div><div class="line">var foo = function bar() &#123;</div><div class="line">    // ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这段程序中的变量标识符foo()被提升并分配给所在作用域（在这里是全局作用域），因此foo()不<br>会导致ReferenceError。但是foo此时并没有赋值（如果它是一个函数声明而不是函数表达式，那么<br>就会赋值）。foo()由于对undefined值进行函数调用而导致非法操作，因此抛出TypeError异常。<br>同时也要记住，即使是具名的函数表达式，名称标识符在赋值之前也无法在所在作用域中使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">foo(); // TypeError</div><div class="line">bar(); // ReferenceError</div><div class="line">var foo = function bar() &#123;</div><div class="line">    // ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这个代码片段经过提升后，实际上会被理解为以下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var foo;</div><div class="line">foo(); // TypeError</div><div class="line">bar(); // ReferenceError</div><div class="line">foo = function() &#123;</div><div class="line">    var bar = ...self...</div><div class="line">    // ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="函数优先"><a href="#函数优先" class="headerlink" title="函数优先"></a>函数优先</h3><p>函数声明和变量声明都会被提升。但是一个值得注意的细节（这个细节可以出现在有多个“重复”声<br>明的代码中）是函数会首先被提升，然后才是变量。<br>考虑以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">foo(); // 1</div><div class="line">var foo;</div><div class="line">function foo() &#123;</div><div class="line">    console.log( 1 );</div><div class="line">&#125;</div><div class="line">foo = function() &#123;</div><div class="line">    console.log( 2 );</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>会输出1而不是2！这个代码片段会被引擎理解为如下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( 1 );</div><div class="line">&#125;</div><div class="line">foo(); // 1</div><div class="line">foo = function() &#123;</div><div class="line">    console.log( 2 );</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>注意，var foo尽管出现在function foo()…的声明之前，但它是重复的声明（因此被忽略了），因为<br>函数声明会被提升到普通变量之前。</p>
+<p>尽管重复的var声明会被忽略掉，但出现在后面的函数声明还是可以覆盖前面的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">foo(); // 3</div><div class="line">function foo() &#123;</div><div class="line">console.log( 1 );</div><div class="line">&#125;</div><div class="line">var foo = function() &#123;</div><div class="line">console.log( 2 );</div><div class="line">&#125;;</div><div class="line">function foo() &#123;</div><div class="line">console.log( 3 );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>虽然这些听起来都是些无用的学院理论，但是它说明了在同一个作用域中进行重复定义是非常糟<br>糕的，而且经常会导致各种奇怪的问题。</p>
+<p>一个普通块内部的函数声明通常会被提升到所在作用域的顶部，这个过程不会像下面的代码暗示<br>的那样可以被条件判断所控制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">foo(); // &quot;b&quot;</div><div class="line">var a = true;</div><div class="line">if (a) &#123;</div><div class="line">function foo() &#123; console.log(&quot;a&quot;); &#125;</div><div class="line">&#125; else &#123;</div><div class="line">function foo() &#123; console.log(&quot;b&quot;); &#125;</div><div class="line">&#125;</div><div class="line">但是需要注意这个行为并不可靠，在JavaScript未来的版本中有可能发生改变，因此应该尽可能避</div><div class="line">免在块内部声明函数。</div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/函数调用的时间复杂度分析/" title="函数调用的时间复杂度分析" itemprop="url">函数调用的时间复杂度分析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="时间复杂度分析"><a href="#时间复杂度分析" class="headerlink" title="时间复杂度分析"></a>时间复杂度分析</h3><p>看下边的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">int i, j;</div><div class="line">for(i=0; i &lt; n; i++) &#123;</div><div class="line">    function(i);</div><div class="line">&#125;</div><div class="line">void function(int count) &#123;</div><div class="line">    printf(&quot;%d&quot;, count);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>函数体是打印这个参数，这很好理解。function函数的时间复杂度是O(1),所以整体的时间复杂度就是循环的次数O(n)。</p>
+<p>假如function是下面这样，又该如何呢：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">void function(int count) &#123;</div><div class="line">    int j;</div><div class="line">    for(j=count; j &lt; n; j++) &#123;</div><div class="line">        printf(&quot;%d&quot;, j);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>事实上，这和之前说平方阶举的第二个例子一样：function内部的循环次数随count的增加(接近n)而减少，所以根据游戏攻略算法的时间复杂度为O(n^2)。</p>
+<h3 id="常见的时间复杂度"><a href="#常见的时间复杂度" class="headerlink" title="常见的时间复杂度"></a>常见的时间复杂度</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">例子： 5433453  3n+4  3n^2+4n+5  3log(2)n+4  2n+3nlog(2)n+14  n^3+2n^2+4n+6  2^n</div><div class="line">时间复杂度：O(1)  O(n)  O(n^2)      O(logn)      O(nlogn)        O(n^3)    O(2^n)</div><div class="line">术语：   常数阶   线性阶  平方阶     对数阶        nlogn阶         立方阶    指数阶</div></pre></td></tr></table></figure>
+<p>常用的时间复杂度所耗费的时间从小到大依次是：<br>O(1) &lt; O(logn) &lt; (n) &lt;O(nlogn) &lt; O(n^2) &lt;O(n^3) &lt; O(2^n) &lt; O(n!) &lt; O(n^n)</p>
+<h3 id="最坏情况与平均情况"><a href="#最坏情况与平均情况" class="headerlink" title="最坏情况与平均情况"></a>最坏情况与平均情况</h3><p>查找一个有n个随机数字数组中的某个数字，最好的情况是第一个数字就是，那么算法的时间复杂度为O(1),但也有只能这个数字就在最后一个位置，那么时间复杂度为On(n)。</p>
+<p>平均运行时间是期望的运行时间。</p>
+<p>最坏运行时间是一种保证。在应用中，这是一种最重要的需求，通常除非特别指定，我们提到的运行时间都是最坏情况的运行时间。</p>
+<h3 id="算法的空间复杂度"><a href="#算法的空间复杂度" class="headerlink" title="算法的空间复杂度"></a>算法的空间复杂度</h3><p>算法的空间复杂度通过计算算法所需的存储空间实现，算法的空间复杂度的计算公式记作：<br>S(n)=O(f(n))，其中，n为问题的规模，f(n)为语句关于n所占存储空间的函数。</p>
+<p>通常，我们都是用”时间复杂度”来指运行时间的需求，是用”空间复杂度”指空间需求。</p>
+<p>当直接要求我们求”复杂度”时，通常指的是时间复杂度。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/algorithm/">algorithm</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/媒体查询/" title="媒体查询" itemprop="url">媒体查询</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="媒体查询语法"><a href="#媒体查询语法" class="headerlink" title="媒体查询语法"></a>媒体查询语法</h3><p>纵向媒体查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>在媒体查询的开头追加not则会颠倒查询的逻辑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>限制视口宽度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait) and (min-width:800px)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>CSS样式表中使用媒体查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@media screen and (max-device-width: 400px) &#123;</div><div class="line">    h1 &#123; color: green&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用CSS的@import指令在当前样式表中按条件引入其他样式表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@import url(&quot;phone.css&quot;) screen and (max-width:360px);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用CSS的@import方式会增加HTTP请求(这会影响加载速度)，要谨慎使用。</p>
+</blockquote>
+<h3 id="媒体查询特性"><a href="#媒体查询特性" class="headerlink" title="媒体查询特性"></a>媒体查询特性</h3><p>视口宽度: width<br>屏幕宽度: device-width</p>
+<pre><code>
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/CSS/">CSS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/响应式/">响应式</a><a href="/tags/媒体查询/">媒体查询</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/15/模块/" title="模块" itemprop="url">模块</a>
   </h1>
   <p class="article-author">By
@@ -550,210 +767,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/函数调用的时间复杂度分析/" title="函数调用的时间复杂度分析" itemprop="url">函数调用的时间复杂度分析</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="时间复杂度分析"><a href="#时间复杂度分析" class="headerlink" title="时间复杂度分析"></a>时间复杂度分析</h3><p>看下边的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">int i, j;</div><div class="line">for(i=0; i &lt; n; i++) &#123;</div><div class="line">    function(i);</div><div class="line">&#125;</div><div class="line">void function(int count) &#123;</div><div class="line">    printf(&quot;%d&quot;, count);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>函数体是打印这个参数，这很好理解。function函数的时间复杂度是O(1),所以整体的时间复杂度就是循环的次数O(n)。</p>
-<p>假如function是下面这样，又该如何呢：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">void function(int count) &#123;</div><div class="line">    int j;</div><div class="line">    for(j=count; j &lt; n; j++) &#123;</div><div class="line">        printf(&quot;%d&quot;, j);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>事实上，这和之前说平方阶举的第二个例子一样：function内部的循环次数随count的增加(接近n)而减少，所以根据游戏攻略算法的时间复杂度为O(n^2)。</p>
-<h3 id="常见的时间复杂度"><a href="#常见的时间复杂度" class="headerlink" title="常见的时间复杂度"></a>常见的时间复杂度</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">例子： 5433453  3n+4  3n^2+4n+5  3log(2)n+4  2n+3nlog(2)n+14  n^3+2n^2+4n+6  2^n</div><div class="line">时间复杂度：O(1)  O(n)  O(n^2)      O(logn)      O(nlogn)        O(n^3)    O(2^n)</div><div class="line">术语：   常数阶   线性阶  平方阶     对数阶        nlogn阶         立方阶    指数阶</div></pre></td></tr></table></figure>
-<p>常用的时间复杂度所耗费的时间从小到大依次是：<br>O(1) &lt; O(logn) &lt; (n) &lt;O(nlogn) &lt; O(n^2) &lt;O(n^3) &lt; O(2^n) &lt; O(n!) &lt; O(n^n)</p>
-<h3 id="最坏情况与平均情况"><a href="#最坏情况与平均情况" class="headerlink" title="最坏情况与平均情况"></a>最坏情况与平均情况</h3><p>查找一个有n个随机数字数组中的某个数字，最好的情况是第一个数字就是，那么算法的时间复杂度为O(1),但也有只能这个数字就在最后一个位置，那么时间复杂度为On(n)。</p>
-<p>平均运行时间是期望的运行时间。</p>
-<p>最坏运行时间是一种保证。在应用中，这是一种最重要的需求，通常除非特别指定，我们提到的运行时间都是最坏情况的运行时间。</p>
-<h3 id="算法的空间复杂度"><a href="#算法的空间复杂度" class="headerlink" title="算法的空间复杂度"></a>算法的空间复杂度</h3><p>算法的空间复杂度通过计算算法所需的存储空间实现，算法的空间复杂度的计算公式记作：<br>S(n)=O(f(n))，其中，n为问题的规模，f(n)为语句关于n所占存储空间的函数。</p>
-<p>通常，我们都是用”时间复杂度”来指运行时间的需求，是用”空间复杂度”指空间需求。</p>
-<p>当直接要求我们求”复杂度”时，通常指的是时间复杂度。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/algorithm/">algorithm</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/提升/" title="提升" itemprop="url">提升</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>当你看到var a = 2;时，可能会认为这是一个声明。但JavaScript实际上会将其看成两个声<br>明：var a;和a = 2;。第一个定义声明是在编译阶段进行的。第二个赋值声明会被留在原地等待执<br>行阶段。<br>我们的第一个代码片段会以如下形式进行处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var a;</div><div class="line">a = 2;</div><div class="line">console.log( a );</div></pre></td></tr></table></figure></p>
-<p>其中第一部分是编译，而第二部分是执行。</p>
-<p>函数声明会被提升，但是函数表达式却不会被提升。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">foo(); // 不是ReferenceError, 而是TypeError!</div><div class="line">var foo = function bar() &#123;</div><div class="line">    // ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>这段程序中的变量标识符foo()被提升并分配给所在作用域（在这里是全局作用域），因此foo()不<br>会导致ReferenceError。但是foo此时并没有赋值（如果它是一个函数声明而不是函数表达式，那么<br>就会赋值）。foo()由于对undefined值进行函数调用而导致非法操作，因此抛出TypeError异常。<br>同时也要记住，即使是具名的函数表达式，名称标识符在赋值之前也无法在所在作用域中使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">foo(); // TypeError</div><div class="line">bar(); // ReferenceError</div><div class="line">var foo = function bar() &#123;</div><div class="line">    // ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>这个代码片段经过提升后，实际上会被理解为以下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var foo;</div><div class="line">foo(); // TypeError</div><div class="line">bar(); // ReferenceError</div><div class="line">foo = function() &#123;</div><div class="line">    var bar = ...self...</div><div class="line">    // ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="函数优先"><a href="#函数优先" class="headerlink" title="函数优先"></a>函数优先</h3><p>函数声明和变量声明都会被提升。但是一个值得注意的细节（这个细节可以出现在有多个“重复”声<br>明的代码中）是函数会首先被提升，然后才是变量。<br>考虑以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">foo(); // 1</div><div class="line">var foo;</div><div class="line">function foo() &#123;</div><div class="line">    console.log( 1 );</div><div class="line">&#125;</div><div class="line">foo = function() &#123;</div><div class="line">    console.log( 2 );</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>会输出1而不是2！这个代码片段会被引擎理解为如下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( 1 );</div><div class="line">&#125;</div><div class="line">foo(); // 1</div><div class="line">foo = function() &#123;</div><div class="line">    console.log( 2 );</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>注意，var foo尽管出现在function foo()…的声明之前，但它是重复的声明（因此被忽略了），因为<br>函数声明会被提升到普通变量之前。</p>
-<p>尽管重复的var声明会被忽略掉，但出现在后面的函数声明还是可以覆盖前面的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">foo(); // 3</div><div class="line">function foo() &#123;</div><div class="line">console.log( 1 );</div><div class="line">&#125;</div><div class="line">var foo = function() &#123;</div><div class="line">console.log( 2 );</div><div class="line">&#125;;</div><div class="line">function foo() &#123;</div><div class="line">console.log( 3 );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>虽然这些听起来都是些无用的学院理论，但是它说明了在同一个作用域中进行重复定义是非常糟<br>糕的，而且经常会导致各种奇怪的问题。</p>
-<p>一个普通块内部的函数声明通常会被提升到所在作用域的顶部，这个过程不会像下面的代码暗示<br>的那样可以被条件判断所控制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">foo(); // &quot;b&quot;</div><div class="line">var a = true;</div><div class="line">if (a) &#123;</div><div class="line">function foo() &#123; console.log(&quot;a&quot;); &#125;</div><div class="line">&#125; else &#123;</div><div class="line">function foo() &#123; console.log(&quot;b&quot;); &#125;</div><div class="line">&#125;</div><div class="line">但是需要注意这个行为并不可靠，在JavaScript未来的版本中有可能发生改变，因此应该尽可能避</div><div class="line">免在块内部声明函数。</div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/对象/" title="对象" itemprop="url">对象</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><p>简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当<br>作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符<br>串”object”。1实际上，null本身是基本类型。</p>
-<p>原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被<br>判断为object类型，null的二进制表示是全0，自然前三位也是0，所以执行typeof时会返<br>回”object”</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/对象/">对象</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/技巧干货/" title="技巧干货" itemprop="url">技巧干货</a>
   </h1>
   <p class="article-author">By
@@ -855,7 +868,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript-设计模式/" title="JavaScript_设计模式">JavaScript_设计模式<sup>1</sup></a></li>
+			<li><a href="/categories/JavaScript-设计模式/" title="JavaScript 设计模式">JavaScript 设计模式<sup>1</sup></a></li>
 		  
 		
 		  
@@ -892,7 +905,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -908,11 +921,11 @@
 			
 		
 			
-				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
 			
 		
 			
@@ -920,7 +933,7 @@
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
@@ -928,7 +941,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 			
@@ -940,7 +953,7 @@
 			
 		
 			
-				<li><a href="/tags/Pro/" title="Pro">Pro<sup>1</sup></a></li>
+				<li><a href="/tags/Pro-JavaScript-Design-Patterns/" title="Pro JavaScript Design Patterns">Pro JavaScript Design Patterns<sup>1</sup></a></li>
 			
 		
 			
