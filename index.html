@@ -81,7 +81,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/20/The_Interface_Class/" title="The Interface Class" itemprop="url">The Interface Class</a>
+      <a href="/2017/04/20/The_Interface_Class/" title="The" itemprop="url">The</a>
   </h1>
   <p class="article-author">By
        
@@ -112,7 +112,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Pro-JavaScript-Design-Patterns/">Pro JavaScript Design Patterns</a>
+  <span></span> <a href="/tags/Pro/">Pro</a>
   </div>
 
 </div>
@@ -269,88 +269,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/谈谈算法/" title="谈谈算法" itemprop="url">谈谈算法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="算法初体验"><a href="#算法初体验" class="headerlink" title="算法初体验"></a>算法初体验</h3><p>小学学过珠算的应该很有印象，计算1+2+…+99+100。<br>思路是1+100=101，2+99=101，3+98=101，所以有50个101，即答案是5050。</p>
-<p>按照普通的写法，可以这么写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int i, sum = 0, n = 100;</div><div class="line">for(i=1; i &lt;=n; i++) &#123;</div><div class="line">    sum = sum + i;</div><div class="line">&#125;</div><div class="line">printf(&apos;%d&apos;, sum);</div></pre></td></tr></table></figure></p>
-<p>换成刚才的思路写(高斯发明的算法)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int i, sum = 0, n = 100;</div><div class="line">sum = (1+n) * n/2;</div><div class="line">printf(&quot;%d&quot;, sum);</div></pre></td></tr></table></figure>
-<p>对比下两个算法，一个要计算100次，而一个只要计算一次。虽然以计算机的速度，两个算法都可以按秒解决，但如果把条件换成1加到1千亿，差距就可想而知了，甚至人脑都可以比电脑计算的快。</p>
-<h3 id="什么是算法？"><a href="#什么是算法？" class="headerlink" title="什么是算法？"></a>什么是算法？</h3><p>- 算法是解决特定问题求解决步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。<br>- 通俗点算法就是泡妞的技巧和方式。</p>
-<h3 id="算法的特性"><a href="#算法的特性" class="headerlink" title="算法的特性"></a>算法的特性</h3><p>算法具有五个基本特征：输入，输出，有穷性，确定性和可行性。</p>
-<h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><p>- 算法具有零个或多个输入。<br>- 尽管对于绝大多数算法来说，输入参数都是必要的。但是有些时候，像打印” hello world”,就不需要参数。</p>
-<h4 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h4><p>- 算法至少有一个或多个输出。</p>
-<h4 id="有穷性"><a href="#有穷性" class="headerlink" title="有穷性"></a>有穷性</h4><p>- 指算法在执行有限的步骤后，自动结束而不会出现无限循环，并且每一个步骤在可接受的时间内完成。</p>
-<h4 id="确定性"><a href="#确定性" class="headerlink" title="确定性"></a>确定性</h4><p>- 算法的每一个步骤都具有确定的含义，不会出现二义性。<br>- 算法在一定条件下，只有一条执行路径，相同的输入只能有唯一的输出结果。<br>- 算法的每个步骤都应该被精确定义而无歧义。</p>
-<h4 id="可行性"><a href="#可行性" class="headerlink" title="可行性"></a>可行性</h4><p>- 算法的每一步都必须是可行的，也就是说，每一步都能通过执行有限次数完成。</p>
-<h3 id="算法设计的要求"><a href="#算法设计的要求" class="headerlink" title="算法设计的要求"></a>算法设计的要求</h3><h4 id="正确性"><a href="#正确性" class="headerlink" title="正确性"></a>正确性</h4><p>- 算法的正确性是指算法至少应该具有输入，输出和加工处理无歧义性，能正确反映问题的需求，能够得到问题的正确答案。</p>
-<p>- 大体分为以下四个层次：</p>
-<ul>
-<li>算法程序没有语法错误。</li>
-<li>算法程序对于合法输入能够产生满足要求的输出。</li>
-<li>算法程序对于非法输入能够满足规格的说明。</li>
-<li>算法程序对于故意刁难的测试输入都有满足要求的输出结果。</li>
-</ul>
-<h4 id="可读性"><a href="#可读性" class="headerlink" title="可读性"></a>可读性</h4><p>- 算法设计另一目的是为了便于阅读、理解和交流。</p>
-<h4 id="健壮性"><a href="#健壮性" class="headerlink" title="健壮性"></a>健壮性</h4><p>- 当输入数据不合法时，算法也能做出相关处理，而不是产生异常，崩溃或莫名其妙的结果。</p>
-<h4 id="时间效率高和存储量低"><a href="#时间效率高和存储量低" class="headerlink" title="时间效率高和存储量低"></a>时间效率高和存储量低</h4><p>- 好算法应该具备时间效率高和存储量低的特点。所以在设计算法的时候我们应该尽量思考这两方面的问题！。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/algorithm/">algorithm</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/随机取整/" title="随机取整" itemprop="url">随机取整</a>
   </h1>
   <p class="article-author">By
@@ -452,6 +370,88 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/js/">js</a><a href="/tags/闭包/">闭包</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/函数/">函数</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/谈谈算法/" title="谈谈算法" itemprop="url">谈谈算法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="算法初体验"><a href="#算法初体验" class="headerlink" title="算法初体验"></a>算法初体验</h3><p>小学学过珠算的应该很有印象，计算1+2+…+99+100。<br>思路是1+100=101，2+99=101，3+98=101，所以有50个101，即答案是5050。</p>
+<p>按照普通的写法，可以这么写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">int i, sum = 0, n = 100;</div><div class="line">for(i=1; i &lt;=n; i++) &#123;</div><div class="line">    sum = sum + i;</div><div class="line">&#125;</div><div class="line">printf(&apos;%d&apos;, sum);</div></pre></td></tr></table></figure></p>
+<p>换成刚才的思路写(高斯发明的算法)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int i, sum = 0, n = 100;</div><div class="line">sum = (1+n) * n/2;</div><div class="line">printf(&quot;%d&quot;, sum);</div></pre></td></tr></table></figure>
+<p>对比下两个算法，一个要计算100次，而一个只要计算一次。虽然以计算机的速度，两个算法都可以按秒解决，但如果把条件换成1加到1千亿，差距就可想而知了，甚至人脑都可以比电脑计算的快。</p>
+<h3 id="什么是算法？"><a href="#什么是算法？" class="headerlink" title="什么是算法？"></a>什么是算法？</h3><p>- 算法是解决特定问题求解决步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。<br>- 通俗点算法就是泡妞的技巧和方式。</p>
+<h3 id="算法的特性"><a href="#算法的特性" class="headerlink" title="算法的特性"></a>算法的特性</h3><p>算法具有五个基本特征：输入，输出，有穷性，确定性和可行性。</p>
+<h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><p>- 算法具有零个或多个输入。<br>- 尽管对于绝大多数算法来说，输入参数都是必要的。但是有些时候，像打印” hello world”,就不需要参数。</p>
+<h4 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h4><p>- 算法至少有一个或多个输出。</p>
+<h4 id="有穷性"><a href="#有穷性" class="headerlink" title="有穷性"></a>有穷性</h4><p>- 指算法在执行有限的步骤后，自动结束而不会出现无限循环，并且每一个步骤在可接受的时间内完成。</p>
+<h4 id="确定性"><a href="#确定性" class="headerlink" title="确定性"></a>确定性</h4><p>- 算法的每一个步骤都具有确定的含义，不会出现二义性。<br>- 算法在一定条件下，只有一条执行路径，相同的输入只能有唯一的输出结果。<br>- 算法的每个步骤都应该被精确定义而无歧义。</p>
+<h4 id="可行性"><a href="#可行性" class="headerlink" title="可行性"></a>可行性</h4><p>- 算法的每一步都必须是可行的，也就是说，每一步都能通过执行有限次数完成。</p>
+<h3 id="算法设计的要求"><a href="#算法设计的要求" class="headerlink" title="算法设计的要求"></a>算法设计的要求</h3><h4 id="正确性"><a href="#正确性" class="headerlink" title="正确性"></a>正确性</h4><p>- 算法的正确性是指算法至少应该具有输入，输出和加工处理无歧义性，能正确反映问题的需求，能够得到问题的正确答案。</p>
+<p>- 大体分为以下四个层次：</p>
+<ul>
+<li>算法程序没有语法错误。</li>
+<li>算法程序对于合法输入能够产生满足要求的输出。</li>
+<li>算法程序对于非法输入能够满足规格的说明。</li>
+<li>算法程序对于故意刁难的测试输入都有满足要求的输出结果。</li>
+</ul>
+<h4 id="可读性"><a href="#可读性" class="headerlink" title="可读性"></a>可读性</h4><p>- 算法设计另一目的是为了便于阅读、理解和交流。</p>
+<h4 id="健壮性"><a href="#健壮性" class="headerlink" title="健壮性"></a>健壮性</h4><p>- 当输入数据不合法时，算法也能做出相关处理，而不是产生异常，崩溃或莫名其妙的结果。</p>
+<h4 id="时间效率高和存储量低"><a href="#时间效率高和存储量低" class="headerlink" title="时间效率高和存储量低"></a>时间效率高和存储量低</h4><p>- 好算法应该具备时间效率高和存储量低的特点。所以在设计算法的时候我们应该尽量思考这两方面的问题！。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/algorithm/">algorithm</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/algorithm/">algorithm</a>
   </div>
 
 </div>
@@ -951,7 +951,7 @@
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
 			
 		
 			
@@ -967,11 +967,11 @@
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -979,7 +979,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 			
@@ -987,7 +987,7 @@
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
 			
 		
 			
@@ -999,7 +999,7 @@
 			
 		
 			
-				<li><a href="/tags/Pro-JavaScript-Design-Patterns/" title="Pro JavaScript Design Patterns">Pro JavaScript Design Patterns<sup>1</sup></a></li>
+				<li><a href="/tags/Pro/" title="Pro">Pro<sup>1</sup></a></li>
 			
 		
 			
