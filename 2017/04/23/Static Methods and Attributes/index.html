@@ -18,7 +18,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/23/Static Methods and Attributes/index.html">
 <meta property="og:site_name" content="fire on the world!">
 <meta property="og:description" content="Static Methods and Attributes Most methods and attributes interact with an instance of a class; static members interact with the class itself. Another way of putting it is to say that static members o">
-<meta property="og:updated_time" content="2017-04-25T13:50:47.776Z">
+<meta property="og:updated_time" content="2017-04-25T14:48:30.450Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Advanced Patterns">
 <meta name="twitter:description" content="Static Methods and Attributes Most methods and attributes interact with an instance of a class; static members interact with the class itself. Another way of putting it is to say that static members o">
@@ -97,7 +97,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Static-Methods-and-Attributes"><span class="toc-number">1.</span> <span class="toc-text">Static Methods and Attributes</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Static-Methods-and-Attributes"><span class="toc-number">1.</span> <span class="toc-text">Static Methods and Attributes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Constants"><span class="toc-number">2.</span> <span class="toc-text">Constants</span></a></li></ol>
 		
 		</div>
 		
@@ -109,8 +109,7 @@
 <p> These private static members can be accessed from within the constructor, which means<br> that any private or privileged function has access to them. They have a distinct advantage over these other methods in that they are only stored in memory once. Since they are declared outside of the constructor, they do not have access to any of the private attributes, and as such, are not privileged; private methods can call private static methods, but not the other way around. A rule of thumb for deciding whether a private method should be static is to see whether it needs to access any of the instance data. If it doe not need access, making the method static is more efficient (in terms of memory use) because only a copy is ever created.</p>
 <p> Public static members are much easier to create. They are simply created directly off of<br> the constructor, as with the previous method convertToTitleCase. This means you are essentially using the constructor as a namespace. </p>
 <p> All public static methods could just as easily be declared as separate functions, but it is useful to bundle related behaviors together in one place. They are useful for tasks that are related to the class as a whole and not to any particular instance of it. They don’t directly depend on any of the data contained within the instances.</p>
-<p> ###Constants</p>
-<p> Constants are nothing more than variables that can’t be changed. In JavaScript, you can emulate constants by creating a private variable with an accessor but no mutator. Since constants are usually set at development time and don’t change with each instance that is created, it makes sense to create them as private static attributes. Here is how a call to get the constant UPPER_BOUND from Class would look:</p>
+<h3 id="Constants"><a href="#Constants" class="headerlink" title="Constants"></a>Constants</h3><p> Constants are nothing more than variables that can’t be changed. In JavaScript, you can emulate constants by creating a private variable with an accessor but no mutator. Since constants are usually set at development time and don’t change with each instance that is created, it makes sense to create them as private static attributes. Here is how a call to get the constant UPPER_BOUND from Class would look:</p>
  <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Class.getUPPER_BOUND();</div></pre></td></tr></table></figure>
 <p>To implement this accessor, you would need a privileged static method, which we haven’t<br>covered yet. It is created just like a privileged instance method, with the this keyword:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Class = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="comment">// Constants (created as private static attributes).</span></div><div class="line">    <span class="keyword">var</span> UPPER_BOUND = <span class="number">100</span>;</div><div class="line">    <span class="comment">// Privileged static method.</span></div><div class="line">    <span class="keyword">this</span>.getUPPER_BOUND() &#123;</div><div class="line">        <span class="keyword">return</span> UPPER_BOUND;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line"><span class="comment">// Return the constructor.</span></div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">constructorArgument</span>) </span>&#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
@@ -179,7 +178,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Static-Methods-and-Attributes"><span class="toc-number">1.</span> <span class="toc-text">Static Methods and Attributes</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Static-Methods-and-Attributes"><span class="toc-number">1.</span> <span class="toc-text">Static Methods and Attributes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Constants"><span class="toc-number">2.</span> <span class="toc-text">Constants</span></a></li></ol>
  
   </div>
 
@@ -211,7 +210,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript-设计模式/" title="JavaScript 设计模式">JavaScript 设计模式<sup>4</sup></a></li>
+			<li><a href="/categories/JavaScript-设计模式/" title="JavaScript 设计模式">JavaScript 设计模式<sup>5</sup></a></li>
 		  
 		
 		  
@@ -244,7 +243,7 @@
 			
 		
 			
-				<li><a href="/tags/Pro-JavaScript-Design-Patterns/" title="Pro JavaScript Design Patterns">Pro JavaScript Design Patterns<sup>4</sup></a></li>
+				<li><a href="/tags/Pro-JavaScript-Design-Patterns/" title="Pro JavaScript Design Patterns">Pro JavaScript Design Patterns<sup>5</sup></a></li>
 			
 		
 			
@@ -252,7 +251,15 @@
 			
 		
 			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
 			
@@ -260,7 +267,7 @@
 			
 		
 			
-				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
 			
 		
 			
@@ -272,19 +279,23 @@
 			
 		
 			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/干货/" title="干货">干货<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
 			
 		
 			
@@ -296,19 +307,7 @@
 			
 		
 			
-				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 		</ul>

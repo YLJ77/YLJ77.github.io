@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>The Interface Class | fire on the world!</title>
+    <title>Comparing Classical and Prototypal Inheritance | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="The Interface Class1234567891011121314151617181920212223242526272829303132333435363738// Constructor.var Interface = function(name, methods) &amp;#123;    if(arguments.length != 2) &amp;#123;        throw new">
+    <meta name="description" content="The classical and prototypal paradigms for creating new objects are very different from each other, and the objects that each one produces behave differently. Each paradigm has its own pros and cons,">
 <meta name="keywords" content="Pro JavaScript Design Patterns">
 <meta property="og:type" content="article">
-<meta property="og:title" content="The Interface Class">
-<meta property="og:url" content="http://yoursite.com/2017/04/20/The_Interface_Class/index.html">
+<meta property="og:title" content="Comparing Classical and Prototypal Inheritance">
+<meta property="og:url" content="http://yoursite.com/2017/04/25/Comparing Classical and Prototypal Inheritance/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="The Interface Class1234567891011121314151617181920212223242526272829303132333435363738// Constructor.var Interface = function(name, methods) &amp;#123;    if(arguments.length != 2) &amp;#123;        throw new">
-<meta property="og:updated_time" content="2017-04-20T15:51:35.867Z">
+<meta property="og:description" content="The classical and prototypal paradigms for creating new objects are very different from each other, and the objects that each one produces behave differently. Each paradigm has its own pros and cons,">
+<meta property="og:updated_time" content="2017-04-25T15:01:59.115Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="The Interface Class">
-<meta name="twitter:description" content="The Interface Class1234567891011121314151617181920212223242526272829303132333435363738// Constructor.var Interface = function(name, methods) &amp;#123;    if(arguments.length != 2) &amp;#123;        throw new">
+<meta name="twitter:title" content="Comparing Classical and Prototypal Inheritance">
+<meta name="twitter:description" content="The classical and prototypal paradigms for creating new objects are very different from each other, and the objects that each one produces behave differently. Each paradigm has its own pros and cons,">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -81,14 +81,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/20/The_Interface_Class/" title="The Interface Class" itemprop="url">The Interface Class</a>
+      <a href="/2017/04/25/Comparing Classical and Prototypal Inheritance/" title="Comparing Classical and Prototypal Inheritance" itemprop="url">Comparing Classical and Prototypal Inheritance</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-20T15:26:51.396Z" itemprop="datePublished"> 发表于 2017-04-20</time>
+    <time datetime="2017-04-25T14:59:12.664Z" itemprop="datePublished"> 发表于 2017-04-25</time>
     
   </p>
 </header>
@@ -97,11 +97,15 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Interface-Class"><span class="toc-number">1.</span> <span class="toc-text">The Interface Class</span></a></li></ol>
+			
 		
 		</div>
 		
-		<h3 id="The-Interface-Class"><a href="#The-Interface-Class" class="headerlink" title="The Interface Class"></a>The Interface Class</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Constructor.</span></div><div class="line"><span class="keyword">var</span> Interface = <span class="function"><span class="keyword">function</span>(<span class="params">name, methods</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">arguments</span>.length != <span class="number">2</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Interface constructor called with "</span> + <span class="built_in">arguments</span>.length +</div><div class="line">            <span class="string">"arguments, but expected exactly 2."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.methods = [];</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>, len = methods.length; i &lt; len; i++) &#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> methods[i] !== <span class="string">'string'</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Interface constructor expects method names to be "</span></div><div class="line">                + <span class="string">"passed in as a string."</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.methods.push(methods[i]);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// Static class method.</span></div><div class="line">Interface.ensureImplements = <span class="function"><span class="keyword">function</span>(<span class="params">object</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">arguments</span>.length &lt; <span class="number">2</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Function Interface.ensureImplements called with "</span> +</div><div class="line">            <span class="built_in">arguments</span>.length + <span class="string">"arguments, but expected at least 2."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">1</span>, len = <span class="built_in">arguments</span>.length; i &lt; len; i++) &#123;</div><div class="line">        <span class="keyword">var</span> interface = <span class="built_in">arguments</span>[i];</div><div class="line">        <span class="keyword">if</span>(interface.constructor !== Interface) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Function Interface.ensureImplements expects arguments"</span></div><div class="line">                + <span class="string">"two and above to be instances of Interface."</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j = <span class="number">0</span>, methodsLen = interface.methods.length; j &lt; methodsLen; j++) &#123;</div><div class="line">            <span class="keyword">var</span> method = interface.methods[j];</div><div class="line">            <span class="keyword">if</span>(!object[method] || <span class="keyword">typeof</span> object[method] !== <span class="string">'function'</span>) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Function Interface.ensureImplements: object "</span></div><div class="line">                    + <span class="string">"does not implement the "</span> + interface.name</div><div class="line">                    + <span class="string">" interface. Method "</span> + method + <span class="string">" was not found."</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>  
+		<p>The classical and prototypal paradigms for creating new objects are very different from each other, and the objects that each one produces behave differently. Each paradigm has its own pros and cons, which should help you determine which one to use in a given situation.</p>
+<p>Classical inheritance is well understood, both in JavaScript and the programmer community in general. Almost all object-oriented code written in JavaScript uses this paradigm. If you are creating an API for widespread use, or if there is the possibility that other programmers not familiar with prototypal inheritance will be working on your code, it is best to go with classical. JavaScript is the only popular, widely used language that uses prototypal inheritance, so odds are most people will never have used it before. It can also be confusing to have an object with links back to its prototype object. Programmers who don’t fully understand prototypal inheritance will think of this as some sort of reverse inheritance, where the parent inherits from its children. Even though this isn’t the case, it can still be a very confusing topic. But since this form of classical inheritance is only imitating true class-based inheritance, advanced JavaScript programmers need to understand how prototypal inheritance truly works at some point anyway. Some would argue that hiding this fact does more harm than good. </p>
+<p>Prototypal inheritance is very memory-efficient. Because of the way prototype chain reads members, all cloned objects share a single copy of each attribute and method, until those attributes and methods are written to directly on the cloned object. Contrast this with the objects created using classical inheritance, where each object has a copy of every attribute (and private<br>method) in memory. The savings here are enormous. It also seems to be a much more<br>elegant approach, needing only a single clone function, rather than several lines of incomprehensible syntax such as SuperClass.call(this, arg) and SubClass.prototype = new SuperClass for each class you want to extend (it is true, however, that some of these lines can, in turn, be condensed into the extend function). Don’t think that just because prototypal inheritance is simple that it isn’t also complex. Its power lies in its simplicity.</p>
+<p>The decision to use classical or prototypal inheritance probably depends most on how well you like each paradigm. Some people seem naturally drawn to the simplicity of prototypal inheritance, while others are much more comfortable in the more familiar classical. </p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -123,7 +127,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/04/20/The_Interface_Class/" data-title="The Interface Class | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/04/25/Comparing Classical and Prototypal Inheritance/" data-title="Comparing Classical and Prototypal Inheritance | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -137,21 +141,13 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/04/15/随机取整/" title="随机取整">
+ <a href="/2017/04/25/Prototypal Inheritance/" title="Prototypal Inheritance">
   <strong>上一篇：</strong><br/>
   <span>
-  随机取整</span>
+  Prototypal Inheritance</span>
 </a>
 </div>
 
-
-<div class="next">
-<a href="/2017/04/23/Static Methods and Attributes/"  title="Advanced Patterns">
- <strong>下一篇：</strong><br/> 
- <span>Advanced Patterns
-</span>
-</a>
-</div>
 
 </nav>
 
@@ -163,7 +159,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Interface-Class"><span class="toc-number">1.</span> <span class="toc-text">The Interface Class</span></a></li></ol>
+ 
  
   </div>
 

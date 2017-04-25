@@ -18,7 +18,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/25/Prototypal Inheritance/index.html">
 <meta property="og:site_name" content="fire on the world!">
 <meta property="og:description" content="Asymmetrical Reading and Writing of Inherited MembersIn classical inheritance, each instance of Author has its own copy of the books array. You could add to it by writing author[1].books.push(‘New Boo">
-<meta property="og:updated_time" content="2017-04-25T14:41:09.048Z">
+<meta property="og:updated_time" content="2017-04-25T14:48:06.212Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Prototypal Inheritance">
 <meta name="twitter:description" content="Asymmetrical Reading and Writing of Inherited MembersIn classical inheritance, each instance of Author has its own copy of the books array. You could add to it by writing author[1].books.push(‘New Boo">
@@ -97,7 +97,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Asymmetrical-Reading-and-Writing-of-Inherited-Members"><span class="toc-number">1.</span> <span class="toc-text">Asymmetrical Reading and Writing of Inherited Members</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Asymmetrical-Reading-and-Writing-of-Inherited-Members"><span class="toc-number">1.</span> <span class="toc-text">Asymmetrical Reading and Writing of Inherited Members</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-clone-Function"><span class="toc-number">2.</span> <span class="toc-text">The clone Function</span></a></li></ol>
 		
 		</div>
 		
@@ -108,8 +108,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> CompoundObject = &#123;</div><div class="line">    <span class="attr">string1</span>: <span class="string">'default value'</span>,</div><div class="line">    <span class="attr">childObject</span>: &#123;</div><div class="line">        <span class="attr">bool</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">num</span>: <span class="number">10</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> compoundObjectClone = clone(CompoundObject);</div><div class="line"><span class="comment">// Bad! Changes the value of CompoundObject.childObject.num.</span></div><div class="line">compoundObjectClone.childObject.num = <span class="number">5</span>;</div><div class="line"><span class="comment">// Better. Creates a new object, but compoundObject must know the structure</span></div><div class="line"><span class="comment">// of that object, and the defaults. This makes CompoundObject and</span></div><div class="line"><span class="comment">// compoundObjectClone tightly coupled.</span></div><div class="line">compoundObjectClone.childObject = &#123;</div><div class="line">    <span class="attr">bool</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">num</span>: <span class="number">5</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>In this example, childObject is recreated and ompoundObjectClone.childObject.num is modified. The problem is that compoundObjectClone must know that childObject has two attributes, with values true and 10. A better approach is to have a factory method that creates the childObject:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Best approach. Uses a method to create a new object, with the same structure and</span></div><div class="line"><span class="comment">// defaults as the original.</span></div><div class="line"><span class="keyword">var</span> CompoundObject = &#123;&#125;;</div><div class="line">CompoundObject.string1 = <span class="string">'default value'</span>,</div><div class="line">    CompoundObject.createChildObject = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">bool</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">num</span>: <span class="number">10</span></div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">CompoundObject.childObject = CompoundObject.createChildObject();</div><div class="line"><span class="keyword">var</span> compoundObjectClone = clone(CompoundObject);</div><div class="line">compoundObjectClone.childObject = CompoundObject.createChildObject();</div><div class="line">compoundObjectClone.childObject.num = <span class="number">5</span>;</div></pre></td></tr></table></figure>
-<p>###The clone Function</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Clone function. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">object</span>) </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">    F.prototype = object;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="The-clone-Function"><a href="#The-clone-Function" class="headerlink" title="The clone Function"></a>The clone Function</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Clone function. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">object</span>) </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">    F.prototype = object;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>First the clone function creates a new and empty function, F. It then sets the prototype attribute of F to the prototype object. You can see here the intent of the original JavaScript creators. The prototype attribute is meant to point to the prototype object, and through prototype chaining it provides links to all the inherited members. Lastly, the function creates a new object by calling the new operator on F. The cloned object that is returned is completely empty, except<br>for the prototype attribute, which is (indirectly) pointing to the prototype oject, by way of the F object.</p>
   
 	</div>
@@ -155,6 +154,14 @@
 </div>
 
 
+<div class="next">
+<a href="/2017/04/25/Comparing Classical and Prototypal Inheritance/"  title="Comparing Classical and Prototypal Inheritance">
+ <strong>下一篇：</strong><br/> 
+ <span>Comparing Classical and Prototypal Inheritance
+</span>
+</a>
+</div>
+
 </nav>
 
 	
@@ -165,7 +172,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Asymmetrical-Reading-and-Writing-of-Inherited-Members"><span class="toc-number">1.</span> <span class="toc-text">Asymmetrical Reading and Writing of Inherited Members</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Asymmetrical-Reading-and-Writing-of-Inherited-Members"><span class="toc-number">1.</span> <span class="toc-text">Asymmetrical Reading and Writing of Inherited Members</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-clone-Function"><span class="toc-number">2.</span> <span class="toc-text">The clone Function</span></a></li></ol>
  
   </div>
 
@@ -197,7 +204,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript-设计模式/" title="JavaScript 设计模式">JavaScript 设计模式<sup>4</sup></a></li>
+			<li><a href="/categories/JavaScript-设计模式/" title="JavaScript 设计模式">JavaScript 设计模式<sup>5</sup></a></li>
 		  
 		
 		  
@@ -230,7 +237,7 @@
 			
 		
 			
-				<li><a href="/tags/Pro-JavaScript-Design-Patterns/" title="Pro JavaScript Design Patterns">Pro JavaScript Design Patterns<sup>4</sup></a></li>
+				<li><a href="/tags/Pro-JavaScript-Design-Patterns/" title="Pro JavaScript Design Patterns">Pro JavaScript Design Patterns<sup>5</sup></a></li>
 			
 		
 			
@@ -238,7 +245,15 @@
 			
 		
 			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
 			
@@ -246,7 +261,7 @@
 			
 		
 			
-				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
 			
 		
 			
@@ -258,19 +273,23 @@
 			
 		
 			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/干货/" title="干货">干货<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
 			
 		
 			
@@ -282,19 +301,7 @@
 			
 		
 			
-				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 		</ul>
