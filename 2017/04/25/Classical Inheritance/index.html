@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>关于this | fire on the world!</title>
+    <title>Classical Inheritance | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="指向自身使用foo标识符替代this来引用函数对象：123456789101112131415161718function foo(num) &amp;#123;    console.log( &amp;quot;foo: &amp;quot; + num );    // 记录foo被调用的次数    foo.count++;&amp;#125;foo.count = 0var i;for (i=0; i&amp;lt;10; i+">
-<meta name="keywords" content="js,Type & Grammar,this">
+    <meta name="description" content="The extend Function1234567/* Extend function. */function extend(subClass, superClass) &amp;#123;    var F = function() &amp;#123;&amp;#125;;    F.prototype = superClass.prototype;    subClass.prototype = new F();">
+<meta name="keywords" content="Pro JavaScript Design Patterns">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于this">
-<meta property="og:url" content="http://yoursite.com/2017/04/15/关于this/index.html">
+<meta property="og:title" content="Classical Inheritance">
+<meta property="og:url" content="http://yoursite.com/2017/04/25/Classical Inheritance/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="指向自身使用foo标识符替代this来引用函数对象：123456789101112131415161718function foo(num) &amp;#123;    console.log( &amp;quot;foo: &amp;quot; + num );    // 记录foo被调用的次数    foo.count++;&amp;#125;foo.count = 0var i;for (i=0; i&amp;lt;10; i+">
-<meta property="og:updated_time" content="2016-05-13T08:51:49.612Z">
+<meta property="og:description" content="The extend Function1234567/* Extend function. */function extend(subClass, superClass) &amp;#123;    var F = function() &amp;#123;&amp;#125;;    F.prototype = superClass.prototype;    subClass.prototype = new F();">
+<meta property="og:updated_time" content="2017-04-25T14:07:22.824Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于this">
-<meta name="twitter:description" content="指向自身使用foo标识符替代this来引用函数对象：123456789101112131415161718function foo(num) &amp;#123;    console.log( &amp;quot;foo: &amp;quot; + num );    // 记录foo被调用的次数    foo.count++;&amp;#125;foo.count = 0var i;for (i=0; i&amp;lt;10; i+">
+<meta name="twitter:title" content="Classical Inheritance">
+<meta name="twitter:description" content="The extend Function1234567/* Extend function. */function extend(subClass, superClass) &amp;#123;    var F = function() &amp;#123;&amp;#125;;    F.prototype = superClass.prototype;    subClass.prototype = new F();">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -81,14 +81,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/关于this/" title="关于this" itemprop="url">关于this</a>
+      <a href="/2017/04/25/Classical Inheritance/" title="Classical Inheritance" itemprop="url">Classical Inheritance</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    <time datetime="2017-04-25T13:51:18.325Z" itemprop="datePublished"> 发表于 2017-04-25</time>
     
   </p>
 </header>
@@ -97,28 +97,32 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#指向自身"><span class="toc-number">1.</span> <span class="toc-text">指向自身</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#this到底是什么"><span class="toc-number">2.</span> <span class="toc-text">this到底是什么</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-extend-Function"><span class="toc-number">1.</span> <span class="toc-text">The extend Function</span></a></li></ol>
 		
 		</div>
 		
-		<h3 id="指向自身"><a href="#指向自身" class="headerlink" title="指向自身"></a>指向自身</h3><p>使用foo标识符替代this来引用函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    foo.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        foo( i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
-<p>然而，这种方法同样回避了this的问题，并且完全依赖于变量foo的词法作用域。<br>另一种方法是强制this指向foo函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    // 注意，在当前的调用方式下（参见下方代码），this确实指向foo</div><div class="line">    this.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0;</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        // 使用call(..)可以确保this指向函数对象foo本身</div><div class="line">        foo.call( foo, i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
-<h3 id="this到底是什么"><a href="#this到底是什么" class="headerlink" title="this到底是什么"></a>this到底是什么</h3><p>this是在运行时进行绑定的，并不是在编写时绑定，它的上下文取决于函数调用时<br>的各种条件。this的绑定和函数声明的位置没有任何关系，只取决于函数的调用方式。<br>当一个函数被调用时，会创建一个活动记录（有时候也称为执行上下文）。这个记录会包含函数在<br>哪里被调用（调用栈）、函数的调用方法、传入的参数等信息。this就是记录的其中一个属性，会在<br>函数执行的过程中用到。</p>
-<p><b>this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。</b></p>
-  
+		<h3 id="The-extend-Function"><a href="#The-extend-Function" class="headerlink" title="The extend Function"></a>The extend Function</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Extend function. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">extend</span>(<span class="params">subClass, superClass</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</div><div class="line">    F.prototype = superClass.prototype;</div><div class="line">    subClass.prototype = <span class="keyword">new</span> F();</div><div class="line">    subClass.prototype.constructor = subClass;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> It sets the prototype and then resets the correct constructor. As a bonus, it adds the empty class F into the prototype chain in order to prevent a new (and possible large) instance of the superclass from having to be instantiated. This is also beneficial in situations where the superclass’s constructor has side effects or does something that is computationally intensive. Since the object that gets instantiated for the prototype is usually just a throwaway instance, you don’t want to create it unnecessarily</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Class Person. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">&#125;</div><div class="line">Person.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* Class Author. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Author</span>(<span class="params">name, books</span>) </span>&#123;</div><div class="line">    Person.call(<span class="keyword">this</span>, name);</div><div class="line">    <span class="keyword">this</span>.books = books;</div><div class="line">&#125;</div><div class="line">extend(Author, Person);</div><div class="line">Author.prototype.getBooks = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.books;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p> Instead of setting the prototype and constructor attributes manually, simply call the extend function immediately after the class declaration (and before you add any methods to the prototype). The only problem with this is that the name of the superclass (Person) is hardcoded within the Author declaration. It would be better to refer to it in a more general way:</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Extend function, improved. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">extend</span>(<span class="params">subClass, superClass</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</div><div class="line">    F.prototype = superClass.prototype;</div><div class="line">    subClass.prototype = <span class="keyword">new</span> F();</div><div class="line">    subClass.prototype.constructor = subClass;</div><div class="line">    subClass.superclass = superClass.prototype;</div><div class="line">    <span class="keyword">if</span>(superClass.prototype.constructor == <span class="built_in">Object</span>.prototype.constructor) &#123;</div><div class="line">        superClass.prototype.constructor = superClass;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> This version is a little longer but provides the superclass attribute, which you can now use to make Author less tightly coupled to Person. The first four lines of the function are the same as before. The last three lines simply ensure that the constructor attribute is set correctly on the superclass (even if the superclass is the Object class itself). This will become important when you use this new superclass attribute to call the superclass’s constructor:</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Class Author. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Author</span>(<span class="params">name, books</span>) </span>&#123;</div><div class="line">    Author.superclass.constructor.call(<span class="keyword">this</span>, name);</div><div class="line">    <span class="keyword">this</span>.books = books;</div><div class="line">&#125;</div><div class="line">extend(Author, Person);</div><div class="line">Author.prototype.getBooks = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.books;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>Adding the superclass attribute also allows you to call methods directly from the superclass.This is useful if you want to override a method while still having access to the superclass’s implementation of it. For instance, to override Person’s implementation of getName with a new version,you could use Author.superclass.getName to first get the original name and then add to it:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Author.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> name = Author.superclass.getName.call(<span class="keyword">this</span>);</div><div class="line">    <span class="keyword">return</span> name + <span class="string">', Author of '</span> + <span class="keyword">this</span>.getBooks().join(<span class="string">', '</span>);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/JavaScript-设计模式/">JavaScript 设计模式</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/this/">this</a>
+  <span></span> <a href="/tags/Pro-JavaScript-Design-Patterns/">Pro JavaScript Design Patterns</a>
   </div>
 
 </div>
@@ -127,7 +131,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/04/15/关于this/" data-title="关于this | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/04/25/Classical Inheritance/" data-title="Classical Inheritance | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -141,18 +145,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/04/15/作用域是什么/" title="作用域是什么">
+ <a href="/2017/04/23/Static Methods and Attributes/" title="Advanced Patterns">
   <strong>上一篇：</strong><br/>
   <span>
-  作用域是什么</span>
+  Advanced Patterns</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/04/15/作用域和闭包/"  title="作用域和闭包">
+<a href="/2017/04/25/Prototypal Inheritance/"  title="Prototypal Inheritance">
  <strong>下一篇：</strong><br/> 
- <span>作用域和闭包
+ <span>Prototypal Inheritance
 </span>
 </a>
 </div>
@@ -167,7 +171,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#指向自身"><span class="toc-number">1.</span> <span class="toc-text">指向自身</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#this到底是什么"><span class="toc-number">2.</span> <span class="toc-text">this到底是什么</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-extend-Function"><span class="toc-number">1.</span> <span class="toc-text">The extend Function</span></a></li></ol>
  
   </div>
 

@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>关于this | fire on the world!</title>
+    <title>Prototypal Inheritance | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="指向自身使用foo标识符替代this来引用函数对象：123456789101112131415161718function foo(num) &amp;#123;    console.log( &amp;quot;foo: &amp;quot; + num );    // 记录foo被调用的次数    foo.count++;&amp;#125;foo.count = 0var i;for (i=0; i&amp;lt;10; i+">
-<meta name="keywords" content="js,Type & Grammar,this">
+    <meta name="description" content="Asymmetrical Reading and Writing of Inherited MembersIn classical inheritance, each instance of Author has its own copy of the books array. You could add to it by writing author[1].books.push(‘New Boo">
+<meta name="keywords" content="Pro JavaScript Design Patterns">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于this">
-<meta property="og:url" content="http://yoursite.com/2017/04/15/关于this/index.html">
+<meta property="og:title" content="Prototypal Inheritance">
+<meta property="og:url" content="http://yoursite.com/2017/04/25/Prototypal Inheritance/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="指向自身使用foo标识符替代this来引用函数对象：123456789101112131415161718function foo(num) &amp;#123;    console.log( &amp;quot;foo: &amp;quot; + num );    // 记录foo被调用的次数    foo.count++;&amp;#125;foo.count = 0var i;for (i=0; i&amp;lt;10; i+">
-<meta property="og:updated_time" content="2016-05-13T08:51:49.612Z">
+<meta property="og:description" content="Asymmetrical Reading and Writing of Inherited MembersIn classical inheritance, each instance of Author has its own copy of the books array. You could add to it by writing author[1].books.push(‘New Boo">
+<meta property="og:updated_time" content="2017-04-25T14:41:09.048Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于this">
-<meta name="twitter:description" content="指向自身使用foo标识符替代this来引用函数对象：123456789101112131415161718function foo(num) &amp;#123;    console.log( &amp;quot;foo: &amp;quot; + num );    // 记录foo被调用的次数    foo.count++;&amp;#125;foo.count = 0var i;for (i=0; i&amp;lt;10; i+">
+<meta name="twitter:title" content="Prototypal Inheritance">
+<meta name="twitter:description" content="Asymmetrical Reading and Writing of Inherited MembersIn classical inheritance, each instance of Author has its own copy of the books array. You could add to it by writing author[1].books.push(‘New Boo">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -81,14 +81,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/关于this/" title="关于this" itemprop="url">关于this</a>
+      <a href="/2017/04/25/Prototypal Inheritance/" title="Prototypal Inheritance" itemprop="url">Prototypal Inheritance</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    <time datetime="2017-04-25T14:12:58.261Z" itemprop="datePublished"> 发表于 2017-04-25</time>
     
   </p>
 </header>
@@ -97,14 +97,20 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#指向自身"><span class="toc-number">1.</span> <span class="toc-text">指向自身</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#this到底是什么"><span class="toc-number">2.</span> <span class="toc-text">this到底是什么</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Asymmetrical-Reading-and-Writing-of-Inherited-Members"><span class="toc-number">1.</span> <span class="toc-text">Asymmetrical Reading and Writing of Inherited Members</span></a></li></ol>
 		
 		</div>
 		
-		<h3 id="指向自身"><a href="#指向自身" class="headerlink" title="指向自身"></a>指向自身</h3><p>使用foo标识符替代this来引用函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    foo.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        foo( i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
-<p>然而，这种方法同样回避了this的问题，并且完全依赖于变量foo的词法作用域。<br>另一种方法是强制this指向foo函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    // 注意，在当前的调用方式下（参见下方代码），this确实指向foo</div><div class="line">    this.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0;</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        // 使用call(..)可以确保this指向函数对象foo本身</div><div class="line">        foo.call( foo, i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
-<h3 id="this到底是什么"><a href="#this到底是什么" class="headerlink" title="this到底是什么"></a>this到底是什么</h3><p>this是在运行时进行绑定的，并不是在编写时绑定，它的上下文取决于函数调用时<br>的各种条件。this的绑定和函数声明的位置没有任何关系，只取决于函数的调用方式。<br>当一个函数被调用时，会创建一个活动记录（有时候也称为执行上下文）。这个记录会包含函数在<br>哪里被调用（调用栈）、函数的调用方法、传入的参数等信息。this就是记录的其中一个属性，会在<br>函数执行的过程中用到。</p>
-<p><b>this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。</b></p>
+		<h3 id="Asymmetrical-Reading-and-Writing-of-Inherited-Members"><a href="#Asymmetrical-Reading-and-Writing-of-Inherited-Members" class="headerlink" title="Asymmetrical Reading and Writing of Inherited Members"></a>Asymmetrical Reading and Writing of Inherited Members</h3><p>In classical inheritance, each instance of Author has its own copy of the books array. You could add to it by writing author[1].books.push(‘New Book Title’). That is not initially possible with the object you created using prototypal inheritance because of the way prototype chaining works. A clone is not a fully independent copy of its prototype object; it is a new empty object with its prototype attribute set to the prototype object. When it is just created, author[1].name is actually a link back to the primitive Person.name. This is because of the asymmetry inherent in reading and writing objects linked from the prototype. When you read the value of author[1].name, you are getting the value linked from the prototype, provided you haven’t defined the name attribute directly on the author[1] instance yet. When you write to author[1].name, you are defining a new attribute directly on the author[1] object.<br>This example illustrates that asymmetry:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> authorClone = clone(Author);</div><div class="line">alert(authorClone.name); <span class="comment">// Linked to the primative Person.name, which is the</span></div><div class="line">                         <span class="comment">// string 'default name'.</span></div><div class="line">authorClone.name = <span class="string">'new name'</span>; <span class="comment">// A new primative is created and added to the</span></div><div class="line">                               <span class="comment">// authorClone object itself.</span></div><div class="line">alert(authorClone.name); <span class="comment">// Now linked to the primative authorClone.name, which</span></div><div class="line">                         <span class="comment">// is the string 'new name'.</span></div><div class="line">authorClone.books.push(<span class="string">'new book'</span>); <span class="comment">// authorClone.books is linked to the array</span></div><div class="line">                                    <span class="comment">// Author.books. We just modified the</span></div><div class="line">                                    <span class="comment">// prototype object's default value, and all</span></div><div class="line">                                    <span class="comment">// other objects that link to it will now</span></div><div class="line">                                    <span class="comment">// have a new default value there.</span></div><div class="line">authorClone.books = []; <span class="comment">// A new array is created and added to the authorClone</span></div><div class="line">                        <span class="comment">// object itself.</span></div><div class="line">authorClone.books.push(<span class="string">'new book'</span>); <span class="comment">// We are now modifying that new array.</span></div></pre></td></tr></table></figure>
+<p>This also illustrates why you must create new copies of data types that are passed by reference. In the previous example, pushing a new value onto the authorClone.books array is actually pushing it to Author.books. This is bad because you just modified the value not only for Author but for any object inheriting from Author that has not yet overwritten the default. You must create<br>new copies of all arrays and objects before you start changing their members. It is very easy to forget this and modify the value of the prototype object. This should be avoided at all costs; debugging these types of errors can be very time-consuming. In these situations, you can use the hasOwnProperty method to distinguish between inherited members and the object’s actual members. </p>
+<p>Sometimes prototype objects will have child objects within them. If you want to override a single value within that child object, you have to recreate the entire thing. This can be done by setting the child object to be an empty object literal and then recreating it, but that would mean that the cloned object would have to know the exact structure and defaults for each child object. In order to keep all objects as loosely coupled as possible, any complex child objects should be created using methods:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> CompoundObject = &#123;</div><div class="line">    <span class="attr">string1</span>: <span class="string">'default value'</span>,</div><div class="line">    <span class="attr">childObject</span>: &#123;</div><div class="line">        <span class="attr">bool</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">num</span>: <span class="number">10</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> compoundObjectClone = clone(CompoundObject);</div><div class="line"><span class="comment">// Bad! Changes the value of CompoundObject.childObject.num.</span></div><div class="line">compoundObjectClone.childObject.num = <span class="number">5</span>;</div><div class="line"><span class="comment">// Better. Creates a new object, but compoundObject must know the structure</span></div><div class="line"><span class="comment">// of that object, and the defaults. This makes CompoundObject and</span></div><div class="line"><span class="comment">// compoundObjectClone tightly coupled.</span></div><div class="line">compoundObjectClone.childObject = &#123;</div><div class="line">    <span class="attr">bool</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">num</span>: <span class="number">5</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>In this example, childObject is recreated and ompoundObjectClone.childObject.num is modified. The problem is that compoundObjectClone must know that childObject has two attributes, with values true and 10. A better approach is to have a factory method that creates the childObject:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Best approach. Uses a method to create a new object, with the same structure and</span></div><div class="line"><span class="comment">// defaults as the original.</span></div><div class="line"><span class="keyword">var</span> CompoundObject = &#123;&#125;;</div><div class="line">CompoundObject.string1 = <span class="string">'default value'</span>,</div><div class="line">    CompoundObject.createChildObject = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">            <span class="attr">bool</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">num</span>: <span class="number">10</span></div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">CompoundObject.childObject = CompoundObject.createChildObject();</div><div class="line"><span class="keyword">var</span> compoundObjectClone = clone(CompoundObject);</div><div class="line">compoundObjectClone.childObject = CompoundObject.createChildObject();</div><div class="line">compoundObjectClone.childObject.num = <span class="number">5</span>;</div></pre></td></tr></table></figure>
+<p>###The clone Function</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Clone function. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">object</span>) </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">    F.prototype = object;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>First the clone function creates a new and empty function, F. It then sets the prototype attribute of F to the prototype object. You can see here the intent of the original JavaScript creators. The prototype attribute is meant to point to the prototype object, and through prototype chaining it provides links to all the inherited members. Lastly, the function creates a new object by calling the new operator on F. The cloned object that is returned is completely empty, except<br>for the prototype attribute, which is (indirectly) pointing to the prototype oject, by way of the F object.</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -112,13 +118,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/JavaScript-设计模式/">JavaScript 设计模式</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/this/">this</a>
+  <span></span> <a href="/tags/Pro-JavaScript-Design-Patterns/">Pro JavaScript Design Patterns</a>
   </div>
 
 </div>
@@ -127,7 +133,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/04/15/关于this/" data-title="关于this | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/04/25/Prototypal Inheritance/" data-title="Prototypal Inheritance | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -141,21 +147,13 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/04/15/作用域是什么/" title="作用域是什么">
+ <a href="/2017/04/25/Classical Inheritance/" title="Classical Inheritance">
   <strong>上一篇：</strong><br/>
   <span>
-  作用域是什么</span>
+  Classical Inheritance</span>
 </a>
 </div>
 
-
-<div class="next">
-<a href="/2017/04/15/作用域和闭包/"  title="作用域和闭包">
- <strong>下一篇：</strong><br/> 
- <span>作用域和闭包
-</span>
-</a>
-</div>
 
 </nav>
 
@@ -167,7 +165,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#指向自身"><span class="toc-number">1.</span> <span class="toc-text">指向自身</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#this到底是什么"><span class="toc-number">2.</span> <span class="toc-text">this到底是什么</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Asymmetrical-Reading-and-Writing-of-Inherited-Members"><span class="toc-number">1.</span> <span class="toc-text">Asymmetrical Reading and Writing of Inherited Members</span></a></li></ol>
  
   </div>
 
