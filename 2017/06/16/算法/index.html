@@ -4,24 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>DOM | fire on the world!</title>
+    <title>插入排序 | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="节点层次Node 类型确定节点类型 123if (someNode.nodeType == Node.ELEMENT_NODE) &amp;#123;    //在IE中无效    alert(&amp;quot;Node is an element&amp;quot;);&amp;#125; 跨浏览器兼容 123if (someNode.nodeType == 1) &amp;#123;    //适用于所有浏览器    alert(">
-<meta name="keywords" content="js,DOM">
+    <meta name="description" content="12345678910A=[5,1,3,7,4,2];for(let j=1;j&amp;lt;A.length;j++) &amp;#123;	let key = A[j];	i= j-1;	while(i&amp;gt;=0 &amp;amp;&amp;amp; A[i]&amp;gt;key) &amp;#123;		A[i+1]=A[i];		i=i-1;	&amp;#125;	A[i+1]=key;&amp;#125;">
+<meta name="keywords" content="Introduction to Algorithms">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DOM">
-<meta property="og:url" content="http://yoursite.com/2017/04/15/DOM/index.html">
+<meta property="og:title" content="插入排序">
+<meta property="og:url" content="http://yoursite.com/2017/06/16/算法/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="节点层次Node 类型确定节点类型 123if (someNode.nodeType == Node.ELEMENT_NODE) &amp;#123;    //在IE中无效    alert(&amp;quot;Node is an element&amp;quot;);&amp;#125; 跨浏览器兼容 123if (someNode.nodeType == 1) &amp;#123;    //适用于所有浏览器    alert(">
-<meta property="og:updated_time" content="2016-05-03T09:06:50.471Z">
+<meta property="og:description" content="12345678910A=[5,1,3,7,4,2];for(let j=1;j&amp;lt;A.length;j++) &amp;#123;	let key = A[j];	i= j-1;	while(i&amp;gt;=0 &amp;amp;&amp;amp; A[i]&amp;gt;key) &amp;#123;		A[i+1]=A[i];		i=i-1;	&amp;#125;	A[i+1]=key;&amp;#125;">
+<meta property="og:image" content="http://yoursite.com/2017/06/16/算法/img/Insertion-sort-example-300px.gif">
+<meta property="og:updated_time" content="2017-06-17T10:11:40.431Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DOM">
-<meta name="twitter:description" content="节点层次Node 类型确定节点类型 123if (someNode.nodeType == Node.ELEMENT_NODE) &amp;#123;    //在IE中无效    alert(&amp;quot;Node is an element&amp;quot;);&amp;#125; 跨浏览器兼容 123if (someNode.nodeType == 1) &amp;#123;    //适用于所有浏览器    alert(">
+<meta name="twitter:title" content="插入排序">
+<meta name="twitter:description" content="12345678910A=[5,1,3,7,4,2];for(let j=1;j&amp;lt;A.length;j++) &amp;#123;	let key = A[j];	i= j-1;	while(i&amp;gt;=0 &amp;amp;&amp;amp; A[i]&amp;gt;key) &amp;#123;		A[i+1]=A[i];		i=i-1;	&amp;#125;	A[i+1]=key;&amp;#125;">
+<meta name="twitter:image" content="http://yoursite.com/2017/06/16/算法/img/Insertion-sort-example-300px.gif">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -81,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/DOM/" title="DOM" itemprop="url">DOM</a>
+      <a href="/2017/06/16/算法/" title="插入排序" itemprop="url">插入排序</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    <time datetime="2017-06-16T07:07:47.683Z" itemprop="datePublished"> 发表于 2017-06-16</time>
     
   </p>
 </header>
@@ -97,32 +99,12 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#节点层次"><span class="toc-number">1.</span> <span class="toc-text">节点层次</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Node-类型"><span class="toc-number">1.1.</span> <span class="toc-text">Node 类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Element-类型"><span class="toc-number">1.2.</span> <span class="toc-text">Element 类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#取得特性"><span class="toc-number">1.2.1.</span> <span class="toc-text">取得特性</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DocumentFragment-类型"><span class="toc-number">1.3.</span> <span class="toc-text">DocumentFragment 类型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-操作技术"><span class="toc-number">2.</span> <span class="toc-text">DOM 操作技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#动态脚本"><span class="toc-number">2.1.</span> <span class="toc-text">动态脚本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态样式"><span class="toc-number">2.2.</span> <span class="toc-text">动态样式</span></a></li></ol></li></ol>
+			
 		
 		</div>
 		
-		<h3 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h3><h4 id="Node-类型"><a href="#Node-类型" class="headerlink" title="Node 类型"></a>Node 类型</h4><p>确定节点类型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (someNode.nodeType == Node.ELEMENT_NODE) &#123;    //在IE中无效</div><div class="line">    alert(&quot;Node is an element&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>跨浏览器兼容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (someNode.nodeType == 1) &#123;    //适用于所有浏览器</div><div class="line">    alert(&quot;Node is an element&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以将 NodeList 对象转为数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//在 IE8 及之前版本中无效</div><div class="line">var arrayOfNodes = Array.prototype.slice.call(someNode.childNodes,0);</div></pre></td></tr></table></figure>
-<p>跨浏览器兼容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function convertToArray(nodes) &#123;</div><div class="line">    var array = null;</div><div class="line">    try &#123;</div><div class="line">        array = Array.prototype.slice.call(someNode.childNodes,0);  //针对非 IE 浏览器</div><div class="line">    &#125; catch (ex) &#123;</div><div class="line">        array = new Array();</div><div class="line">        for (var i=0, len = nodes.length; i &lt; len; i++) &#123;</div><div class="line">            array.push(nodes[i]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return array;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="Element-类型"><a href="#Element-类型" class="headerlink" title="Element 类型"></a>Element 类型</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if (elemeent.tagName == &quot;div&quot;) &#123;  //不能这样比较，很容易出错！</div><div class="line">    //在此执行某些操作</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (elemeent.tagName.toLowerCase() == &quot;div&quot;) &#123;  //这样最好(适用于任何文档)</div><div class="line">    //在此执行某些操作</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="取得特性"><a href="#取得特性" class="headerlink" title="取得特性"></a>取得特性</h5><p>在通过 JavaScript 以编程方式操作 DOM 时，开发人员经常不使用 getAttribute(),而是只使用对象的属性。只用在取得自定义特性值的情况下，才会使用 getAttribute() 方法。</p>
-<h4 id="DocumentFragment-类型"><a href="#DocumentFragment-类型" class="headerlink" title="DocumentFragment 类型"></a>DocumentFragment 类型</h4><p>假设想为这个 &lt;\ul id=”myList”&gt;&lt;\/ul&gt; 元素添加3个列表项。如果逐个添加列表项，将会导致浏览器反复渲染新信息。为了避免这个问题，可以像下面这样使用一个文档片段来保存创建的列表项，然后再一次性将他们添加到文档中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var fragment = document.createDocumentFragment();</div><div class="line">var ul = document.gtElementById(&quot;myList&quot;);</div><div class="line">var li = null;</div><div class="line"></div><div class="line">for (var i=0; i &lt; 3; i++) &#123;</div><div class="line">    li = document.createElement(&quot;li&quot;);</div><div class="line">    li.appendChid(document.createTextNode(&quot;Item &quot; + (i+1)));</div><div class="line">    fragment.appendChild(li);</div><div class="line">&#125;</div><div class="line"></div><div class="line">ul.appendChild(fragment);</div></pre></td></tr></table></figure>
-<h3 id="DOM-操作技术"><a href="#DOM-操作技术" class="headerlink" title="DOM 操作技术"></a>DOM 操作技术</h3><h4 id="动态脚本"><a href="#动态脚本" class="headerlink" title="动态脚本"></a>动态脚本</h4><p>兼容 IE 和早期版本 Safari</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function loadScriptString(code) &#123;</div><div class="line">    var script = document.createElement(&quot;script&quot;);</div><div class="line">    script.type = &quot;text/javascript&quot;;</div><div class="line">    try &#123;</div><div class="line">        script.appendChild(document.createTextNode(code));</div><div class="line">    &#125; catch (ex) &#123;</div><div class="line">        script.text = code;</div><div class="line">    &#125;</div><div class="line">    document.body.appdendChild(script);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>实际上，这样执行代码与在全局全局作用域中巴相同的字符串传递给eval()是一样的。</p>
-<h4 id="动态样式"><a href="#动态样式" class="headerlink" title="动态样式"></a>动态样式</h4><p>通用的解决方案</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function loadStyleString(css) &#123;</div><div class="line">    var style = document.createElement(&quot;style&quot;);</div><div class="line">    style.type = &quot;text/css&quot;;</div><div class="line">    try &#123;</div><div class="line">        style.appendChild(document.createTextNode(css));</div><div class="line">    &#125; catch(ex) &#123;</div><div class="line">        style.styleSheet.cssText = css;    //兼容IE</div><div class="line">    &#125;</div><div class="line">    var head = document.getElementsByTagName(&quot;head&quot;)[0];</div><div class="line">    head.appendChild(style);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>调用这个函数的实例如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">loadStyleString(&quot;body&#123;background-color:red&#125;&quot;);</div></pre></td></tr></table></figure>
-<blockquote>
-<p>如果专门针对 IE 编写代码，务必小心使用 styleSheet.cssText 属性。在重用同一个&lt;\style&gt;元素并再次设置这个属性时，有可能导致浏览器崩溃。同样，将 cssText 属性设置为空字符串也可能导致浏览器崩溃。</p>
-</blockquote>
+		<p><img src="img/Insertion-sort-example-300px.gif"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">A=[<span class="number">5</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">7</span>,<span class="number">4</span>,<span class="number">2</span>];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> j=<span class="number">1</span>;j&lt;A.length;j++) &#123;</div><div class="line">	<span class="keyword">let</span> key = A[j];</div><div class="line">	i= j<span class="number">-1</span>;</div><div class="line">	<span class="keyword">while</span>(i&gt;=<span class="number">0</span> &amp;&amp; A[i]&gt;key) &#123;</div><div class="line">		A[i+<span class="number">1</span>]=A[i];</div><div class="line">		i=i<span class="number">-1</span>;</div><div class="line">	&#125;</div><div class="line">	A[i+<span class="number">1</span>]=key;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -130,13 +112,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/算法/">算法</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
+  <span></span> <a href="/tags/Introduction-to-Algorithms/">Introduction to Algorithms</a>
   </div>
 
 </div>
@@ -145,7 +127,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/04/15/DOM/" data-title="DOM | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/06/16/算法/" data-title="插入排序 | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -159,21 +141,13 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/04/15/函数表达式/" title="函数表达式">
+ <a href="/2017/04/25/Comparing Classical and Prototypal Inheritance/" title="Comparing Classical and Prototypal Inheritance">
   <strong>上一篇：</strong><br/>
   <span>
-  函数表达式</span>
+  Comparing Classical and Prototypal Inheritance</span>
 </a>
 </div>
 
-
-<div class="next">
-<a href="/2017/04/15/DOM2和DOM3/"  title="DOM2和DOM3">
- <strong>下一篇：</strong><br/> 
- <span>DOM2和DOM3
-</span>
-</a>
-</div>
 
 </nav>
 
@@ -185,7 +159,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#节点层次"><span class="toc-number">1.</span> <span class="toc-text">节点层次</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Node-类型"><span class="toc-number">1.1.</span> <span class="toc-text">Node 类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Element-类型"><span class="toc-number">1.2.</span> <span class="toc-text">Element 类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#取得特性"><span class="toc-number">1.2.1.</span> <span class="toc-text">取得特性</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DocumentFragment-类型"><span class="toc-number">1.3.</span> <span class="toc-text">DocumentFragment 类型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-操作技术"><span class="toc-number">2.</span> <span class="toc-text">DOM 操作技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#动态脚本"><span class="toc-number">2.1.</span> <span class="toc-text">动态脚本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态样式"><span class="toc-number">2.2.</span> <span class="toc-text">动态样式</span></a></li></ol></li></ol>
+ 
  
   </div>
 

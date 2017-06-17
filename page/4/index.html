@@ -81,6 +81,69 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/15/关于this/" title="关于this" itemprop="url">关于this</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="指向自身"><a href="#指向自身" class="headerlink" title="指向自身"></a>指向自身</h3><p>使用foo标识符替代this来引用函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    foo.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        foo( i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
+<p>然而，这种方法同样回避了this的问题，并且完全依赖于变量foo的词法作用域。<br>另一种方法是强制this指向foo函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    // 注意，在当前的调用方式下（参见下方代码），this确实指向foo</div><div class="line">    this.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0;</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        // 使用call(..)可以确保this指向函数对象foo本身</div><div class="line">        foo.call( foo, i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
+<h3 id="this到底是什么"><a href="#this到底是什么" class="headerlink" title="this到底是什么"></a>this到底是什么</h3><p>this是在运行时进行绑定的，并不是在编写时绑定，它的上下文取决于函数调用时<br>的各种条件。this的绑定和函数声明的位置没有任何关系，只取决于函数的调用方式。<br>当一个函数被调用时，会创建一个活动记录（有时候也称为执行上下文）。这个记录会包含函数在<br>哪里被调用（调用栈）、函数的调用方法、传入的参数等信息。this就是记录的其中一个属性，会在<br>函数执行的过程中用到。</p>
+<p><b>this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。</b></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/this/">this</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/15/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
   </h1>
   <p class="article-author">By
@@ -237,7 +300,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/关于this/" title="关于this" itemprop="url">关于this</a>
+      <a href="/2017/04/15/函数作用域和块作用域/" title="函数作用域和块作用域" itemprop="url">函数作用域和块作用域</a>
   </h1>
   <p class="article-author">By
        
@@ -250,10 +313,18 @@
 </header>
     <div class="article-content">
         
-        <h3 id="指向自身"><a href="#指向自身" class="headerlink" title="指向自身"></a>指向自身</h3><p>使用foo标识符替代this来引用函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    foo.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        foo( i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
-<p>然而，这种方法同样回避了this的问题，并且完全依赖于变量foo的词法作用域。<br>另一种方法是强制this指向foo函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    // 注意，在当前的调用方式下（参见下方代码），this确实指向foo</div><div class="line">    this.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0;</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        // 使用call(..)可以确保this指向函数对象foo本身</div><div class="line">        foo.call( foo, i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
-<h3 id="this到底是什么"><a href="#this到底是什么" class="headerlink" title="this到底是什么"></a>this到底是什么</h3><p>this是在运行时进行绑定的，并不是在编写时绑定，它的上下文取决于函数调用时<br>的各种条件。this的绑定和函数声明的位置没有任何关系，只取决于函数的调用方式。<br>当一个函数被调用时，会创建一个活动记录（有时候也称为执行上下文）。这个记录会包含函数在<br>哪里被调用（调用栈）、函数的调用方法、传入的参数等信息。this就是记录的其中一个属性，会在<br>函数执行的过程中用到。</p>
-<p><b>this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。</b></p>
+        <h3 id="块作用域"><a href="#块作用域" class="headerlink" title="块作用域"></a>块作用域</h3><h4 id="with"><a href="#with" class="headerlink" title="with"></a>with</h4><p>with关键字不仅是一个难于理解的结构，同时也是块作用域的一个例子<br>（块作用域的一种形式），用with从对象中创建出的作用域仅在with声明中而非外部作用域中有<br>效。</p>
+<h4 id="try-catch"><a href="#try-catch" class="headerlink" title="try/catch"></a>try/catch</h4><p>非常少有人会注意到JavaScript的ES3规范中规定try/catch的catch分句会创建一个块作用域，其<br>中声明的变量仅在catch内部有效。</p>
+<blockquote>
+<p>尽管这个行为已经被标准化，并且被大部分的标准JavaScript环境（除了老版本的IE浏览<br>器）所支持，但是当同一个作用域中的两个或多个catch分句用同样的标识符名称声明错误变<br>量时，很多静态检查工具还是会发出警告。实际上这并不是重复定义，因为所有变量都被安全<br>地限制在块作用域内部，但是静态检查工具还是会很烦人地发出警告。<br>为了避免这个不必要的警告，很多开发者会将catch的参数命名为err1、err2等。也有开发者干<br>脆关闭了静态检查工具对重复变量名的检查。</p>
+</blockquote>
+<h4 id="let"><a href="#let" class="headerlink" title="let"></a>let</h4><p>let关键字可以将变量绑定到所在的任意作用域中（通常是{ ..}内部）。换句话说，let为其声明的变量隐式地了所在的块作用域。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var foo = true;</div><div class="line">if (foo) &#123;</div><div class="line">    let bar = foo * 2;</div><div class="line">    bar = something( bar );</div><div class="line">    console.log( bar );</div><div class="line">&#125;</div><div class="line">console.log( bar ); // ReferenceError</div></pre></td></tr></table></figure>
+<p>用let将变量附加在一个已经存在的块作用域上的行为是隐式的。在开发和修改代码的过程中，如<br>果没有密切关注哪些块作用域中有绑定的变量，并且习惯性地移动这些块或者将其包含在其他的<br>块中，就会导致代码变得混乱。<br>为块作用域显式地创建块可以部分解决这个问题，使变量的附属关系变得更加清晰。通常来讲，显<br>式的代码优于隐式或一些精巧但不清晰的代码。显式的块作用域风格非常容易书写，并且和其他<br>语言中块作用域的工作原理一致：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var foo = true;</div><div class="line">&lt;b&gt;if&lt;/b&gt; (foo) &#123;</div><div class="line">    &#123; // &lt;-- 显式的快</div><div class="line">        let bar = foo * 2;</div><div class="line">        bar = something( bar );</div><div class="line">        console.log( bar );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">console.log( bar ); // ReferenceError</div></pre></td></tr></table></figure>
+<p>只要声明是有效的，在声明中的任意位置都可以使用{ .. }括号来为let创建一个用于绑定的块。在<br>这个例子中，我们在if声明内部显式地创建了一个块，如果需要对其进行重构，整个块都可以被方<br>便地移动而不会对外部if声明的位置和语义产生任何影响。</p>
+<p>使用let进行的声明不会在块作用域中进行提升。声明的代码被运行之前，声明并不”存在”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">console.log( bar ); // ReferenceError!</div><div class="line">let bar = 2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
         
         
@@ -272,7 +343,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/this/">this</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
   </div>
 
 </div>
@@ -337,6 +408,10 @@
 			<li><a href="/categories/涉及底层/" title="涉及底层">涉及底层<sup>1</sup></a></li>
 		  
 		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
 		</ul>
 </div>
 
@@ -367,7 +442,7 @@
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
 			
 		
 			
@@ -379,27 +454,15 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
 			
 		
 			
@@ -411,6 +474,18 @@
 			
 		
 			
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
 			
 		
@@ -419,11 +494,11 @@
 			
 		
 			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+				<li><a href="/tags/干货/" title="干货">干货<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/干货/" title="干货">干货<sup>1</sup></a></li>
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 		</ul>
