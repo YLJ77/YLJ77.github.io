@@ -111,9 +111,14 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">clip: auto | rect() | inherit;</div></pre></td></tr></table></figure>
 <p>where</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rect() = rect(&lt;top&gt;, &lt;right&gt;, &lt;bottom&gt;, &lt;left&gt;), and &lt;top&gt;, &lt;right&gt;, &lt;bottom&gt;, &lt;left&gt; are all &lt;length&gt; values</div></pre></td></tr></table></figure>
-<p>*初始值: auto</p>
-<p>*适用于: 绝对定位的元素</p>
-<p>*动画：rect（）函数的偏移量接受<length>值，因此可以作为一个长度来动画化</length></p>
+<ul>
+<li><p>初始值: auto</p>
+</li>
+<li><p>适用于: 绝对定位的元素</p>
+</li>
+<li><p>动画：rect（）函数的偏移量接受<length>值，因此可以作为一个长度来动画化</length></p>
+</li>
+</ul>
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><hr style="background: #ccc;height:2px;">
 
 <p>html</p>
@@ -138,6 +143,7 @@
   width: 300px;
   height: 300px;
   z-index: 0;
+  top: 0;
   position: absolute;
   -webkit-transition: clip .4s ease-in-out, z-index .2s linear .4s;
   transition: clip .4s ease-in-out, z-index .2s linear .4s;
@@ -148,22 +154,22 @@ img {
 }
 
 .element-1 {
-  background-color: #2c3e50;
+  background: #2c3e50 url(img/cat-1.jpg);
   clip: rect(0px, 150px, 150px, 0px);
 }
 
 .element-2 {
-  background-color: #f39c12;
+  background: #f39c12 url(img/cat-2.jpg);
   clip: rect(0px, 300px, 150px, 150px);
 }
 
 .element-3 {
-  background-color: #16a085;
+  background: #16a085 url(img/cat-3.jpg);
   clip: rect(150px, 150px, 300px, 0px);
 }
 
 .element-4 {
-  background-color: #8e44ad;
+  background: #8e44ad url(img/cat-4.jpg);
   clip: rect(150px, 300px, 300px, 150px);
 }
 
@@ -175,7 +181,7 @@ img {
 }
 </style>
 
-<div class="container"><br>  <p><br>    悬停在四张图片上可观察到它们的剪辑区域会被展开<br>  </p><br>  <div class="element element-1"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-1.jpg" alt=""><br>  </div><br>  <div class="element element-2"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-4.jpg" alt=""><br>  </div><br>  <div class="element element-3"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-3.jpg" alt=""><br>  </div><br>  <div class="element element-4"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-2.jpg" alt=""><br>  </div><br></div>
+<div class="container"><br>  <p><br>    悬停在四张图片上可观察到它们的剪辑区域会被展开<br>  </p><br>  <div class="element element-1"><br>  </div><br>  <div class="element element-2"><br>  </div><br>  <div class="element element-3"><br>  </div><br>  <div class="element element-4"><br>  </div><br></div>
 
 
 
@@ -739,7 +745,7 @@ img {
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/随机取整/" title="随机取整" itemprop="url">随机取整</a>
+      <a href="/2017/04/15/闭包/" title="闭包" itemprop="url">闭包</a>
   </h1>
   <p class="article-author">By
        
@@ -752,7 +758,15 @@ img {
 </header>
     <div class="article-content">
         
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function fnRand(m,n) &#123;</div><div class="line">    var r = Math.round(Math.random()*(n-m) + m);</div><div class="line">    return r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <h3 id="偏应用函数"><a href="#偏应用函数" class="headerlink" title="偏应用函数"></a>偏应用函数</h3><p>“分部应用”一个函数是一项特别有趣的技术，在函数调用之前，我们可以预先传入一些函数。实际上，偏应用函数返回了一个含有预处理参数的新函数，以便后期可以调用。<br>这类代理函数--代理的是另外一个函数，并且在执行的时候会调用所代理的函数。<br>这种在一个函数中首先填充几个参数(然后再返回一个新函数)的技术称之为柯里化(curring)。</p>
+<p>柯里化函数示例(在第一个特定参数中进行填充)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Function.prototype.curry = function() &#123;</div><div class="line">    //该函数以及预填充的参数是保存在闭包中的</div><div class="line">    var fn = this,</div><div class="line">        args = Array.prototype.slice.call(arguments);</div><div class="line">    //创建一个匿名柯里化函数</div><div class="line">    return function()&#123;</div><div class="line">        return fn.apply(this,args.concat(Array.prototype.slice.call(arguments)));</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这种技术是另外一个利用闭包记住状态的很好例子。在本例中，我们要记住新增加的函数(这里的this参数不会存在于任何闭包中，因为每个函数调用的时候都有自己的this)以及预填充参数，并将它们转移到新创建的函数中。该新函数将有预填充的参数以及刚传入的新参数。其结果就是，这样的方法可以让我们预先传入一些参数，然后返回给我们一个新的简单函数供我们使用。</p>
+<p>虽然这种风格的分部函数非常有用，但我们可以做的更好。如果我们给特定函数传递遗漏的参数，而不是从参数列表一开始就传。</p>
+<p>一个更复杂的”分部”函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Function.prototype.partial = function() &#123;</div><div class="line">    var fn = this, args = Array.prototype.slice.call(arguments);</div><div class="line">    return function()&#123;</div><div class="line">        var arg = 0;</div><div class="line">        for (var i=0; i &lt; args.length &amp;&amp; arg &lt; arguments.length; i++) &#123;</div><div class="line">            if (args[i] === undefined) &#123;</div><div class="line">                args[i] = arguments[arg++];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return fn.apply(this, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>该实现的本质类似于Prototype的curry()方法，但它有几个重要的差异。值得注意的是，用户可以在参数列表的任意位置指定参数，然后在后续的调用中，根据遗漏的参数值是否等于undefined来判断参数的遗漏，要实现这种功能，我们添加了参数合并功能。很有效果，遍历传入的所有参数参数，判断相应的参数是否遗漏了(是否是undefined)，然后沿着顺序填充遗漏的参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var delay = setTimeout.partial(undefined, 10);</div><div class="line"></div><div class="line">delay(function()&#123;</div><div class="line">    assert(true, &quot;A call to this function will be delayed 10 ms.&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这段代码创建了一个新的函数，名为delay()，通过该函数，我们可以传入另外一个10毫秒后进行调用的异步函数。<br>我们也可以创建一个简单的函数用于事件绑定:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var bindClick = document.body.addEventListener.partial(&quot;click&quot;, undefined, false);</div><div class="line"></div><div class="line">bindClick(function()&#123;</div><div class="line">    assert(true, &quot;Click event bound via curried function&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 
         
         
@@ -771,7 +785,7 @@ img {
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/随机数/">随机数</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/闭包/">闭包</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/函数/">函数</a>
   </div>
 
 </div>
@@ -870,7 +884,7 @@ img {
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
 			
 		
 			
@@ -886,7 +900,7 @@ img {
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -898,7 +912,7 @@ img {
 			
 		
 			
-				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
@@ -918,11 +932,11 @@ img {
 			
 		
 			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
 			
 		
 			

@@ -19,11 +19,7 @@
 <meta property="og:site_name" content="fire on the world!">
 <meta property="og:description" content="clip翻译自codrops 剪辑属性用于剪除元素的区域，只保留元素的一部分可见在元素被裁剪之后可见的元素的部分被称为剪切区域。剪辑应用于元素的border-box区域，该区域最初是完全可见的。剪切一个元素类似于裁剪它。 使用clip，您可以指定向内指定要从中剪除元素边缘的区域的偏移量。 clip属性只接受一个形状函数，即rect（）函数作为一个值。 rect（）函数需要四个参数，这些参数是元素的">
 <meta property="og:image" content="http://yoursite.com/2017/07/09/clip/img/clip-offsets.jpg">
-<meta property="og:image" content="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-1.jpg">
-<meta property="og:image" content="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-4.jpg">
-<meta property="og:image" content="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-3.jpg">
-<meta property="og:image" content="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-2.jpg">
-<meta property="og:updated_time" content="2017-07-09T09:07:20.420Z">
+<meta property="og:updated_time" content="2017-07-09T09:25:32.420Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="clip">
 <meta name="twitter:description" content="clip翻译自codrops 剪辑属性用于剪除元素的区域，只保留元素的一部分可见在元素被裁剪之后可见的元素的部分被称为剪切区域。剪辑应用于元素的border-box区域，该区域最初是完全可见的。剪切一个元素类似于裁剪它。 使用clip，您可以指定向内指定要从中剪除元素边缘的区域的偏移量。 clip属性只接受一个形状函数，即rect（）函数作为一个值。 rect（）函数需要四个参数，这些参数是元素的">
@@ -124,9 +120,14 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">clip: auto | rect() | inherit;</div></pre></td></tr></table></figure>
 <p>where</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rect() = rect(&lt;top&gt;, &lt;right&gt;, &lt;bottom&gt;, &lt;left&gt;), and &lt;top&gt;, &lt;right&gt;, &lt;bottom&gt;, &lt;left&gt; are all &lt;length&gt; values</div></pre></td></tr></table></figure>
-<p>*初始值: auto</p>
-<p>*适用于: 绝对定位的元素</p>
-<p>*动画：rect（）函数的偏移量接受<length>值，因此可以作为一个长度来动画化</length></p>
+<ul>
+<li><p>初始值: auto</p>
+</li>
+<li><p>适用于: 绝对定位的元素</p>
+</li>
+<li><p>动画：rect（）函数的偏移量接受<length>值，因此可以作为一个长度来动画化</length></p>
+</li>
+</ul>
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><hr style="background: #ccc;height:2px;">
 
 <p>html</p>
@@ -151,6 +152,7 @@
   width: 300px;
   height: 300px;
   z-index: 0;
+  top: 0;
   position: absolute;
   -webkit-transition: clip .4s ease-in-out, z-index .2s linear .4s;
   transition: clip .4s ease-in-out, z-index .2s linear .4s;
@@ -161,22 +163,22 @@ img {
 }
 
 .element-1 {
-  background-color: #2c3e50;
+  background: #2c3e50 url(img/cat-1.jpg);
   clip: rect(0px, 150px, 150px, 0px);
 }
 
 .element-2 {
-  background-color: #f39c12;
+  background: #f39c12 url(img/cat-2.jpg);
   clip: rect(0px, 300px, 150px, 150px);
 }
 
 .element-3 {
-  background-color: #16a085;
+  background: #16a085 url(img/cat-3.jpg);
   clip: rect(150px, 150px, 300px, 0px);
 }
 
 .element-4 {
-  background-color: #8e44ad;
+  background: #8e44ad url(img/cat-4.jpg);
   clip: rect(150px, 300px, 300px, 150px);
 }
 
@@ -188,7 +190,7 @@ img {
 }
 </style>
 
-<div class="container"><br>  <p><br>    悬停在四张图片上可观察到它们的剪辑区域会被展开<br>  </p><br>  <div class="element element-1"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-1.jpg" alt=""><br>  </div><br>  <div class="element element-2"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-4.jpg" alt=""><br>  </div><br>  <div class="element element-3"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-3.jpg" alt=""><br>  </div><br>  <div class="element element-4"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-2.jpg" alt=""><br>  </div><br></div>
+<div class="container"><br>  <p><br>    悬停在四张图片上可观察到它们的剪辑区域会被展开<br>  </p><br>  <div class="element element-1"><br>  </div><br>  <div class="element element-2"><br>  </div><br>  <div class="element element-3"><br>  </div><br>  <div class="element element-4"><br>  </div><br></div>
 
 
 
@@ -319,7 +321,7 @@ img {
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
 			
 		
 			
@@ -335,7 +337,7 @@ img {
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -347,7 +349,7 @@ img {
 			
 		
 			
-				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
@@ -367,11 +369,11 @@ img {
 			
 		
 			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
 			
 		
 			
