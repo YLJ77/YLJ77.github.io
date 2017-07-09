@@ -418,6 +418,68 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/15/测试套件/" title="测试套件" itemprop="url">测试套件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><p>单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。<br>从下面的代码清单中，可以看到一个简单的实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;title&gt;Test Suite&lt;/title&gt;</div><div class="line">        &lt;script&gt;</div><div class="line">            function assert(value, desc) &#123;</div><div class="line">                var li = document.createElement(&quot;li&quot;);</div><div class="line">                li.className = value ? &quot;pass&quot; : &quot;fail&quot;;</div><div class="line">                li.appendChild(document.createTextNode(desc));</div><div class="line">                document.getElementById(&apos;results&apos;).appendChild(li);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            window.onload = function() &#123;</div><div class="line">                assert(true, &apos;The test suite is running.&apos;)；</div><div class="line">                assert(false, &apos;Fail!&apos;);</div><div class="line">            &#125;</div><div class="line">        &lt;/script&gt;</div><div class="line"></div><div class="line">        &lt;style&gt;</div><div class="line">            #results li.pass&#123; color:green; &#125;</div><div class="line">            #results li.fail&#123; color:red; &#125;</div><div class="line">        &lt;/style&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line"></div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;ul id=&apos;results&apos;&gt;&lt;/ul&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>该测试套件包括两个微不足道的测试：一个总是成功，另一个总是失败。pass和fail的样式规则，则使用颜色在视觉上表示成功或失败。<br>该函数很简单，但对于未来开发，它将会是良好的构件块。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/调试/">调试</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/15/继承/" title="继承" itemprop="url">继承</a>
   </h1>
   <p class="article-author">By
@@ -682,68 +744,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/测试套件/" title="测试套件" itemprop="url">测试套件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><p>单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。<br>从下面的代码清单中，可以看到一个简单的实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;title&gt;Test Suite&lt;/title&gt;</div><div class="line">        &lt;script&gt;</div><div class="line">            function assert(value, desc) &#123;</div><div class="line">                var li = document.createElement(&quot;li&quot;);</div><div class="line">                li.className = value ? &quot;pass&quot; : &quot;fail&quot;;</div><div class="line">                li.appendChild(document.createTextNode(desc));</div><div class="line">                document.getElementById(&apos;results&apos;).appendChild(li);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            window.onload = function() &#123;</div><div class="line">                assert(true, &apos;The test suite is running.&apos;)；</div><div class="line">                assert(false, &apos;Fail!&apos;);</div><div class="line">            &#125;</div><div class="line">        &lt;/script&gt;</div><div class="line"></div><div class="line">        &lt;style&gt;</div><div class="line">            #results li.pass&#123; color:green; &#125;</div><div class="line">            #results li.fail&#123; color:red; &#125;</div><div class="line">        &lt;/style&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line"></div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;ul id=&apos;results&apos;&gt;&lt;/ul&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>该测试套件包括两个微不足道的测试：一个总是成功，另一个总是失败。pass和fail的样式规则，则使用颜色在视觉上表示成功或失败。<br>该函数很简单，但对于未来开发，它将会是良好的构件块。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/调试/">调试</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/调试CSS层/" title="调试CSS层" itemprop="url">调试CSS层</a>
   </h1>
   <p class="article-author">By
@@ -886,19 +886,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -906,7 +894,27 @@
 			
 		
 			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 			
@@ -914,19 +922,11 @@
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
 			
 		
 			
@@ -938,7 +938,7 @@
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>
