@@ -209,212 +209,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/技巧干货/" title="技巧干货" itemprop="url">技巧干货</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="使用-操作符转换布尔值"><a href="#使用-操作符转换布尔值" class="headerlink" title="使用!!操作符转换布尔值"></a>使用!!操作符转换布尔值</h3><p>对于变量可以使用!!variable做检测，只要变量的值为:0、null、””、undefined或者NaN都将返回的是false，反之返回的是true。</p>
-<h3 id="使用-将字符串转换成数字"><a href="#使用-将字符串转换成数字" class="headerlink" title="使用+将字符串转换成数字"></a>使用+将字符串转换成数字</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function toNumber(strNumber) &#123;</div><div class="line">    return +strNumber;</div><div class="line">&#125;</div><div class="line">console.log(toNumber(&quot;1234&quot;)); // 1234</div></pre></td></tr></table></figure>
-<h3 id="并条件符"><a href="#并条件符" class="headerlink" title="并条件符"></a>并条件符</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">conected &amp;&amp; login();</div></pre></td></tr></table></figure>
-<h3 id="使用-运算符"><a href="#使用-运算符" class="headerlink" title="使用||运算符"></a>使用||运算符</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function User(name, age) &#123;</div><div class="line">    this.name = name || &quot;Oliver Queen&quot;;</div><div class="line">    this.age = age || 27;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="在循环中缓存array-length"><a href="#在循环中缓存array-length" class="headerlink" title="在循环中缓存array.length"></a>在循环中缓存array.length</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">for(var i = 0, length = array.length; i &lt; length; i++) &#123;</div><div class="line">    console.log(array[i]);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="检测对象中属性"><a href="#检测对象中属性" class="headerlink" title="检测对象中属性"></a>检测对象中属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if (&apos;querySelector&apos; in document) &#123;</div><div class="line">    document.querySelector(&quot;#id&quot;);</div><div class="line">&#125; else &#123;</div><div class="line">    document.getElementById(&quot;id&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="获取数组中最后一个元素"><a href="#获取数组中最后一个元素" class="headerlink" title="获取数组中最后一个元素"></a>获取数组中最后一个元素</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var array = [1,2,3,4,5,6];</div><div class="line">console.log(array.slice(-1)); // [6]</div><div class="line">console.log(array.slice(-2)); // [5,6]</div></pre></td></tr></table></figure>
-<h3 id="数组截断"><a href="#数组截断" class="headerlink" title="数组截断"></a>数组截断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var array = [1,2,3,4,5,6];</div><div class="line">console.log(array.length); // 6</div><div class="line">array.length = 3;</div><div class="line">console.log(array.length); // 3</div><div class="line">console.log(array); // [1,2,3]</div></pre></td></tr></table></figure>
-<h3 id="替换所有"><a href="#替换所有" class="headerlink" title="替换所有"></a>替换所有</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var string = &quot;john john&quot;;</div><div class="line">console.log(string.replace(/hn/, &quot;ana&quot;)); // &quot;joana john&quot;</div><div class="line">console.log(string.replace(/hn/g, &quot;ana&quot;)); // &quot;joana joana&quot;</div></pre></td></tr></table></figure>
-<h3 id="合并数组"><a href="#合并数组" class="headerlink" title="合并数组"></a>合并数组</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var array1 = [1,2,3];</div><div class="line">var array2 = [4,5,6];</div><div class="line">console.log(array1.push.apply(array1, array2)); // [1,2,3,4,5,6];</div></pre></td></tr></table></figure>
-<h3 id="将NodeList转换成数组"><a href="#将NodeList转换成数组" class="headerlink" title="将NodeList转换成数组"></a>将NodeList转换成数组</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var elements = document.querySelectorAll(&quot;p&quot;); // NodeList</div><div class="line">var arrayElements = [].slice.call(elements); // Now the NodeList is an array</div><div class="line">var arrayElements = Array.from(elements); // This is another way of converting NodeList to Array</div></pre></td></tr></table></figure>
-<h3 id="数组元素的洗牌"><a href="#数组元素的洗牌" class="headerlink" title="数组元素的洗牌"></a>数组元素的洗牌</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var list = [1,2,3];</div><div class="line">console.log(list.sort(function() &#123; Math.random() - 0.5 &#125;)); // [2,1,3]</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/干货/">干货</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/媒体查询/" title="媒体查询" itemprop="url">媒体查询</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="媒体查询语法"><a href="#媒体查询语法" class="headerlink" title="媒体查询语法"></a>媒体查询语法</h3><p>纵向媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>在媒体查询的开头追加not则会颠倒查询的逻辑</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>限制视口宽度</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait) and (min-width:800px)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>CSS样式表中使用媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@media screen and (max-device-width: 400px) &#123;</div><div class="line">    h1 &#123; color: green&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用CSS的@import指令在当前样式表中按条件引入其他样式表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@import url(&quot;phone.css&quot;) screen and (max-width:360px);</div></pre></td></tr></table></figure>
-<blockquote>
-<p>使用CSS的@import方式会增加HTTP请求(这会影响加载速度)，要谨慎使用。</p>
-</blockquote>
-<h3 id="媒体查询特性"><a href="#媒体查询特性" class="headerlink" title="媒体查询特性"></a>媒体查询特性</h3><p>视口宽度: width<br>屏幕宽度: device-width</p>
-<pre><code>
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/CSS/">CSS</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/响应式/">响应式</a><a href="/tags/媒体查询/">媒体查询</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/对象/" title="对象" itemprop="url">对象</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><p>简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当<br>作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符<br>串”object”。1实际上，null本身是基本类型。</p>
-<p>原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被<br>判断为object类型，null的二进制表示是全0，自然前三位也是0，所以执行typeof时会返<br>回”object”</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/对象/">对象</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/提升/" title="提升" itemprop="url">提升</a>
   </h1>
   <p class="article-author">By
@@ -485,7 +279,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/测试套件/" title="测试套件" itemprop="url">测试套件</a>
+      <a href="/2017/04/15/对象/" title="对象" itemprop="url">对象</a>
   </h1>
   <p class="article-author">By
        
@@ -498,9 +292,8 @@
 </header>
     <div class="article-content">
         
-        <h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><p>单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。<br>从下面的代码清单中，可以看到一个简单的实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;title&gt;Test Suite&lt;/title&gt;</div><div class="line">        &lt;script&gt;</div><div class="line">            function assert(value, desc) &#123;</div><div class="line">                var li = document.createElement(&quot;li&quot;);</div><div class="line">                li.className = value ? &quot;pass&quot; : &quot;fail&quot;;</div><div class="line">                li.appendChild(document.createTextNode(desc));</div><div class="line">                document.getElementById(&apos;results&apos;).appendChild(li);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            window.onload = function() &#123;</div><div class="line">                assert(true, &apos;The test suite is running.&apos;)；</div><div class="line">                assert(false, &apos;Fail!&apos;);</div><div class="line">            &#125;</div><div class="line">        &lt;/script&gt;</div><div class="line"></div><div class="line">        &lt;style&gt;</div><div class="line">            #results li.pass&#123; color:green; &#125;</div><div class="line">            #results li.fail&#123; color:red; &#125;</div><div class="line">        &lt;/style&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line"></div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;ul id=&apos;results&apos;&gt;&lt;/ul&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>该测试套件包括两个微不足道的测试：一个总是成功，另一个总是失败。pass和fail的样式规则，则使用颜色在视觉上表示成功或失败。<br>该函数很简单，但对于未来开发，它将会是良好的构件块。</p>
+        <h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><p>简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当<br>作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符<br>串”object”。1实际上，null本身是基本类型。</p>
+<p>原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被<br>判断为object类型，null的二进制表示是全0，自然前三位也是0，所以执行typeof时会返<br>回”object”</p>
 
         
         
@@ -519,7 +312,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/调试/">调试</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/对象/">对象</a>
   </div>
 
 </div>
@@ -787,6 +580,231 @@
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/词法作用域/" title="词法作用域" itemprop="url">词法作用域</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>作用域共有两种主要的工作模型。第一种是最为普遍的，被大多数编程语言所采用的词法作用域。另外一种叫作动态作用域，仍有一些编程语言在使用（比如<br>Bash脚本、Perl中的一些模式等）。</p>
+<h3 id="词法阶段"><a href="#词法阶段" class="headerlink" title="词法阶段"></a>词法阶段</h3><p>大部分标准语言编译器的第一个工作阶段叫作词法化（也叫单词化）。词<br>法化的过程会对源代码中的字符进行检查，如果是有状态的解析过程，还会赋予单词语义。<br>这个概念是理解词法作用域及其名称来历的基础。<br>简单地说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域是由你在写代码时将<br>变量和块作用域写在哪里来决定的，因此当词法分析器处理代码时会保持作用域不变（大部分情<br>况下是这样的）。</p>
+<p>考虑以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function foo(a) &#123;</div><div class="line">    var b = a * 2;</div><div class="line">function bar(c) &#123;</div><div class="line">    console.log( a, b, c );</div><div class="line">&#125;</div><div class="line">bar( b * 3 );</div><div class="line">&#125;</div><div class="line">foo( 2 ); // 2, 4, 12</div></pre></td></tr></table></figure>
+<p>在这个例子中有三个逐级嵌套的作用域。为了帮助理解，可以将它们想象成几个逐级包含的气泡。</p>
+<p><img src="img/blog/Lexing_1.png"></p>
+<p>气泡1包含着整个全局作用域，其中只有一个标识符：foo。<br>气泡2包含着foo所创建的作用域，其中有三个标识符：a、bar和b。<br>气泡3包含着bar所创建的作用域，其中只有一个标识符：c。<br>作用域气泡由其对应的作用域块代码写在哪里决定，它们是逐级包含的。</p>
+<p>作用域查找会在找到第一个匹配的标识符时停止。在多层的嵌套作用域中可以定义同名的标识<br>符，这叫作“遮蔽效应”（内部的标识符“遮蔽”了外部的标识符）。抛开遮蔽效应，作用域查找始终从<br>运行时所处的最内部作用域开始，逐级向外或者说向上进行，直到遇见第一个匹配的标识符为止。</p>
+<blockquote>
+<p>全局变量会自动成为全局对象（比如浏览器中的window对象）的属性，因此可以不直接通<br>过全局对象的词法名称，而是间接地通过对全局对象属性的引用来对其进行访问。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">window.a</div></pre></td></tr></table></figure>
+<blockquote>
+<p>通过这种技术可以访问那些被同名变量所遮蔽的全局变量。但非全局的变量如果被遮蔽了，无<br>论如何都无法被访问到。</p>
+</blockquote>
+<p><b>无论函数在哪里被调用，也无论它如何被调用，它的词法作用域都只由函数被声明时所处的位置<br>决定。</b><br>词法作用域查找只会查找一级标识符，比如a、b和c。如果代码中引用了foo.bar.baz，词法作用域查<br>找只会试图查找foo标识符，找到这个变量后，对象属性访问规则会分别接管对bar和baz属性的访<br>问。</p>
+<h3 id="欺骗词法"><a href="#欺骗词法" class="headerlink" title="欺骗词法"></a>欺骗词法</h3><p>如果词法作用域完全由写代码期间函数所声明的位置来定义，怎样才能在运行时来“修改”（也可以<br>说欺骗）词法作用域呢？<br>JavaScript中有两种机制来实现这个目的。社区普遍认为在代码中使用这两种机制并不是什么好<br>方法。但是关于它们的争论通常会忽略掉最重要的点：欺骗词法作用域会导致性能下降。</p>
+<h4 id="eval"><a href="#eval" class="headerlink" title="eval"></a>eval</h4><p>JavaScript中的eval(..)函数可以接受一个字符串为参数，并将其中的内容视为好像在书写时就存<br>在于程序中这个位置的代码。换句话说，可以在你写的代码中用程序生成代码并运行，就好像代码<br>是写在那个位置的一样。</p>
+<p>考虑以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function foo(str, a) &#123;</div><div class="line">    eval( str ); // 欺骗！</div><div class="line">    console.log( a, b );</div><div class="line">&#125;</div><div class="line">var b = 2;</div><div class="line">foo( &quot;var b = 3;&quot;, 1 ); // 1, 3</div></pre></td></tr></table></figure>
+<p>eval(..)调用中的”var b = 3;”这段代码会被当作本来就在那里一样来处理。由于那段代码声明了<br>一个新的变量b，因此它对已经存在的foo(..)的词法作用域进行了修改。事实上，和前面提到的原<br>理一样，这段代码实际上在foo(..)内部创建了一个变量b，并遮蔽了外部（全局）作用域中的同名<br>变量。</p>
+<blockquote>
+<p>在严格模式的程序中，eval(..)在运行时有其自己的词法作用域，意味着其中的声明无法<br>修改所在的作用域。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function foo(str) &#123;</div><div class="line">    &quot;use strict&quot;;</div><div class="line">    eval( str );</div><div class="line">    console.log( a ); // ReferenceError: a is not defined</div><div class="line">&#125;</div><div class="line">foo( &quot;var a = 2&quot;);</div></pre></td></tr></table></figure>
+<p>JavaScript中还有其他一些功能效果和eval(..)很相似。setTimeout(..)和setInterval(..)的第一<br>个参数可以是字符串，字符串的内容可以被解释为一段动态生成的函数代码。这些功能已经过时<br>且并不被提倡。不要使用它们！<br>new Function(..)函数的行为也很类似，最后一个参数可以接受代码字符串，并将其转化为动态生<br>成的函数（前面的参数是这个新生成的函数的形参）。这种构建函数的语法比eval(..)略微安全一<br>些，但也要尽量避免使用。<br>在程序中动态生成代码的使用场景非常罕见，因为它所带来的好处无法抵消性能上的损失。</p>
+<h4 id="with"><a href="#with" class="headerlink" title="with"></a>with</h4><p>JavaScript中另一个难以掌握（并且现在也不推荐使用）的用来欺骗词法作用域的功能是with关键<br>字。可以有很多方法来解释with，在这里我选择从这个角度来解释它：它如何同被它所影响的词法<br>作用域进行交互。<br>with通常被当作重复引用同一个对象中的多个属性的快捷方式，可以不需要重复引用对象本身。<br>比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var obj = &#123;</div><div class="line">    a: 1,</div><div class="line">    b: 2,</div><div class="line">    c: 3</div><div class="line">&#125;;</div><div class="line">// 单调乏味的重复&quot;obj&quot;</div><div class="line">obj.a = 2;</div><div class="line">obj.b = 3;</div><div class="line">obj.c = 4;</div><div class="line">// 简单的快捷方式</div><div class="line">with (obj) &#123;</div><div class="line">    a = 3;</div><div class="line">    b = 4;</div><div class="line">    c = 5;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但实际上这不仅仅是为了方便地访问对象属性。考虑如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function foo(obj) &#123;</div><div class="line">    with (obj) &#123;</div><div class="line">        a = 2;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">var o1 = &#123;</div><div class="line">    a: 3</div><div class="line">&#125;;</div><div class="line">var o2 = &#123;</div><div class="line">    b: 3</div><div class="line">&#125;;</div><div class="line">foo( o1 );</div><div class="line">console.log( o1.a ); // 2</div><div class="line">foo( o2 );</div><div class="line">console.log( o2.a ); // undefined</div><div class="line">console.log( a ); // 2——不好，a被泄漏到全局作用域上了！</div></pre></td></tr></table></figure></p>
+<p>这个例子中创建了o1和o2两个对象。其中一个具有a属性，另外一个没有。foo(..)函数接受一个obj<br>参数，该参数是一个对象引用，并对这个对象引用执行了with(obj) {..}。在with块内部，我们写的<br>代码看起来只是对变量a进行简单的词法引用，实际上就是一个LHS引用（查看第1章），并将2赋值<br>给它。<br>当我们将o1传递进去，a = 2赋值操作找到了o1.a并将2赋值给它，这在后面的console.log(o1.a)中<br>可以体现。而当o2传递进去，o2并没有a属性，因此不会创建这个属性，o2.a保持undefined。<br>但是可以注意到一个奇怪的副作用，实际上a = 2赋值操作创建了一个全局的变量a。这是怎么回<br>事？<br>with可以将一个没有或有多个属性的对象处理为一个完全隔离的词法作用域，因此这个对象的属<br>性也会被处理为定义在这个作用域中的词法标识符。</p>
+<blockquote>
+<p>尽管with块可以将一个对象处理为词法作用域，但是这个块内部正常的var声明并不会被<br>限制在这个块的作用域中，而是被添加到with所处的函数作用域中。</p>
+</blockquote>
+<p>eval(..)函数如果接受了含有一个或多个声明的代码，就会修改其所处的词法作用域，而with声明<br>实际上是根据你传递给它的对象凭空创建了一个全新的词法作用域。<br>可以这样理解，当我们传递o1给with时，with所声明的作用域是o1，而这个作用域中含有一个<br>同o1.a属性相符的标识符。但当我们将o2作为作用域时，其中并没有a标识符，因此进行了正常的<br>LHS标识符查找。<br>o2的作用域、foo(..)的作用域和全局作用域中都没有找到标识符a，因此当a = 2执行时，自动创建<br>了一个全局变量（因为是非严格模式）。</p>
+<blockquote>
+<p>另外一个不推荐使用eval(..)和with的原因是会被严格模式所影响（限制）。with被完全<br>禁止，而在保留核心功能的前提下，间接或非安全地使用eval(..)也被禁止了。</p>
+</blockquote>
+<h4 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h4><p>如果代码中大量使用eval(..)或with，那么运行起来一定会变得非常慢。无论引擎多聪明，试图将<br>这些悲观情况的副作用限制在最小范围内，也无法避免如果没有这些优化，代码会运行得更慢这<br>个事实。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/测试套件/" title="测试套件" itemprop="url">测试套件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><p>单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。<br>从下面的代码清单中，可以看到一个简单的实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;title&gt;Test Suite&lt;/title&gt;</div><div class="line">        &lt;script&gt;</div><div class="line">            function assert(value, desc) &#123;</div><div class="line">                var li = document.createElement(&quot;li&quot;);</div><div class="line">                li.className = value ? &quot;pass&quot; : &quot;fail&quot;;</div><div class="line">                li.appendChild(document.createTextNode(desc));</div><div class="line">                document.getElementById(&apos;results&apos;).appendChild(li);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            window.onload = function() &#123;</div><div class="line">                assert(true, &apos;The test suite is running.&apos;)；</div><div class="line">                assert(false, &apos;Fail!&apos;);</div><div class="line">            &#125;</div><div class="line">        &lt;/script&gt;</div><div class="line"></div><div class="line">        &lt;style&gt;</div><div class="line">            #results li.pass&#123; color:green; &#125;</div><div class="line">            #results li.fail&#123; color:red; &#125;</div><div class="line">        &lt;/style&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line"></div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;ul id=&apos;results&apos;&gt;&lt;/ul&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>该测试套件包括两个微不足道的测试：一个总是成功，另一个总是失败。pass和fail的样式规则，则使用颜色在视觉上表示成功或失败。<br>该函数很简单，但对于未来开发，它将会是良好的构件块。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/调试/">调试</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/调试CSS层/" title="调试CSS层" itemprop="url">调试CSS层</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[].forEach.call($$(&quot;*&quot;),function(a)&#123;a.style.outline=&quot;1px solid #&quot; + (~~(Math.random()*(1&lt;&lt;24))).toString(16)&#125;)</div></pre></td></tr></table></figure>
+<p>[].forEach.call == Array.prototype.forEach.call<br>$$(“*“) == document.querySelectorAll(“*“)</p>
+<p>parseInt(“ffffff”, 16) == 16777215</p>
+<p>1 // 1 == 2^0<br>100 //4 == 2^2<br>10000 //16 = 2^4<br>1000000000000000000000000 // 16777216 == 2^24</p>
+<p>1&lt;&lt;24 == 16777216</p>
+<p>Math.random()*(1&lt;&lt;24) == 0 ~ 16777216</p>
+<p>var a = 12.34,          //~~a = 12<br>    b = 1231.8754,      //~~b = -1231<br>    c = 3213.000001     //~~c = 3213</p>
+<p>相当于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Array.prototype.forEach.call(document.querySelectorAll(&quot;*&quot;),function(a)&#123;</div><div class="line">    a.style.outline=&quot;1px solid #&quot; + parseInt(Math.random()*16777216).toString(16)</div><div class="line">    &#125;)</div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/CSS/">CSS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/调试/">调试</a><a href="/tags/装逼/">装逼</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -864,11 +882,7 @@
 			
 		
 			
-				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
 			
 		
 			
@@ -876,15 +890,7 @@
 			
 		
 			
-				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
 			
@@ -892,11 +898,15 @@
 			
 		
 			
-				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
 			
 		
 			
@@ -904,15 +914,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
 			
 		
 			
@@ -920,7 +922,23 @@
 			
 		
 			
-				<li><a href="/tags/干货/" title="干货">干货<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 		</ul>
