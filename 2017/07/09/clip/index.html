@@ -1,0 +1,659 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>clip | fire on the world!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="YLJ77">
+    
+
+    
+    <meta name="description" content="clip翻译自codrops 剪辑属性用于剪除元素的区域，只保留元素的一部分可见在元素被裁剪之后可见的元素的部分被称为剪切区域。剪辑应用于元素的border-box区域，该区域最初是完全可见的。剪切一个元素类似于裁剪它。 使用clip，您可以指定向内指定要从中剪除元素边缘的区域的偏移量。 clip属性只接受一个形状函数，即rect（）函数作为一个值。 rect（）函数需要四个参数，这些参数是元素的">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="clip">
+<meta property="og:url" content="http://yoursite.com/2017/07/09/clip/index.html">
+<meta property="og:site_name" content="fire on the world!">
+<meta property="og:description" content="clip翻译自codrops 剪辑属性用于剪除元素的区域，只保留元素的一部分可见在元素被裁剪之后可见的元素的部分被称为剪切区域。剪辑应用于元素的border-box区域，该区域最初是完全可见的。剪切一个元素类似于裁剪它。 使用clip，您可以指定向内指定要从中剪除元素边缘的区域的偏移量。 clip属性只接受一个形状函数，即rect（）函数作为一个值。 rect（）函数需要四个参数，这些参数是元素的">
+<meta property="og:image" content="http://yoursite.com/2017/07/09/clip/img/clip-offsets.jpg">
+<meta property="og:image" content="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-1.jpg">
+<meta property="og:image" content="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-4.jpg">
+<meta property="og:image" content="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-3.jpg">
+<meta property="og:image" content="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-2.jpg">
+<meta property="og:updated_time" content="2017-07-09T09:07:20.420Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="clip">
+<meta name="twitter:description" content="clip翻译自codrops 剪辑属性用于剪除元素的区域，只保留元素的一部分可见在元素被裁剪之后可见的元素的部分被称为剪切区域。剪辑应用于元素的border-box区域，该区域最初是完全可见的。剪切一个元素类似于裁剪它。 使用clip，您可以指定向内指定要从中剪除元素边缘的区域的偏移量。 clip属性只接受一个形状函数，即rect（）函数作为一个值。 rect（）函数需要四个参数，这些参数是元素的">
+<meta name="twitter:image" content="http://yoursite.com/2017/07/09/clip/img/clip-offsets.jpg">
+
+    
+    <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="fire on the world!" title="fire on the world!"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="fire on the world!">fire on the world!</a></h1>
+				<h2 class="blog-motto">try to take over the world</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/07/09/clip/" title="clip" itemprop="url">clip</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-09T08:31:35.508Z" itemprop="datePublished"> 发表于 2017-07-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#clip"><span class="toc-number">1.</span> <span class="toc-text">clip</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#剪辑属性用于剪除元素的区域，只保留元素的一部分可见"><span class="toc-number">1.1.</span> <span class="toc-text">剪辑属性用于剪除元素的区域，只保留元素的一部分可见</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#官方语法"><span class="toc-number">1.2.</span> <span class="toc-text">官方语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-number">1.3.</span> <span class="toc-text">示例</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="clip"><a href="#clip" class="headerlink" title="clip"></a>clip</h1><p>翻译自<a href="https://tympanus.net/codrops/css_reference/clip/" target="_blank" rel="external">codrops</a></p>
+<h2 id="剪辑属性用于剪除元素的区域，只保留元素的一部分可见"><a href="#剪辑属性用于剪除元素的区域，只保留元素的一部分可见" class="headerlink" title="剪辑属性用于剪除元素的区域，只保留元素的一部分可见"></a>剪辑属性用于剪除元素的区域，只保留元素的一部分可见</h2><p>在元素被裁剪之后可见的元素的部分被称为剪切区域。剪辑应用于元素的border-box区域，该区域最初是完全可见的。剪切一个元素类似于裁剪它。</p>
+<p>使用clip，您可以指定向内指定要从中剪除元素边缘的区域的偏移量。</p>
+<p>clip属性只接受一个形状函数，即rect（）函数作为一个值。 rect（）函数需要四个参数，这些参数是元素的顶部和左侧边界的偏移量。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">clip</span>: <span class="selector-tag">rect</span>(&lt;<span class="selector-tag">top</span>&gt;, &lt;<span class="selector-tag">right</span>&gt;, &lt;<span class="selector-tag">bottom</span>&gt;, &lt;<span class="selector-tag">left</span>&gt;);</div></pre></td></tr></table></figure>
+<p><strong>顶部和底部的值定义了从顶部边框的偏移量，左侧和右边的值均定义了左边界的偏移量。</strong></p>
+<p><img src="img/clip-offsets.jpg"></p>
+<p>剪辑区域或元素被裁剪后保持可见的元素部分由rect（）函数的偏移定义，如上图所示。</p>
+<p>元素的裁剪区域剪裁位于裁剪区域之外的元素的任何方面（例如，content, children, background, borders, text decoration, outline和可见滚动机制（如果有的话））。被剪辑的内容不会导致溢出。</p>
+<h2 id="官方语法"><a href="#官方语法" class="headerlink" title="官方语法"></a>官方语法</h2><hr style="background: #ccc;height:2px;">
+
+<ul>
+<li>语法</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">clip: auto | rect() | inherit;</div></pre></td></tr></table></figure>
+<p>where</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rect() = rect(&lt;top&gt;, &lt;right&gt;, &lt;bottom&gt;, &lt;left&gt;), and &lt;top&gt;, &lt;right&gt;, &lt;bottom&gt;, &lt;left&gt; are all &lt;length&gt; values</div></pre></td></tr></table></figure>
+<p>*初始值: auto</p>
+<p>*适用于: 绝对定位的元素</p>
+<p>*动画：rect（）函数的偏移量接受<length>值，因此可以作为一个长度来动画化</length></p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><hr style="background: #ccc;height:2px;">
+
+<p>html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span></div><div class="line">    Hover over the four images to see their clipping region expand.</div><div class="line">  <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"element element-1"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-1.jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"element element-2"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-4.jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"element element-3"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-3.jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"element element-4"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-2.jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>css</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#555</span>;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#b0dcf1</span>;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1.1em</span>;</div><div class="line">  <span class="attribute">font-family</span>: <span class="string">'Helvetica Neue'</span>, Helvetica, Arial, sans-serif;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.container</span> &#123;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">40px</span> auto;</div><div class="line">  <span class="attribute">width</span>: <span class="number">300px</span>;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.element</span> &#123;</div><div class="line">  <span class="attribute">width</span>: <span class="number">300px</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">300px</span>;</div><div class="line">  <span class="attribute">z-index</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">transition</span>: clip .<span class="number">4s</span> ease-in-out, z-index .<span class="number">2s</span> linear .<span class="number">4s</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">  <span class="attribute">max-width</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.element-1</span> &#123;</div><div class="line">  <span class="attribute">clip</span>: <span class="built_in">rect</span>(0px, 150px, 150px, 0px);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.element-2</span> &#123;</div><div class="line">  <span class="attribute">clip</span>: <span class="built_in">rect</span>(0px, 300px, 150px, 150px);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.element-3</span> &#123;</div><div class="line">  <span class="attribute">clip</span>: <span class="built_in">rect</span>(150px, 150px, 300px, 0px);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.element-4</span> &#123;</div><div class="line">  <span class="attribute">clip</span>: <span class="built_in">rect</span>(150px, 300px, 300px, 150px);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.element</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">z-index</span>: <span class="number">1</span>;</div><div class="line">  <span class="attribute">transition</span>: clip .<span class="number">4s</span> ease-in-out .<span class="number">2s</span>, z-index .<span class="number">2s</span> linear;</div><div class="line">  <span class="attribute">clip</span>: <span class="built_in">rect</span>(0px, 300px, 300px, 0px);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<style>
+    body {
+  color: #555;
+  background: #b0dcf1;
+  font-size: 1.1em;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.container {
+  margin: 40px auto;
+  width: 300px;
+  position: relative;
+}
+
+.element {
+  width: 300px;
+  height: 300px;
+  z-index: 0;
+  position: absolute;
+  -webkit-transition: clip .4s ease-in-out, z-index .2s linear .4s;
+  transition: clip .4s ease-in-out, z-index .2s linear .4s;
+}
+
+img {
+  max-width: 100%;
+}
+
+.element-1 {
+  background-color: #2c3e50;
+  clip: rect(0px, 150px, 150px, 0px);
+}
+
+.element-2 {
+  background-color: #f39c12;
+  clip: rect(0px, 300px, 150px, 150px);
+}
+
+.element-3 {
+  background-color: #16a085;
+  clip: rect(150px, 150px, 300px, 0px);
+}
+
+.element-4 {
+  background-color: #8e44ad;
+  clip: rect(150px, 300px, 300px, 150px);
+}
+
+.element:hover {
+  z-index: 1;
+  -webkit-transition: clip .4s ease-in-out .2s, z-index .2s linear;
+  transition: clip .4s ease-in-out .2s, z-index .2s linear;
+  clip: rect(0px, 300px, 300px, 0px);
+}
+</style>
+
+<div class="container"><br>  <p><br>    悬停在四张图片上可观察到它们的剪辑区域会被展开<br>  </p><br>  <div class="element element-1"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-1.jpg" alt=""><br>  </div><br>  <div class="element element-2"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-4.jpg" alt=""><br>  </div><br>  <div class="element element-3"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-3.jpg" alt=""><br>  </div><br>  <div class="element element-4"><br>    <img src="http://tympanus.net/codrops-playground/assets/images/cssref/properties/clip/cat-2.jpg" alt=""><br>  </div><br></div>
+
+
+
+
+
+
+
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/CSS/">CSS</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/07/09/clip/" data-title="clip | fire on the world!" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/06/17/冒泡排序/" title="冒泡排序">
+  <strong>上一篇：</strong><br/>
+  <span>
+  冒泡排序</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#clip"><span class="toc-number">1.</span> <span class="toc-text">clip</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#剪辑属性用于剪除元素的区域，只保留元素的一部分可见"><span class="toc-number">1.1.</span> <span class="toc-text">剪辑属性用于剪除元素的区域，只保留元素的一部分可见</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#官方语法"><span class="toc-number">1.2.</span> <span class="toc-text">官方语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-number">1.3.</span> <span class="toc-text">示例</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="YLJ77" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>25</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript-设计模式/" title="JavaScript 设计模式">JavaScript 设计模式<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/涉及底层/" title="涉及底层">涉及底层<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>3</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/js/" title="js">js<sup>24</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Type-Grammar/" title="Type &amp; Grammar">Type &amp; Grammar<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Pro-JavaScript-Design-Patterns/" title="Pro JavaScript Design Patterns">Pro JavaScript Design Patterns<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Introduction-to-Algorithms/" title="Introduction to Algorithms">Introduction to Algorithms<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://http:YLJ77.github.io" target="_blank" title="lin&#39;s Blog">lin&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m linjie Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/YLJ77" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:linjieyang77@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+				<div class="cc-license">
+          <a href="http://creativecommons.org/licenses/by-nc/4.0" class="cc-opacity" target="_blank">
+            <img src="/img/cc-by-nc.svg" alt="Creative Commons" />
+          </a>
+        </div>
+    
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="YLJ77">YLJ77</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
