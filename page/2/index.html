@@ -81,134 +81,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/随机取整/" title="随机取整" itemprop="url">随机取整</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function fnRand(m,n) &#123;</div><div class="line">    var r = Math.round(Math.random()*(n-m) + m);</div><div class="line">    return r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/随机数/">随机数</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/闭包/" title="闭包" itemprop="url">闭包</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="偏应用函数"><a href="#偏应用函数" class="headerlink" title="偏应用函数"></a>偏应用函数</h3><p>“分部应用”一个函数是一项特别有趣的技术，在函数调用之前，我们可以预先传入一些函数。实际上，偏应用函数返回了一个含有预处理参数的新函数，以便后期可以调用。<br>这类代理函数--代理的是另外一个函数，并且在执行的时候会调用所代理的函数。<br>这种在一个函数中首先填充几个参数(然后再返回一个新函数)的技术称之为柯里化(curring)。</p>
-<p>柯里化函数示例(在第一个特定参数中进行填充)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Function.prototype.curry = function() &#123;</div><div class="line">    //该函数以及预填充的参数是保存在闭包中的</div><div class="line">    var fn = this,</div><div class="line">        args = Array.prototype.slice.call(arguments);</div><div class="line">    //创建一个匿名柯里化函数</div><div class="line">    return function()&#123;</div><div class="line">        return fn.apply(this,args.concat(Array.prototype.slice.call(arguments)));</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这种技术是另外一个利用闭包记住状态的很好例子。在本例中，我们要记住新增加的函数(这里的this参数不会存在于任何闭包中，因为每个函数调用的时候都有自己的this)以及预填充参数，并将它们转移到新创建的函数中。该新函数将有预填充的参数以及刚传入的新参数。其结果就是，这样的方法可以让我们预先传入一些参数，然后返回给我们一个新的简单函数供我们使用。</p>
-<p>虽然这种风格的分部函数非常有用，但我们可以做的更好。如果我们给特定函数传递遗漏的参数，而不是从参数列表一开始就传。</p>
-<p>一个更复杂的”分部”函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Function.prototype.partial = function() &#123;</div><div class="line">    var fn = this, args = Array.prototype.slice.call(arguments);</div><div class="line">    return function()&#123;</div><div class="line">        var arg = 0;</div><div class="line">        for (var i=0; i &lt; args.length &amp;&amp; arg &lt; arguments.length; i++) &#123;</div><div class="line">            if (args[i] === undefined) &#123;</div><div class="line">                args[i] = arguments[arg++];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return fn.apply(this, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>该实现的本质类似于Prototype的curry()方法，但它有几个重要的差异。值得注意的是，用户可以在参数列表的任意位置指定参数，然后在后续的调用中，根据遗漏的参数值是否等于undefined来判断参数的遗漏，要实现这种功能，我们添加了参数合并功能。很有效果，遍历传入的所有参数参数，判断相应的参数是否遗漏了(是否是undefined)，然后沿着顺序填充遗漏的参数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var delay = setTimeout.partial(undefined, 10);</div><div class="line"></div><div class="line">delay(function()&#123;</div><div class="line">    assert(true, &quot;A call to this function will be delayed 10 ms.&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>这段代码创建了一个新的函数，名为delay()，通过该函数，我们可以传入另外一个10毫秒后进行调用的异步函数。<br>我们也可以创建一个简单的函数用于事件绑定:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var bindClick = document.body.addEventListener.partial(&quot;click&quot;, undefined, false);</div><div class="line"></div><div class="line">bindClick(function()&#123;</div><div class="line">    assert(true, &quot;Click event bound via curried function&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/闭包/">闭包</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/函数/">函数</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/面向对象的程序设计/" title="面向对象的程序设计" itemprop="url">面向对象的程序设计</a>
   </h1>
   <p class="article-author">By
@@ -338,35 +210,21 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/媒体查询/" title="媒体查询" itemprop="url">媒体查询</a>
+      <a href="/2017/04/15/随机取整/" title="随机取整" itemprop="url">随机取整</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h3 id="媒体查询语法"><a href="#媒体查询语法" class="headerlink" title="媒体查询语法"></a>媒体查询语法</h3><p>纵向媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>在媒体查询的开头追加not则会颠倒查询的逻辑</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>限制视口宽度</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait) and (min-width:800px)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>CSS样式表中使用媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@media screen and (max-device-width: 400px) &#123;</div><div class="line">    h1 &#123; color: green&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用CSS的@import指令在当前样式表中按条件引入其他样式表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@import url(&quot;phone.css&quot;) screen and (max-width:360px);</div></pre></td></tr></table></figure>
-<blockquote>
-<p>使用CSS的@import方式会增加HTTP请求(这会影响加载速度)，要谨慎使用。</p>
-</blockquote>
-<h3 id="媒体查询特性"><a href="#媒体查询特性" class="headerlink" title="媒体查询特性"></a>媒体查询特性</h3><p>视口宽度: width<br>屏幕宽度: device-width</p>
-<pre><code>
-</code></pre>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function fnRand(m,n) &#123;</div><div class="line">    var r = Math.round(Math.random()*(n-m) + m);</div><div class="line">    return r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
         
         
         <p class="article-more-link">
@@ -378,13 +236,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/CSS/">CSS</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/响应式/">响应式</a><a href="/tags/媒体查询/">媒体查询</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/随机数/">随机数</a>
   </div>
 
 </div>
@@ -412,21 +270,28 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/对象/" title="对象" itemprop="url">对象</a>
+      <a href="/2017/04/15/闭包/" title="闭包" itemprop="url">闭包</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><p>简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当<br>作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符<br>串”object”。1实际上，null本身是基本类型。</p>
-<p>原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被<br>判断为object类型，null的二进制表示是全0，自然前三位也是0，所以执行typeof时会返<br>回”object”</p>
+        <h3 id="偏应用函数"><a href="#偏应用函数" class="headerlink" title="偏应用函数"></a>偏应用函数</h3><p>“分部应用”一个函数是一项特别有趣的技术，在函数调用之前，我们可以预先传入一些函数。实际上，偏应用函数返回了一个含有预处理参数的新函数，以便后期可以调用。<br>这类代理函数--代理的是另外一个函数，并且在执行的时候会调用所代理的函数。<br>这种在一个函数中首先填充几个参数(然后再返回一个新函数)的技术称之为柯里化(curring)。</p>
+<p>柯里化函数示例(在第一个特定参数中进行填充)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Function.prototype.curry = function() &#123;</div><div class="line">    //该函数以及预填充的参数是保存在闭包中的</div><div class="line">    var fn = this,</div><div class="line">        args = Array.prototype.slice.call(arguments);</div><div class="line">    //创建一个匿名柯里化函数</div><div class="line">    return function()&#123;</div><div class="line">        return fn.apply(this,args.concat(Array.prototype.slice.call(arguments)));</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这种技术是另外一个利用闭包记住状态的很好例子。在本例中，我们要记住新增加的函数(这里的this参数不会存在于任何闭包中，因为每个函数调用的时候都有自己的this)以及预填充参数，并将它们转移到新创建的函数中。该新函数将有预填充的参数以及刚传入的新参数。其结果就是，这样的方法可以让我们预先传入一些参数，然后返回给我们一个新的简单函数供我们使用。</p>
+<p>虽然这种风格的分部函数非常有用，但我们可以做的更好。如果我们给特定函数传递遗漏的参数，而不是从参数列表一开始就传。</p>
+<p>一个更复杂的”分部”函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Function.prototype.partial = function() &#123;</div><div class="line">    var fn = this, args = Array.prototype.slice.call(arguments);</div><div class="line">    return function()&#123;</div><div class="line">        var arg = 0;</div><div class="line">        for (var i=0; i &lt; args.length &amp;&amp; arg &lt; arguments.length; i++) &#123;</div><div class="line">            if (args[i] === undefined) &#123;</div><div class="line">                args[i] = arguments[arg++];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return fn.apply(this, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>该实现的本质类似于Prototype的curry()方法，但它有几个重要的差异。值得注意的是，用户可以在参数列表的任意位置指定参数，然后在后续的调用中，根据遗漏的参数值是否等于undefined来判断参数的遗漏，要实现这种功能，我们添加了参数合并功能。很有效果，遍历传入的所有参数参数，判断相应的参数是否遗漏了(是否是undefined)，然后沿着顺序填充遗漏的参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var delay = setTimeout.partial(undefined, 10);</div><div class="line"></div><div class="line">delay(function()&#123;</div><div class="line">    assert(true, &quot;A call to this function will be delayed 10 ms.&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这段代码创建了一个新的函数，名为delay()，通过该函数，我们可以传入另外一个10毫秒后进行调用的异步函数。<br>我们也可以创建一个简单的函数用于事件绑定:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var bindClick = document.body.addEventListener.partial(&quot;click&quot;, undefined, false);</div><div class="line"></div><div class="line">bindClick(function()&#123;</div><div class="line">    assert(true, &quot;Click event bound via curried function&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 
         
         
@@ -445,77 +310,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/对象/">对象</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/提升/" title="提升" itemprop="url">提升</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>当你看到var a = 2;时，可能会认为这是一个声明。但JavaScript实际上会将其看成两个声<br>明：var a;和a = 2;。第一个定义声明是在编译阶段进行的。第二个赋值声明会被留在原地等待执<br>行阶段。<br>我们的第一个代码片段会以如下形式进行处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var a;</div><div class="line">a = 2;</div><div class="line">console.log( a );</div></pre></td></tr></table></figure></p>
-<p>其中第一部分是编译，而第二部分是执行。</p>
-<p>函数声明会被提升，但是函数表达式却不会被提升。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">foo(); // 不是ReferenceError, 而是TypeError!</div><div class="line">var foo = function bar() &#123;</div><div class="line">    // ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>这段程序中的变量标识符foo()被提升并分配给所在作用域（在这里是全局作用域），因此foo()不<br>会导致ReferenceError。但是foo此时并没有赋值（如果它是一个函数声明而不是函数表达式，那么<br>就会赋值）。foo()由于对undefined值进行函数调用而导致非法操作，因此抛出TypeError异常。<br>同时也要记住，即使是具名的函数表达式，名称标识符在赋值之前也无法在所在作用域中使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">foo(); // TypeError</div><div class="line">bar(); // ReferenceError</div><div class="line">var foo = function bar() &#123;</div><div class="line">    // ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>这个代码片段经过提升后，实际上会被理解为以下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var foo;</div><div class="line">foo(); // TypeError</div><div class="line">bar(); // ReferenceError</div><div class="line">foo = function() &#123;</div><div class="line">    var bar = ...self...</div><div class="line">    // ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="函数优先"><a href="#函数优先" class="headerlink" title="函数优先"></a>函数优先</h3><p>函数声明和变量声明都会被提升。但是一个值得注意的细节（这个细节可以出现在有多个“重复”声<br>明的代码中）是函数会首先被提升，然后才是变量。<br>考虑以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">foo(); // 1</div><div class="line">var foo;</div><div class="line">function foo() &#123;</div><div class="line">    console.log( 1 );</div><div class="line">&#125;</div><div class="line">foo = function() &#123;</div><div class="line">    console.log( 2 );</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>会输出1而不是2！这个代码片段会被引擎理解为如下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( 1 );</div><div class="line">&#125;</div><div class="line">foo(); // 1</div><div class="line">foo = function() &#123;</div><div class="line">    console.log( 2 );</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>注意，var foo尽管出现在function foo()…的声明之前，但它是重复的声明（因此被忽略了），因为<br>函数声明会被提升到普通变量之前。</p>
-<p>尽管重复的var声明会被忽略掉，但出现在后面的函数声明还是可以覆盖前面的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">foo(); // 3</div><div class="line">function foo() &#123;</div><div class="line">console.log( 1 );</div><div class="line">&#125;</div><div class="line">var foo = function() &#123;</div><div class="line">console.log( 2 );</div><div class="line">&#125;;</div><div class="line">function foo() &#123;</div><div class="line">console.log( 3 );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>虽然这些听起来都是些无用的学院理论，但是它说明了在同一个作用域中进行重复定义是非常糟<br>糕的，而且经常会导致各种奇怪的问题。</p>
-<p>一个普通块内部的函数声明通常会被提升到所在作用域的顶部，这个过程不会像下面的代码暗示<br>的那样可以被条件判断所控制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">foo(); // &quot;b&quot;</div><div class="line">var a = true;</div><div class="line">if (a) &#123;</div><div class="line">function foo() &#123; console.log(&quot;a&quot;); &#125;</div><div class="line">&#125; else &#123;</div><div class="line">function foo() &#123; console.log(&quot;b&quot;); &#125;</div><div class="line">&#125;</div><div class="line">但是需要注意这个行为并不可靠，在JavaScript未来的版本中有可能发生改变，因此应该尽可能避</div><div class="line">免在块内部声明函数。</div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/闭包/">闭包</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/函数/">函数</a>
   </div>
 
 </div>
@@ -621,7 +416,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/测试套件/" title="测试套件" itemprop="url">测试套件</a>
+      <a href="/2017/04/15/调试CSS层/" title="调试CSS层" itemprop="url">调试CSS层</a>
   </h1>
   <p class="article-author">By
        
@@ -634,9 +429,14 @@
 </header>
     <div class="article-content">
         
-        <h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><p>单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。<br>从下面的代码清单中，可以看到一个简单的实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;title&gt;Test Suite&lt;/title&gt;</div><div class="line">        &lt;script&gt;</div><div class="line">            function assert(value, desc) &#123;</div><div class="line">                var li = document.createElement(&quot;li&quot;);</div><div class="line">                li.className = value ? &quot;pass&quot; : &quot;fail&quot;;</div><div class="line">                li.appendChild(document.createTextNode(desc));</div><div class="line">                document.getElementById(&apos;results&apos;).appendChild(li);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            window.onload = function() &#123;</div><div class="line">                assert(true, &apos;The test suite is running.&apos;)；</div><div class="line">                assert(false, &apos;Fail!&apos;);</div><div class="line">            &#125;</div><div class="line">        &lt;/script&gt;</div><div class="line"></div><div class="line">        &lt;style&gt;</div><div class="line">            #results li.pass&#123; color:green; &#125;</div><div class="line">            #results li.fail&#123; color:red; &#125;</div><div class="line">        &lt;/style&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line"></div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;ul id=&apos;results&apos;&gt;&lt;/ul&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>该测试套件包括两个微不足道的测试：一个总是成功，另一个总是失败。pass和fail的样式规则，则使用颜色在视觉上表示成功或失败。<br>该函数很简单，但对于未来开发，它将会是良好的构件块。</p>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[].forEach.call($$(&quot;*&quot;),function(a)&#123;a.style.outline=&quot;1px solid #&quot; + (~~(Math.random()*(1&lt;&lt;24))).toString(16)&#125;)</div></pre></td></tr></table></figure>
+<p>[].forEach.call == Array.prototype.forEach.call<br>$$(“*“) == document.querySelectorAll(“*“)</p>
+<p>parseInt(“ffffff”, 16) == 16777215</p>
+<p>1 // 1 == 2^0<br>100 //4 == 2^2<br>10000 //16 = 2^4<br>1000000000000000000000000 // 16777216 == 2^24</p>
+<p>1&lt;&lt;24 == 16777216</p>
+<p>Math.random()*(1&lt;&lt;24) == 0 ~ 16777216</p>
+<p>var a = 12.34,          //~~a = 12<br>    b = 1231.8754,      //~~b = -1231<br>    c = 3213.000001     //~~c = 3213</p>
+<p>相当于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Array.prototype.forEach.call(document.querySelectorAll(&quot;*&quot;),function(a)&#123;</div><div class="line">    a.style.outline=&quot;1px solid #&quot; + parseInt(Math.random()*16777216).toString(16)</div><div class="line">    &#125;)</div></pre></td></tr></table></figure></p>
 
         
         
@@ -649,13 +449,87 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/CSS/">CSS</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/调试/">调试</a>
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/调试/">调试</a><a href="/tags/装逼/">装逼</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/媒体查询/" title="媒体查询" itemprop="url">媒体查询</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="媒体查询语法"><a href="#媒体查询语法" class="headerlink" title="媒体查询语法"></a>媒体查询语法</h3><p>纵向媒体查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>在媒体查询的开头追加not则会颠倒查询的逻辑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>限制视口宽度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait) and (min-width:800px)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>CSS样式表中使用媒体查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@media screen and (max-device-width: 400px) &#123;</div><div class="line">    h1 &#123; color: green&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用CSS的@import指令在当前样式表中按条件引入其他样式表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@import url(&quot;phone.css&quot;) screen and (max-width:360px);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用CSS的@import方式会增加HTTP请求(这会影响加载速度)，要谨慎使用。</p>
+</blockquote>
+<h3 id="媒体查询特性"><a href="#媒体查询特性" class="headerlink" title="媒体查询特性"></a>媒体查询特性</h3><p>视口宽度: width<br>屏幕宽度: device-width</p>
+<pre><code>
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/CSS/">CSS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/响应式/">响应式</a><a href="/tags/媒体查询/">媒体查询</a>
   </div>
 
 </div>
@@ -754,7 +628,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/表单脚本/" title="表单脚本" itemprop="url">表单脚本</a>
+      <a href="/2017/04/15/提升/" title="提升" itemprop="url">提升</a>
   </h1>
   <p class="article-author">By
        
@@ -767,20 +641,17 @@
 </header>
     <div class="article-content">
         
-        <h3 id="表单字段"><a href="#表单字段" class="headerlink" title="表单字段"></a>表单字段</h3><h4 id="避免多次提交表单"><a href="#避免多次提交表单" class="headerlink" title="避免多次提交表单"></a>避免多次提交表单</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(form, &quot;submit&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var target = EventUtil.getTarget(event);</div><div class="line"></div><div class="line">    //取得提交按钮</div><div class="line">    var btn = target.elements[&quot;submit-btn&quot;];</div><div class="line"></div><div class="line">    //禁用它</div><div class="line">    btn.disabled = true;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>HTML5 为表单字段新增了一个 autofocus 属性。在支持这个属性的浏览器中，只要设置这个属性，不用javascript 就能自动把焦点移动到相应字段。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;text&quot; autofocus&gt;</div></pre></td></tr></table></figure>
-<p>为了保证前面的代码在设置 autofocus 的浏览器中正常运行，必须先检查是否设置了改属性，如果设置了，就不用再调用 foucus() 了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(window, &quot;load&quot;, function(event)&#123;</div><div class="line">    var element = document.forms[0].elements[0];</div><div class="line">    if (element.autofocus != true) &#123;</div><div class="line">        element.focus();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h3 id="选择文本"><a href="#选择文本" class="headerlink" title="选择文本"></a>选择文本</h3><h4 id="跨浏览器取得选择文本"><a href="#跨浏览器取得选择文本" class="headerlink" title="跨浏览器取得选择文本"></a>跨浏览器取得选择文本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function getSelectedText(textbox) &#123;</div><div class="line">    if (typeof textbox.selectionStart == &quot;number&quot;) &#123;</div><div class="line">        return textbox.value.substring(textbox.selectionStart,textbox.selectionEnd);</div><div class="line">    &#125; else if (document.selection) &#123;  //IE 8-=</div><div class="line">        return document.selection.createRange().text;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="跨浏览器选择部分文本"><a href="#跨浏览器选择部分文本" class="headerlink" title="跨浏览器选择部分文本"></a>跨浏览器选择部分文本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">function selectText(textbox, startIndex, stopIndex) &#123;</div><div class="line">    if (textbox.setSelectionRange) &#123;</div><div class="line">        textbox.setSelectionRange(startIndex, stopIndex);</div><div class="line">    &#125; else if (textbox.createTextRange) &#123;    //IE 8-=</div><div class="line">        var range = textbox.createTextRange();</div><div class="line">        range.collapse(true);</div><div class="line">        range.moveStart(&quot;character&quot;, startIndex);</div><div class="line">        range.moveEnd(&quot;character&quot;, stopIndex - startIndex);</div><div class="line">        range.select();</div><div class="line">    &#125;</div><div class="line">    textbox.focus();</div><div class="line">&#125;</div><div class="line"></div><div class="line">textbox.value = &quot;Hello world!&quot;</div><div class="line"></div><div class="line">//选择所有文本</div><div class="line">selectText(textbox, 0, textbox.value.length);    //&quot;Hello world!&quot;</div><div class="line"></div><div class="line">//选择前3个字符</div><div class="line">selectText(text, 0, 3);    //&quot;Hel&quot;</div><div class="line"></div><div class="line">//选择第 4 到第 6 个字符</div><div class="line">selectText(textbox, 4, 7); //&quot;o w&quot;</div></pre></td></tr></table></figure>
-<p>选择部分文本的技术在实现高级文本输入框时很有用，例如提供自动完成建议的文本框就可以使用这种技术。</p>
-<h3 id="过滤输入"><a href="#过滤输入" class="headerlink" title="过滤输入"></a>过滤输入</h3><h4 id="屏蔽字符"><a href="#屏蔽字符" class="headerlink" title="屏蔽字符"></a>屏蔽字符</h4><p>下列代码只允许用户输入数值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(textbox, &quot;keypress&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var target = EventUtil.getTarget(event);</div><div class="line">    var charCode = EventUtil.getCharCode(event);</div><div class="line"></div><div class="line">    if(!/\d/.test(String.fromCharCode(charCode)) &amp;&amp; charCode &gt; 9 &amp;&amp; !event.ctrlKey) &#123;   //Safari 3-</div><div class="line">        EventUtil.preventDefault(event);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<h4 id="操作剪贴板"><a href="#操作剪贴板" class="headerlink" title="操作剪贴板"></a>操作剪贴板</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">getClipboardText: function(event) &#123;</div><div class="line">    var clipboardData = (event.clipboardData || window.clipboardData);</div><div class="line">    return clipboardData.getData(&quot;text&quot;);</div><div class="line">&#125;,</div><div class="line"></div><div class="line">setClipboardText: function(event)&#123;</div><div class="line">    if (event.clipboardData) &#123;</div><div class="line">        return event.clipboardData.setData(&quot;text/plain&quot;, value);</div><div class="line">    &#125; else if (window.clipboardData) &#123;</div><div class="line">        return window.clipboardData.setData(&quot;text&quot;, value);</div><div class="line">    &#125;</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
-<p>在需要确保黏贴到文本框中的文本中包含某些字符，或者符合某种格式要求时，能够访问剪贴板是非常有用的。例如，如果一个文本框只接受数值，那么久必须检测黏贴过来的值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(textbox, &quot;paste&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var text = EventUtil.getClipboardText(event);</div><div class="line"></div><div class="line">    if(!/^\d*$/.test(text)) &#123;</div><div class="line">        EventUtil.preventDefault(event);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h3 id="自动切换焦点"><a href="#自动切换焦点" class="headerlink" title="自动切换焦点"></a>自动切换焦点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">(function()&#123;</div><div class="line">    function tabForward(event) &#123;</div><div class="line">        event = EventUtil.getEvent(event);</div><div class="line">        var target = EventUtil.getTarget(event);</div><div class="line"></div><div class="line">        if (target.value.length == target.maxLength) &#123;</div><div class="line">            var form = target.form;</div><div class="line"></div><div class="line">            for(var i=0, len=form.elements.length; i &lt; len; i++) &#123;</div><div class="line">                if (form.elements[i] == target) &#123;</div><div class="line">                    if (form.elements[i+1]) &#123;</div><div class="line">                        form.elements[i+1].focus();</div><div class="line">                    &#125;</div><div class="line">                    return;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;)();</div><div class="line"></div><div class="line">var textbox1 = document.getElementById(&quot;txtTel1&quot;);</div><div class="line">var textbox2 = document.getElementById(&quot;txtTel2&quot;);</div><div class="line">var textbox3 = document.getElementById(&quot;txtTel3&quot;);</div><div class="line"></div><div class="line">EventUtil.addHandler(textbox1, &quot;keyup&quot;, tabForward);</div><div class="line">EventUtil.addHandler(textbox2, &quot;keyup&quot;, tabForward);</div><div class="line">EventUtil.addHandler(textbox3, &quot;keyup&quot;, tabForward);</div></pre></td></tr></table></figure>
-<p>不过这些代码只适用于前面给出的标记，而且没有考虑隐藏字段。</p>
+        <h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>当你看到var a = 2;时，可能会认为这是一个声明。但JavaScript实际上会将其看成两个声<br>明：var a;和a = 2;。第一个定义声明是在编译阶段进行的。第二个赋值声明会被留在原地等待执<br>行阶段。<br>我们的第一个代码片段会以如下形式进行处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var a;</div><div class="line">a = 2;</div><div class="line">console.log( a );</div></pre></td></tr></table></figure></p>
+<p>其中第一部分是编译，而第二部分是执行。</p>
+<p>函数声明会被提升，但是函数表达式却不会被提升。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">foo(); // 不是ReferenceError, 而是TypeError!</div><div class="line">var foo = function bar() &#123;</div><div class="line">    // ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这段程序中的变量标识符foo()被提升并分配给所在作用域（在这里是全局作用域），因此foo()不<br>会导致ReferenceError。但是foo此时并没有赋值（如果它是一个函数声明而不是函数表达式，那么<br>就会赋值）。foo()由于对undefined值进行函数调用而导致非法操作，因此抛出TypeError异常。<br>同时也要记住，即使是具名的函数表达式，名称标识符在赋值之前也无法在所在作用域中使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">foo(); // TypeError</div><div class="line">bar(); // ReferenceError</div><div class="line">var foo = function bar() &#123;</div><div class="line">    // ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这个代码片段经过提升后，实际上会被理解为以下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var foo;</div><div class="line">foo(); // TypeError</div><div class="line">bar(); // ReferenceError</div><div class="line">foo = function() &#123;</div><div class="line">    var bar = ...self...</div><div class="line">    // ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="函数优先"><a href="#函数优先" class="headerlink" title="函数优先"></a>函数优先</h3><p>函数声明和变量声明都会被提升。但是一个值得注意的细节（这个细节可以出现在有多个“重复”声<br>明的代码中）是函数会首先被提升，然后才是变量。<br>考虑以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">foo(); // 1</div><div class="line">var foo;</div><div class="line">function foo() &#123;</div><div class="line">    console.log( 1 );</div><div class="line">&#125;</div><div class="line">foo = function() &#123;</div><div class="line">    console.log( 2 );</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>会输出1而不是2！这个代码片段会被引擎理解为如下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( 1 );</div><div class="line">&#125;</div><div class="line">foo(); // 1</div><div class="line">foo = function() &#123;</div><div class="line">    console.log( 2 );</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>注意，var foo尽管出现在function foo()…的声明之前，但它是重复的声明（因此被忽略了），因为<br>函数声明会被提升到普通变量之前。</p>
+<p>尽管重复的var声明会被忽略掉，但出现在后面的函数声明还是可以覆盖前面的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">foo(); // 3</div><div class="line">function foo() &#123;</div><div class="line">console.log( 1 );</div><div class="line">&#125;</div><div class="line">var foo = function() &#123;</div><div class="line">console.log( 2 );</div><div class="line">&#125;;</div><div class="line">function foo() &#123;</div><div class="line">console.log( 3 );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>虽然这些听起来都是些无用的学院理论，但是它说明了在同一个作用域中进行重复定义是非常糟<br>糕的，而且经常会导致各种奇怪的问题。</p>
+<p>一个普通块内部的函数声明通常会被提升到所在作用域的顶部，这个过程不会像下面的代码暗示<br>的那样可以被条件判断所控制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">foo(); // &quot;b&quot;</div><div class="line">var a = true;</div><div class="line">if (a) &#123;</div><div class="line">function foo() &#123; console.log(&quot;a&quot;); &#125;</div><div class="line">&#125; else &#123;</div><div class="line">function foo() &#123; console.log(&quot;b&quot;); &#125;</div><div class="line">&#125;</div><div class="line">但是需要注意这个行为并不可靠，在JavaScript未来的版本中有可能发生改变，因此应该尽可能避</div><div class="line">免在块内部声明函数。</div></pre></td></tr></table></figure></p>
 
         
         
@@ -799,7 +670,130 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/JS/">JS</a><a href="/tags/表单脚本/">表单脚本</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/对象/" title="对象" itemprop="url">对象</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><p>简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当<br>作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符<br>串”object”。1实际上，null本身是基本类型。</p>
+<p>原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被<br>判断为object类型，null的二进制表示是全0，自然前三位也是0，所以执行typeof时会返<br>回”object”</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/对象/">对象</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/测试套件/" title="测试套件" itemprop="url">测试套件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><p>单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。<br>从下面的代码清单中，可以看到一个简单的实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;title&gt;Test Suite&lt;/title&gt;</div><div class="line">        &lt;script&gt;</div><div class="line">            function assert(value, desc) &#123;</div><div class="line">                var li = document.createElement(&quot;li&quot;);</div><div class="line">                li.className = value ? &quot;pass&quot; : &quot;fail&quot;;</div><div class="line">                li.appendChild(document.createTextNode(desc));</div><div class="line">                document.getElementById(&apos;results&apos;).appendChild(li);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            window.onload = function() &#123;</div><div class="line">                assert(true, &apos;The test suite is running.&apos;)；</div><div class="line">                assert(false, &apos;Fail!&apos;);</div><div class="line">            &#125;</div><div class="line">        &lt;/script&gt;</div><div class="line"></div><div class="line">        &lt;style&gt;</div><div class="line">            #results li.pass&#123; color:green; &#125;</div><div class="line">            #results li.fail&#123; color:red; &#125;</div><div class="line">        &lt;/style&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line"></div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;ul id=&apos;results&apos;&gt;&lt;/ul&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>该测试套件包括两个微不足道的测试：一个总是成功，另一个总是失败。pass和fail的样式规则，则使用颜色在视觉上表示成功或失败。<br>该函数很简单，但对于未来开发，它将会是良好的构件块。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/调试/">调试</a>
   </div>
 
 </div>
@@ -890,11 +884,11 @@
 			
 		
 			
-				<li><a href="/tags/Introduction-to-Algorithms/" title="Introduction to Algorithms">Introduction to Algorithms<sup>3</sup></a></li>
+				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
+				<li><a href="/tags/Introduction-to-Algorithms/" title="Introduction to Algorithms">Introduction to Algorithms<sup>3</sup></a></li>
 			
 		
 			
@@ -938,7 +932,7 @@
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
@@ -954,7 +948,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 		</ul>

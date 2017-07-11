@@ -81,7 +81,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/关于this/" title="关于this" itemprop="url">关于this</a>
+      <a href="/2017/04/15/DOM/" title="DOM" itemprop="url">DOM</a>
   </h1>
   <p class="article-author">By
        
@@ -94,104 +94,28 @@
 </header>
     <div class="article-content">
         
-        <h3 id="指向自身"><a href="#指向自身" class="headerlink" title="指向自身"></a>指向自身</h3><p>使用foo标识符替代this来引用函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    foo.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        foo( i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
-<p>然而，这种方法同样回避了this的问题，并且完全依赖于变量foo的词法作用域。<br>另一种方法是强制this指向foo函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    // 注意，在当前的调用方式下（参见下方代码），this确实指向foo</div><div class="line">    this.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0;</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        // 使用call(..)可以确保this指向函数对象foo本身</div><div class="line">        foo.call( foo, i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
-<h3 id="this到底是什么"><a href="#this到底是什么" class="headerlink" title="this到底是什么"></a>this到底是什么</h3><p>this是在运行时进行绑定的，并不是在编写时绑定，它的上下文取决于函数调用时<br>的各种条件。this的绑定和函数声明的位置没有任何关系，只取决于函数的调用方式。<br>当一个函数被调用时，会创建一个活动记录（有时候也称为执行上下文）。这个记录会包含函数在<br>哪里被调用（调用栈）、函数的调用方法、传入的参数等信息。this就是记录的其中一个属性，会在<br>函数执行的过程中用到。</p>
-<p><b>this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。</b></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/this/">this</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/BOM/" title="BOM" itemprop="url">BOM</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="window-对象"><a href="#window-对象" class="headerlink" title="window 对象"></a>window 对象</h3><h4 id="窗口位置"><a href="#窗口位置" class="headerlink" title="窗口位置"></a>窗口位置</h4><p>款浏览器取得窗口左边和上边的位置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var leftPos = (typeof window.screenLeft == &quot;number&quot;) ? window.screenLeft : window.screenY;</div><div class="line">var topPos = (typeof window.screenTop == &quot;number&quot;) ? window.screenTop : window.screenX;</div></pre></td></tr></table></figure>
-<p>移动到新位置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//将窗口移动到屏幕左上角</div><div class="line">window.moveTo(0,0);</div><div class="line"></div><div class="line">//将窗口向下移动到100像素</div><div class="line">window.moveBy(0,100);</div></pre></td></tr></table></figure>
-<h4 id="窗口大小"><a href="#窗口大小" class="headerlink" title="窗口大小"></a>窗口大小</h4><p>取得页面视口的大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var pageWidth = window.innerWidth,</div><div class="line">    pageHeight = window.innerHeight;</div><div class="line"></div><div class="line">if (typeof pageWidth != &quot;number&quot;) &#123;</div><div class="line">    if (document.compatMode == &quot;CSS1Compat&quot;) &#123;</div><div class="line">        pageWidth = document.documentElement.clientWidth;</div><div class="line">        pageHeight = document.documentElement.pageHeight;</div><div class="line">    &#125; else &#123;</div><div class="line">        pageWidth = document.body.clientWidth;</div><div class="line">        pageHeight = document.body.pageHeight;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>调整浏览器窗口的大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//调整到 100 x 100</div><div class="line">window.resizeTo(100, 100);</div><div class="line"></div><div class="line">//调整到200 x 150</div><div class="line">window.resizeTo(100, 50);</div></pre></td></tr></table></figure>
-<h4 id="导航和打开窗口"><a href="#导航和打开窗口" class="headerlink" title="导航和打开窗口"></a>导航和打开窗口</h4><h5 id="弹出窗口"><a href="#弹出窗口" class="headerlink" title="弹出窗口"></a>弹出窗口</h5><p>设置： height|left|location|menubar|resizable|scrollbars|status|toolbar|top|width|</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">window.open(&quot;http://www.google.com&quot;, &quot;wroxWindow&quot;, &quot;height=400,width=400,top=10,left=10,resizable=yes&quot;);</div></pre></td></tr></table></figure>
-<p>调用 close() 方法还可以关闭新打开的窗口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wroxWin.close();</div><div class="line">alert(wroxWin.closed);    //true</div></pre></td></tr></table></figure>
-<h5 id="弹出窗口屏蔽程序"><a href="#弹出窗口屏蔽程序" class="headerlink" title="弹出窗口屏蔽程序"></a>弹出窗口屏蔽程序</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var blocked = false;</div><div class="line"></div><div class="line">try &#123;</div><div class="line">    var wroxWin = window.open(&quot;http:www.google.com&quot;&quot;, &quot;_blank&quot;);</div><div class="line">    if (wroxWin == null) &#123;</div><div class="line">        blocked = true;</div><div class="line">    &#125;</div><div class="line">&#125; catch (ex) &#123;</div><div class="line">    blocked = true;</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (blocked) &#123;</div><div class="line">    alert(&quot;The popup was blocked!&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="间歇调用和超时调用"><a href="#间歇调用和超时调用" class="headerlink" title="间歇调用和超时调用"></a>间歇调用和超时调用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//不建议传递字符串</div><div class="line">setTimeout (&quot;alert(&apos;hello world&apos;)&quot;, 1000);</div><div class="line"></div><div class="line">//推荐的调用方式</div><div class="line">setTimeout(function()&#123;</div><div class="line">    alert(&apos;hello world&apos;);</div><div class="line">    &#125;, 1000);</div></pre></td></tr></table></figure>
-<p>虽然这两种调用方式都没有问题，但由于传递字符串可能导致性能损失，因此不建议以字符串作为第一个参数。<br>第二个参数是一个表示等待多长时间的毫秒数，但经过该时间后指定的代码不一定会执行。JavaScript 是一个单线程的解释器，因此一定时间内只能执行一段代码。为了要控制要执行的代码，就有一个JavaScript任务队列。这些任务会按照将它们添加到队列的顺序执行。setTimout()的第二个参数告诉 JavaScript 再过多长时间把当前任务到队列中。如果队列是空的，那么添加的代码回立即执行；如果队列不是空的，那么它就要等前面的代码执行完了以后再执行。</p>
+        <h3 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h3><h4 id="Node-类型"><a href="#Node-类型" class="headerlink" title="Node 类型"></a>Node 类型</h4><p>确定节点类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (someNode.nodeType == Node.ELEMENT_NODE) &#123;    //在IE中无效</div><div class="line">    alert(&quot;Node is an element&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>跨浏览器兼容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (someNode.nodeType == 1) &#123;    //适用于所有浏览器</div><div class="line">    alert(&quot;Node is an element&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以将 NodeList 对象转为数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//在 IE8 及之前版本中无效</div><div class="line">var arrayOfNodes = Array.prototype.slice.call(someNode.childNodes,0);</div></pre></td></tr></table></figure>
+<p>跨浏览器兼容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function convertToArray(nodes) &#123;</div><div class="line">    var array = null;</div><div class="line">    try &#123;</div><div class="line">        array = Array.prototype.slice.call(someNode.childNodes,0);  //针对非 IE 浏览器</div><div class="line">    &#125; catch (ex) &#123;</div><div class="line">        array = new Array();</div><div class="line">        for (var i=0, len = nodes.length; i &lt; len; i++) &#123;</div><div class="line">            array.push(nodes[i]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return array;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Element-类型"><a href="#Element-类型" class="headerlink" title="Element 类型"></a>Element 类型</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if (elemeent.tagName == &quot;div&quot;) &#123;  //不能这样比较，很容易出错！</div><div class="line">    //在此执行某些操作</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (elemeent.tagName.toLowerCase() == &quot;div&quot;) &#123;  //这样最好(适用于任何文档)</div><div class="line">    //在此执行某些操作</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="取得特性"><a href="#取得特性" class="headerlink" title="取得特性"></a>取得特性</h5><p>在通过 JavaScript 以编程方式操作 DOM 时，开发人员经常不使用 getAttribute(),而是只使用对象的属性。只用在取得自定义特性值的情况下，才会使用 getAttribute() 方法。</p>
+<h4 id="DocumentFragment-类型"><a href="#DocumentFragment-类型" class="headerlink" title="DocumentFragment 类型"></a>DocumentFragment 类型</h4><p>假设想为这个 &lt;\ul id=”myList”&gt;&lt;\/ul&gt; 元素添加3个列表项。如果逐个添加列表项，将会导致浏览器反复渲染新信息。为了避免这个问题，可以像下面这样使用一个文档片段来保存创建的列表项，然后再一次性将他们添加到文档中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var fragment = document.createDocumentFragment();</div><div class="line">var ul = document.gtElementById(&quot;myList&quot;);</div><div class="line">var li = null;</div><div class="line"></div><div class="line">for (var i=0; i &lt; 3; i++) &#123;</div><div class="line">    li = document.createElement(&quot;li&quot;);</div><div class="line">    li.appendChid(document.createTextNode(&quot;Item &quot; + (i+1)));</div><div class="line">    fragment.appendChild(li);</div><div class="line">&#125;</div><div class="line"></div><div class="line">ul.appendChild(fragment);</div></pre></td></tr></table></figure>
+<h3 id="DOM-操作技术"><a href="#DOM-操作技术" class="headerlink" title="DOM 操作技术"></a>DOM 操作技术</h3><h4 id="动态脚本"><a href="#动态脚本" class="headerlink" title="动态脚本"></a>动态脚本</h4><p>兼容 IE 和早期版本 Safari</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function loadScriptString(code) &#123;</div><div class="line">    var script = document.createElement(&quot;script&quot;);</div><div class="line">    script.type = &quot;text/javascript&quot;;</div><div class="line">    try &#123;</div><div class="line">        script.appendChild(document.createTextNode(code));</div><div class="line">    &#125; catch (ex) &#123;</div><div class="line">        script.text = code;</div><div class="line">    &#125;</div><div class="line">    document.body.appdendChild(script);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>实际上，这样执行代码与在全局全局作用域中巴相同的字符串传递给eval()是一样的。</p>
+<h4 id="动态样式"><a href="#动态样式" class="headerlink" title="动态样式"></a>动态样式</h4><p>通用的解决方案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function loadStyleString(css) &#123;</div><div class="line">    var style = document.createElement(&quot;style&quot;);</div><div class="line">    style.type = &quot;text/css&quot;;</div><div class="line">    try &#123;</div><div class="line">        style.appendChild(document.createTextNode(css));</div><div class="line">    &#125; catch(ex) &#123;</div><div class="line">        style.styleSheet.cssText = css;    //兼容IE</div><div class="line">    &#125;</div><div class="line">    var head = document.getElementsByTagName(&quot;head&quot;)[0];</div><div class="line">    head.appendChild(style);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调用这个函数的实例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">loadStyleString(&quot;body&#123;background-color:red&#125;&quot;);</div></pre></td></tr></table></figure>
 <blockquote>
-<p>超时调用的代码都是在全局作用域总执行的，因此函数中 this 的值在非严格模式下指向 window 对象，在严格模式下是 undefined。</p>
+<p>如果专门针对 IE 编写代码，务必小心使用 styleSheet.cssText 属性。在重用同一个&lt;\style&gt;元素并再次设置这个属性时，有可能导致浏览器崩溃。同样，将 cssText 属性设置为空字符串也可能导致浏览器崩溃。</p>
 </blockquote>
-<p>间歇调用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var num 0;</div><div class="line">var max = 10;</div><div class="line">var intervalId = null;</div><div class="line"></div><div class="line">function incrementNumber() &#123;</div><div class="line">    num++;</div><div class="line"></div><div class="line">    //如果执行次数达到max设定的值，则取消后续尚未执行的调用</div><div class="line">    if (num == max) &#123;</div><div class="line">        clearInterval(intervalId);</div><div class="line">        alert(&quot;Done&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;, </div><div class="line"></div><div class="line">intervalId = setInterval(incrementNumber, 500);</div></pre></td></tr></table></figure>
-<p>这个模式也可以使用超时调用来实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var num 0;</div><div class="line">var max = 10;</div><div class="line">var intervalId = null;</div><div class="line"></div><div class="line">function incrementNumber() &#123;</div><div class="line">    num++;</div><div class="line"></div><div class="line">    //如果执行次数未达到max设定的值，则设置另一次超时调用</div><div class="line">    if (num &lt; max) &#123;</div><div class="line">        setTimout(incrementNumber, 500);</div><div class="line">    &#125; else &#123;</div><div class="line">        alert(&quot;Done&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">setTimeout(incrementNumber, 500);</div></pre></td></tr></table></figure>
-<p>可见，在使用超时调用时，没有必要跟踪超时调用 ID，因为每次执行代码后，如果不在设置另一次超时调用，调用就会自行停止。一般认为，使用超时调用来模拟间歇调用的是一种最佳模式。在开发环境下，很少使用真正的间歇调用，原因是后一个间歇调用有可能在前一个间歇调用结束之前启用。而像前面实例中那样使用超时调用，则完全可以避免这一点。所以最好不要使用间歇调用。</p>
-<h4 id="系统对话框"><a href="#系统对话框" class="headerlink" title="系统对话框"></a>系统对话框</h4><p>确认对话框的典型用法如下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if (confirm(&quot;Are you sure?&quot;)) &#123;</div><div class="line">    alert(&quot;I&apos;m so glad you&apos;re sure!&quot;);</div><div class="line">&#125; else &#123;</div><div class="line">    alert(&quot;I&apos;m sorry to hear you&apos;re not sure.&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>调用 promet()。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var result = prompt(&quot;What is your name?&quot;, &quot;&quot;);</div><div class="line">if (result !== null) &#123;</div><div class="line">    alert(&quot;Welcome, &quot; + result);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其它</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//显示&quot;打印&quot;对话框</div><div class="line">window.print();</div><div class="line"></div><div class="line">//显示&quot;查找&quot;对话框</div><div class="line">window.find();</div></pre></td></tr></table></figure>
-<h3 id="location-对象"><a href="#location-对象" class="headerlink" title="location 对象"></a>location 对象</h3><p>属性名： hash|host|hostname|href|pathname|port|protocol|search</p>
-<h4 id="查询字符串参数"><a href="#查询字符串参数" class="headerlink" title="查询字符串参数"></a>查询字符串参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">function getQueryStringArgs()&#123;</div><div class="line">    //取得查询字符串并去掉开头的问号</div><div class="line">    var qs = (location.search.length &gt; 0 ? location.search.substring(1) : &quot;&quot;),</div><div class="line">        args = &#123;&#125;,</div><div class="line">        items = qs.length ? qs.split(&quot;&amp;&quot;) : [],</div><div class="line">        item = null,</div><div class="line">        name = null,</div><div class="line">        value = null,</div><div class="line">        //在 for 循环中使用</div><div class="line">        i = 0,</div><div class="line">        len = items.length;</div><div class="line">    //逐个将每一项添加到 args 对象中</div><div class="line">    for (i=0; i &lt; len; i++) &#123;</div><div class="line">        item = items[i].split(&quot;=&quot;);</div><div class="line">        name = decodeURIComponent(item[0]);</div><div class="line">        value = decodeURIComponent(item[1]);</div><div class="line"></div><div class="line">        if (name.length) &#123;</div><div class="line">            args[name] = value;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return args;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="位置操作"><a href="#位置操作" class="headerlink" title="位置操作"></a>位置操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">//下列三行代码的效果完全一样</div><div class="line">location.assign(&quot;http://www.google.com&quot;);</div><div class="line">window.location(&quot;http://www.google.com&quot;);</div><div class="line">location.href(&quot;http://www.google.com&quot;);</div><div class="line"></div><div class="line">//设置新值来改变URL</div><div class="line">//假设初始URL为 http://www.google.com/WileyCDA/</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.google.com/WileyCDA/#section1&quot;</div><div class="line">location.hash = &quot;#section1&quot;;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.google.com/WileyCDA/?q=javascript&quot;</div><div class="line">location.search = &quot;?q=javascript&quot;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com/WileyCDA/&quot;</div><div class="line">location.hostname = &quot;www.yahoo.com&quot;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com/mydir&quot;</div><div class="line">location.pathname = &quot;mydir&quot;;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com:8080/WileyCDA&quot;</div><div class="line">location.port = 8080;</div></pre></td></tr></table></figure>
-<p>没修改 location 的属性(hash除外)，页面都会以新URL重新加载</p>
-<p>当通过上述任何一种方式修改 URL 之后，浏览器的历史纪录中就会生成一条新纪录，因此用户通过单击”后退”按钮都会导航到前一个页面。要禁用这种行为，可以使用 replace() 方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">location.replace(&quot;http://www.google.com&quot;);</div></pre></td></tr></table></figure>
 
         
         
@@ -210,7 +134,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/BOM/">BOM</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
   </div>
 
 </div>
@@ -398,117 +322,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/函数表达式/" title="函数表达式" itemprop="url">函数表达式</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><p>arguments.callee 是一个指向正在执行的函数的指针，因此可以用它来实现对函数的递归调用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function factorial(num)&#123;</div><div class="line">    if(num &lt;= 1)&#123;</div><div class="line">        return 1;</div><div class="line">    &#125;else&#123;</div><div class="line">        return num * arguments.callee(num-1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>通过使用 argument.callee 代替函数名，可以确保无论怎样调用函数都不会出问题。因此，在编写递归函数时，使用 arguments.callee 总比使用函数名更保险。<br>但在严格模式下，不能通过脚本访问 arguments.callee, 访问这个属性会导致错误。不过，可以使用函数表达式来达成相同的结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var factorial = (function f(num)) &#123;</div><div class="line">    if (num &lt;= 1) &#123;</div><div class="line">        return 1;</div><div class="line">    &#125; else&#123;</div><div class="line">        return num * f(num-1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>即便把函数赋值给了另一个变量，函数的名字 f 仍然有效，所以递归调用照样能正确完成。这种方式在严格模式和非严格模式下都行得通。</p>
-<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>闭包是指有权访问另一个函数作用域中的变量的函数。创建闭包的常见方式，就是在一个函数内部创建另一个函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function createComparisonFunction(propertyName) &#123;</div><div class="line">    return function(object1, object2) &#123;</div><div class="line">        var value1 = object1[propertyName];</div><div class="line">        var value2 = object2[propertyName];</div><div class="line"></div><div class="line">        if (value1 &lt; value2) &#123;</div><div class="line">            return -1;</div><div class="line">        &#125; else if (value1 &gt; value2) &#123;</div><div class="line">            return 1;</div><div class="line">        &#125; else &#123;</div><div class="line">            return 0;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>内部函数的代码访问了外部函数中的变量 propertyName。 即使这个内部函数被返回了，而且是在其它地方被调用了，但它仍然可以访问变量propertyName。之所以还能访问这个变量，是因为内部函数的作用域中包含 createComparisonFunction() 的作用域。要彻底搞清楚其中的细节，必须从理解函数被调用的时候都会发生什么入手。<br>当某个函数被调用时，会创建一个执行环境及相应的作用域链。然后，使用 arguments 和其他命名参数的值来初始化函数的活动对象。但在作用域链中，外部函数的活动对象始终位于第二位，外部函数的外部函数的活动对象始终位于第三位，……直至作为作用域终点的全局执行环境。<br>在函数执行过程中，为读取和写入变量的值，就需要在作用域中查找变量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function compare(value1, value2) &#123;</div><div class="line">    if (value1 &lt; value2) &#123;</div><div class="line">        return -1;</div><div class="line">    &#125; else if (value1 &gt; value2) &#123;</div><div class="line">        return 1;</div><div class="line">    &#125; else &#123;</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var result = compare(5, 10);</div></pre></td></tr></table></figure>
-<p>以上代码先定义了 compare() 函数， 然后又在全局作用域中调用了它。当调用 compare() 时，会创建一个包含 arguments、value1、value2 的活动对象。全局执行环境(包含 result 和 compare) 在 compare() 执行环境的作用域链中则处于第二位。</p>
-<p>后台的每个执行环境都有一个表示变量的对象---变量对象。全局环境的变量对象始终存在，而像 compare() 函数这样的局部环境的变量对象，则只在函数的执行的过程中存在。<br>无论什么时候再函数中访问一个变量时，就会从作用域链中搜索具有响应名字的变量。一般来讲，当函数执行完毕后，局部活动对象就会被销毁，内存中仅保存全局作用域(全局执行环境的变量对象)。但是，闭包的情况又有所不同。<br>在另一个<br>在另一个函数内部定义的函数会将包含函数(即外部函数)的活动对象添加到它的作用域链中。因此，在 createComparisonFunction() 函数内部定义的匿名函数的作用域链中，实际上将会包含外部函数 createComparisonFunction() 的活动对象。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var compare = createComparisonFunction(<span class="string">"name"</span>);</div><div class="line">var result = compare(&#123;name: <span class="string">"Nicholas"</span>&#125;, &#123;name: <span class="string">"Greg"</span>&#125;);</div></pre></td></tr></table></figure>
-<p>在匿名函数从 createComparisonFunction() 中被返回后，它的作用域链被初始化为包含 createComparisonFunction() 函数的活动对象和全局变量对象。这样，匿名函数就可以访问在 createComparisonFunction() 中定义的所有变量。更为重要的是，createComparisonFunction() 函数在执行完毕后，其活动对象也不会被销毁，因为匿名函数的作用域链仍然在引用这个活动对象。换句话说，当 createComparisonFunction() 函数返回后，其执行环境的作用域链会被销毁，但它的活动对象仍然会留在内存中；直到匿名函数被销毁返回后，createComparisonFunction() 的活动对象才会被销毁。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//创建函数</div><div class="line">var compareNames = createComparisonFunction(&quot;name&quot;);</div><div class="line"></div><div class="line">//调用函数</div><div class="line">var result = compareNames(&#123; name: &quot;Nicholas&quot;&#125;, &#123; name, &quot;Greg&quot;&#125;);</div><div class="line"></div><div class="line">//解除对匿名函数的引用(以便释放内存)</div><div class="line">compareNames = null;</div></pre></td></tr></table></figure>
-<p>首先，创建的比较函数被保存在变量 compareNames 中。而通过将 compareNames 设置为等于null解除该函数的引用，就等于通知垃圾回收例程将其清除。随着匿名函数的作用域链被销毁，其它作用域(除了全局作用域)也都可以安全地销毁了。</p>
-<h4 id="闭包与变量"><a href="#闭包与变量" class="headerlink" title="闭包与变量"></a>闭包与变量</h4><p>作用域链的这种配置机制引出了一个值得注意的副作用，即闭包只能取得包含函数中任何变量的最后一个值。因为闭包所保存的是整个变量对象，而不是某个特殊的变量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function createFunctions()&#123;</div><div class="line">    var result = new Array();</div><div class="line">    for (var i=0; i &lt; 10; i++) &#123;</div><div class="line">        result[i] = function()&#123;</div><div class="line">            return i;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line">    return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>此时每个函数都引用着保存变量 i 的同一个变量对象，所以在每个函数内部 i 的值都是10.但是，可以通过创建另一个匿名函数强制让闭包的行为符合预期。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>()&#123;</div><div class="line">    var result = new Array();</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(var i=0; i &lt; 10; i++) &#123;</div><div class="line">        result[i] = <span class="keyword">function</span>(num)&#123;</div><div class="line">            <span class="built_in">return</span> <span class="function"><span class="title">function</span></span>() &#123;</div><div class="line">                <span class="built_in">return</span> num;</div><div class="line">            &#125;;</div><div class="line">        &#125;(i);</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="关于this"><a href="#关于this" class="headerlink" title="关于this"></a>关于this</h4><p>this 对象是在运行时基于函数的执行环境绑定的：在全局函数中，this 等于 window，而当函数被作为某个对象的方法调用时，this 等于那个对象。不过，匿名函数的执行环境具有全局性，因此其 this 对象通常指向window。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var name = <span class="string">"The Window"</span>;</div><div class="line"></div><div class="line">var object = &#123;</div><div class="line">    name : <span class="string">"My Object"</span>,</div><div class="line"></div><div class="line">    getNameFunc : <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">            <span class="built_in">return</span> this.name;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">alert(object.getNameFunc()());        //<span class="string">"The Window"</span> (在非严格模式下)</div></pre></td></tr></table></figure>
-<p>每个函数在被调用时都会自动取得这两个特殊变量：this 和 arguments。内部函数在搜索这两个变量时，只会搜索到其活动对象为止，因此永远不可能直接访问外部函数中的这两个变量。</p>
-<blockquote>
-<p>this 和 arguments 也存在同样的问题。如果想访问作用域中的 arguments 对象，必须将该对象的引用保存到另一个闭包能够访问的变量中。</p>
-</blockquote>
-<h4 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h4><p>如果闭包的作用域链中保存着一个HTML元素，那么久意味着该元素无法被销毁。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">assignHandler</span></span>()&#123;</div><div class="line">    var element = document.getElementById(<span class="string">"someElement"</span>);</div><div class="line">    element.onclick = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        alert(element.id);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个闭包创建了一个循环引用。由于匿名函数保存了一个对 assignHandler() 的活动对象的引用，因此就会导致无法减少 element 的引用数。只要匿名函数存在，element 的引用数至少也是 1，因此它所占用的内存就永远不会被回收。不过，这个问题可以通过稍微改一下代码来解决。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">assignHandler</span></span>()&#123;</div><div class="line">    var element = document.getElementById(<span class="string">"someElement"</span>);</div><div class="line">    var id = element.id;</div><div class="line"></div><div class="line">    element.onclick = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        alert(id);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    element = null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>通过把 element.id 的一个副本保存在一个变量中，并且在闭包中引用该变量消除循环引用。但仅仅做到这一步，还是不能解决内存泄漏的问题。因为闭包会引用闭包包含函数的整个活动对象，而其中包含着 element。即使闭包不直接引用 element，包含函数的活动对象中也仍然会保存引用。因此，有必要把 element 变量设为 null。这样就能够解除对 DOM 对象的引用，顺利地减少其引用数，确保正常回收其占用的内存。</p>
-<h3 id="模仿块级作用域"><a href="#模仿块级作用域" class="headerlink" title="模仿块级作用域"></a>模仿块级作用域</h3><p>无论在什么地方，只要临时需要一些变量，就可以使用私有作用域。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function outputNumbers(count) &#123;</div><div class="line">    (function () &#123;</div><div class="line">        for (var i=0; i &lt; count; i++) &#123;</div><div class="line">            alert(i);</div><div class="line">        &#125;</div><div class="line">        &#125;)();</div><div class="line">        alert(i);    //导致一个错误！</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="私有变量"><a href="#私有变量" class="headerlink" title="私有变量"></a>私有变量</h3><p>有权访问私有变量和私有函数的公有方法称为<em>特权方法</em>。有两种在对象上创建特权方法的方式。第一种是在构造函数中定义特权方法，基本模式如下。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">MyObject</span></span>() &#123;</div><div class="line">    //私有变量和私有函数</div><div class="line">    var privateVariable = 10;</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">privateFunction</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //特权方法</div><div class="line">    this.publicMethod = <span class="function"><span class="title">function</span></span> ()&#123;</div><div class="line">        privateVariable++;</div><div class="line">        <span class="built_in">return</span> privateFunction();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>利用私有和特权成员，可以隐藏那些不应该直接被修改的数据。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> Person(name) &#123;</div><div class="line"></div><div class="line">    this.getName = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    this.setName = <span class="keyword">function</span>(value)&#123;</div><div class="line">        name = value;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = new Person(<span class="string">"Nicholas"</span>);</div><div class="line">alert(person.getName());        //<span class="string">"Nicholas"</span></div><div class="line">person.setName(<span class="string">"Greg"</span>);</div><div class="line">alert(person.getName());        //<span class="string">"Greg"</span></div></pre></td></tr></table></figure>
-<p>在函数中定义特权方法也有缺点，那就是必须使用构造函数模式来达到这个目的。构造函数的缺点是针对每个实例都会创建同样一组新方法，而使用静态私有变量来实现特权方法就可以避免这个问题。</p>
-<h4 id="静态私有变量"><a href="#静态私有变量" class="headerlink" title="静态私有变量"></a>静态私有变量</h4><p>通过在私有作用域中定义私有变量或函数，同样也可以创建特权方法。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="title">function</span></span>()&#123;</div><div class="line"></div><div class="line">    //私有变量和私有函数</div><div class="line">    var privateVariable = 10;</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">privateFunction</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //构造函数</div><div class="line">    MyObject = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    //公有/特权方法</div><div class="line">    MyObject.prototype.publicMethod = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        privateVariable++;</div><div class="line">        <span class="built_in">return</span> privateFunction();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    &#125;)();</div></pre></td></tr></table></figure>
-<p>这个模式在定义构造函数时并没有使用函数声明，而是使用了函数表达式。函数声明只能创建局部函数，但那并不是我们想要的。出于同样的原因，我们也没有在声明Object时使用 var 关键字。初始化未经声明的变量，总是会创建一个全局变量。因此，MyObject 就成了一个全局变量，能够在私有作用域外被访问到。但在严格模式下给未经生命的变量赋值会导致错误。<br>这个模式与在构造函数中定义特权方法的主要区别，就在于私有变量和函数是由实例共享的。由于特权方法是在原型上定义的，因此所有实例都使用同一个函数。而这个特权方法，作为一个闭包，总是保存着对包含作用域的引用。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">    var name = <span class="string">""</span>;</div><div class="line"></div><div class="line">    Person = <span class="keyword">function</span>(value)&#123;</div><div class="line">        name = value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Person.prototype.getName = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Person.prototype.setName = <span class="keyword">function</span>(value)&#123;</div><div class="line">        name = value;</div><div class="line">    &#125;</div><div class="line">    &#125;)();</div><div class="line"></div><div class="line">    var person1 = new Person(<span class="string">"Nicholas"</span>);</div><div class="line">    alert(person1.getName());    //<span class="string">"Nicholas"</span></div><div class="line">    person1.setName(<span class="string">"Greg"</span>);</div><div class="line">    alert(person1.getName());    //<span class="string">"Greg"</span></div><div class="line"></div><div class="line">    var person2 = new Person(<span class="string">"Michael"</span>);</div><div class="line">    alert(person1.getName());    //<span class="string">"Michael"</span></div><div class="line">    alert(person2.getName());    //<span class="string">"Michael"</span></div></pre></td></tr></table></figure>
-<p>在这种模式下，变量name就变成了一个静态的、由所有实例共享的属性。也就是说，在一个实例上调用 setName() 会影响所有实例。而调用 seName() 或新建一个 Person 实例都会赋予 name 属性一个新值。<br>以这种方式创建静态私有变量会因为使用原型而增进代码复用，但每个实例都没有自己的私有变量。到底是使用实例变量，还是静态私有变量，最终还是要视具体需求而定。</p>
-<blockquote>
-<p>多查找作用域链中的一个层次，就会在一定程度上影响查找速度。而这正是使用闭包和私有变量的一个明显的不足之处。</p>
-</blockquote>
-<h4 id="模块模式"><a href="#模块模式" class="headerlink" title="模块模式"></a>模块模式</h4><p>前面的模式是用于为自定义类型创建私有变量和特权方法的。而模块模式则是为单例创建私有变量和特权方法。所谓单例，值得就是只有一个实例的对象。按照惯例，Javascript是以对象字面量的方式来创建单例对象的。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var singleton = &#123;</div><div class="line">    name : value,</div><div class="line">    method : <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        //这里是方法的代码</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>模块模式通过为单例添加私有变量和特权方法能够使其得到增强，其语法形式如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">var singleton = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line"></div><div class="line">    //私有变量和私有函数</div><div class="line">    var privateVariable = 10;</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">privateFunction</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //特权/公有方法和属性</div><div class="line">    <span class="built_in">return</span> &#123;</div><div class="line">        publicProperty: <span class="literal">true</span>,</div><div class="line"></div><div class="line">        publicMethod : <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">            privateVariable++;</div><div class="line">            <span class="built_in">return</span> privateFunction();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;()</div></pre></td></tr></table></figure>
-<p>从本质上来讲，这个对象字面量定义的是单例的公共接口。这种模式在需要对单例进行某些初始化，同时又需要维护其私有变量时是非常有用的，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">var application = function()&#123;</div><div class="line"></div><div class="line">    //私有变量和函数</div><div class="line">    var components = new Array();</div><div class="line"></div><div class="line">    //初始化</div><div class="line">    components.push(new BaseComponent());</div><div class="line"></div><div class="line">    //公共</div><div class="line">    return &#123;</div><div class="line">        getComponentCount : function()&#123;</div><div class="line">            return components.length;</div><div class="line">            &#125;,</div><div class="line"></div><div class="line">        registerComponent : function(component)&#123;</div><div class="line">            if (typeof component == &quot;object&quot;) &#123;</div><div class="line">                components.push(component);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;()</div></pre></td></tr></table></figure>
-<p>如果必须创建一个对象并以某些数据对其初始化，同时还要公开一些能够访问这些私有数据的方法，那么就可以使用模块模式。以这种模式创建的每个单例都是 Object 的实例，因为最终要通过一个对象字面量来表示它。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/函数表达式/">函数表达式</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
   </h1>
   <p class="article-author">By
@@ -576,7 +389,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/jQuery源码分析/" title="jQuery源码分析" itemprop="url">jQuery源码分析</a>
+      <a href="/2017/04/15/二进制/" title="二进制" itemprop="url">二进制</a>
   </h1>
   <p class="article-author">By
        
@@ -589,28 +402,87 @@
 </header>
     <div class="article-content">
         
-        <h1 id="总体架构"><a href="#总体架构" class="headerlink" title="总体架构"></a>总体架构</h1><h2 id="自调用匿名函数"><a href="#自调用匿名函数" class="headerlink" title="自调用匿名函数"></a>自调用匿名函数</h2><h3 id="为什么要为自调用匿名函数设置参数window，并传入window-对象？"><a href="#为什么要为自调用匿名函数设置参数window，并传入window-对象？" class="headerlink" title="为什么要为自调用匿名函数设置参数window，并传入window 对象？"></a>为什么要为自调用匿名函数设置参数window，并传入window 对象？</h3><p>通过传入window 对象，可以使window 对象变为局部变量（即把函数参数作为局部<br>变量使用），这样当在jQuery 代码块中访问window 对象时，不需要将作用域链回退到顶<br>层作用域，从而可以更快地访问window 对象，这是原因之一；另外，将window 对象作<br>为参数传入，可以在压缩代码时进行优化，在压缩文件jquery-1.7.1.min.js 中可以看到下<br>面的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(function(a,b)&#123; ... &#125;)(window);</div><div class="line">// 参数 window 被压缩为 a，参数 undefined 被压缩为 b</div></pre></td></tr></table></figure>
-<h3 id="注意到自调用匿名函数最后的分号（-）了吗？"><a href="#注意到自调用匿名函数最后的分号（-）了吗？" class="headerlink" title="注意到自调用匿名函数最后的分号（;）了吗？"></a>注意到自调用匿名函数最后的分号（;）了吗？</h3><p>通常在JavaScript 中，如果语句分别放置在不同的行中，则分号（;）是可选的，但是对<br>于自调用匿名函数来说，在之前或之后省略分号都可能会引起语法错误。例如，执行下面的<br>两个例子，就会抛出异常。<br>例1　在下面的代码中，如果自调用匿名函数的前一行末尾没有加分号，则自调用匿名<br>函数的第一对括号会被当作是函数调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var n = 1</div><div class="line">( function()&#123;&#125; )()</div><div class="line">// TypeError: number is not a function</div></pre></td></tr></table></figure></p>
-<p>例2　在下面的代码中，如果未在第一个自调用匿名函数的末尾加分号，则下一行自调<br>用匿名函数的第一对括号会被当作是函数调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">( function()&#123;&#125; )()</div><div class="line">( function()&#123;&#125; )()</div><div class="line">// TypeError: undefined is not a function</div></pre></td></tr></table></figure></p>
-<p>所以，在使用自调用匿名函数时，最好不要省略自调用匿名函数之前和之后的分号。</p>
-<h1 id="构造jQuery对象"><a href="#构造jQuery对象" class="headerlink" title="构造jQuery对象"></a>构造jQuery对象</h1><h2 id="构造函数jQuery"><a href="#构造函数jQuery" class="headerlink" title="构造函数jQuery()"></a>构造函数jQuery()</h2><h3 id="jQuery-selector-context"><a href="#jQuery-selector-context" class="headerlink" title="jQuery( selector [, context] )"></a>jQuery( selector [, context] )</h3><p>如果传入一个字符串参数，jQuery 会检查这个字符串是选择器表达式还是HTML 代<br>码。如果是选择器表达式，则遍历文档，查找与之匹配的DOM 元素，并创建一个包含了<br>这些DOM 元素引用的jQuery 对象；如果没有元素与之匹配，则创建一个空jQuery 对象，<br>其中不包含任何元素，其属性length 等于0。字符串参数是HTML 代码的情况会在下一小<br>节介绍。<br>默认情况下，对匹配元素的查找将从根元素document 对象开始，即查找范围是整个文<br>档树，不过也可以传入第二个参数context 来限定查找范围（本书中把参数context 称为“选<br>择器的上下文”，或简称“上下文”）。例如，在一个事件监听函数中，可以像下面这样限制<br>查找范围：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(&apos;div.foo&apos;).click(function() &#123;</div><div class="line">    $(&apos;span&apos;, this).addClass(&apos;bar&apos;); // 限定查找范围</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>在这个例子中，对选择器表达式“ span”的查找被限制在了this 的范围内，即只有被点<br>击元素内的span 元素才会被添加类样式“bar ”。<br>如果选择器表达式selector 是简单的“ #id”，且没有指定上下文context，则调用浏览器<br>原生方法document.getElementById() 查找属性id 等于指定值的元素；如果是比“ #id”复杂<br>的选择器表达式或指定了上下文，则通过jQuery 方法.find() 查找，因此$(‘span’, this) 等价<br>于$(this).find(‘span’)。<br>至于方法.find()，会调用CSS 选择器引擎Sizzle 实现</p>
-<h3 id="jQuery-html-ownerDocument-、jQuery-html-props"><a href="#jQuery-html-ownerDocument-、jQuery-html-props" class="headerlink" title="　jQuery( html [, ownerDocument] )、jQuery( html, props )"></a>　jQuery( html [, ownerDocument] )、jQuery( html, props )</h3><p>如果传入的字符串参数看起来像一段HTML 代码（例如，字符串中含有<tag…>），<br>jQuery 则尝试用这段HTML 代码创建新的DOM 元素，并创建一个包含了这些DOM 元素引<br>用的jQuery 对象。例如，下面的代码将把HTML 代码转换成DOM 元素并插入body 节点的<br>末尾：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$(&apos;&lt;p id=&quot;test&quot;&gt;My &lt;em&gt;new&lt;/em&gt; text&lt;/p&gt;&apos;).appendTo(&apos;body&apos;);</div></pre></td></tr></table></figure></tag…></p>
-<p>如果HTML 代码是一个单独标签，例如，$(‘<img>‘) 或$(‘<a></a>‘)，jQuery 会使<br>用浏览器原生方法document.createElement() 创建DOM 元素。如果是比单独标签更复杂的<br>HTML 片段，例如上面例子中的$(‘</p><p id="test">My<em>new</em>text</p>‘)，则利用<br>浏览器的innerHTML 机制创建DOM 元素，这个过程由方法jQuery.buildFragment() 和方法<br>jQuery.clean() 实现。<p></p>
-<p>第二个参数ownerDocument 用于指定创建新DOM 元素的文档对象，如果不传入，则默<br>认为当前文档对象。<br>如果HTML 代码是一个单独标签，那么第二个参数还可以是props，props 是一个包含了<br>属性、事件的普通对象；在调用document.createElement() 创建DOM 元素后，参数props 会被传给jQuery 方法.attr()，然后由.attr() 负责把参数props 中的属性、事件设置到新创建的<br>DOM 元素上。<br>参数props 的属性可以是任意的事件类型（如“ click”），此时属性值应该是事件监听<br>函数，它将被绑定到新创建的DOM 元素上；参数props 可以含有以下特殊属性：val、css、<br>html、text、data、width、height、offset，相应的jQuery 方法：.val()、.css()、.html()、.text()、.<br>data()、.width()、.height()、.offset() 将被执行，并且属性值会作为参数传入；其他类型的属性<br>则会被设置到新创建的DOM 元素上，某些特殊属性还会做跨浏览器兼容（如type、value、<br>tabindex 等）；可以通过属性名class 设置类样式，但要用引号把class 包裹起来，因为class<br>是JavaScript 保留字。例如，在下面的例子中，创建一个div 元素，并设置类样式为“ test ”、<br>设置文本内容为“ Click me!”、绑定一个click 事件，然后插入body 节点的末尾，当点击该<br>div 元素时，还会切换类样式test：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(&quot;&lt;div/&gt;&quot;, &#123;</div><div class="line">    &quot;class&quot;: &quot;test&quot;,</div><div class="line">    text: &quot;Click me!&quot;,</div><div class="line">    click: function()&#123;</div><div class="line">        $(this).toggleClass(&quot;test&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;).appendTo(&quot;body&quot;);</div></pre></td></tr></table></figure></p>
-<h3 id="jQuery-element-、jQuery-elementArray"><a href="#jQuery-element-、jQuery-elementArray" class="headerlink" title="jQuery( element )、jQuery( elementArray )"></a>jQuery( element )、jQuery( elementArray )</h3><p>如果传入一个DOM 元素或DOM元素数组，则把DOM 元素封装到jQuery 对象中并返回。<br>这个功能常见于事件监听函数，即把关键字this 引用的DOM 元素封装为jQuery 对象，<br>然后在该jQuery 对象上调用jQuery 方法。例如，在下面的例子中，先调用$(this) 把被点击<br>的div 元素封装为jQuery 对象，然后调用方法slideUp() 以滑动动画隐藏该div 元素：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(&apos;div.foo&apos;).click(function() &#123;</div><div class="line">    $(this).slideUp();</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>###　jQuery( object )<br>如果传入一个普通JavaScript 对象，则把该对象封装到jQuery 对象中并返回。<br>这个功能可以方便地在普通JavaScript 对象上实现自定义事件的绑定和触发，例如，执<br>行下面的代码会在对象foo 上绑定一个自定义事件custom，然后手动触发这个事件，执行绑<br>定的custom 事件监听函数，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">// 定义一个普通 JavaScript 对象</div><div class="line">var foo = &#123;foo:&apos;bar&apos;, hello:&apos;world&apos;&#125;;</div><div class="line">// 封装成 jQuery 对象</div><div class="line">var $foo = $(foo);</div><div class="line">// 绑定一个事件</div><div class="line">$foo.on(&apos;custom&apos;, function ()&#123;</div><div class="line">console.log(&apos;custom event was called&apos;);</div><div class="line">&#125;);</div><div class="line">// 触发这个事件</div><div class="line">$foo.trigger(&apos;custom&apos;); // 在控制台打印&quot;custom event was called&quot;</div></pre></td></tr></table></figure></p>
-<p>###　jQuery( callback )<br>如果传入一个函数，则在document 上绑定一个ready 事件监听函数，当DOM 结构加载<br>完成时执行。ready 事件的触发要早于load 事件。ready 事件并不是浏览器原生事件，而是<br>DOMContentLoaded 事件、onreadystatechange 事件和函数doScrollCheck() 的统称。</p>
-<p>###　jQuery( jQuery object )<br>如果传入一个jQuery 对象，则创建该jQuery 对象的一个副本并返回，副本与传入的<br>jQuery 对象引用完全相同的DOM 元素。</p>
-<p>###　jQuery()<br>如果不传入任何参数，则返回一个空的jQuery 对象，属性length 为0。注意，在jQuery<br>1.4 之前，会返回一个含有document 对象的jQuery 对象。<br>这个功能可以用来复用jQuery 对象，例如，创建一个空的jQuery 对象，然后在需要时<br>先手动修改其中的元素，再调用jQuery 方法，从而避免重复创建jQuery 对象。</p>
-<h2 id="总体结构"><a href="#总体结构" class="headerlink" title="总体结构"></a>总体结构</h2><p>构造jQuery 对象模块的总体源码结构如代码清单2-1 所示。</p>
-<p>代码清单2-1　构造 jQuery 对象模块的总体源码结构</p>
-<p><hr><br>16　(function( window, undefined ) {<br>// 构造 jQuery 对象<br>22　 var jQuery = (function() {<br>25　 var jQuery = function( selector, context ) {<br>27　 return new jQuery.fn.init( selector, context, root jQuery );<br>28　 },<br>// 一堆局部变量声明<br>97　 jQuery.fn = jQuery.prototype = {<br>98　 constructor: jQuery,<br>99　 init: function( selector, context, rootjQuery ) { … },<br>// 一堆原型属性和方法<br>319　 };<br>322　 jQuery.fn.init.prototype = jQuery.fn;<br>324　 jQuery.extend = jQuery.fn.extend = function() { … };<br>388　 jQuery.extend({<br>// 一堆静态属性和方法<br>892　 });<br>955　 return jQuery;<br>957 })();<br>// 省略其他模块的代码<br>9246　 window.jQuery = window.$ = jQuery;<br>9266　})( window );</p>
-<p>下面简要梳理下这段源码。<br>第16 ～ 9266 行是最外层的自调用匿名函数，第1 章中介绍过，当jQuery 初始化时，这<br>个自调用匿名函数包含的所有JavaScript 代码将被执行。<br>第22 行定义了一个变量jQuery，第22 ～ 957 行的自调用匿名函数返回jQuery 构造函<br>数并赋值给变量jQuery，最后在第9246 行把这个jQuery 变量暴露给全局作用域window，并<br>定义了别名$。<br>在第22 ～ 957 行的自调用匿名函数内，第25 行又定义了一个变量jQuery，它的值是<br>jQuery 构造函数，在第955 行返回并赋值给第22 行的变量jQuery。因此，这两个jQuery 变<br>量是等价的，都指向jQuery 构造函数，为了方便描述，在后面中统一称为构造函数jQuery()。<br>第97 ～ 319 行覆盖了构造函数jQuery() 的原型对象。第98 行覆盖了原型对象的属性<br>constructor，使它指向jQuery 构造函数；第99 行定义了原型方法jQuery.fn.init()，它负责<br>解析参数selector 和context 的类型并执行相应的查找；在第27 行可以看到，当我们调用<br>jQuery 构造函数时，实际返回的是jQuery.fn.init() 的实例；此外，还定义了一堆其他的原型<br>属性和方法，例如，selector、length、size()、toArray() 等。<br>第322 行用jQuery 构造函数的原型对象jQuery.fn 覆盖了jQuery.fn.init() 的原型对象。<br>第324 行定义了jQuery.extend() 和jQuery.fn.extend()，用于合并两个或多个对象的属性<br>到第一个对象；第388 ～ 892 行执行jQuery.extend() 在jQuery 构造函数上定义了一堆静态属<br>性和方法，例如，noConflict()、isReady、readyWait、holdReady() 等。<br>看上去代码清单2-1 所述的总体源码结构有些复杂，下面把疑问和难点一一罗列，逐个分析。<br>1）为什么要在构造函数jQuery() 内部用运算符new 创建并返回另一个构造函数的实例？<br>通常我们创建一个对象或实例的方式是在运算符new 后紧跟一个构造函数，例如，<br>newDate() 会返回一个Date 对象；但是，如果构造函数有返回值，运算符new 所创建的对象<br>会被丢弃，返回值将作为new 表达式的值。<br>jQuery 利用了这一特性，通过在构造函数jQuery() 内部用运算符new 创建并返回另一个<br>构造函数的实例，省去了构造函数jQuery() 前面的运算符new，即我们创建jQuery 对象时，<br>可以省略运算符new 直接写jQuery()。<br>为了拼写更方便，在第9246 行还为构造函数jQuery() 定义了别名$，因此，创建jQuery<br>对象的常见写法是$()。<br>2）为什么在第97 行执行jQuery.fn = jQuery.prototype，设置jQuery.fn 指向构造函数<br>jQuery() 的原型对象jQuery.prototype ？<br>jQuery.fn 是jQuery.prototype 的简写，可以少写7 个字符，以方便拼写。<br>3）既然调用构造函数jQuery() 返回的jQuery 对象实际上是构造函数jQuery.fn.init() 的<br>实例，为什么能在构造函数jQuery.fn.init() 的实例上调用构造函数jQuery() 的原型方法和属<br>性？例如，$(‘#id’).length 和$(‘#id’).size()。<br>在第322 行执行jQuery.fn.init.prototype = jQuery.fn 时，用构造函数jQuery() 的原型对象<br>覆盖了构造函数jQuery.fn.init() 的原型对象，从而使构造函数jQuery.fn.init() 的实例也可以访<br>问构造函数jQuery() 的原型方法和属性。<br>4）为什么要把第25 ～ 955 行的代码包裹在一个自调用匿名函数中，然后把第25 行定<br>义的构造函数jQuery() 作为返回值赋值给第22 行的jQuery 变量？去掉这个自调用匿名函<br>数，直接在第25 行定义构造函数jQuery() 不也可以吗？去掉了不是更容易阅读和理解吗？<br>去掉第25 ～ 955 行的自调用匿名函数当然可以，但会潜在地增加构造jQuery 对象模块<br>与其他模块的耦合度。在第25 ～ 97 行之间还定义了很多其他的局部变量，这些局部变量只<br>在构造jQuery 对象模块内部使用。通过把这些局部变量包裹在一个自调用匿名函数中，实现<br>了高内聚低耦合的设计思想。<br>5）为什么要覆盖构造函数jQuery() 的原型对象jQuery.prototype ？<br>在原型对象jQuery.prototype 上定义的属性和方法会被所有jQuery 对象继承，可以有<br>效减少每个jQuery 对象所需的内存。事实上，jQuery 对象只包含5 种非继承属性，其余都<br>继承自原型对象jQuery.prototype ；在构造函数jQuery.fn.init() 中设置了整型属性、length、<br>selector、context ；在原型方法.pushStack() 中设置了prevObject。因此，也不必因为jQuery<br>对象带有太多的属性和方法而担心会占用太多的内存。</p>
-<h2 id="jQuery-fn-init-selector-context-rootjQuery"><a href="#jQuery-fn-init-selector-context-rootjQuery" class="headerlink" title="jQuery.fn.init( selector, context, rootjQuery )"></a>jQuery.fn.init( selector, context, rootjQuery )</h2><h3 id="12-个分支"><a href="#12-个分支" class="headerlink" title="12 个分支"></a>12 个分支</h3><p>构造函数jQuery.fn.init() 负责解析参数selector 和context 的类型，并执行相应的逻辑，最<br>后返回jQuery.fn.init() 的实例。参数selector 和context 共有12 个有效分支，如表2-1 所示。</p>
-<p>表2-1　参数selector 和context 的12 个分支<br><img src="img/blog/table2_1.png"><br><img src="img/blog/table2_1x.png"></p>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p><img src="img/blog/table2_4.png"></p>
+        <p><img src="img/blog/01.png"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/涉及底层/">涉及底层</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/underscore/" title="underscore" itemprop="url">underscore</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>被引用到的函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">// Shortcut function for checking if an object has a given property directly</div><div class="line">// on itself (in other words, not on a prototype).</div><div class="line">function has(obj, key) &#123;</div><div class="line">    return obj != null &amp;&amp; hasOwnProperty.call(obj, key);</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Is a given variable an object?</div><div class="line">function isObject(obj) &#123;</div><div class="line">    var type = typeof obj;</div><div class="line">    return type === &apos;function&apos; || type === &apos;object&apos; &amp;&amp; !!obj;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Retrieve the names of an object&apos;s own properties.</div><div class="line">function keys(obj) &#123;</div><div class="line">    if(!isObject(obj)) return [];</div><div class="line">    if(Object.keys) return Object.keys(obj);</div><div class="line">    var keys = [];</div><div class="line">    for (var key in obj) if(has(obj, key)) keys.push(key);</div><div class="line">    return keys;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Returns the first index on an array-like that passes a predicate test</div><div class="line">function findIndex(array, fn)&#123;</div><div class="line">    var length = array != null ? array.length : 0;</div><div class="line">    for (var i = 0; i &lt; length; i++) &#123;</div><div class="line">        if (fn(array[i], i, array)) return i;</div><div class="line">    &#125;</div><div class="line">    return -1;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Returns the first key on an object that passes a predicate test</div><div class="line">function findKey(obj, fn)&#123;</div><div class="line">    var keys = keys(obj), key;</div><div class="line">    for (var i = 0, length = keys.length; i &lt; length; i++) &#123;</div><div class="line">        key = keys[i];</div><div class="line">        if (fn(obj[key], key, obj)) return key;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>整个函数在一个闭包中，避免污染全局变量。通过传入this（其实就是window对象）来改变函数的作用域。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(function()&#123; ... &#125;.call(this))</div></pre></td></tr></table></figure>
+<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var</div><div class="line">nativeIsArray      = Array.isArray,</div><div class="line">nativeKeys         = Object.keys,</div><div class="line">nativeBind         = FuncProto.bind,</div><div class="line">nativeCreate       = Object.create;</div></pre></td></tr></table></figure>
+<p>这种定义的方式省略了多余的var，格式也美观</p>
+<h3 id="数据判断"><a href="#数据判断" class="headerlink" title="数据判断"></a>数据判断</h3><p>判断是否为dom，dom的nodeType属性值为1。这里用!!强转为boolean值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function isElement(obj) &#123;</div><div class="line">    return !!(obj &amp;&amp; obj.nodeType === 1);</div><div class="line">  &#125;;</div></pre></td></tr></table></figure>
+<p> 判断是否为数组。所以为了兼容之前的版本，在原生判断函数不存在的情况下，后面重写了一个判断函数。用call函数来改变作用域可以避免当obj没有toString函数报错的情况。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">isArray = Array.isArray || function(obj) &#123;</div><div class="line">    return toString.call(obj) === &apos;[object Array]&apos;;</div><div class="line">  &#125;;</div></pre></td></tr></table></figure>
+<p>判断是否为对象。先用typeof判断数据类型。函数也属于对象，但是由于typeof null也是object，所以用!!obj来区分这种情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">isObject = function(obj) &#123;</div><div class="line">    var type = typeof obj;</div><div class="line">    return type === &apos;function&apos; || type === &apos;object&apos; &amp;&amp; !!obj;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>判断是否为arguments,很简单，arguments有个特有属性callee。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">isArguments = function(obj) &#123;</div><div class="line">  return has(obj, &apos;callee&apos;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>NaN这个值有两个特点：1.它是一个数；2.不等于它自己。<br>‘+’放在变量前面一般作用是把后面的变量变成一个数，在这里已经判断为一个数仍加上’+’，是为了把var num = new Number()这种没有值的数字也归为NaN。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">isNumber = function(obj) &#123;</div><div class="line">    return Object.prototype.toString.call(obj) === &apos;[object &apos; + isNumber + &apos;]&apos;;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">isNaN = function(obj) &#123;</div><div class="line">    return isNumber(obj) &amp;&amp; obj !== +obj;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>var b = new Boolean()。b也是布尔值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">isBoolean = function(obj) &#123;</div><div class="line">return obj === true || obj === false || Object.prototype.toString.call(obj) === &apos;[object Boolean]&apos;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>用void 0来表示undefined，非常有意思的小技巧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">isUndefined = function(obj) &#123;</div><div class="line">    return obj === void 0;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>Return the first value which passes a truth test.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function find(obj, fn) &#123;</div><div class="line">    var key;</div><div class="line">    if (obj.length === +obj.length) &#123;</div><div class="line">        key = findIndex(obj, fn);</div><div class="line">    &#125; else &#123;</div><div class="line">        key = findKey(obj, fn);</div><div class="line">    &#125;</div><div class="line">    if (key !== void 0 &amp;&amp; key !== -1) return obj[key];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="noop"><a href="#noop" class="headerlink" title="noop"></a>noop</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">_.noop = function()&#123;&#125;;</div></pre></td></tr></table></figure>
+<p>noop仅仅是一个空函数。因为函数不写返回值，可以是返回undefined。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var a ;</div><div class="line">undefined = 2;</div><div class="line">if(a === undefined)&#123;</div><div class="line">        alert(&quot;2222&quot;);</div><div class="line">&#125;</div><div class="line">if(a===_.noop())&#123;</div><div class="line">        alert(&quot;2222&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>es3下，undefined是可以修改的，所以ie第一个alert是不执行的。这样通过函数执行可以拿到undefined的.</p>
+<h3 id="random"><a href="#random" class="headerlink" title="random"></a>random</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">_.random = function(min,max)&#123;</div><div class="line">    if(max == null)&#123;</div><div class="line">            max = min;</div><div class="line">            min = 0;</div><div class="line">    &#125;</div><div class="line">    return min + Math.floor(Math.random()*(max - min + 1));</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="uniqueId"><a href="#uniqueId" class="headerlink" title="uniqueId"></a>uniqueId</h3><p>生成dom的id<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var idCounter = 0;</div><div class="line">_.uniqueId = function(prefix)&#123;</div><div class="line">        var id = ++idCounter + &apos;&apos;;//转为字符串格式</div><div class="line">        return prefix ？ prefix + id ：id；</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
 
         
         
@@ -629,7 +501,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/underscore/">underscore</a>
   </div>
 
 </div>
@@ -721,6 +593,100 @@
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/BOM/" title="BOM" itemprop="url">BOM</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="window-对象"><a href="#window-对象" class="headerlink" title="window 对象"></a>window 对象</h3><h4 id="窗口位置"><a href="#窗口位置" class="headerlink" title="窗口位置"></a>窗口位置</h4><p>款浏览器取得窗口左边和上边的位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var leftPos = (typeof window.screenLeft == &quot;number&quot;) ? window.screenLeft : window.screenY;</div><div class="line">var topPos = (typeof window.screenTop == &quot;number&quot;) ? window.screenTop : window.screenX;</div></pre></td></tr></table></figure>
+<p>移动到新位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//将窗口移动到屏幕左上角</div><div class="line">window.moveTo(0,0);</div><div class="line"></div><div class="line">//将窗口向下移动到100像素</div><div class="line">window.moveBy(0,100);</div></pre></td></tr></table></figure>
+<h4 id="窗口大小"><a href="#窗口大小" class="headerlink" title="窗口大小"></a>窗口大小</h4><p>取得页面视口的大小</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var pageWidth = window.innerWidth,</div><div class="line">    pageHeight = window.innerHeight;</div><div class="line"></div><div class="line">if (typeof pageWidth != &quot;number&quot;) &#123;</div><div class="line">    if (document.compatMode == &quot;CSS1Compat&quot;) &#123;</div><div class="line">        pageWidth = document.documentElement.clientWidth;</div><div class="line">        pageHeight = document.documentElement.pageHeight;</div><div class="line">    &#125; else &#123;</div><div class="line">        pageWidth = document.body.clientWidth;</div><div class="line">        pageHeight = document.body.pageHeight;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调整浏览器窗口的大小</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//调整到 100 x 100</div><div class="line">window.resizeTo(100, 100);</div><div class="line"></div><div class="line">//调整到200 x 150</div><div class="line">window.resizeTo(100, 50);</div></pre></td></tr></table></figure>
+<h4 id="导航和打开窗口"><a href="#导航和打开窗口" class="headerlink" title="导航和打开窗口"></a>导航和打开窗口</h4><h5 id="弹出窗口"><a href="#弹出窗口" class="headerlink" title="弹出窗口"></a>弹出窗口</h5><p>设置： height|left|location|menubar|resizable|scrollbars|status|toolbar|top|width|</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">window.open(&quot;http://www.google.com&quot;, &quot;wroxWindow&quot;, &quot;height=400,width=400,top=10,left=10,resizable=yes&quot;);</div></pre></td></tr></table></figure>
+<p>调用 close() 方法还可以关闭新打开的窗口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wroxWin.close();</div><div class="line">alert(wroxWin.closed);    //true</div></pre></td></tr></table></figure>
+<h5 id="弹出窗口屏蔽程序"><a href="#弹出窗口屏蔽程序" class="headerlink" title="弹出窗口屏蔽程序"></a>弹出窗口屏蔽程序</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var blocked = false;</div><div class="line"></div><div class="line">try &#123;</div><div class="line">    var wroxWin = window.open(&quot;http:www.google.com&quot;&quot;, &quot;_blank&quot;);</div><div class="line">    if (wroxWin == null) &#123;</div><div class="line">        blocked = true;</div><div class="line">    &#125;</div><div class="line">&#125; catch (ex) &#123;</div><div class="line">    blocked = true;</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (blocked) &#123;</div><div class="line">    alert(&quot;The popup was blocked!&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="间歇调用和超时调用"><a href="#间歇调用和超时调用" class="headerlink" title="间歇调用和超时调用"></a>间歇调用和超时调用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//不建议传递字符串</div><div class="line">setTimeout (&quot;alert(&apos;hello world&apos;)&quot;, 1000);</div><div class="line"></div><div class="line">//推荐的调用方式</div><div class="line">setTimeout(function()&#123;</div><div class="line">    alert(&apos;hello world&apos;);</div><div class="line">    &#125;, 1000);</div></pre></td></tr></table></figure>
+<p>虽然这两种调用方式都没有问题，但由于传递字符串可能导致性能损失，因此不建议以字符串作为第一个参数。<br>第二个参数是一个表示等待多长时间的毫秒数，但经过该时间后指定的代码不一定会执行。JavaScript 是一个单线程的解释器，因此一定时间内只能执行一段代码。为了要控制要执行的代码，就有一个JavaScript任务队列。这些任务会按照将它们添加到队列的顺序执行。setTimout()的第二个参数告诉 JavaScript 再过多长时间把当前任务到队列中。如果队列是空的，那么添加的代码回立即执行；如果队列不是空的，那么它就要等前面的代码执行完了以后再执行。</p>
+<blockquote>
+<p>超时调用的代码都是在全局作用域总执行的，因此函数中 this 的值在非严格模式下指向 window 对象，在严格模式下是 undefined。</p>
+</blockquote>
+<p>间歇调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var num 0;</div><div class="line">var max = 10;</div><div class="line">var intervalId = null;</div><div class="line"></div><div class="line">function incrementNumber() &#123;</div><div class="line">    num++;</div><div class="line"></div><div class="line">    //如果执行次数达到max设定的值，则取消后续尚未执行的调用</div><div class="line">    if (num == max) &#123;</div><div class="line">        clearInterval(intervalId);</div><div class="line">        alert(&quot;Done&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;, </div><div class="line"></div><div class="line">intervalId = setInterval(incrementNumber, 500);</div></pre></td></tr></table></figure>
+<p>这个模式也可以使用超时调用来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var num 0;</div><div class="line">var max = 10;</div><div class="line">var intervalId = null;</div><div class="line"></div><div class="line">function incrementNumber() &#123;</div><div class="line">    num++;</div><div class="line"></div><div class="line">    //如果执行次数未达到max设定的值，则设置另一次超时调用</div><div class="line">    if (num &lt; max) &#123;</div><div class="line">        setTimout(incrementNumber, 500);</div><div class="line">    &#125; else &#123;</div><div class="line">        alert(&quot;Done&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">setTimeout(incrementNumber, 500);</div></pre></td></tr></table></figure>
+<p>可见，在使用超时调用时，没有必要跟踪超时调用 ID，因为每次执行代码后，如果不在设置另一次超时调用，调用就会自行停止。一般认为，使用超时调用来模拟间歇调用的是一种最佳模式。在开发环境下，很少使用真正的间歇调用，原因是后一个间歇调用有可能在前一个间歇调用结束之前启用。而像前面实例中那样使用超时调用，则完全可以避免这一点。所以最好不要使用间歇调用。</p>
+<h4 id="系统对话框"><a href="#系统对话框" class="headerlink" title="系统对话框"></a>系统对话框</h4><p>确认对话框的典型用法如下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if (confirm(&quot;Are you sure?&quot;)) &#123;</div><div class="line">    alert(&quot;I&apos;m so glad you&apos;re sure!&quot;);</div><div class="line">&#125; else &#123;</div><div class="line">    alert(&quot;I&apos;m sorry to hear you&apos;re not sure.&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调用 promet()。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var result = prompt(&quot;What is your name?&quot;, &quot;&quot;);</div><div class="line">if (result !== null) &#123;</div><div class="line">    alert(&quot;Welcome, &quot; + result);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其它</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//显示&quot;打印&quot;对话框</div><div class="line">window.print();</div><div class="line"></div><div class="line">//显示&quot;查找&quot;对话框</div><div class="line">window.find();</div></pre></td></tr></table></figure>
+<h3 id="location-对象"><a href="#location-对象" class="headerlink" title="location 对象"></a>location 对象</h3><p>属性名： hash|host|hostname|href|pathname|port|protocol|search</p>
+<h4 id="查询字符串参数"><a href="#查询字符串参数" class="headerlink" title="查询字符串参数"></a>查询字符串参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">function getQueryStringArgs()&#123;</div><div class="line">    //取得查询字符串并去掉开头的问号</div><div class="line">    var qs = (location.search.length &gt; 0 ? location.search.substring(1) : &quot;&quot;),</div><div class="line">        args = &#123;&#125;,</div><div class="line">        items = qs.length ? qs.split(&quot;&amp;&quot;) : [],</div><div class="line">        item = null,</div><div class="line">        name = null,</div><div class="line">        value = null,</div><div class="line">        //在 for 循环中使用</div><div class="line">        i = 0,</div><div class="line">        len = items.length;</div><div class="line">    //逐个将每一项添加到 args 对象中</div><div class="line">    for (i=0; i &lt; len; i++) &#123;</div><div class="line">        item = items[i].split(&quot;=&quot;);</div><div class="line">        name = decodeURIComponent(item[0]);</div><div class="line">        value = decodeURIComponent(item[1]);</div><div class="line"></div><div class="line">        if (name.length) &#123;</div><div class="line">            args[name] = value;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return args;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="位置操作"><a href="#位置操作" class="headerlink" title="位置操作"></a>位置操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">//下列三行代码的效果完全一样</div><div class="line">location.assign(&quot;http://www.google.com&quot;);</div><div class="line">window.location(&quot;http://www.google.com&quot;);</div><div class="line">location.href(&quot;http://www.google.com&quot;);</div><div class="line"></div><div class="line">//设置新值来改变URL</div><div class="line">//假设初始URL为 http://www.google.com/WileyCDA/</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.google.com/WileyCDA/#section1&quot;</div><div class="line">location.hash = &quot;#section1&quot;;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.google.com/WileyCDA/?q=javascript&quot;</div><div class="line">location.search = &quot;?q=javascript&quot;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com/WileyCDA/&quot;</div><div class="line">location.hostname = &quot;www.yahoo.com&quot;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com/mydir&quot;</div><div class="line">location.pathname = &quot;mydir&quot;;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com:8080/WileyCDA&quot;</div><div class="line">location.port = 8080;</div></pre></td></tr></table></figure>
+<p>没修改 location 的属性(hash除外)，页面都会以新URL重新加载</p>
+<p>当通过上述任何一种方式修改 URL 之后，浏览器的历史纪录中就会生成一条新纪录，因此用户通过单击”后退”按钮都会导航到前一个页面。要禁用这种行为，可以使用 replace() 方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">location.replace(&quot;http://www.google.com&quot;);</div></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/BOM/">BOM</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
@@ -790,11 +756,11 @@
 			
 		
 			
-				<li><a href="/tags/Introduction-to-Algorithms/" title="Introduction to Algorithms">Introduction to Algorithms<sup>3</sup></a></li>
+				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
+				<li><a href="/tags/Introduction-to-Algorithms/" title="Introduction to Algorithms">Introduction to Algorithms<sup>3</sup></a></li>
 			
 		
 			
@@ -838,7 +804,7 @@
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
@@ -854,7 +820,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 		</ul>
