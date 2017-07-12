@@ -81,6 +81,100 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/15/作用域和闭包/" title="作用域和闭包" itemprop="url">作用域和闭包</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="实质问题"><a href="#实质问题" class="headerlink" title="实质问题"></a>实质问题</h3><p>下面用一些代码来解释这个定义。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    var a = 2;</div><div class="line">    function bar() &#123;</div><div class="line">        console.log( a ); // 2</div><div class="line">    &#125;</div><div class="line">    bar();</div><div class="line">&#125;</div><div class="line">foo();</div></pre></td></tr></table></figure></p>
+<p>这段代码看起来和嵌套作用域中的示例代码很相似。基于词法作用域的查找规则，函数bar()可以<br>访问外部作用域中的变量a（这个例子中的是一个RHS引用查询）。<br>这是闭包吗？<br>技术上来讲，也许是。但根据前面的定义，确切地说并不是。我认为最准确地用来解释bar()对a的<br>引用的方法是词法作用域的查找规则，而这些规则只是闭包的一部分。（但却是非常重要的一部<br>分！）</p>
+<p>从纯学术的角度说，在上面的代码片段中，函数bar()具有一个涵盖foo()作用域的闭包（事实上，涵<br>盖了它能访问的所有作用域，比如全局作用域）。也可以认为bar()被封闭在了foo()的作用域中。为<br>什么呢？原因简单明了，因为bar()嵌套在foo()内部。<br>但是通过这种方式定义的闭包并不能直接进行观察，也无法明白在这个代码片段中闭包是如何工<br>作的。我们可以很容易地理解词法作用域，而闭包则隐藏在代码之后的神秘阴影里，并不那么容易<br>理解。<br>下面我们来看一段代码，清晰地展示了闭包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    var a = 2;</div><div class="line">    function bar() &#123;</div><div class="line">        console.log( a );</div><div class="line">    &#125;</div><div class="line">    return bar;</div><div class="line">&#125;</div><div class="line">var baz = foo();</div><div class="line">baz(); // 2 ———— 朋友，这就是闭包的效果。</div></pre></td></tr></table></figure></p>
+<p>函数bar()的词法作用域能够访问foo()的内部作用域。然后我们将bar()函数本身当作一个值类型<br>进行传递。在这个例子中，我们将bar所引用的函数对象本身当作返回值。<br>在foo()执行后，其返回值（也就是内部的bar()函数）赋值给变量baz并调用baz()，实际上只是通过<br>不同的标识符引用调用了内部的函数bar()。<br>bar()显然可以被正常执行。但是在这个例子中，它在自己定义的词法作用域以外的地方执行。<br>在foo()执行后，通常会期待foo()的整个内部作用域都被销毁，因为我们知道引擎有垃圾回收器用<br>来释放不再使用的内存空间。由于看上去foo()的内容不会再被使用，所以很自然地会考虑对其进<br>行回收。<br>而闭包的“神奇”之处正是可以阻止这件事情的发生。事实上内部作用域依然存在，因此没有被回<br>收。谁在使用这个内部作用域？原来是bar()本身在使用。<br>拜bar()所声明的位置所赐，它拥有涵盖foo()内部作用域的闭包，使得该作用域能够一直存活，以<br>供bar()在之后任何时间进行引用。<br>bar()依然持有对该作用域的引用，而这个引用就叫作闭包。<br>因此，在几微秒之后变量baz被实际调用（调用内部函数bar），不出意料它可以访问定义时的词法<br>作用域，因此它也可以如预期般访问变量a。<br>这个函数在定义时的词法作用域以外的地方被调用。闭包使得函数可以继续访问定义时的词法作<br>用域。<br>当然，无论使用何种方式对函数类型的值进行传递，当函数在别处被调用时都可以观察到闭包。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">var a = 2;</div><div class="line">function baz() &#123;</div><div class="line">    console.log( a ); // 2</div><div class="line">&#125;</div><div class="line">bar( baz );</div><div class="line">&#125;</div><div class="line">function bar(fn) &#123;</div><div class="line">    fn(); // 妈妈快看呀，这就是闭包！</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>把内部函数baz传递给bar，当调用这个内部函数时（现在叫作fn），它涵盖的foo()内部作用域的闭<br>包就可以观察到了，因为它能够访问a。<br>传递函数当然也可以是间接的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var fn;</div><div class="line">function foo() &#123;</div><div class="line">var a = 2;</div><div class="line">function baz() &#123;</div><div class="line">    console.log( a );</div><div class="line">&#125;</div><div class="line">fn = baz; // 将baz分配给全局变量</div><div class="line">&#125;</div><div class="line">function bar() &#123;</div><div class="line">    fn(); // 妈妈快看呀，这就是闭包！</div><div class="line">&#125;</div><div class="line">foo();</div><div class="line">bar(); // 2</div></pre></td></tr></table></figure></p>
+<p>无论通过何种手段将内部函数传递到所在的词法作用域以外，它都会持有对原始定义作用域的引<br>用，无论在何处执行这个函数都会使用闭包。</p>
+<p>本质上无论何时何地，如果将函数（访问它们各自的词法作用域）当作第一级的值类<br>型并到处传递，你就会看到闭包在这些函数中的应用。在定时器、事件监听器、Ajax请求、跨窗口通<br>信、Web Workers或者任何其他的异步（或者同步）任务中，只要使用了回调函数，实际上就是在使<br>用闭包！</p>
+<blockquote>
+<p>通常认为IIFE是典型的闭包例子，但根据先前对闭包的定义，我并<br>不是很同意这个观点。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var a = 2;</div><div class="line">(function IIFE() &#123;</div><div class="line">    console.log( a );</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+<p>虽然这段代码可以正常工作，但严格来讲它并不是闭包。为什么？因为函数（示例代码中的IIFE）并<br>不是在它本身的词法作用域以外执行的。它在定义时所在的作用域中执行（而外部作用域，也就是<br>全局作用域也持有a）。a是通过普通的词法作用域查找而非闭包被发现的。<br>尽管技术上来讲，闭包是发生在定义时的，但并不非常明显，就好像六祖慧能所说：”既非风动，亦<br>非幡动，仁者心动耳。”</p>
+<p>尽管IIFE本身并不是观察闭包的恰当例子，但它的确创建了闭包，并且也是最常用来创建可以被<br>封闭起来的闭包的工具。因此IIFE的确同闭包息息相关，即使本身并不会真的使用闭包。</p>
+<h3 id="循环和闭包"><a href="#循环和闭包" class="headerlink" title="循环和闭包"></a>循环和闭包</h3><p>要说明闭包，for循环是最常见的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for (var i=1; i&lt;=5; i++) &#123;</div><div class="line">    setTimeout( function timer() &#123;</div><div class="line">        console.log( i );</div><div class="line">    &#125;, i*1000 );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>正常情况下，我们对这段代码行为的预期是分别输出数字1~5，每秒一次，每次一个。<br>但实际上，这段代码在运行时会以每秒一次的频率输出五次6。<br>这是为什么？<br>首先解释6是从哪里来的。这个循环的终止条件是i不再&lt;=5。条件首次成立时i的值是6。因此，输出<br>显示的是循环结束时i的最终值。<br>仔细想一下，这好像又是显而易见的，延迟函数的回调会在循环结束时才执行。事实上，当定时器<br>运行时即使每个迭代中执行的是setTimeout(.., 0)，所有的回调函数依然是在循环结束后才会被<br>执行，因此会每次输出一个6出来。<br>这里引伸出一个更深入的问题，代码中到底有什么缺陷导致它的行为同语义所暗示的不一致呢？<br>缺陷是我们试图假设循环中的每个迭代在运行时都会给自己“捕获”一个i的副本。但是根据作用域<br>的工作原理，实际情况是尽管循环中的五个函数是在各个迭代中分别定义的，但是它们都被封闭<br>在一个共享的全局作用域中，因此实际上只有一个i。<br>下面回到正题。缺陷是什么？我们需要更多的闭包作用域，特别是在循环的过程中每个迭代都需要<br>一个闭包作用域。<br>IIFE会通过声明并立即执行一个函数来创建作用域。<br>我们来试一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">for (var i=1; i&lt;=5; i++) &#123;</div><div class="line">(function() &#123;</div><div class="line">setTimeout( function timer() &#123;</div><div class="line">console.log( i );</div><div class="line">&#125;, i*1000 );</div><div class="line">&#125;)();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>。这样不行。但是为什么呢？我们现在显然拥有更多的词法作用域了。的确每个延迟<br>函数都会将IIFE在每次迭代中创建的作用域封闭起来。<br>如果作用域是空的，那么仅仅将它们进行封闭是不够的。仔细看一下，我们的IIFE只是一个什么都<br>没有的空作用域。它需要包含一点实质内容才能为我们所用。<br>它需要有自己的变量，用来在每个迭代中储存i的值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">for (var i=1; i&lt;=5; i++) &#123;</div><div class="line">    (function() &#123;</div><div class="line">        var j = i;</div><div class="line">        setTimeout( function timer() &#123;</div><div class="line">            console.log( j );</div><div class="line">        &#125;, j*1000 );</div><div class="line">    &#125;)();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>行了！它能正常工作了！。<br>可以对这段代码进行一些改进：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">for (var i=1; i&lt;=5; i++) &#123;</div><div class="line">    (function(j) &#123;</div><div class="line">        setTimeout( function timer() &#123;</div><div class="line">            console.log( j );</div><div class="line">        &#125;, j*1000 );</div><div class="line">    &#125;)( i );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>let声明，可以用来劫持块作用域，并且<br>在这个块作用域中声明一个变量。<br>本质上这是将一个块转换成一个可以被关闭的作用域。因此，下面这些看起来很酷的代码就可以<br>正常运行了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">for (var i=1; i&lt;=5; i++) &#123;</div><div class="line">    let j = i; // 是的，闭包的块作用域！</div><div class="line">    setTimeout( function timer() &#123;</div><div class="line">        console.log( j );</div><div class="line">    &#125;, j*1000 );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但是，这还不是全部！for循环头部的let声明还会有一个特殊的行<br>为。这个行为指出变量在循环过程中不止被声明一次，每次迭代都会声明。随后的每个迭代都会使<br>用上一个迭代结束时的值来初始化这个变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for (let i=1; i&lt;=5; i++) &#123;</div><div class="line">    setTimeout( function timer() &#123;</div><div class="line">        console.log( i );</div><div class="line">    &#125;, i*1000 );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h3><p>还有其他的代码模式利用闭包的强大威力，但从表面上看，它们似乎与回调无关。下面一起来研究<br>其中最强大的一个：模块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    var something = &quot;cool&quot;;</div><div class="line">    var another = [1, 2, 3];</div><div class="line">    function doSomething() &#123;</div><div class="line">        console.log( something );</div><div class="line">    &#125;</div><div class="line">    function doAnother() &#123;</div><div class="line">        console.log( another.join( &quot; ! &quot; ) );</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>正如在这段代码中所看到的，这里并没有明显的闭包，只有两个私有数据变量something<br>和another，以及doSomething()和doAnother()两个内部函数，它们的词法作用域（而这就是闭包）也<br>就是foo()的内部作用域。<br>接下来考虑以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function CoolModule() &#123;</div><div class="line">    var something = &quot;cool&quot;;</div><div class="line">    var another = [1, 2, 3];</div><div class="line">    function doSomething() &#123;</div><div class="line">        console.log( something );</div><div class="line">    &#125;</div><div class="line">    function doAnother() &#123;</div><div class="line">        console.log( another.join( &quot; ! &quot; ) );</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        doSomething: doSomething,</div><div class="line">        doAnother: doAnother</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line">var foo = CoolModule();</div><div class="line">foo.doSomething(); // cool</div><div class="line">foo.doAnother(); // 1 ! 2 ! 3</div></pre></td></tr></table></figure></p>
+<p>这个模式在JavaScript中被称为模块。最常见的实现模块模式的方法通常被称为模块暴露，这里展<br>示的是其变体。<br>我们仔细研究一下这些代码。<br>首先，CoolModule()只是一个函数，必须要通过调用它来创建一个模块实例。如果不执行外部函数，<br>内部作用域和闭包都无法被创建。<br>其次，CoolModule()返回一个用对象字面量语法{ key: value, … }来表示的对象。这个返回的对<br>象中含有对内部函数而不是内部数据变量的引用。我们保持内部数据变量是隐藏且私有的状态。<br>可以将这个对象类型的返回值看作本质上是模块的公共API。<br>这个对象类型的返回值最终被赋值给外部的变量foo，然后就可以通过它来访问API中的属性方<br>法，比如foo.doSomething()。</p>
+<p>doSomething()和doAnother()函数具有涵盖模块实例内部作用域的闭包（通过调用CoolModule()实<br>现）。当通过返回一个含有属性引用的对象的方式来将函数传递到词法作用域外部时，我们已经创<br>造了可以观察和实践闭包的条件。<br>如果要更简单的描述，模块模式需要具备两个必要条件。</p>
+<ol>
+<li>必须有外部的封闭函数，该函数必须至少被调用一次（每次调用都会创建一个新的模块实例）。</li>
+<li>封闭函数必须返回至少一个内部函数，这样内部函数才能在私有作用域中形成闭包，并且可以<br>访问或者修改私有的状态。<br>一个具有函数属性的对象本身并不是真正的模块。从方便观察的角度看，一个从函数调用所返回<br>的，只有数据属性而没有闭包函数的对象并不是真正的模块。<br>上一个示例代码中有一个叫作CoolModule()的独立的模块创建器，可以被调用任意多次，每次调用<br>都会创建一个新的模块实例。当只需要一个实例时，可以对这个模式进行简单的改进来实现单例<br>模式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var foo = (function CoolModule() &#123;</div><div class="line">    var something = &quot;cool&quot;;</div><div class="line">    var another = [1, 2, 3];</div><div class="line">    function doSomething() &#123;</div><div class="line">        console.log( something );</div><div class="line">    &#125;</div><div class="line">    function doAnother() &#123;</div><div class="line">        console.log( another.join( &quot; ! &quot; ) );</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        doSomething: doSomething,</div><div class="line">        doAnother: doAnother</div><div class="line">    &#125;;</div><div class="line">&#125;)();</div><div class="line">foo.doSomething(); // cool</div><div class="line">foo.doAnother(); // 1 ! 2 ! 3</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>我们将模块函数转换成了IIFE，立即调用这个函数并将返回值直接赋值给单例的模<br>块实例标识符foo。<br>模块也是普通的函数，因此可以接受参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function CoolModule(id) &#123;</div><div class="line">    function identify() &#123;</div><div class="line">    console.log( id );</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        identify: identify</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line">var foo1 = CoolModule( &quot;foo 1&quot; );</div><div class="line">var foo2 = CoolModule( &quot;foo 2&quot; );</div><div class="line">foo1.identify(); // &quot;foo 1&quot;</div><div class="line">foo2.identify(); // &quot;foo 2&quot;</div></pre></td></tr></table></figure></p>
+<p>模块模式另一个简单但强大的变化用法是，命名将要作为公共API返回的对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">var foo = (function CoolModule(id) &#123;</div><div class="line">    function change() &#123;</div><div class="line">    // 修改公共API</div><div class="line">    publicAPI.identify = identify2;</div><div class="line">    &#125;</div><div class="line">    function identify1() &#123;</div><div class="line">        console.log( id );</div><div class="line">    &#125;</div><div class="line">    function identify2() &#123;</div><div class="line">        console.log( id.toUpperCase() );</div><div class="line">    &#125;</div><div class="line">    var publicAPI = &#123;</div><div class="line">        change: change,</div><div class="line">        identify: identify1</div><div class="line">    &#125;;</div><div class="line">    return publicAPI;</div><div class="line">&#125;)( &quot;foo module&quot; );</div><div class="line">foo.identify(); // foo module</div><div class="line">foo.change();</div><div class="line">foo.identify(); // FOO MODULE</div></pre></td></tr></table></figure></p>
+<p>通过在模块实例的内部保留对公共API对象的内部引用，可以从内部对模块实例进行修改，包括添<br>加或删除方法和属性，以及修改它们的值。</p>
+<p>大多数模块依赖加载器/管理器本质上都是将这种模块定义封装进一个友好的API。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var MyModules = (function Manager() &#123;</div><div class="line">    var modules = &#123;&#125;;</div><div class="line">    function define(name, deps, impl) &#123;</div><div class="line">        for (var i=0; i&lt;deps.length; i++) &#123;</div><div class="line">            deps[i] = modules[deps[i]];</div><div class="line">        &#125;</div><div class="line">    modules[name] = impl.apply( impl, deps );</div><div class="line">    &#125;</div><div class="line">    function get(name) &#123;</div><div class="line">        return modules[name];</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        define: define,</div><div class="line">        get: get</div><div class="line">    &#125;;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure></p>
+<p>这段代码的核心是modules[name] = impl.apply(impl, deps)。为了模块的定义引入了包装函数（可<br>以传入任何依赖），并且将返回值，也就是模块的API，储存在一个根据名字来管理的模块列表中。<br>下面展示了如何使用它来定义模块：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">MyModules.define( &quot;bar&quot;, [], function() &#123;</div><div class="line">    function hello(who) &#123;</div><div class="line">    return &quot;Let me introduce: &quot; + who;</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        hello: hello</div><div class="line">    &#125;;</div><div class="line">&#125; );</div><div class="line">MyModules.define( &quot;foo&quot;, [&quot;bar&quot;], function(bar) &#123;</div><div class="line">    var hungry = &quot;hippo&quot;;</div><div class="line">    function awesome() &#123;</div><div class="line">        console.log( bar.hello( hungry ).toUpperCase() );</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        awesome: awesome</div><div class="line">    &#125;;</div><div class="line">&#125; );</div><div class="line">var bar = MyModules.get( &quot;bar&quot; );</div><div class="line">var foo = MyModules.get( &quot;foo&quot; );</div><div class="line">console.log(</div><div class="line">bar.hello( &quot;hippo&quot; )</div><div class="line">); // &lt;i&gt;Let me introduce: hippo&lt;/i&gt;</div><div class="line">foo.awesome(); // LET ME INTRODUCE: HIPPO</div></pre></td></tr></table></figure></p>
+<p>“foo”和”bar”模块都是通过一个返回公共API的函数来定义的。”foo”甚至接受”bar”的示例作为依<br>赖参数，并能相应地使用它。<br>要理解模块管理器没有任何特殊的“魔力”。它们符合前面列出的模块模式的两个特点：为函数定义<br>引入包装函数，并保证它的返回值和模块的API保持一致。<br>换句话说，模块就是模块，即使在它们外层加上一个友好的包装工具也不会发生任何变化。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/闭包/">闭包</a><a href="/tags/模块/">模块</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/15/事件/" title="事件" itemprop="url">事件</a>
   </h1>
   <p class="article-author">By
@@ -251,100 +345,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/作用域和闭包/" title="作用域和闭包" itemprop="url">作用域和闭包</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="实质问题"><a href="#实质问题" class="headerlink" title="实质问题"></a>实质问题</h3><p>下面用一些代码来解释这个定义。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    var a = 2;</div><div class="line">    function bar() &#123;</div><div class="line">        console.log( a ); // 2</div><div class="line">    &#125;</div><div class="line">    bar();</div><div class="line">&#125;</div><div class="line">foo();</div></pre></td></tr></table></figure></p>
-<p>这段代码看起来和嵌套作用域中的示例代码很相似。基于词法作用域的查找规则，函数bar()可以<br>访问外部作用域中的变量a（这个例子中的是一个RHS引用查询）。<br>这是闭包吗？<br>技术上来讲，也许是。但根据前面的定义，确切地说并不是。我认为最准确地用来解释bar()对a的<br>引用的方法是词法作用域的查找规则，而这些规则只是闭包的一部分。（但却是非常重要的一部<br>分！）</p>
-<p>从纯学术的角度说，在上面的代码片段中，函数bar()具有一个涵盖foo()作用域的闭包（事实上，涵<br>盖了它能访问的所有作用域，比如全局作用域）。也可以认为bar()被封闭在了foo()的作用域中。为<br>什么呢？原因简单明了，因为bar()嵌套在foo()内部。<br>但是通过这种方式定义的闭包并不能直接进行观察，也无法明白在这个代码片段中闭包是如何工<br>作的。我们可以很容易地理解词法作用域，而闭包则隐藏在代码之后的神秘阴影里，并不那么容易<br>理解。<br>下面我们来看一段代码，清晰地展示了闭包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    var a = 2;</div><div class="line">    function bar() &#123;</div><div class="line">        console.log( a );</div><div class="line">    &#125;</div><div class="line">    return bar;</div><div class="line">&#125;</div><div class="line">var baz = foo();</div><div class="line">baz(); // 2 ———— 朋友，这就是闭包的效果。</div></pre></td></tr></table></figure></p>
-<p>函数bar()的词法作用域能够访问foo()的内部作用域。然后我们将bar()函数本身当作一个值类型<br>进行传递。在这个例子中，我们将bar所引用的函数对象本身当作返回值。<br>在foo()执行后，其返回值（也就是内部的bar()函数）赋值给变量baz并调用baz()，实际上只是通过<br>不同的标识符引用调用了内部的函数bar()。<br>bar()显然可以被正常执行。但是在这个例子中，它在自己定义的词法作用域以外的地方执行。<br>在foo()执行后，通常会期待foo()的整个内部作用域都被销毁，因为我们知道引擎有垃圾回收器用<br>来释放不再使用的内存空间。由于看上去foo()的内容不会再被使用，所以很自然地会考虑对其进<br>行回收。<br>而闭包的“神奇”之处正是可以阻止这件事情的发生。事实上内部作用域依然存在，因此没有被回<br>收。谁在使用这个内部作用域？原来是bar()本身在使用。<br>拜bar()所声明的位置所赐，它拥有涵盖foo()内部作用域的闭包，使得该作用域能够一直存活，以<br>供bar()在之后任何时间进行引用。<br>bar()依然持有对该作用域的引用，而这个引用就叫作闭包。<br>因此，在几微秒之后变量baz被实际调用（调用内部函数bar），不出意料它可以访问定义时的词法<br>作用域，因此它也可以如预期般访问变量a。<br>这个函数在定义时的词法作用域以外的地方被调用。闭包使得函数可以继续访问定义时的词法作<br>用域。<br>当然，无论使用何种方式对函数类型的值进行传递，当函数在别处被调用时都可以观察到闭包。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">var a = 2;</div><div class="line">function baz() &#123;</div><div class="line">    console.log( a ); // 2</div><div class="line">&#125;</div><div class="line">bar( baz );</div><div class="line">&#125;</div><div class="line">function bar(fn) &#123;</div><div class="line">    fn(); // 妈妈快看呀，这就是闭包！</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>把内部函数baz传递给bar，当调用这个内部函数时（现在叫作fn），它涵盖的foo()内部作用域的闭<br>包就可以观察到了，因为它能够访问a。<br>传递函数当然也可以是间接的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var fn;</div><div class="line">function foo() &#123;</div><div class="line">var a = 2;</div><div class="line">function baz() &#123;</div><div class="line">    console.log( a );</div><div class="line">&#125;</div><div class="line">fn = baz; // 将baz分配给全局变量</div><div class="line">&#125;</div><div class="line">function bar() &#123;</div><div class="line">    fn(); // 妈妈快看呀，这就是闭包！</div><div class="line">&#125;</div><div class="line">foo();</div><div class="line">bar(); // 2</div></pre></td></tr></table></figure></p>
-<p>无论通过何种手段将内部函数传递到所在的词法作用域以外，它都会持有对原始定义作用域的引<br>用，无论在何处执行这个函数都会使用闭包。</p>
-<p>本质上无论何时何地，如果将函数（访问它们各自的词法作用域）当作第一级的值类<br>型并到处传递，你就会看到闭包在这些函数中的应用。在定时器、事件监听器、Ajax请求、跨窗口通<br>信、Web Workers或者任何其他的异步（或者同步）任务中，只要使用了回调函数，实际上就是在使<br>用闭包！</p>
-<blockquote>
-<p>通常认为IIFE是典型的闭包例子，但根据先前对闭包的定义，我并<br>不是很同意这个观点。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var a = 2;</div><div class="line">(function IIFE() &#123;</div><div class="line">    console.log( a );</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
-<p>虽然这段代码可以正常工作，但严格来讲它并不是闭包。为什么？因为函数（示例代码中的IIFE）并<br>不是在它本身的词法作用域以外执行的。它在定义时所在的作用域中执行（而外部作用域，也就是<br>全局作用域也持有a）。a是通过普通的词法作用域查找而非闭包被发现的。<br>尽管技术上来讲，闭包是发生在定义时的，但并不非常明显，就好像六祖慧能所说：”既非风动，亦<br>非幡动，仁者心动耳。”</p>
-<p>尽管IIFE本身并不是观察闭包的恰当例子，但它的确创建了闭包，并且也是最常用来创建可以被<br>封闭起来的闭包的工具。因此IIFE的确同闭包息息相关，即使本身并不会真的使用闭包。</p>
-<h3 id="循环和闭包"><a href="#循环和闭包" class="headerlink" title="循环和闭包"></a>循环和闭包</h3><p>要说明闭包，for循环是最常见的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for (var i=1; i&lt;=5; i++) &#123;</div><div class="line">    setTimeout( function timer() &#123;</div><div class="line">        console.log( i );</div><div class="line">    &#125;, i*1000 );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>正常情况下，我们对这段代码行为的预期是分别输出数字1~5，每秒一次，每次一个。<br>但实际上，这段代码在运行时会以每秒一次的频率输出五次6。<br>这是为什么？<br>首先解释6是从哪里来的。这个循环的终止条件是i不再&lt;=5。条件首次成立时i的值是6。因此，输出<br>显示的是循环结束时i的最终值。<br>仔细想一下，这好像又是显而易见的，延迟函数的回调会在循环结束时才执行。事实上，当定时器<br>运行时即使每个迭代中执行的是setTimeout(.., 0)，所有的回调函数依然是在循环结束后才会被<br>执行，因此会每次输出一个6出来。<br>这里引伸出一个更深入的问题，代码中到底有什么缺陷导致它的行为同语义所暗示的不一致呢？<br>缺陷是我们试图假设循环中的每个迭代在运行时都会给自己“捕获”一个i的副本。但是根据作用域<br>的工作原理，实际情况是尽管循环中的五个函数是在各个迭代中分别定义的，但是它们都被封闭<br>在一个共享的全局作用域中，因此实际上只有一个i。<br>下面回到正题。缺陷是什么？我们需要更多的闭包作用域，特别是在循环的过程中每个迭代都需要<br>一个闭包作用域。<br>IIFE会通过声明并立即执行一个函数来创建作用域。<br>我们来试一下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">for (var i=1; i&lt;=5; i++) &#123;</div><div class="line">(function() &#123;</div><div class="line">setTimeout( function timer() &#123;</div><div class="line">console.log( i );</div><div class="line">&#125;, i*1000 );</div><div class="line">&#125;)();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>。这样不行。但是为什么呢？我们现在显然拥有更多的词法作用域了。的确每个延迟<br>函数都会将IIFE在每次迭代中创建的作用域封闭起来。<br>如果作用域是空的，那么仅仅将它们进行封闭是不够的。仔细看一下，我们的IIFE只是一个什么都<br>没有的空作用域。它需要包含一点实质内容才能为我们所用。<br>它需要有自己的变量，用来在每个迭代中储存i的值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">for (var i=1; i&lt;=5; i++) &#123;</div><div class="line">    (function() &#123;</div><div class="line">        var j = i;</div><div class="line">        setTimeout( function timer() &#123;</div><div class="line">            console.log( j );</div><div class="line">        &#125;, j*1000 );</div><div class="line">    &#125;)();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>行了！它能正常工作了！。<br>可以对这段代码进行一些改进：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">for (var i=1; i&lt;=5; i++) &#123;</div><div class="line">    (function(j) &#123;</div><div class="line">        setTimeout( function timer() &#123;</div><div class="line">            console.log( j );</div><div class="line">        &#125;, j*1000 );</div><div class="line">    &#125;)( i );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>let声明，可以用来劫持块作用域，并且<br>在这个块作用域中声明一个变量。<br>本质上这是将一个块转换成一个可以被关闭的作用域。因此，下面这些看起来很酷的代码就可以<br>正常运行了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">for (var i=1; i&lt;=5; i++) &#123;</div><div class="line">    let j = i; // 是的，闭包的块作用域！</div><div class="line">    setTimeout( function timer() &#123;</div><div class="line">        console.log( j );</div><div class="line">    &#125;, j*1000 );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>但是，这还不是全部！for循环头部的let声明还会有一个特殊的行<br>为。这个行为指出变量在循环过程中不止被声明一次，每次迭代都会声明。随后的每个迭代都会使<br>用上一个迭代结束时的值来初始化这个变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for (let i=1; i&lt;=5; i++) &#123;</div><div class="line">    setTimeout( function timer() &#123;</div><div class="line">        console.log( i );</div><div class="line">    &#125;, i*1000 );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h3><p>还有其他的代码模式利用闭包的强大威力，但从表面上看，它们似乎与回调无关。下面一起来研究<br>其中最强大的一个：模块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    var something = &quot;cool&quot;;</div><div class="line">    var another = [1, 2, 3];</div><div class="line">    function doSomething() &#123;</div><div class="line">        console.log( something );</div><div class="line">    &#125;</div><div class="line">    function doAnother() &#123;</div><div class="line">        console.log( another.join( &quot; ! &quot; ) );</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>正如在这段代码中所看到的，这里并没有明显的闭包，只有两个私有数据变量something<br>和another，以及doSomething()和doAnother()两个内部函数，它们的词法作用域（而这就是闭包）也<br>就是foo()的内部作用域。<br>接下来考虑以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function CoolModule() &#123;</div><div class="line">    var something = &quot;cool&quot;;</div><div class="line">    var another = [1, 2, 3];</div><div class="line">    function doSomething() &#123;</div><div class="line">        console.log( something );</div><div class="line">    &#125;</div><div class="line">    function doAnother() &#123;</div><div class="line">        console.log( another.join( &quot; ! &quot; ) );</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        doSomething: doSomething,</div><div class="line">        doAnother: doAnother</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line">var foo = CoolModule();</div><div class="line">foo.doSomething(); // cool</div><div class="line">foo.doAnother(); // 1 ! 2 ! 3</div></pre></td></tr></table></figure></p>
-<p>这个模式在JavaScript中被称为模块。最常见的实现模块模式的方法通常被称为模块暴露，这里展<br>示的是其变体。<br>我们仔细研究一下这些代码。<br>首先，CoolModule()只是一个函数，必须要通过调用它来创建一个模块实例。如果不执行外部函数，<br>内部作用域和闭包都无法被创建。<br>其次，CoolModule()返回一个用对象字面量语法{ key: value, … }来表示的对象。这个返回的对<br>象中含有对内部函数而不是内部数据变量的引用。我们保持内部数据变量是隐藏且私有的状态。<br>可以将这个对象类型的返回值看作本质上是模块的公共API。<br>这个对象类型的返回值最终被赋值给外部的变量foo，然后就可以通过它来访问API中的属性方<br>法，比如foo.doSomething()。</p>
-<p>doSomething()和doAnother()函数具有涵盖模块实例内部作用域的闭包（通过调用CoolModule()实<br>现）。当通过返回一个含有属性引用的对象的方式来将函数传递到词法作用域外部时，我们已经创<br>造了可以观察和实践闭包的条件。<br>如果要更简单的描述，模块模式需要具备两个必要条件。</p>
-<ol>
-<li>必须有外部的封闭函数，该函数必须至少被调用一次（每次调用都会创建一个新的模块实例）。</li>
-<li>封闭函数必须返回至少一个内部函数，这样内部函数才能在私有作用域中形成闭包，并且可以<br>访问或者修改私有的状态。<br>一个具有函数属性的对象本身并不是真正的模块。从方便观察的角度看，一个从函数调用所返回<br>的，只有数据属性而没有闭包函数的对象并不是真正的模块。<br>上一个示例代码中有一个叫作CoolModule()的独立的模块创建器，可以被调用任意多次，每次调用<br>都会创建一个新的模块实例。当只需要一个实例时，可以对这个模式进行简单的改进来实现单例<br>模式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var foo = (function CoolModule() &#123;</div><div class="line">    var something = &quot;cool&quot;;</div><div class="line">    var another = [1, 2, 3];</div><div class="line">    function doSomething() &#123;</div><div class="line">        console.log( something );</div><div class="line">    &#125;</div><div class="line">    function doAnother() &#123;</div><div class="line">        console.log( another.join( &quot; ! &quot; ) );</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        doSomething: doSomething,</div><div class="line">        doAnother: doAnother</div><div class="line">    &#125;;</div><div class="line">&#125;)();</div><div class="line">foo.doSomething(); // cool</div><div class="line">foo.doAnother(); // 1 ! 2 ! 3</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>我们将模块函数转换成了IIFE，立即调用这个函数并将返回值直接赋值给单例的模<br>块实例标识符foo。<br>模块也是普通的函数，因此可以接受参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function CoolModule(id) &#123;</div><div class="line">    function identify() &#123;</div><div class="line">    console.log( id );</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        identify: identify</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line">var foo1 = CoolModule( &quot;foo 1&quot; );</div><div class="line">var foo2 = CoolModule( &quot;foo 2&quot; );</div><div class="line">foo1.identify(); // &quot;foo 1&quot;</div><div class="line">foo2.identify(); // &quot;foo 2&quot;</div></pre></td></tr></table></figure></p>
-<p>模块模式另一个简单但强大的变化用法是，命名将要作为公共API返回的对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">var foo = (function CoolModule(id) &#123;</div><div class="line">    function change() &#123;</div><div class="line">    // 修改公共API</div><div class="line">    publicAPI.identify = identify2;</div><div class="line">    &#125;</div><div class="line">    function identify1() &#123;</div><div class="line">        console.log( id );</div><div class="line">    &#125;</div><div class="line">    function identify2() &#123;</div><div class="line">        console.log( id.toUpperCase() );</div><div class="line">    &#125;</div><div class="line">    var publicAPI = &#123;</div><div class="line">        change: change,</div><div class="line">        identify: identify1</div><div class="line">    &#125;;</div><div class="line">    return publicAPI;</div><div class="line">&#125;)( &quot;foo module&quot; );</div><div class="line">foo.identify(); // foo module</div><div class="line">foo.change();</div><div class="line">foo.identify(); // FOO MODULE</div></pre></td></tr></table></figure></p>
-<p>通过在模块实例的内部保留对公共API对象的内部引用，可以从内部对模块实例进行修改，包括添<br>加或删除方法和属性，以及修改它们的值。</p>
-<p>大多数模块依赖加载器/管理器本质上都是将这种模块定义封装进一个友好的API。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var MyModules = (function Manager() &#123;</div><div class="line">    var modules = &#123;&#125;;</div><div class="line">    function define(name, deps, impl) &#123;</div><div class="line">        for (var i=0; i&lt;deps.length; i++) &#123;</div><div class="line">            deps[i] = modules[deps[i]];</div><div class="line">        &#125;</div><div class="line">    modules[name] = impl.apply( impl, deps );</div><div class="line">    &#125;</div><div class="line">    function get(name) &#123;</div><div class="line">        return modules[name];</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        define: define,</div><div class="line">        get: get</div><div class="line">    &#125;;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure></p>
-<p>这段代码的核心是modules[name] = impl.apply(impl, deps)。为了模块的定义引入了包装函数（可<br>以传入任何依赖），并且将返回值，也就是模块的API，储存在一个根据名字来管理的模块列表中。<br>下面展示了如何使用它来定义模块：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">MyModules.define( &quot;bar&quot;, [], function() &#123;</div><div class="line">    function hello(who) &#123;</div><div class="line">    return &quot;Let me introduce: &quot; + who;</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        hello: hello</div><div class="line">    &#125;;</div><div class="line">&#125; );</div><div class="line">MyModules.define( &quot;foo&quot;, [&quot;bar&quot;], function(bar) &#123;</div><div class="line">    var hungry = &quot;hippo&quot;;</div><div class="line">    function awesome() &#123;</div><div class="line">        console.log( bar.hello( hungry ).toUpperCase() );</div><div class="line">    &#125;</div><div class="line">    return &#123;</div><div class="line">        awesome: awesome</div><div class="line">    &#125;;</div><div class="line">&#125; );</div><div class="line">var bar = MyModules.get( &quot;bar&quot; );</div><div class="line">var foo = MyModules.get( &quot;foo&quot; );</div><div class="line">console.log(</div><div class="line">bar.hello( &quot;hippo&quot; )</div><div class="line">); // &lt;i&gt;Let me introduce: hippo&lt;/i&gt;</div><div class="line">foo.awesome(); // LET ME INTRODUCE: HIPPO</div></pre></td></tr></table></figure></p>
-<p>“foo”和”bar”模块都是通过一个返回公共API的函数来定义的。”foo”甚至接受”bar”的示例作为依<br>赖参数，并能相应地使用它。<br>要理解模块管理器没有任何特殊的“魔力”。它们符合前面列出的模块模式的两个特点：为函数定义<br>引入包装函数，并保证它的返回值和模块的API保持一致。<br>换句话说，模块就是模块，即使在它们外层加上一个友好的包装工具也不会发生任何变化。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/闭包/">闭包</a><a href="/tags/模块/">模块</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/DOM2和DOM3/" title="DOM2和DOM3" itemprop="url">DOM2和DOM3</a>
   </h1>
   <p class="article-author">By
@@ -388,189 +388,6 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM2/">DOM2</a><a href="/tags/DOM3/">DOM3</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/函数/" title="函数" itemprop="url">函数</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="内联命名函数"><a href="#内联命名函数" class="headerlink" title="内联命名函数"></a>内联命名函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var ninja = function myNinja()&#123;</div><div class="line">    //在内联函数中，验证两个名字是等价的</div><div class="line">    assert(ninja == myNinja,&quot;Thi function is named two things at once!&quot;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">ninja();  //调用函数执行内部验证</div><div class="line"></div><div class="line">//验证内联函数的名称在内联外部是不是可用的</div><div class="line">assert(typeof myNinja == &apos;undefined&apos;, &apos;But myNinja isn&apos;t defined outside of the function);</div></pre></td></tr></table></figure>
-<p>尽管可以给内联函数进行命名，但这些名称只能在自身函数内部才是可见的。匿名函数的名称和变量名称有点像，它们的作用域仅限于它们的函数。</p>
-<blockquote>
-<p>这就是为什么要将全局函数作为window的方法进行创建的原因。不使用window的属性，我们没有办法引用这些函数。</p>
-</blockquote>
-<h3 id="存储函数"><a href="#存储函数" class="headerlink" title="存储函数"></a>存储函数</h3><p>有时候，我们可能需要存储一组相关但独立的函数，事件回调管理是最明显的例子。向这个函数添加函数时，我们面临的挑战是要确定哪些函数在集合众不存在，而应该添加，以及哪些函数已经存在并且不需要再添加了。<br>显而易见但天真的做法是，将所有的函数保存在一个数组里，然后遍历数组检查重复的函数。只不过这种方式很一般，我们可以利用函数属性的特性，给函数添加一个附加属性从而实现上述目的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">var store = &#123;</div><div class="line">    //持续跟踪要赋值的nextId</div><div class="line">    nextId: 1,</div><div class="line">    //创建一个对象作为缓存，用于存储函数</div><div class="line">    cache: &#123;&#125;,</div><div class="line">    //向缓存中添加函数，但只有缓存不存在的情况下才能添加成功</div><div class="line">    add: function(fn) &#123;</div><div class="line">        if (!fn.id) &#123;</div><div class="line">            fn.id = store.nextId++;</div><div class="line">            return !!(store.cache[fn.id] = fn);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">function ninja()&#123;&#125;</div><div class="line"></div><div class="line">assert(store.add(ninja),&quot;Function was safely added.&quot;);</div><div class="line">assert(!store.add(ninja),&quot;But it was only added once.&quot;);</div></pre></td></tr></table></figure>
-<h3 id="自记忆函数"><a href="#自记忆函数" class="headerlink" title="自记忆函数"></a>自记忆函数</h3><p>缓存记忆是构建函数的过程，这种函数能够记忆先前计算的结果。通过避免已经执行过的不必要复杂的计算，这种方式可以显著提高性能。</p>
-<h4 id="缓存记忆昂贵的计算结果"><a href="#缓存记忆昂贵的计算结果" class="headerlink" title="缓存记忆昂贵的计算结果"></a>缓存记忆昂贵的计算结果</h4><p>作为一个基本的示例，让我们看一个计算素数的简单算法(当然不是特别有效)。这只是一个复杂计算的简单例子，但这种方法却很容易适用于其它昂贵的计算，例如字符串的MD5哈希计算，比这里的实例复杂得多。</p>
-<p>记忆之前计算出的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function isPrime(value) &#123;</div><div class="line">    !isPrime.answers &amp;&amp; isPrime.answers = &#123;&#125;;  //创建缓存</div><div class="line">    //检测缓存过的值</div><div class="line">    isPrime.answers[value] != null &amp;&amp; return isPrime.answers[value];</div><div class="line">    var prime = value !=1;  //1 can never be prime</div><div class="line"></div><div class="line">    for(var i=2; i &lt; value; i++) &#123;</div><div class="line">        if(vaule % i ==0) &#123;</div><div class="line">            prime = false;</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return isPrime.answers[value] = prime;  //保存计算出的值</div><div class="line">&#125;</div><div class="line">//测试是否正常</div><div class="line">assert(isPrime(5), &quot;5 is prime!&quot;);</div><div class="line">assert(isPrime.answers[5],&quot;The answer was cached!&quot;);</div></pre></td></tr></table></figure></p>
-<h3 id="伪造数组方法"><a href="#伪造数组方法" class="headerlink" title="伪造数组方法"></a>伪造数组方法</h3><p>有时，我们可能想创建一个包含一组数据的对象。如果只是集合，则只需要创建一个数组即可。但在某些情况下，除了集合本身，可能会有更多的状态需要保存，比如集合项有关的一些数据。<br>Array(构造器)上已经存在可以进行集合处理的方法。可以将这些功能嫁接到我们自己的对象上。</p>
-<p>模拟类似数组的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;body&gt;</div><div class="line">    &lt;input id=&quot;first&quot;/&gt;</div><div class="line">    &lt;input id=&quot;second&quot;/&gt;</div><div class="line"></div><div class="line">    &lt;script&gt;</div><div class="line">        var elems = &#123;</div><div class="line">            //保存元素的个数。我们要假装成是数组，那就需要保存元素项的个数</div><div class="line">            length:0,</div><div class="line"></div><div class="line">            //实现将元素添加到集合的方法。Array的原型中的一个方法可以做到。</div><div class="line">            add: function(elem) &#123;</div><div class="line">                Array.prototype.push.call(this, elem);</div><div class="line">            &#125;,</div><div class="line"></div><div class="line">            //实现一个gather()方法，根据id值查找元素，并将其添加到集合中</div><div class="line">            gather: function(id) &#123;</div><div class="line">                this.add(document.getElementById(id));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        elems.gather(&quot;first&quot;);</div><div class="line">        assert(elems.length == 1 &amp;&amp; elems[0].nodeType,&quot;Verify that we have an element in our stash&quot;);</div><div class="line">        elems.gather(&quot;second&quot;);</div><div class="line">        assert(elems.length == 2 &amp;&amp; elems[1].nodeType,&quot;Verify the other insertion&quot;);</div><div class="line">    &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h3><h4 id="函数的length属性"><a href="#函数的length属性" class="headerlink" title="函数的length属性"></a>函数的length属性</h4><p>所有的函数都有一个有趣的属性，它并不为人知，但却让我们可以了解函数的声明，那就是length属性。不要将该属性和arguments参数的length属性弄混淆了。该属性值等于该函数声明时所要传入的形参数量。<br>因此，如果声明一个接收单个参数的函数，那这个函数的length属性值应该是1.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function makeNinja(name) &#123;&#125;</div><div class="line">function makeSamurai(name,rank)&#123;&#125;</div><div class="line">assert(makeNinja.length == 1,&quot;Only expecting a single argument&quot;);</div><div class="line">assert(makeSamurai.length == 2, &quot;Two arguments expected&quot;);</div></pre></td></tr></table></figure>
-<p>因此，对于一个函数，在参数方面，我们可以确定两件事。</p>
-<blockquote>
-<p>通过其length属性，可以知道声明了多少命名参数。<br>通过arguments.length,可以知道在调用时传入了多少参数。</p>
-</blockquote>
-<h3 id="利用参数个数进行重载"><a href="#利用参数个数进行重载" class="headerlink" title="利用参数个数进行重载"></a>利用参数个数进行重载</h3><p>基于传入的参数，有很多种方法可以判断并进行函数重载。一种通用的方法是，根据传入参数的类型执行不同的操作。另一种方法是，可以通过某些特定参数是否存在来进行判断。还有一种方法是通过传入参数的个数进行判断。</p>
-<p>重载函数的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function addMethod(object,name,fn) &#123;</div><div class="line">    //保存原有的函数，因为调用的时候可能不匹配传入的参数个数</div><div class="line">    var old = object[name];</div><div class="line">    object[name] = function()&#123;</div><div class="line">        //如果该匿名函数的形参个数和实参个数匹配，就调用该函数</div><div class="line">        if (fn.length == arguments.length) return fn.apply(this, arguments)</div><div class="line">        //如果传入的参数不匹配，则调用原有的参数</div><div class="line">        else if (typeof old == &apos;function&apos;) return old.apply(this.arguments);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>测试addMethod()函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">//创建一个基础对象，实现加载一些测试数据</div><div class="line">var ninjas = &#123;</div><div class="line">    values: [&apos;Dean Edwards&apos;, &apos;Sam Stephenson&apos;, &apos;Alex Russell&apos;];</div><div class="line">&#125;;</div><div class="line">//在基础对象上绑定一个无参数方法</div><div class="line">addMethod(ninjas, &apos;find&apos;, function()&#123;</div><div class="line">    return this.values;</div><div class="line">&#125;);</div><div class="line">//在基础对象上绑定一个单参数的方法</div><div class="line">addMethod(ninjas, &apos;find&apos;,function(name)&#123;</div><div class="line">    var ret = [];</div><div class="line">    for (var i = 0; i &lt; this.values.length; i++) </div><div class="line">        if (this.values[i].indexOf(name) == 0) ret.push(this.values[i]);</div><div class="line">    return ret;</div><div class="line">&#125;);</div><div class="line">//在基础对象上绑定一个两个参数的方法</div><div class="line">addMethod(ninjas, &apos;find&apos;, function(first, last) &#123;</div><div class="line">    var ret = [];</div><div class="line">    for (var i = 0; i &lt; this.values.length; i++)</div><div class="line">        if (this.values[i] == (first + &apos; &apos; + last)) ret.push(this.values[i]);</div><div class="line">    return ret;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>重载只适用于不同数量的参数，但并不区分类型，参数名称或其它东西。<br>这样的重载方法会有一些函数调用的开销，要考虑在高性能时用的情况。</p>
-</blockquote>
-<h3 id="函数判断"><a href="#函数判断" class="headerlink" title="函数判断"></a>函数判断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function isFunction(fn) &#123;</div><div class="line">    return Object.prototype.toString.call(fn) == &apos;[object Function]&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>为什么不直接调用fn.toString()获取结果，原因有两个。</p>
-<blockquote>
-<p>不同的对象可能有自己的toString()方法实现<br>JavaScript 中的大多数类型都已经有一个预定义的toString方法覆盖了Object.prototype提供的toString()方法</p>
-</blockquote>
-<p>通过直接访问Object.prototype的方法，可以确保我们得到的不是覆盖版本的toString()，而且最终得到的准确信息正是我们所需要的。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/函数/">函数</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/BOM/" title="BOM" itemprop="url">BOM</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="window-对象"><a href="#window-对象" class="headerlink" title="window 对象"></a>window 对象</h3><h4 id="窗口位置"><a href="#窗口位置" class="headerlink" title="窗口位置"></a>窗口位置</h4><p>款浏览器取得窗口左边和上边的位置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var leftPos = (typeof window.screenLeft == &quot;number&quot;) ? window.screenLeft : window.screenY;</div><div class="line">var topPos = (typeof window.screenTop == &quot;number&quot;) ? window.screenTop : window.screenX;</div></pre></td></tr></table></figure>
-<p>移动到新位置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//将窗口移动到屏幕左上角</div><div class="line">window.moveTo(0,0);</div><div class="line"></div><div class="line">//将窗口向下移动到100像素</div><div class="line">window.moveBy(0,100);</div></pre></td></tr></table></figure>
-<h4 id="窗口大小"><a href="#窗口大小" class="headerlink" title="窗口大小"></a>窗口大小</h4><p>取得页面视口的大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var pageWidth = window.innerWidth,</div><div class="line">    pageHeight = window.innerHeight;</div><div class="line"></div><div class="line">if (typeof pageWidth != &quot;number&quot;) &#123;</div><div class="line">    if (document.compatMode == &quot;CSS1Compat&quot;) &#123;</div><div class="line">        pageWidth = document.documentElement.clientWidth;</div><div class="line">        pageHeight = document.documentElement.pageHeight;</div><div class="line">    &#125; else &#123;</div><div class="line">        pageWidth = document.body.clientWidth;</div><div class="line">        pageHeight = document.body.pageHeight;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>调整浏览器窗口的大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//调整到 100 x 100</div><div class="line">window.resizeTo(100, 100);</div><div class="line"></div><div class="line">//调整到200 x 150</div><div class="line">window.resizeTo(100, 50);</div></pre></td></tr></table></figure>
-<h4 id="导航和打开窗口"><a href="#导航和打开窗口" class="headerlink" title="导航和打开窗口"></a>导航和打开窗口</h4><h5 id="弹出窗口"><a href="#弹出窗口" class="headerlink" title="弹出窗口"></a>弹出窗口</h5><p>设置： height|left|location|menubar|resizable|scrollbars|status|toolbar|top|width|</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">window.open(&quot;http://www.google.com&quot;, &quot;wroxWindow&quot;, &quot;height=400,width=400,top=10,left=10,resizable=yes&quot;);</div></pre></td></tr></table></figure>
-<p>调用 close() 方法还可以关闭新打开的窗口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wroxWin.close();</div><div class="line">alert(wroxWin.closed);    //true</div></pre></td></tr></table></figure>
-<h5 id="弹出窗口屏蔽程序"><a href="#弹出窗口屏蔽程序" class="headerlink" title="弹出窗口屏蔽程序"></a>弹出窗口屏蔽程序</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var blocked = false;</div><div class="line"></div><div class="line">try &#123;</div><div class="line">    var wroxWin = window.open(&quot;http:www.google.com&quot;&quot;, &quot;_blank&quot;);</div><div class="line">    if (wroxWin == null) &#123;</div><div class="line">        blocked = true;</div><div class="line">    &#125;</div><div class="line">&#125; catch (ex) &#123;</div><div class="line">    blocked = true;</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (blocked) &#123;</div><div class="line">    alert(&quot;The popup was blocked!&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="间歇调用和超时调用"><a href="#间歇调用和超时调用" class="headerlink" title="间歇调用和超时调用"></a>间歇调用和超时调用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//不建议传递字符串</div><div class="line">setTimeout (&quot;alert(&apos;hello world&apos;)&quot;, 1000);</div><div class="line"></div><div class="line">//推荐的调用方式</div><div class="line">setTimeout(function()&#123;</div><div class="line">    alert(&apos;hello world&apos;);</div><div class="line">    &#125;, 1000);</div></pre></td></tr></table></figure>
-<p>虽然这两种调用方式都没有问题，但由于传递字符串可能导致性能损失，因此不建议以字符串作为第一个参数。<br>第二个参数是一个表示等待多长时间的毫秒数，但经过该时间后指定的代码不一定会执行。JavaScript 是一个单线程的解释器，因此一定时间内只能执行一段代码。为了要控制要执行的代码，就有一个JavaScript任务队列。这些任务会按照将它们添加到队列的顺序执行。setTimout()的第二个参数告诉 JavaScript 再过多长时间把当前任务到队列中。如果队列是空的，那么添加的代码回立即执行；如果队列不是空的，那么它就要等前面的代码执行完了以后再执行。</p>
-<blockquote>
-<p>超时调用的代码都是在全局作用域总执行的，因此函数中 this 的值在非严格模式下指向 window 对象，在严格模式下是 undefined。</p>
-</blockquote>
-<p>间歇调用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var num 0;</div><div class="line">var max = 10;</div><div class="line">var intervalId = null;</div><div class="line"></div><div class="line">function incrementNumber() &#123;</div><div class="line">    num++;</div><div class="line"></div><div class="line">    //如果执行次数达到max设定的值，则取消后续尚未执行的调用</div><div class="line">    if (num == max) &#123;</div><div class="line">        clearInterval(intervalId);</div><div class="line">        alert(&quot;Done&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;, </div><div class="line"></div><div class="line">intervalId = setInterval(incrementNumber, 500);</div></pre></td></tr></table></figure>
-<p>这个模式也可以使用超时调用来实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var num 0;</div><div class="line">var max = 10;</div><div class="line">var intervalId = null;</div><div class="line"></div><div class="line">function incrementNumber() &#123;</div><div class="line">    num++;</div><div class="line"></div><div class="line">    //如果执行次数未达到max设定的值，则设置另一次超时调用</div><div class="line">    if (num &lt; max) &#123;</div><div class="line">        setTimout(incrementNumber, 500);</div><div class="line">    &#125; else &#123;</div><div class="line">        alert(&quot;Done&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">setTimeout(incrementNumber, 500);</div></pre></td></tr></table></figure>
-<p>可见，在使用超时调用时，没有必要跟踪超时调用 ID，因为每次执行代码后，如果不在设置另一次超时调用，调用就会自行停止。一般认为，使用超时调用来模拟间歇调用的是一种最佳模式。在开发环境下，很少使用真正的间歇调用，原因是后一个间歇调用有可能在前一个间歇调用结束之前启用。而像前面实例中那样使用超时调用，则完全可以避免这一点。所以最好不要使用间歇调用。</p>
-<h4 id="系统对话框"><a href="#系统对话框" class="headerlink" title="系统对话框"></a>系统对话框</h4><p>确认对话框的典型用法如下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if (confirm(&quot;Are you sure?&quot;)) &#123;</div><div class="line">    alert(&quot;I&apos;m so glad you&apos;re sure!&quot;);</div><div class="line">&#125; else &#123;</div><div class="line">    alert(&quot;I&apos;m sorry to hear you&apos;re not sure.&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>调用 promet()。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var result = prompt(&quot;What is your name?&quot;, &quot;&quot;);</div><div class="line">if (result !== null) &#123;</div><div class="line">    alert(&quot;Welcome, &quot; + result);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其它</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//显示&quot;打印&quot;对话框</div><div class="line">window.print();</div><div class="line"></div><div class="line">//显示&quot;查找&quot;对话框</div><div class="line">window.find();</div></pre></td></tr></table></figure>
-<h3 id="location-对象"><a href="#location-对象" class="headerlink" title="location 对象"></a>location 对象</h3><p>属性名： hash|host|hostname|href|pathname|port|protocol|search</p>
-<h4 id="查询字符串参数"><a href="#查询字符串参数" class="headerlink" title="查询字符串参数"></a>查询字符串参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">function getQueryStringArgs()&#123;</div><div class="line">    //取得查询字符串并去掉开头的问号</div><div class="line">    var qs = (location.search.length &gt; 0 ? location.search.substring(1) : &quot;&quot;),</div><div class="line">        args = &#123;&#125;,</div><div class="line">        items = qs.length ? qs.split(&quot;&amp;&quot;) : [],</div><div class="line">        item = null,</div><div class="line">        name = null,</div><div class="line">        value = null,</div><div class="line">        //在 for 循环中使用</div><div class="line">        i = 0,</div><div class="line">        len = items.length;</div><div class="line">    //逐个将每一项添加到 args 对象中</div><div class="line">    for (i=0; i &lt; len; i++) &#123;</div><div class="line">        item = items[i].split(&quot;=&quot;);</div><div class="line">        name = decodeURIComponent(item[0]);</div><div class="line">        value = decodeURIComponent(item[1]);</div><div class="line"></div><div class="line">        if (name.length) &#123;</div><div class="line">            args[name] = value;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return args;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="位置操作"><a href="#位置操作" class="headerlink" title="位置操作"></a>位置操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">//下列三行代码的效果完全一样</div><div class="line">location.assign(&quot;http://www.google.com&quot;);</div><div class="line">window.location(&quot;http://www.google.com&quot;);</div><div class="line">location.href(&quot;http://www.google.com&quot;);</div><div class="line"></div><div class="line">//设置新值来改变URL</div><div class="line">//假设初始URL为 http://www.google.com/WileyCDA/</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.google.com/WileyCDA/#section1&quot;</div><div class="line">location.hash = &quot;#section1&quot;;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.google.com/WileyCDA/?q=javascript&quot;</div><div class="line">location.search = &quot;?q=javascript&quot;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com/WileyCDA/&quot;</div><div class="line">location.hostname = &quot;www.yahoo.com&quot;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com/mydir&quot;</div><div class="line">location.pathname = &quot;mydir&quot;;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com:8080/WileyCDA&quot;</div><div class="line">location.port = 8080;</div></pre></td></tr></table></figure>
-<p>没修改 location 的属性(hash除外)，页面都会以新URL重新加载</p>
-<p>当通过上述任何一种方式修改 URL 之后，浏览器的历史纪录中就会生成一条新纪录，因此用户通过单击”后退”按钮都会导航到前一个页面。要禁用这种行为，可以使用 replace() 方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">location.replace(&quot;http://www.google.com&quot;);</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/BOM/">BOM</a>
   </div>
 
 </div>
@@ -736,6 +553,206 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/15/函数/" title="函数" itemprop="url">函数</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="内联命名函数"><a href="#内联命名函数" class="headerlink" title="内联命名函数"></a>内联命名函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var ninja = function myNinja()&#123;</div><div class="line">    //在内联函数中，验证两个名字是等价的</div><div class="line">    assert(ninja == myNinja,&quot;Thi function is named two things at once!&quot;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">ninja();  //调用函数执行内部验证</div><div class="line"></div><div class="line">//验证内联函数的名称在内联外部是不是可用的</div><div class="line">assert(typeof myNinja == &apos;undefined&apos;, &apos;But myNinja isn&apos;t defined outside of the function);</div></pre></td></tr></table></figure>
+<p>尽管可以给内联函数进行命名，但这些名称只能在自身函数内部才是可见的。匿名函数的名称和变量名称有点像，它们的作用域仅限于它们的函数。</p>
+<blockquote>
+<p>这就是为什么要将全局函数作为window的方法进行创建的原因。不使用window的属性，我们没有办法引用这些函数。</p>
+</blockquote>
+<h3 id="存储函数"><a href="#存储函数" class="headerlink" title="存储函数"></a>存储函数</h3><p>有时候，我们可能需要存储一组相关但独立的函数，事件回调管理是最明显的例子。向这个函数添加函数时，我们面临的挑战是要确定哪些函数在集合众不存在，而应该添加，以及哪些函数已经存在并且不需要再添加了。<br>显而易见但天真的做法是，将所有的函数保存在一个数组里，然后遍历数组检查重复的函数。只不过这种方式很一般，我们可以利用函数属性的特性，给函数添加一个附加属性从而实现上述目的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">var store = &#123;</div><div class="line">    //持续跟踪要赋值的nextId</div><div class="line">    nextId: 1,</div><div class="line">    //创建一个对象作为缓存，用于存储函数</div><div class="line">    cache: &#123;&#125;,</div><div class="line">    //向缓存中添加函数，但只有缓存不存在的情况下才能添加成功</div><div class="line">    add: function(fn) &#123;</div><div class="line">        if (!fn.id) &#123;</div><div class="line">            fn.id = store.nextId++;</div><div class="line">            return !!(store.cache[fn.id] = fn);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">function ninja()&#123;&#125;</div><div class="line"></div><div class="line">assert(store.add(ninja),&quot;Function was safely added.&quot;);</div><div class="line">assert(!store.add(ninja),&quot;But it was only added once.&quot;);</div></pre></td></tr></table></figure>
+<h3 id="自记忆函数"><a href="#自记忆函数" class="headerlink" title="自记忆函数"></a>自记忆函数</h3><p>缓存记忆是构建函数的过程，这种函数能够记忆先前计算的结果。通过避免已经执行过的不必要复杂的计算，这种方式可以显著提高性能。</p>
+<h4 id="缓存记忆昂贵的计算结果"><a href="#缓存记忆昂贵的计算结果" class="headerlink" title="缓存记忆昂贵的计算结果"></a>缓存记忆昂贵的计算结果</h4><p>作为一个基本的示例，让我们看一个计算素数的简单算法(当然不是特别有效)。这只是一个复杂计算的简单例子，但这种方法却很容易适用于其它昂贵的计算，例如字符串的MD5哈希计算，比这里的实例复杂得多。</p>
+<p>记忆之前计算出的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function isPrime(value) &#123;</div><div class="line">    !isPrime.answers &amp;&amp; isPrime.answers = &#123;&#125;;  //创建缓存</div><div class="line">    //检测缓存过的值</div><div class="line">    isPrime.answers[value] != null &amp;&amp; return isPrime.answers[value];</div><div class="line">    var prime = value !=1;  //1 can never be prime</div><div class="line"></div><div class="line">    for(var i=2; i &lt; value; i++) &#123;</div><div class="line">        if(vaule % i ==0) &#123;</div><div class="line">            prime = false;</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return isPrime.answers[value] = prime;  //保存计算出的值</div><div class="line">&#125;</div><div class="line">//测试是否正常</div><div class="line">assert(isPrime(5), &quot;5 is prime!&quot;);</div><div class="line">assert(isPrime.answers[5],&quot;The answer was cached!&quot;);</div></pre></td></tr></table></figure></p>
+<h3 id="伪造数组方法"><a href="#伪造数组方法" class="headerlink" title="伪造数组方法"></a>伪造数组方法</h3><p>有时，我们可能想创建一个包含一组数据的对象。如果只是集合，则只需要创建一个数组即可。但在某些情况下，除了集合本身，可能会有更多的状态需要保存，比如集合项有关的一些数据。<br>Array(构造器)上已经存在可以进行集合处理的方法。可以将这些功能嫁接到我们自己的对象上。</p>
+<p>模拟类似数组的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;body&gt;</div><div class="line">    &lt;input id=&quot;first&quot;/&gt;</div><div class="line">    &lt;input id=&quot;second&quot;/&gt;</div><div class="line"></div><div class="line">    &lt;script&gt;</div><div class="line">        var elems = &#123;</div><div class="line">            //保存元素的个数。我们要假装成是数组，那就需要保存元素项的个数</div><div class="line">            length:0,</div><div class="line"></div><div class="line">            //实现将元素添加到集合的方法。Array的原型中的一个方法可以做到。</div><div class="line">            add: function(elem) &#123;</div><div class="line">                Array.prototype.push.call(this, elem);</div><div class="line">            &#125;,</div><div class="line"></div><div class="line">            //实现一个gather()方法，根据id值查找元素，并将其添加到集合中</div><div class="line">            gather: function(id) &#123;</div><div class="line">                this.add(document.getElementById(id));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        elems.gather(&quot;first&quot;);</div><div class="line">        assert(elems.length == 1 &amp;&amp; elems[0].nodeType,&quot;Verify that we have an element in our stash&quot;);</div><div class="line">        elems.gather(&quot;second&quot;);</div><div class="line">        assert(elems.length == 2 &amp;&amp; elems[1].nodeType,&quot;Verify the other insertion&quot;);</div><div class="line">    &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h3><h4 id="函数的length属性"><a href="#函数的length属性" class="headerlink" title="函数的length属性"></a>函数的length属性</h4><p>所有的函数都有一个有趣的属性，它并不为人知，但却让我们可以了解函数的声明，那就是length属性。不要将该属性和arguments参数的length属性弄混淆了。该属性值等于该函数声明时所要传入的形参数量。<br>因此，如果声明一个接收单个参数的函数，那这个函数的length属性值应该是1.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function makeNinja(name) &#123;&#125;</div><div class="line">function makeSamurai(name,rank)&#123;&#125;</div><div class="line">assert(makeNinja.length == 1,&quot;Only expecting a single argument&quot;);</div><div class="line">assert(makeSamurai.length == 2, &quot;Two arguments expected&quot;);</div></pre></td></tr></table></figure>
+<p>因此，对于一个函数，在参数方面，我们可以确定两件事。</p>
+<blockquote>
+<p>通过其length属性，可以知道声明了多少命名参数。<br>通过arguments.length,可以知道在调用时传入了多少参数。</p>
+</blockquote>
+<h3 id="利用参数个数进行重载"><a href="#利用参数个数进行重载" class="headerlink" title="利用参数个数进行重载"></a>利用参数个数进行重载</h3><p>基于传入的参数，有很多种方法可以判断并进行函数重载。一种通用的方法是，根据传入参数的类型执行不同的操作。另一种方法是，可以通过某些特定参数是否存在来进行判断。还有一种方法是通过传入参数的个数进行判断。</p>
+<p>重载函数的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function addMethod(object,name,fn) &#123;</div><div class="line">    //保存原有的函数，因为调用的时候可能不匹配传入的参数个数</div><div class="line">    var old = object[name];</div><div class="line">    object[name] = function()&#123;</div><div class="line">        //如果该匿名函数的形参个数和实参个数匹配，就调用该函数</div><div class="line">        if (fn.length == arguments.length) return fn.apply(this, arguments)</div><div class="line">        //如果传入的参数不匹配，则调用原有的参数</div><div class="line">        else if (typeof old == &apos;function&apos;) return old.apply(this.arguments);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>测试addMethod()函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">//创建一个基础对象，实现加载一些测试数据</div><div class="line">var ninjas = &#123;</div><div class="line">    values: [&apos;Dean Edwards&apos;, &apos;Sam Stephenson&apos;, &apos;Alex Russell&apos;];</div><div class="line">&#125;;</div><div class="line">//在基础对象上绑定一个无参数方法</div><div class="line">addMethod(ninjas, &apos;find&apos;, function()&#123;</div><div class="line">    return this.values;</div><div class="line">&#125;);</div><div class="line">//在基础对象上绑定一个单参数的方法</div><div class="line">addMethod(ninjas, &apos;find&apos;,function(name)&#123;</div><div class="line">    var ret = [];</div><div class="line">    for (var i = 0; i &lt; this.values.length; i++) </div><div class="line">        if (this.values[i].indexOf(name) == 0) ret.push(this.values[i]);</div><div class="line">    return ret;</div><div class="line">&#125;);</div><div class="line">//在基础对象上绑定一个两个参数的方法</div><div class="line">addMethod(ninjas, &apos;find&apos;, function(first, last) &#123;</div><div class="line">    var ret = [];</div><div class="line">    for (var i = 0; i &lt; this.values.length; i++)</div><div class="line">        if (this.values[i] == (first + &apos; &apos; + last)) ret.push(this.values[i]);</div><div class="line">    return ret;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>重载只适用于不同数量的参数，但并不区分类型，参数名称或其它东西。<br>这样的重载方法会有一些函数调用的开销，要考虑在高性能时用的情况。</p>
+</blockquote>
+<h3 id="函数判断"><a href="#函数判断" class="headerlink" title="函数判断"></a>函数判断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function isFunction(fn) &#123;</div><div class="line">    return Object.prototype.toString.call(fn) == &apos;[object Function]&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为什么不直接调用fn.toString()获取结果，原因有两个。</p>
+<blockquote>
+<p>不同的对象可能有自己的toString()方法实现<br>JavaScript 中的大多数类型都已经有一个预定义的toString方法覆盖了Object.prototype提供的toString()方法</p>
+</blockquote>
+<p>通过直接访问Object.prototype的方法，可以确保我们得到的不是覆盖版本的toString()，而且最终得到的准确信息正是我们所需要的。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/函数/">函数</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/函数表达式/" title="函数表达式" itemprop="url">函数表达式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><p>arguments.callee 是一个指向正在执行的函数的指针，因此可以用它来实现对函数的递归调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function factorial(num)&#123;</div><div class="line">    if(num &lt;= 1)&#123;</div><div class="line">        return 1;</div><div class="line">    &#125;else&#123;</div><div class="line">        return num * arguments.callee(num-1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过使用 argument.callee 代替函数名，可以确保无论怎样调用函数都不会出问题。因此，在编写递归函数时，使用 arguments.callee 总比使用函数名更保险。<br>但在严格模式下，不能通过脚本访问 arguments.callee, 访问这个属性会导致错误。不过，可以使用函数表达式来达成相同的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var factorial = (function f(num)) &#123;</div><div class="line">    if (num &lt;= 1) &#123;</div><div class="line">        return 1;</div><div class="line">    &#125; else&#123;</div><div class="line">        return num * f(num-1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>即便把函数赋值给了另一个变量，函数的名字 f 仍然有效，所以递归调用照样能正确完成。这种方式在严格模式和非严格模式下都行得通。</p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>闭包是指有权访问另一个函数作用域中的变量的函数。创建闭包的常见方式，就是在一个函数内部创建另一个函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function createComparisonFunction(propertyName) &#123;</div><div class="line">    return function(object1, object2) &#123;</div><div class="line">        var value1 = object1[propertyName];</div><div class="line">        var value2 = object2[propertyName];</div><div class="line"></div><div class="line">        if (value1 &lt; value2) &#123;</div><div class="line">            return -1;</div><div class="line">        &#125; else if (value1 &gt; value2) &#123;</div><div class="line">            return 1;</div><div class="line">        &#125; else &#123;</div><div class="line">            return 0;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>内部函数的代码访问了外部函数中的变量 propertyName。 即使这个内部函数被返回了，而且是在其它地方被调用了，但它仍然可以访问变量propertyName。之所以还能访问这个变量，是因为内部函数的作用域中包含 createComparisonFunction() 的作用域。要彻底搞清楚其中的细节，必须从理解函数被调用的时候都会发生什么入手。<br>当某个函数被调用时，会创建一个执行环境及相应的作用域链。然后，使用 arguments 和其他命名参数的值来初始化函数的活动对象。但在作用域链中，外部函数的活动对象始终位于第二位，外部函数的外部函数的活动对象始终位于第三位，……直至作为作用域终点的全局执行环境。<br>在函数执行过程中，为读取和写入变量的值，就需要在作用域中查找变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function compare(value1, value2) &#123;</div><div class="line">    if (value1 &lt; value2) &#123;</div><div class="line">        return -1;</div><div class="line">    &#125; else if (value1 &gt; value2) &#123;</div><div class="line">        return 1;</div><div class="line">    &#125; else &#123;</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var result = compare(5, 10);</div></pre></td></tr></table></figure>
+<p>以上代码先定义了 compare() 函数， 然后又在全局作用域中调用了它。当调用 compare() 时，会创建一个包含 arguments、value1、value2 的活动对象。全局执行环境(包含 result 和 compare) 在 compare() 执行环境的作用域链中则处于第二位。</p>
+<p>后台的每个执行环境都有一个表示变量的对象---变量对象。全局环境的变量对象始终存在，而像 compare() 函数这样的局部环境的变量对象，则只在函数的执行的过程中存在。<br>无论什么时候再函数中访问一个变量时，就会从作用域链中搜索具有响应名字的变量。一般来讲，当函数执行完毕后，局部活动对象就会被销毁，内存中仅保存全局作用域(全局执行环境的变量对象)。但是，闭包的情况又有所不同。<br>在另一个<br>在另一个函数内部定义的函数会将包含函数(即外部函数)的活动对象添加到它的作用域链中。因此，在 createComparisonFunction() 函数内部定义的匿名函数的作用域链中，实际上将会包含外部函数 createComparisonFunction() 的活动对象。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var compare = createComparisonFunction(<span class="string">"name"</span>);</div><div class="line">var result = compare(&#123;name: <span class="string">"Nicholas"</span>&#125;, &#123;name: <span class="string">"Greg"</span>&#125;);</div></pre></td></tr></table></figure>
+<p>在匿名函数从 createComparisonFunction() 中被返回后，它的作用域链被初始化为包含 createComparisonFunction() 函数的活动对象和全局变量对象。这样，匿名函数就可以访问在 createComparisonFunction() 中定义的所有变量。更为重要的是，createComparisonFunction() 函数在执行完毕后，其活动对象也不会被销毁，因为匿名函数的作用域链仍然在引用这个活动对象。换句话说，当 createComparisonFunction() 函数返回后，其执行环境的作用域链会被销毁，但它的活动对象仍然会留在内存中；直到匿名函数被销毁返回后，createComparisonFunction() 的活动对象才会被销毁。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//创建函数</div><div class="line">var compareNames = createComparisonFunction(&quot;name&quot;);</div><div class="line"></div><div class="line">//调用函数</div><div class="line">var result = compareNames(&#123; name: &quot;Nicholas&quot;&#125;, &#123; name, &quot;Greg&quot;&#125;);</div><div class="line"></div><div class="line">//解除对匿名函数的引用(以便释放内存)</div><div class="line">compareNames = null;</div></pre></td></tr></table></figure>
+<p>首先，创建的比较函数被保存在变量 compareNames 中。而通过将 compareNames 设置为等于null解除该函数的引用，就等于通知垃圾回收例程将其清除。随着匿名函数的作用域链被销毁，其它作用域(除了全局作用域)也都可以安全地销毁了。</p>
+<h4 id="闭包与变量"><a href="#闭包与变量" class="headerlink" title="闭包与变量"></a>闭包与变量</h4><p>作用域链的这种配置机制引出了一个值得注意的副作用，即闭包只能取得包含函数中任何变量的最后一个值。因为闭包所保存的是整个变量对象，而不是某个特殊的变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function createFunctions()&#123;</div><div class="line">    var result = new Array();</div><div class="line">    for (var i=0; i &lt; 10; i++) &#123;</div><div class="line">        result[i] = function()&#123;</div><div class="line">            return i;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line">    return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>此时每个函数都引用着保存变量 i 的同一个变量对象，所以在每个函数内部 i 的值都是10.但是，可以通过创建另一个匿名函数强制让闭包的行为符合预期。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>()&#123;</div><div class="line">    var result = new Array();</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(var i=0; i &lt; 10; i++) &#123;</div><div class="line">        result[i] = <span class="keyword">function</span>(num)&#123;</div><div class="line">            <span class="built_in">return</span> <span class="function"><span class="title">function</span></span>() &#123;</div><div class="line">                <span class="built_in">return</span> num;</div><div class="line">            &#125;;</div><div class="line">        &#125;(i);</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="关于this"><a href="#关于this" class="headerlink" title="关于this"></a>关于this</h4><p>this 对象是在运行时基于函数的执行环境绑定的：在全局函数中，this 等于 window，而当函数被作为某个对象的方法调用时，this 等于那个对象。不过，匿名函数的执行环境具有全局性，因此其 this 对象通常指向window。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var name = <span class="string">"The Window"</span>;</div><div class="line"></div><div class="line">var object = &#123;</div><div class="line">    name : <span class="string">"My Object"</span>,</div><div class="line"></div><div class="line">    getNameFunc : <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">            <span class="built_in">return</span> this.name;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">alert(object.getNameFunc()());        //<span class="string">"The Window"</span> (在非严格模式下)</div></pre></td></tr></table></figure>
+<p>每个函数在被调用时都会自动取得这两个特殊变量：this 和 arguments。内部函数在搜索这两个变量时，只会搜索到其活动对象为止，因此永远不可能直接访问外部函数中的这两个变量。</p>
+<blockquote>
+<p>this 和 arguments 也存在同样的问题。如果想访问作用域中的 arguments 对象，必须将该对象的引用保存到另一个闭包能够访问的变量中。</p>
+</blockquote>
+<h4 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h4><p>如果闭包的作用域链中保存着一个HTML元素，那么久意味着该元素无法被销毁。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">assignHandler</span></span>()&#123;</div><div class="line">    var element = document.getElementById(<span class="string">"someElement"</span>);</div><div class="line">    element.onclick = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        alert(element.id);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个闭包创建了一个循环引用。由于匿名函数保存了一个对 assignHandler() 的活动对象的引用，因此就会导致无法减少 element 的引用数。只要匿名函数存在，element 的引用数至少也是 1，因此它所占用的内存就永远不会被回收。不过，这个问题可以通过稍微改一下代码来解决。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">assignHandler</span></span>()&#123;</div><div class="line">    var element = document.getElementById(<span class="string">"someElement"</span>);</div><div class="line">    var id = element.id;</div><div class="line"></div><div class="line">    element.onclick = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        alert(id);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    element = null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过把 element.id 的一个副本保存在一个变量中，并且在闭包中引用该变量消除循环引用。但仅仅做到这一步，还是不能解决内存泄漏的问题。因为闭包会引用闭包包含函数的整个活动对象，而其中包含着 element。即使闭包不直接引用 element，包含函数的活动对象中也仍然会保存引用。因此，有必要把 element 变量设为 null。这样就能够解除对 DOM 对象的引用，顺利地减少其引用数，确保正常回收其占用的内存。</p>
+<h3 id="模仿块级作用域"><a href="#模仿块级作用域" class="headerlink" title="模仿块级作用域"></a>模仿块级作用域</h3><p>无论在什么地方，只要临时需要一些变量，就可以使用私有作用域。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function outputNumbers(count) &#123;</div><div class="line">    (function () &#123;</div><div class="line">        for (var i=0; i &lt; count; i++) &#123;</div><div class="line">            alert(i);</div><div class="line">        &#125;</div><div class="line">        &#125;)();</div><div class="line">        alert(i);    //导致一个错误！</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="私有变量"><a href="#私有变量" class="headerlink" title="私有变量"></a>私有变量</h3><p>有权访问私有变量和私有函数的公有方法称为<em>特权方法</em>。有两种在对象上创建特权方法的方式。第一种是在构造函数中定义特权方法，基本模式如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">MyObject</span></span>() &#123;</div><div class="line">    //私有变量和私有函数</div><div class="line">    var privateVariable = 10;</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">privateFunction</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //特权方法</div><div class="line">    this.publicMethod = <span class="function"><span class="title">function</span></span> ()&#123;</div><div class="line">        privateVariable++;</div><div class="line">        <span class="built_in">return</span> privateFunction();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>利用私有和特权成员，可以隐藏那些不应该直接被修改的数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> Person(name) &#123;</div><div class="line"></div><div class="line">    this.getName = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    this.setName = <span class="keyword">function</span>(value)&#123;</div><div class="line">        name = value;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = new Person(<span class="string">"Nicholas"</span>);</div><div class="line">alert(person.getName());        //<span class="string">"Nicholas"</span></div><div class="line">person.setName(<span class="string">"Greg"</span>);</div><div class="line">alert(person.getName());        //<span class="string">"Greg"</span></div></pre></td></tr></table></figure>
+<p>在函数中定义特权方法也有缺点，那就是必须使用构造函数模式来达到这个目的。构造函数的缺点是针对每个实例都会创建同样一组新方法，而使用静态私有变量来实现特权方法就可以避免这个问题。</p>
+<h4 id="静态私有变量"><a href="#静态私有变量" class="headerlink" title="静态私有变量"></a>静态私有变量</h4><p>通过在私有作用域中定义私有变量或函数，同样也可以创建特权方法。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="title">function</span></span>()&#123;</div><div class="line"></div><div class="line">    //私有变量和私有函数</div><div class="line">    var privateVariable = 10;</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">privateFunction</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //构造函数</div><div class="line">    MyObject = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    //公有/特权方法</div><div class="line">    MyObject.prototype.publicMethod = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        privateVariable++;</div><div class="line">        <span class="built_in">return</span> privateFunction();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    &#125;)();</div></pre></td></tr></table></figure>
+<p>这个模式在定义构造函数时并没有使用函数声明，而是使用了函数表达式。函数声明只能创建局部函数，但那并不是我们想要的。出于同样的原因，我们也没有在声明Object时使用 var 关键字。初始化未经声明的变量，总是会创建一个全局变量。因此，MyObject 就成了一个全局变量，能够在私有作用域外被访问到。但在严格模式下给未经生命的变量赋值会导致错误。<br>这个模式与在构造函数中定义特权方法的主要区别，就在于私有变量和函数是由实例共享的。由于特权方法是在原型上定义的，因此所有实例都使用同一个函数。而这个特权方法，作为一个闭包，总是保存着对包含作用域的引用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">    var name = <span class="string">""</span>;</div><div class="line"></div><div class="line">    Person = <span class="keyword">function</span>(value)&#123;</div><div class="line">        name = value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Person.prototype.getName = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Person.prototype.setName = <span class="keyword">function</span>(value)&#123;</div><div class="line">        name = value;</div><div class="line">    &#125;</div><div class="line">    &#125;)();</div><div class="line"></div><div class="line">    var person1 = new Person(<span class="string">"Nicholas"</span>);</div><div class="line">    alert(person1.getName());    //<span class="string">"Nicholas"</span></div><div class="line">    person1.setName(<span class="string">"Greg"</span>);</div><div class="line">    alert(person1.getName());    //<span class="string">"Greg"</span></div><div class="line"></div><div class="line">    var person2 = new Person(<span class="string">"Michael"</span>);</div><div class="line">    alert(person1.getName());    //<span class="string">"Michael"</span></div><div class="line">    alert(person2.getName());    //<span class="string">"Michael"</span></div></pre></td></tr></table></figure>
+<p>在这种模式下，变量name就变成了一个静态的、由所有实例共享的属性。也就是说，在一个实例上调用 setName() 会影响所有实例。而调用 seName() 或新建一个 Person 实例都会赋予 name 属性一个新值。<br>以这种方式创建静态私有变量会因为使用原型而增进代码复用，但每个实例都没有自己的私有变量。到底是使用实例变量，还是静态私有变量，最终还是要视具体需求而定。</p>
+<blockquote>
+<p>多查找作用域链中的一个层次，就会在一定程度上影响查找速度。而这正是使用闭包和私有变量的一个明显的不足之处。</p>
+</blockquote>
+<h4 id="模块模式"><a href="#模块模式" class="headerlink" title="模块模式"></a>模块模式</h4><p>前面的模式是用于为自定义类型创建私有变量和特权方法的。而模块模式则是为单例创建私有变量和特权方法。所谓单例，值得就是只有一个实例的对象。按照惯例，Javascript是以对象字面量的方式来创建单例对象的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var singleton = &#123;</div><div class="line">    name : value,</div><div class="line">    method : <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        //这里是方法的代码</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>模块模式通过为单例添加私有变量和特权方法能够使其得到增强，其语法形式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">var singleton = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line"></div><div class="line">    //私有变量和私有函数</div><div class="line">    var privateVariable = 10;</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">privateFunction</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //特权/公有方法和属性</div><div class="line">    <span class="built_in">return</span> &#123;</div><div class="line">        publicProperty: <span class="literal">true</span>,</div><div class="line"></div><div class="line">        publicMethod : <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">            privateVariable++;</div><div class="line">            <span class="built_in">return</span> privateFunction();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;()</div></pre></td></tr></table></figure>
+<p>从本质上来讲，这个对象字面量定义的是单例的公共接口。这种模式在需要对单例进行某些初始化，同时又需要维护其私有变量时是非常有用的，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">var application = function()&#123;</div><div class="line"></div><div class="line">    //私有变量和函数</div><div class="line">    var components = new Array();</div><div class="line"></div><div class="line">    //初始化</div><div class="line">    components.push(new BaseComponent());</div><div class="line"></div><div class="line">    //公共</div><div class="line">    return &#123;</div><div class="line">        getComponentCount : function()&#123;</div><div class="line">            return components.length;</div><div class="line">            &#125;,</div><div class="line"></div><div class="line">        registerComponent : function(component)&#123;</div><div class="line">            if (typeof component == &quot;object&quot;) &#123;</div><div class="line">                components.push(component);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;()</div></pre></td></tr></table></figure>
+<p>如果必须创建一个对象并以某些数据对其初始化，同时还要公开一些能够访问这些私有数据的方法，那么就可以使用模块模式。以这种模式创建的每个单例都是 Object 的实例，因为最终要通过一个对象字面量来表示它。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/函数表达式/">函数表达式</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/15/关于this/" title="关于this" itemprop="url">关于this</a>
   </h1>
   <p class="article-author">By
@@ -825,11 +842,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JS/" title="JS">JS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>25</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>26</sup></a></li>
 		  
 		
 		  
@@ -874,11 +887,7 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -886,7 +895,7 @@
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
 			
 		
 			
@@ -894,11 +903,35 @@
 			
 		
 			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
 			
 		
 			
@@ -910,27 +943,7 @@
 			
 		
 			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 		</ul>

@@ -140,134 +140,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/随机取整/" title="随机取整" itemprop="url">随机取整</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function fnRand(m,n) &#123;</div><div class="line">    var r = Math.round(Math.random()*(n-m) + m);</div><div class="line">    return r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/随机数/">随机数</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/闭包/" title="闭包" itemprop="url">闭包</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="偏应用函数"><a href="#偏应用函数" class="headerlink" title="偏应用函数"></a>偏应用函数</h3><p>“分部应用”一个函数是一项特别有趣的技术，在函数调用之前，我们可以预先传入一些函数。实际上，偏应用函数返回了一个含有预处理参数的新函数，以便后期可以调用。<br>这类代理函数--代理的是另外一个函数，并且在执行的时候会调用所代理的函数。<br>这种在一个函数中首先填充几个参数(然后再返回一个新函数)的技术称之为柯里化(curring)。</p>
-<p>柯里化函数示例(在第一个特定参数中进行填充)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Function.prototype.curry = function() &#123;</div><div class="line">    //该函数以及预填充的参数是保存在闭包中的</div><div class="line">    var fn = this,</div><div class="line">        args = Array.prototype.slice.call(arguments);</div><div class="line">    //创建一个匿名柯里化函数</div><div class="line">    return function()&#123;</div><div class="line">        return fn.apply(this,args.concat(Array.prototype.slice.call(arguments)));</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这种技术是另外一个利用闭包记住状态的很好例子。在本例中，我们要记住新增加的函数(这里的this参数不会存在于任何闭包中，因为每个函数调用的时候都有自己的this)以及预填充参数，并将它们转移到新创建的函数中。该新函数将有预填充的参数以及刚传入的新参数。其结果就是，这样的方法可以让我们预先传入一些参数，然后返回给我们一个新的简单函数供我们使用。</p>
-<p>虽然这种风格的分部函数非常有用，但我们可以做的更好。如果我们给特定函数传递遗漏的参数，而不是从参数列表一开始就传。</p>
-<p>一个更复杂的”分部”函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Function.prototype.partial = function() &#123;</div><div class="line">    var fn = this, args = Array.prototype.slice.call(arguments);</div><div class="line">    return function()&#123;</div><div class="line">        var arg = 0;</div><div class="line">        for (var i=0; i &lt; args.length &amp;&amp; arg &lt; arguments.length; i++) &#123;</div><div class="line">            if (args[i] === undefined) &#123;</div><div class="line">                args[i] = arguments[arg++];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return fn.apply(this, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>该实现的本质类似于Prototype的curry()方法，但它有几个重要的差异。值得注意的是，用户可以在参数列表的任意位置指定参数，然后在后续的调用中，根据遗漏的参数值是否等于undefined来判断参数的遗漏，要实现这种功能，我们添加了参数合并功能。很有效果，遍历传入的所有参数参数，判断相应的参数是否遗漏了(是否是undefined)，然后沿着顺序填充遗漏的参数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var delay = setTimeout.partial(undefined, 10);</div><div class="line"></div><div class="line">delay(function()&#123;</div><div class="line">    assert(true, &quot;A call to this function will be delayed 10 ms.&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>这段代码创建了一个新的函数，名为delay()，通过该函数，我们可以传入另外一个10毫秒后进行调用的异步函数。<br>我们也可以创建一个简单的函数用于事件绑定:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var bindClick = document.body.addEventListener.partial(&quot;click&quot;, undefined, false);</div><div class="line"></div><div class="line">bindClick(function()&#123;</div><div class="line">    assert(true, &quot;Click event bound via curried function&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/闭包/">闭包</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/函数/">函数</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/面向对象的程序设计/" title="面向对象的程序设计" itemprop="url">面向对象的程序设计</a>
   </h1>
   <p class="article-author">By
@@ -397,6 +269,134 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/15/闭包/" title="闭包" itemprop="url">闭包</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="偏应用函数"><a href="#偏应用函数" class="headerlink" title="偏应用函数"></a>偏应用函数</h3><p>“分部应用”一个函数是一项特别有趣的技术，在函数调用之前，我们可以预先传入一些函数。实际上，偏应用函数返回了一个含有预处理参数的新函数，以便后期可以调用。<br>这类代理函数--代理的是另外一个函数，并且在执行的时候会调用所代理的函数。<br>这种在一个函数中首先填充几个参数(然后再返回一个新函数)的技术称之为柯里化(curring)。</p>
+<p>柯里化函数示例(在第一个特定参数中进行填充)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Function.prototype.curry = function() &#123;</div><div class="line">    //该函数以及预填充的参数是保存在闭包中的</div><div class="line">    var fn = this,</div><div class="line">        args = Array.prototype.slice.call(arguments);</div><div class="line">    //创建一个匿名柯里化函数</div><div class="line">    return function()&#123;</div><div class="line">        return fn.apply(this,args.concat(Array.prototype.slice.call(arguments)));</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这种技术是另外一个利用闭包记住状态的很好例子。在本例中，我们要记住新增加的函数(这里的this参数不会存在于任何闭包中，因为每个函数调用的时候都有自己的this)以及预填充参数，并将它们转移到新创建的函数中。该新函数将有预填充的参数以及刚传入的新参数。其结果就是，这样的方法可以让我们预先传入一些参数，然后返回给我们一个新的简单函数供我们使用。</p>
+<p>虽然这种风格的分部函数非常有用，但我们可以做的更好。如果我们给特定函数传递遗漏的参数，而不是从参数列表一开始就传。</p>
+<p>一个更复杂的”分部”函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Function.prototype.partial = function() &#123;</div><div class="line">    var fn = this, args = Array.prototype.slice.call(arguments);</div><div class="line">    return function()&#123;</div><div class="line">        var arg = 0;</div><div class="line">        for (var i=0; i &lt; args.length &amp;&amp; arg &lt; arguments.length; i++) &#123;</div><div class="line">            if (args[i] === undefined) &#123;</div><div class="line">                args[i] = arguments[arg++];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return fn.apply(this, args);</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>该实现的本质类似于Prototype的curry()方法，但它有几个重要的差异。值得注意的是，用户可以在参数列表的任意位置指定参数，然后在后续的调用中，根据遗漏的参数值是否等于undefined来判断参数的遗漏，要实现这种功能，我们添加了参数合并功能。很有效果，遍历传入的所有参数参数，判断相应的参数是否遗漏了(是否是undefined)，然后沿着顺序填充遗漏的参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var delay = setTimeout.partial(undefined, 10);</div><div class="line"></div><div class="line">delay(function()&#123;</div><div class="line">    assert(true, &quot;A call to this function will be delayed 10 ms.&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这段代码创建了一个新的函数，名为delay()，通过该函数，我们可以传入另外一个10毫秒后进行调用的异步函数。<br>我们也可以创建一个简单的函数用于事件绑定:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var bindClick = document.body.addEventListener.partial(&quot;click&quot;, undefined, false);</div><div class="line"></div><div class="line">bindClick(function()&#123;</div><div class="line">    assert(true, &quot;Click event bound via curried function&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/闭包/">闭包</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/函数/">函数</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/随机取整/" title="随机取整" itemprop="url">随机取整</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function fnRand(m,n) &#123;</div><div class="line">    var r = Math.round(Math.random()*(n-m) + m);</div><div class="line">    return r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/随机数/">随机数</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/15/提升/" title="提升" itemprop="url">提升</a>
   </h1>
   <p class="article-author">By
@@ -440,68 +440,6 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/测试套件/" title="测试套件" itemprop="url">测试套件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><p>单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。<br>从下面的代码清单中，可以看到一个简单的实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;title&gt;Test Suite&lt;/title&gt;</div><div class="line">        &lt;script&gt;</div><div class="line">            function assert(value, desc) &#123;</div><div class="line">                var li = document.createElement(&quot;li&quot;);</div><div class="line">                li.className = value ? &quot;pass&quot; : &quot;fail&quot;;</div><div class="line">                li.appendChild(document.createTextNode(desc));</div><div class="line">                document.getElementById(&apos;results&apos;).appendChild(li);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            window.onload = function() &#123;</div><div class="line">                assert(true, &apos;The test suite is running.&apos;)；</div><div class="line">                assert(false, &apos;Fail!&apos;);</div><div class="line">            &#125;</div><div class="line">        &lt;/script&gt;</div><div class="line"></div><div class="line">        &lt;style&gt;</div><div class="line">            #results li.pass&#123; color:green; &#125;</div><div class="line">            #results li.fail&#123; color:red; &#125;</div><div class="line">        &lt;/style&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line"></div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;ul id=&apos;results&apos;&gt;&lt;/ul&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>该测试套件包括两个微不足道的测试：一个总是成功，另一个总是失败。pass和fail的样式规则，则使用颜色在视觉上表示成功或失败。<br>该函数很简单，但对于未来开发，它将会是良好的构件块。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/调试/">调试</a>
   </div>
 
 </div>
@@ -607,6 +545,142 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/15/媒体查询/" title="媒体查询" itemprop="url">媒体查询</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="媒体查询语法"><a href="#媒体查询语法" class="headerlink" title="媒体查询语法"></a>媒体查询语法</h3><p>纵向媒体查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>在媒体查询的开头追加not则会颠倒查询的逻辑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>限制视口宽度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait) and (min-width:800px)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>CSS样式表中使用媒体查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@media screen and (max-device-width: 400px) &#123;</div><div class="line">    h1 &#123; color: green&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用CSS的@import指令在当前样式表中按条件引入其他样式表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@import url(&quot;phone.css&quot;) screen and (max-width:360px);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用CSS的@import方式会增加HTTP请求(这会影响加载速度)，要谨慎使用。</p>
+</blockquote>
+<h3 id="媒体查询特性"><a href="#媒体查询特性" class="headerlink" title="媒体查询特性"></a>媒体查询特性</h3><p>视口宽度: width<br>屏幕宽度: device-width</p>
+<pre><code>
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/CSS/">CSS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/响应式/">响应式</a><a href="/tags/媒体查询/">媒体查询</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/测试套件/" title="测试套件" itemprop="url">测试套件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><p>单元测试框架的核心是断言方法，通常叫assert()。该方法通常接收一个值--需要断言的值，以及一个表示该断言目的描述，如果该值执行结果为true，换句话说是”真值”，断言就会通过；否则，断言就会被认为是失败的。通常用一个相应的通过(pass) / 失败(fail)标记记录相关的信息。<br>从下面的代码清单中，可以看到一个简单的实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;title&gt;Test Suite&lt;/title&gt;</div><div class="line">        &lt;script&gt;</div><div class="line">            function assert(value, desc) &#123;</div><div class="line">                var li = document.createElement(&quot;li&quot;);</div><div class="line">                li.className = value ? &quot;pass&quot; : &quot;fail&quot;;</div><div class="line">                li.appendChild(document.createTextNode(desc));</div><div class="line">                document.getElementById(&apos;results&apos;).appendChild(li);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            window.onload = function() &#123;</div><div class="line">                assert(true, &apos;The test suite is running.&apos;)；</div><div class="line">                assert(false, &apos;Fail!&apos;);</div><div class="line">            &#125;</div><div class="line">        &lt;/script&gt;</div><div class="line"></div><div class="line">        &lt;style&gt;</div><div class="line">            #results li.pass&#123; color:green; &#125;</div><div class="line">            #results li.fail&#123; color:red; &#125;</div><div class="line">        &lt;/style&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line"></div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;ul id=&apos;results&apos;&gt;&lt;/ul&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>该测试套件包括两个微不足道的测试：一个总是成功，另一个总是失败。pass和fail的样式规则，则使用颜色在视觉上表示成功或失败。<br>该函数很简单，但对于未来开发，它将会是良好的构件块。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Javascript-Ninja/">Javascript_Ninja</a><a href="/tags/调试/">调试</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/15/继承/" title="继承" itemprop="url">继承</a>
   </h1>
   <p class="article-author">By
@@ -675,77 +749,6 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/js/">js</a><a href="/tags/继承/">继承</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/技巧干货/" title="技巧干货" itemprop="url">技巧干货</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="使用-操作符转换布尔值"><a href="#使用-操作符转换布尔值" class="headerlink" title="使用!!操作符转换布尔值"></a>使用!!操作符转换布尔值</h3><p>对于变量可以使用!!variable做检测，只要变量的值为:0、null、””、undefined或者NaN都将返回的是false，反之返回的是true。</p>
-<h3 id="使用-将字符串转换成数字"><a href="#使用-将字符串转换成数字" class="headerlink" title="使用+将字符串转换成数字"></a>使用+将字符串转换成数字</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function toNumber(strNumber) &#123;</div><div class="line">    return +strNumber;</div><div class="line">&#125;</div><div class="line">console.log(toNumber(&quot;1234&quot;)); // 1234</div></pre></td></tr></table></figure>
-<h3 id="并条件符"><a href="#并条件符" class="headerlink" title="并条件符"></a>并条件符</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">conected &amp;&amp; login();</div></pre></td></tr></table></figure>
-<h3 id="使用-运算符"><a href="#使用-运算符" class="headerlink" title="使用||运算符"></a>使用||运算符</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function User(name, age) &#123;</div><div class="line">    this.name = name || &quot;Oliver Queen&quot;;</div><div class="line">    this.age = age || 27;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="在循环中缓存array-length"><a href="#在循环中缓存array-length" class="headerlink" title="在循环中缓存array.length"></a>在循环中缓存array.length</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">for(var i = 0, length = array.length; i &lt; length; i++) &#123;</div><div class="line">    console.log(array[i]);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="检测对象中属性"><a href="#检测对象中属性" class="headerlink" title="检测对象中属性"></a>检测对象中属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if (&apos;querySelector&apos; in document) &#123;</div><div class="line">    document.querySelector(&quot;#id&quot;);</div><div class="line">&#125; else &#123;</div><div class="line">    document.getElementById(&quot;id&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="获取数组中最后一个元素"><a href="#获取数组中最后一个元素" class="headerlink" title="获取数组中最后一个元素"></a>获取数组中最后一个元素</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var array = [1,2,3,4,5,6];</div><div class="line">console.log(array.slice(-1)); // [6]</div><div class="line">console.log(array.slice(-2)); // [5,6]</div></pre></td></tr></table></figure>
-<h3 id="数组截断"><a href="#数组截断" class="headerlink" title="数组截断"></a>数组截断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var array = [1,2,3,4,5,6];</div><div class="line">console.log(array.length); // 6</div><div class="line">array.length = 3;</div><div class="line">console.log(array.length); // 3</div><div class="line">console.log(array); // [1,2,3]</div></pre></td></tr></table></figure>
-<h3 id="替换所有"><a href="#替换所有" class="headerlink" title="替换所有"></a>替换所有</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var string = &quot;john john&quot;;</div><div class="line">console.log(string.replace(/hn/, &quot;ana&quot;)); // &quot;joana john&quot;</div><div class="line">console.log(string.replace(/hn/g, &quot;ana&quot;)); // &quot;joana joana&quot;</div></pre></td></tr></table></figure>
-<h3 id="合并数组"><a href="#合并数组" class="headerlink" title="合并数组"></a>合并数组</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var array1 = [1,2,3];</div><div class="line">var array2 = [4,5,6];</div><div class="line">console.log(array1.push.apply(array1, array2)); // [1,2,3,4,5,6];</div></pre></td></tr></table></figure>
-<h3 id="将NodeList转换成数组"><a href="#将NodeList转换成数组" class="headerlink" title="将NodeList转换成数组"></a>将NodeList转换成数组</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var elements = document.querySelectorAll(&quot;p&quot;); // NodeList</div><div class="line">var arrayElements = [].slice.call(elements); // Now the NodeList is an array</div><div class="line">var arrayElements = Array.from(elements); // This is another way of converting NodeList to Array</div></pre></td></tr></table></figure>
-<h3 id="数组元素的洗牌"><a href="#数组元素的洗牌" class="headerlink" title="数组元素的洗牌"></a>数组元素的洗牌</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var list = [1,2,3];</div><div class="line">console.log(list.sort(function() &#123; Math.random() - 0.5 &#125;)); // [2,1,3]</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/干货/">干货</a>
   </div>
 
 </div>
@@ -872,11 +875,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JS/" title="JS">JS<sup>1</sup></a></li>
-		  
-		
-		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>25</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>26</sup></a></li>
 		  
 		
 		  
@@ -921,11 +920,7 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -933,7 +928,7 @@
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
 			
 		
 			
@@ -941,11 +936,35 @@
 			
 		
 			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
 			
 		
 			
@@ -957,27 +976,7 @@
 			
 		
 			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 		</ul>
