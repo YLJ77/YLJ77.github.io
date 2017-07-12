@@ -81,6 +81,70 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/07/12/Replacing switch statements with Object literals/" title="Replacing switch statements with Object literals" itemprop="url">Replacing switch statements with Object literals</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-12T15:29:42.628Z" itemprop="datePublished"> 发表于 2017-07-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>翻译自<a href="https://toddmotto.com/deprecating-the-switch-statement-for-object-literals/" target="_blank" rel="external">Replacing switch statements with Object literals</a></p>
+<p>在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操纵它们。对象是非常灵活的，它们几乎是JavaScript中的一切，而使用它们而不是switch语句一直是我最近一直在做的。</p>
+<p><strong>switch语句的问题</strong></p>
+<p>switch语句有多个问题，从其过程控制流到其处理代码块的方式是非标准的，而其余的JavaScript流程控制语句使用花括号。它既不是语法上最好的，也不是设计上最好的。我们不得不在每个case语句后面添加break语句，这可能导致难以调试和产生嵌套的错误。因此，进一步讲，我们应该避免使用case语句。道格拉斯·克罗克福德（Douglas Crockford）曾经多次写过和说过，谨慎对待switch语句。</p>
+<p>我们经常在javascript中使用对象查找数据，但我们通常不会考虑使用switch。所以为什么不使用对象字面量来替换switch呢？对象更加灵活，具有更好的可读性和可维护性，且我们不需要手动添加break和case语句;它们对于新的JavaScript开发人员来说也是很友好的，因为它们是标准的数据对象。</p>
+<p>随着”case”数量的增加，对象（哈希表）的性能要好于switch的平均成本（case的顺序很重要）。对象方法是哈希表查找，而switch必须评估每个case语句，直到它遇到匹配的case和break。</p>
+<p><strong>对象字面量查找</strong></p>
+<p>我们一直使用对象，无论是构造函数还是字面量。通常，我们使用它们进行对象查找，从Object属性中获取值。</p>
+<p>现在我们设置一个简单的对象文字，只返回一个String类型的值。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDrink</span> (<span class="params">type</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> drinks = &#123;</div><div class="line">    <span class="string">'coke'</span>: <span class="string">'Coke'</span>,</div><div class="line">    <span class="string">'pepsi'</span>: <span class="string">'Pepsi'</span>,</div><div class="line">    <span class="string">'lemonade'</span>: <span class="string">'Lemonade'</span>,</div><div class="line">    <span class="string">'default'</span>: <span class="string">'Default item'</span></div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">return</span> <span class="string">'The drink I chose was '</span> + (drinks[type] || drinks[<span class="string">'default'</span>]);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> drink = getDrink(<span class="string">'coke'</span>);</div><div class="line"><span class="comment">// The drink I chose was Coke</span></div><div class="line"><span class="built_in">console</span>.log(drink);</div></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JS/">JS</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/07/10/Perspective Boxes/" title="Perspective Boxes" itemprop="url">Perspective Boxes</a>
   </h1>
   <p class="article-author">By
@@ -681,65 +745,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/20/The_Interface_Class/" title="The Interface Class" itemprop="url">The Interface Class</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-20T15:26:51.396Z" itemprop="datePublished"> 发表于 2017-04-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="The-Interface-Class"><a href="#The-Interface-Class" class="headerlink" title="The Interface Class"></a>The Interface Class</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Constructor.</span></div><div class="line"><span class="keyword">var</span> Interface = <span class="function"><span class="keyword">function</span>(<span class="params">name, methods</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">arguments</span>.length != <span class="number">2</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Interface constructor called with "</span> + <span class="built_in">arguments</span>.length +</div><div class="line">            <span class="string">"arguments, but expected exactly 2."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.methods = [];</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>, len = methods.length; i &lt; len; i++) &#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> methods[i] !== <span class="string">'string'</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Interface constructor expects method names to be "</span></div><div class="line">                + <span class="string">"passed in as a string."</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.methods.push(methods[i]);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// Static class method.</span></div><div class="line">Interface.ensureImplements = <span class="function"><span class="keyword">function</span>(<span class="params">object</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">arguments</span>.length &lt; <span class="number">2</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Function Interface.ensureImplements called with "</span> +</div><div class="line">            <span class="built_in">arguments</span>.length + <span class="string">"arguments, but expected at least 2."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">1</span>, len = <span class="built_in">arguments</span>.length; i &lt; len; i++) &#123;</div><div class="line">        <span class="keyword">var</span> interface = <span class="built_in">arguments</span>[i];</div><div class="line">        <span class="keyword">if</span>(interface.constructor !== Interface) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Function Interface.ensureImplements expects arguments"</span></div><div class="line">                + <span class="string">"two and above to be instances of Interface."</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j = <span class="number">0</span>, methodsLen = interface.methods.length; j &lt; methodsLen; j++) &#123;</div><div class="line">            <span class="keyword">var</span> method = interface.methods[j];</div><div class="line">            <span class="keyword">if</span>(!object[method] || <span class="keyword">typeof</span> object[method] !== <span class="string">'function'</span>) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Function Interface.ensureImplements: object "</span></div><div class="line">                    + <span class="string">"does not implement the "</span> + interface.name</div><div class="line">                    + <span class="string">" interface. Method "</span> + method + <span class="string">" was not found."</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript-设计模式/">JavaScript 设计模式</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Pro-JavaScript-Design-Patterns/">Pro JavaScript Design Patterns</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -769,6 +774,10 @@
 		
 		  
 			<li><a href="/categories/CSS/" title="CSS">CSS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>1</sup></a></li>
 		  
 		
 		  
@@ -809,11 +818,11 @@
 			
 		
 			
-				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
+				<li><a href="/tags/Introduction-to-Algorithms/" title="Introduction to Algorithms">Introduction to Algorithms<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Introduction-to-Algorithms/" title="Introduction to Algorithms">Introduction to Algorithms<sup>3</sup></a></li>
+				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
 			
 		
 			
@@ -821,19 +830,11 @@
 			
 		
 			
-				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
 			
@@ -841,15 +842,27 @@
 			
 		
 			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+				<li><a href="/tags/干货/" title="干货">干货<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
 			
 		
 			
@@ -861,10 +874,6 @@
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
 			
 		
@@ -873,7 +882,7 @@
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 		</ul>

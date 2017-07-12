@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>随机取整 | fire on the world!</title>
+    <title>Replacing switch statements with Object literals | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="1234function fnRand(m,n) &amp;#123;    var r = Math.round(Math.random()*(n-m) + m);    return r;&amp;#125;">
-<meta name="keywords" content="js,随机数">
+    <meta name="description" content="翻译自Replacing switch statements with Object literals 在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操纵它们。对象是非常灵活的，它们几乎是JavaScript中的一切，而使用它们而不是switch语句一直是我最近一直在做的。 switch语句的问题 swi">
+<meta name="keywords">
 <meta property="og:type" content="article">
-<meta property="og:title" content="随机取整">
-<meta property="og:url" content="http://yoursite.com/2017/04/15/随机取整/index.html">
+<meta property="og:title" content="Replacing switch statements with Object literals">
+<meta property="og:url" content="http://yoursite.com/2017/07/12/Replacing switch statements with Object literals/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="1234function fnRand(m,n) &amp;#123;    var r = Math.round(Math.random()*(n-m) + m);    return r;&amp;#125;">
-<meta property="og:updated_time" content="2016-05-04T03:56:11.375Z">
+<meta property="og:description" content="翻译自Replacing switch statements with Object literals 在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操纵它们。对象是非常灵活的，它们几乎是JavaScript中的一切，而使用它们而不是switch语句一直是我最近一直在做的。 switch语句的问题 swi">
+<meta property="og:updated_time" content="2017-07-12T15:59:01.620Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="随机取整">
-<meta name="twitter:description" content="1234function fnRand(m,n) &amp;#123;    var r = Math.round(Math.random()*(n-m) + m);    return r;&amp;#125;">
+<meta name="twitter:title" content="Replacing switch statements with Object literals">
+<meta name="twitter:description" content="翻译自Replacing switch statements with Object literals 在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操纵它们。对象是非常灵活的，它们几乎是JavaScript中的一切，而使用它们而不是switch语句一直是我最近一直在做的。 switch语句的问题 swi">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -81,14 +81,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/随机取整/" title="随机取整" itemprop="url">随机取整</a>
+      <a href="/2017/07/12/Replacing switch statements with Object literals/" title="Replacing switch statements with Object literals" itemprop="url">Replacing switch statements with Object literals</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    <time datetime="2017-07-12T15:29:42.628Z" itemprop="datePublished"> 发表于 2017-07-12</time>
     
   </p>
 </header>
@@ -101,7 +101,16 @@
 		
 		</div>
 		
-		<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function fnRand(m,n) &#123;</div><div class="line">    var r = Math.round(Math.random()*(n-m) + m);</div><div class="line">    return r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+		<p>翻译自<a href="https://toddmotto.com/deprecating-the-switch-statement-for-object-literals/" target="_blank" rel="external">Replacing switch statements with Object literals</a></p>
+<p>在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操纵它们。对象是非常灵活的，它们几乎是JavaScript中的一切，而使用它们而不是switch语句一直是我最近一直在做的。</p>
+<p><strong>switch语句的问题</strong></p>
+<p>switch语句有多个问题，从其过程控制流到其处理代码块的方式是非标准的，而其余的JavaScript流程控制语句使用花括号。它既不是语法上最好的，也不是设计上最好的。我们不得不在每个case语句后面添加break语句，这可能导致难以调试和产生嵌套的错误。因此，进一步讲，我们应该避免使用case语句。道格拉斯·克罗克福德（Douglas Crockford）曾经多次写过和说过，谨慎对待switch语句。</p>
+<p>我们经常在javascript中使用对象查找数据，但我们通常不会考虑使用switch。所以为什么不使用对象字面量来替换switch呢？对象更加灵活，具有更好的可读性和可维护性，且我们不需要手动添加break和case语句;它们对于新的JavaScript开发人员来说也是很友好的，因为它们是标准的数据对象。</p>
+<p>随着”case”数量的增加，对象（哈希表）的性能要好于switch的平均成本（case的顺序很重要）。对象方法是哈希表查找，而switch必须评估每个case语句，直到它遇到匹配的case和break。</p>
+<p><strong>对象字面量查找</strong></p>
+<p>我们一直使用对象，无论是构造函数还是字面量。通常，我们使用它们进行对象查找，从Object属性中获取值。</p>
+<p>现在我们设置一个简单的对象文字，只返回一个String类型的值。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDrink</span> (<span class="params">type</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> drinks = &#123;</div><div class="line">    <span class="string">'coke'</span>: <span class="string">'Coke'</span>,</div><div class="line">    <span class="string">'pepsi'</span>: <span class="string">'Pepsi'</span>,</div><div class="line">    <span class="string">'lemonade'</span>: <span class="string">'Lemonade'</span>,</div><div class="line">    <span class="string">'default'</span>: <span class="string">'Default item'</span></div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">return</span> <span class="string">'The drink I chose was '</span> + (drinks[type] || drinks[<span class="string">'default'</span>]);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> drink = getDrink(<span class="string">'coke'</span>);</div><div class="line"><span class="comment">// The drink I chose was Coke</span></div><div class="line"><span class="built_in">console</span>.log(drink);</div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -109,14 +118,9 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/JS/">JS</a>
 </div>
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/随机数/">随机数</a>
-  </div>
 
 </div>
 
@@ -124,7 +128,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/04/15/随机取整/" data-title="随机取整 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/07/12/Replacing switch statements with Object literals/" data-title="Replacing switch statements with Object literals | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -138,21 +142,13 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/04/15/模块/" title="模块">
+ <a href="/2017/07/10/Perspective Boxes/" title="Perspective Boxes">
   <strong>上一篇：</strong><br/>
   <span>
-  模块</span>
+  Perspective Boxes</span>
 </a>
 </div>
 
-
-<div class="next">
-<a href="/2017/04/15/面向对象的程序设计/"  title="面向对象的程序设计">
- <strong>下一篇：</strong><br/> 
- <span>面向对象的程序设计
-</span>
-</a>
-</div>
 
 </nav>
 
