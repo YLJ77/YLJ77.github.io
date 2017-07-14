@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>DOM 扩展 | fire on the world!</title>
+    <title>Ditch the [].forEach.call(NodeList) hack | fire on the world!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="YLJ77">
     
 
     
-    <meta name="description" content="元素遍历跨浏览器遍历某元素的所有子元素 123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
-<meta name="keywords" content="js,DOM">
+    <meta name="description" content="翻译自Ditch the [].forEach.call(NodeList) hack 在我们进一步之前，我不得不承认，我曾经使用过这种技术。 我在做ECMA5 hack，它看起来很酷，很酷，但过了一段时间，我写出了更好的JavaScript，才发现这种技术只会引起头痛和不必要的时髦代码，其中我将把我的想法放在为什么我现在不主张这种技术。">
+<meta name="keywords">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DOM 扩展">
-<meta property="og:url" content="http://yoursite.com/2017/04/15/DOM扩展/index.html">
+<meta property="og:title" content="Ditch the [].forEach.call(NodeList) hack">
+<meta property="og:url" content="http://yoursite.com/2017/07/14/Ditch the [].forEach.call(NodeList) hack/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="元素遍历跨浏览器遍历某元素的所有子元素 123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
-<meta property="og:updated_time" content="2016-05-03T09:07:00.211Z">
+<meta property="og:description" content="翻译自Ditch the [].forEach.call(NodeList) hack 在我们进一步之前，我不得不承认，我曾经使用过这种技术。 我在做ECMA5 hack，它看起来很酷，很酷，但过了一段时间，我写出了更好的JavaScript，才发现这种技术只会引起头痛和不必要的时髦代码，其中我将把我的想法放在为什么我现在不主张这种技术。">
+<meta property="og:updated_time" content="2017-07-14T15:48:11.638Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DOM 扩展">
-<meta name="twitter:description" content="元素遍历跨浏览器遍历某元素的所有子元素 123456789var i,    len,    child = element.firstChild;while(child != element.lastChild) &amp;#123;    if (child.nodeType == 1) &amp;#123;        processChild(child);    &amp;#125;    child = c">
+<meta name="twitter:title" content="Ditch the [].forEach.call(NodeList) hack">
+<meta name="twitter:description" content="翻译自Ditch the [].forEach.call(NodeList) hack 在我们进一步之前，我不得不承认，我曾经使用过这种技术。 我在做ECMA5 hack，它看起来很酷，很酷，但过了一段时间，我写出了更好的JavaScript，才发现这种技术只会引起头痛和不必要的时髦代码，其中我将把我的想法放在为什么我现在不主张这种技术。">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -81,14 +81,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
+      <a href="/2017/07/14/Ditch the [].forEach.call(NodeList) hack/" title="Ditch the [].forEach.call(NodeList) hack" itemprop="url">Ditch the [].forEach.call(NodeList) hack</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    <time datetime="2017-07-14T15:41:41.176Z" itemprop="datePublished"> 发表于 2017-07-14</time>
     
   </p>
 </header>
@@ -97,18 +97,12 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+			
 		
 		</div>
 		
-		<h3 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h3><p>跨浏览器遍历某元素的所有子元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var i,</div><div class="line">    len,</div><div class="line">    child = element.firstChild;</div><div class="line">while(child != element.lastChild) &#123;</div><div class="line">    if (child.nodeType == 1) &#123;</div><div class="line">        processChild(child);</div><div class="line">    &#125;</div><div class="line">    child = child.nextSibling;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>而使用 Element Traversal(IE 9+) 新增的元素，代码会更简洁</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var i,</div><div class="line">    len,</div><div class="line">    child = element.firstElementChild;</div><div class="line">while(child != element.lastElementChild) &#123;</div><div class="line">    processChild(child);</div><div class="line">    child = child.nextElementSbling;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>删除类名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;bd user disabled&quot;&gt;&lt;/div&gt;</div><div class="line"></div><div class="line">//删除&quot;user&quot;类</div><div class="line"></div><div class="line">//首先，取得类名字符串并拆分成数组</div><div class="line">var classNames = div.className.split(/\s/);</div><div class="line"></div><div class="line">//找到要删除的类名</div><div class="line">var pos = -1,</div><div class="line">    i,</div><div class="line">    len;</div><div class="line">for (i=0, len=classNames.length; i &lt; len; i++) &#123;</div><div class="line">    if (classNames[i] == &quot;user&quot;) &#123;</div><div class="line">        pos = i;</div><div class="line">        break;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//删除类名</div><div class="line">classNames.splice(pos,1);</div><div class="line"></div><div class="line">//把剩下的类名拼成字符串并重新设置</div><div class="line">div.className = classNames.join(&quot; &quot;);</div></pre></td></tr></table></figure>
-<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>跨浏览器兼容 innerText</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function setInnerText(element, text) &#123;</div><div class="line">    if (typeof element.textContent == &quot;string&quot;) &#123;</div><div class="line">        element.textContent = text;  //兼容 Firefox</div><div class="line">    &#125; else &#123;</div><div class="line">        element.innerText = text;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+		<p>翻译自<a href="https://toddmotto.com/ditch-the-array-foreach-call-nodelist-hack/" target="_blank" rel="external">Ditch the [].forEach.call(NodeList) hack</a></p>
+<p>在我们进一步之前，我不得不承认，我曾经使用过这种技术。 我在做ECMA5 hack，它看起来很酷，很酷，但过了一段时间，我写出了更好的JavaScript，才发现这种技术只会引起头痛和不必要的时髦代码，其中我将把我的想法放在为什么我现在不主张这种技术。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -120,18 +114,13 @@
 </div>
 
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
-  </div>
-
 </div>
 
 
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/04/15/DOM扩展/" data-title="DOM 扩展 | fire on the world!" data-tsina="null" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/07/14/Ditch the [].forEach.call(NodeList) hack/" data-title="Ditch the [].forEach.call(NodeList) hack | fire on the world!" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -145,21 +134,13 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/04/15/DOM2和DOM3/" title="DOM2和DOM3">
+ <a href="/2017/07/12/Replacing switch statements with Object literals/" title="Replacing switch statements with Object literals">
   <strong>上一篇：</strong><br/>
   <span>
-  DOM2和DOM3</span>
+  Replacing switch statements with Object literals</span>
 </a>
 </div>
 
-
-<div class="next">
-<a href="/2017/04/15/jQuery源码分析/"  title="jQuery源码分析">
- <strong>下一篇：</strong><br/> 
- <span>jQuery源码分析
-</span>
-</a>
-</div>
 
 </nav>
 
@@ -171,7 +152,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#元素遍历"><span class="toc-number">1.</span> <span class="toc-text">元素遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML5"><span class="toc-number">2.</span> <span class="toc-text">HTML5</span></a></li></ol>
+ 
  
   </div>
 

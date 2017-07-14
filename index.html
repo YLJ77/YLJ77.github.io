@@ -81,6 +81,62 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/07/14/Ditch the [].forEach.call(NodeList) hack/" title="Ditch the [].forEach.call(NodeList) hack" itemprop="url">Ditch the [].forEach.call(NodeList) hack</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-14T15:41:41.176Z" itemprop="datePublished"> 发表于 2017-07-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>翻译自<a href="https://toddmotto.com/ditch-the-array-foreach-call-nodelist-hack/" target="_blank" rel="external">Ditch the [].forEach.call(NodeList) hack</a></p>
+<p>在我们进一步之前，我不得不承认，我曾经使用过这种技术。 我在做ECMA5 hack，它看起来很酷，很酷，但过了一段时间，我写出了更好的JavaScript，才发现这种技术只会引起头痛和不必要的时髦代码，其中我将把我的想法放在为什么我现在不主张这种技术。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/07/12/Replacing switch statements with Object literals/" title="Replacing switch statements with Object literals" itemprop="url">Replacing switch statements with Object literals</a>
   </h1>
   <p class="article-author">By
@@ -695,80 +751,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/23/Static Methods and Attributes/" title="Advanced Patterns" itemprop="url">Advanced Patterns</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-23T10:05:27.494Z" itemprop="datePublished"> 发表于 2017-04-23</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="Static-Methods-and-Attributes"><a href="#Static-Methods-and-Attributes" class="headerlink" title="Static Methods and Attributes"></a>Static Methods and Attributes</h3><p> Most methods and attributes interact with an instance of a class; static members interact with the class itself. Another way of putting it is to say that static members operate on the class-level instead of the instance-level; there is only one copy of each static member.</p>
-<p>Here is the Book class with static attributes and methods:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Book = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="comment">// Private static attributes.</span></div><div class="line">    <span class="keyword">var</span> numOfBooks = <span class="number">0</span>;</div><div class="line"><span class="comment">// Private static method.</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">checkIsbn</span>(<span class="params">isbn</span>) </span>&#123;</div><div class="line">    ...</div><div class="line">    &#125;</div><div class="line"><span class="comment">// Return the constructor.</span></div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">newIsbn, newTitle, newAuthor</span>) </span>&#123; <span class="comment">// implements Publication</span></div><div class="line"><span class="comment">// Private attributes.</span></div><div class="line">        <span class="keyword">var</span> isbn, title, author;</div><div class="line"><span class="comment">// Privileged methods.</span></div><div class="line">        <span class="keyword">this</span>.getIsbn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> isbn;</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">this</span>.setIsbn = <span class="function"><span class="keyword">function</span>(<span class="params">newIsbn</span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span>(!checkIsbn(newIsbn)) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Book: Invalid ISBN.'</span>);</div><div class="line">            isbn = newIsbn;</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        <span class="keyword">this</span>.getTitle = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> title;</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">this</span>.setTitle = <span class="function"><span class="keyword">function</span>(<span class="params">newTitle</span>) </span>&#123;</div><div class="line">            title = newTitle || <span class="string">'No title specified'</span>;</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">this</span>.getAuthor = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> author;</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">this</span>.setAuthor = <span class="function"><span class="keyword">function</span>(<span class="params">newAuthor</span>) </span>&#123;</div><div class="line">            author = newAuthor || <span class="string">'No author specified'</span>;</div><div class="line">        &#125;;</div><div class="line"><span class="comment">// Constructor code.</span></div><div class="line">        numOfBooks++; <span class="comment">// Keep track of how many Books have been instantiated</span></div><div class="line"><span class="comment">// with the private static attribute.</span></div><div class="line">        <span class="keyword">if</span>(numOfBooks &gt; <span class="number">50</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Book: Only 50 instances of Book can be '</span></div><div class="line">            + <span class="string">'created.'</span>);</div><div class="line">        <span class="keyword">this</span>.setIsbn(newIsbn);</div><div class="line">        <span class="keyword">this</span>.setTitle(newTitle);</div><div class="line">        <span class="keyword">this</span>.setAuthor(newAuthor);</div><div class="line">    &#125;</div><div class="line">&#125;)();</div><div class="line"><span class="comment">// Public static method.</span></div><div class="line">Book.convertToTitleCase = <span class="function"><span class="keyword">function</span>(<span class="params">inputString</span>) </span>&#123;</div><div class="line">    ...</div><div class="line">&#125;;</div><div class="line"><span class="comment">// Public, non-privileged methods.</span></div><div class="line">Book.prototype = &#123;</div><div class="line">    <span class="attr">display</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p> Private and privileged members are still declared within the constructor, using var and this respectively, but the constructor is changed from a normal function to a nested function that gets returned to the variable Book. This makes it possible to create a closure where you can declare private static members. The empty parentheses after the function declaration are extremely important. They serve to execute that function immediately, as soon as the code is loaded (not when the Book constructor is called).The result of that execution is another function, which is returned and set to be the Book constructor. When Book is instantiated, this inner function is what gets called; the outer function is used only to create a closure, within which you can put private static members.</p>
-<p> In this example, the checkIsbn method is static because there is no point in creating a new<br> copy of it for each instance of Book. There is also a static attribute called numOfBooks, which allows you to keep track of how many times the Book constructor has been called. In this example, we use that attribute to limit the constructor to creating only 50 instances.</p>
-<p> These private static members can be accessed from within the constructor, which means<br> that any private or privileged function has access to them. They have a distinct advantage over these other methods in that they are only stored in memory once. Since they are declared outside of the constructor, they do not have access to any of the private attributes, and as such, are not privileged; private methods can call private static methods, but not the other way around. A rule of thumb for deciding whether a private method should be static is to see whether it needs to access any of the instance data. If it doe not need access, making the method static is more efficient (in terms of memory use) because only a copy is ever created.</p>
-<p> Public static members are much easier to create. They are simply created directly off of<br> the constructor, as with the previous method convertToTitleCase. This means you are essentially using the constructor as a namespace. </p>
-<p> All public static methods could just as easily be declared as separate functions, but it is useful to bundle related behaviors together in one place. They are useful for tasks that are related to the class as a whole and not to any particular instance of it. They don’t directly depend on any of the data contained within the instances.</p>
-<h3 id="Constants"><a href="#Constants" class="headerlink" title="Constants"></a>Constants</h3><p> Constants are nothing more than variables that can’t be changed. In JavaScript, you can emulate constants by creating a private variable with an accessor but no mutator. Since constants are usually set at development time and don’t change with each instance that is created, it makes sense to create them as private static attributes. Here is how a call to get the constant UPPER_BOUND from Class would look:</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Class.getUPPER_BOUND();</div></pre></td></tr></table></figure>
-<p>To implement this accessor, you would need a privileged static method, which we haven’t<br>covered yet. It is created just like a privileged instance method, with the this keyword:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Class = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="comment">// Constants (created as private static attributes).</span></div><div class="line">    <span class="keyword">var</span> UPPER_BOUND = <span class="number">100</span>;</div><div class="line">    <span class="comment">// Privileged static method.</span></div><div class="line">    <span class="keyword">this</span>.getUPPER_BOUND() &#123;</div><div class="line">        <span class="keyword">return</span> UPPER_BOUND;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line"><span class="comment">// Return the constructor.</span></div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">constructorArgument</span>) </span>&#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
-<p>If you have a lot of constants and don’t want to create an accessor method for each, you<br>can create a single generic accessor method:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Class = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="comment">// Private static attributes.</span></div><div class="line">    <span class="keyword">var</span> constants = &#123;</div><div class="line">        <span class="attr">UPPER_BOUND</span>: <span class="number">100</span>,</div><div class="line">        <span class="attr">LOWER_BOUND</span>: <span class="number">-100</span></div><div class="line">    &#125;</div><div class="line"><span class="comment">// Privileged static method.</span></div><div class="line">    <span class="keyword">this</span>.getConstant(name) &#123;</div><div class="line">        <span class="keyword">return</span> constants[name];</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line"><span class="comment">// Return the constructor.</span></div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">constructorArgument</span>) </span>&#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
-<p>Then you would get a constant by calling the single accessor:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Class.getConstant(<span class="string">'UPPER_BOUND'</span>);</div></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript-设计模式/">JavaScript 设计模式</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Pro-JavaScript-Design-Patterns/">Pro JavaScript Design Patterns</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -801,7 +783,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>26</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>27</sup></a></li>
 		  
 		
 		  
@@ -846,10 +828,6 @@
 			
 		
 			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
@@ -866,6 +844,10 @@
 			
 		
 			
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
 			
 		
@@ -874,7 +856,7 @@
 			
 		
 			
-				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
@@ -882,19 +864,15 @@
 			
 		
 			
+				<li><a href="/tags/事件/" title="事件">事件<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/干货/" title="干货">干货<sup>1</sup></a></li>
 			
 		
 			
@@ -903,6 +881,10 @@
 		
 			
 				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
 			
 		
 		</ul>
