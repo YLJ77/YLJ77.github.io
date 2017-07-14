@@ -343,66 +343,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/随机取整/" title="随机取整" itemprop="url">随机取整</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function fnRand(m,n) &#123;</div><div class="line">    var r = Math.round(Math.random()*(n-m) + m);</div><div class="line">    return r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/随机数/">随机数</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/闭包/" title="闭包" itemprop="url">闭包</a>
   </h1>
   <p class="article-author">By
@@ -471,21 +411,20 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/对象/" title="对象" itemprop="url">对象</a>
+      <a href="/2017/04/15/随机取整/" title="随机取整" itemprop="url">随机取整</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    <time datetime="2017-04-15T07:43:25.566Z" itemprop="datePublished"> 发表于 2017-04-15</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><p>简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当<br>作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符<br>串”object”。1实际上，null本身是基本类型。</p>
-<p>原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被<br>判断为object类型，null的二进制表示是全0，自然前三位也是0，所以执行typeof时会返<br>回”object”</p>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function fnRand(m,n) &#123;</div><div class="line">    var r = Math.round(Math.random()*(n-m) + m);</div><div class="line">    return r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
         
         
@@ -504,81 +443,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/对象/">对象</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/媒体查询/" title="媒体查询" itemprop="url">媒体查询</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="媒体查询语法"><a href="#媒体查询语法" class="headerlink" title="媒体查询语法"></a>媒体查询语法</h3><p>纵向媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>在媒体查询的开头追加not则会颠倒查询的逻辑</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>限制视口宽度</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait) and (min-width:800px)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>CSS样式表中使用媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@media screen and (max-device-width: 400px) &#123;</div><div class="line">    h1 &#123; color: green&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用CSS的@import指令在当前样式表中按条件引入其他样式表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@import url(&quot;phone.css&quot;) screen and (max-width:360px);</div></pre></td></tr></table></figure>
-<blockquote>
-<p>使用CSS的@import方式会增加HTTP请求(这会影响加载速度)，要谨慎使用。</p>
-</blockquote>
-<h3 id="媒体查询特性"><a href="#媒体查询特性" class="headerlink" title="媒体查询特性"></a>媒体查询特性</h3><p>视口宽度: width<br>屏幕宽度: device-width</p>
-<pre><code>
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/CSS/">CSS</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/响应式/">响应式</a><a href="/tags/媒体查询/">媒体查询</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/随机数/">随机数</a>
   </div>
 
 </div>
@@ -650,6 +515,67 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/js/">js</a><a href="/tags/干货/">干货</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/对象/" title="对象" itemprop="url">对象</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><p>简单基本类型（string、boolean、number、null和undefined）本身并不是对象。null有时会被当<br>作一种对象类型，但是这其实只是语言本身的一个bug，即对null执行typeof null时会返回字符<br>串”object”。1实际上，null本身是基本类型。</p>
+<p>原理是这样的，不同的对象在底层都表示为二进制，在JavaScript中二进制前三位都为0的话会被<br>判断为object类型，null的二进制表示是全0，自然前三位也是0，所以执行typeof时会返<br>回”object”</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/对象/">对象</a>
   </div>
 
 </div>
@@ -811,6 +737,76 @@
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/提升/" title="提升" itemprop="url">提升</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>当你看到var a = 2;时，可能会认为这是一个声明。但JavaScript实际上会将其看成两个声<br>明：var a;和a = 2;。第一个定义声明是在编译阶段进行的。第二个赋值声明会被留在原地等待执<br>行阶段。<br>我们的第一个代码片段会以如下形式进行处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var a;</div><div class="line">a = 2;</div><div class="line">console.log( a );</div></pre></td></tr></table></figure></p>
+<p>其中第一部分是编译，而第二部分是执行。</p>
+<p>函数声明会被提升，但是函数表达式却不会被提升。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">foo(); // 不是ReferenceError, 而是TypeError!</div><div class="line">var foo = function bar() &#123;</div><div class="line">    // ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这段程序中的变量标识符foo()被提升并分配给所在作用域（在这里是全局作用域），因此foo()不<br>会导致ReferenceError。但是foo此时并没有赋值（如果它是一个函数声明而不是函数表达式，那么<br>就会赋值）。foo()由于对undefined值进行函数调用而导致非法操作，因此抛出TypeError异常。<br>同时也要记住，即使是具名的函数表达式，名称标识符在赋值之前也无法在所在作用域中使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">foo(); // TypeError</div><div class="line">bar(); // ReferenceError</div><div class="line">var foo = function bar() &#123;</div><div class="line">    // ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这个代码片段经过提升后，实际上会被理解为以下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var foo;</div><div class="line">foo(); // TypeError</div><div class="line">bar(); // ReferenceError</div><div class="line">foo = function() &#123;</div><div class="line">    var bar = ...self...</div><div class="line">    // ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="函数优先"><a href="#函数优先" class="headerlink" title="函数优先"></a>函数优先</h3><p>函数声明和变量声明都会被提升。但是一个值得注意的细节（这个细节可以出现在有多个“重复”声<br>明的代码中）是函数会首先被提升，然后才是变量。<br>考虑以下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">foo(); // 1</div><div class="line">var foo;</div><div class="line">function foo() &#123;</div><div class="line">    console.log( 1 );</div><div class="line">&#125;</div><div class="line">foo = function() &#123;</div><div class="line">    console.log( 2 );</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>会输出1而不是2！这个代码片段会被引擎理解为如下形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( 1 );</div><div class="line">&#125;</div><div class="line">foo(); // 1</div><div class="line">foo = function() &#123;</div><div class="line">    console.log( 2 );</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>注意，var foo尽管出现在function foo()…的声明之前，但它是重复的声明（因此被忽略了），因为<br>函数声明会被提升到普通变量之前。</p>
+<p>尽管重复的var声明会被忽略掉，但出现在后面的函数声明还是可以覆盖前面的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">foo(); // 3</div><div class="line">function foo() &#123;</div><div class="line">console.log( 1 );</div><div class="line">&#125;</div><div class="line">var foo = function() &#123;</div><div class="line">console.log( 2 );</div><div class="line">&#125;;</div><div class="line">function foo() &#123;</div><div class="line">console.log( 3 );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>虽然这些听起来都是些无用的学院理论，但是它说明了在同一个作用域中进行重复定义是非常糟<br>糕的，而且经常会导致各种奇怪的问题。</p>
+<p>一个普通块内部的函数声明通常会被提升到所在作用域的顶部，这个过程不会像下面的代码暗示<br>的那样可以被条件判断所控制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">foo(); // &quot;b&quot;</div><div class="line">var a = true;</div><div class="line">if (a) &#123;</div><div class="line">function foo() &#123; console.log(&quot;a&quot;); &#125;</div><div class="line">&#125; else &#123;</div><div class="line">function foo() &#123; console.log(&quot;b&quot;); &#125;</div><div class="line">&#125;</div><div class="line">但是需要注意这个行为并不可靠，在JavaScript未来的版本中有可能发生改变，因此应该尽可能避</div><div class="line">免在块内部声明函数。</div></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -888,6 +884,10 @@
 			
 		
 			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
@@ -904,10 +904,6 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
@@ -916,7 +912,7 @@
 			
 		
 			
-				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
 			
 		
 			
@@ -928,7 +924,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
@@ -936,15 +932,15 @@
 			
 		
 			
+				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>

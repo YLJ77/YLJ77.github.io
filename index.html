@@ -108,9 +108,12 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myNodeList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'li'</span>); <span class="comment">// grabs some &lt;li&gt;</span></div><div class="line">[].forEach.call(myNodeList, <span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</div><div class="line">  <span class="comment">// :) hooray `item` can be used here</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>通过创建（空）数组并通过NodeList间接调用数组的原型的forEach方法，现在一切都奏效了。</p>
 <p>现在来看看这个技术的一些问题</p>
-<h1 id="Problems"><a href="#Problems" class="headerlink" title="Problems"></a>Problems</h1><h2 id="Problem-1-没有数组方法"><a href="#Problem-1-没有数组方法" class="headerlink" title="Problem #1: 没有数组方法"></a>Problem #1: 没有数组方法</h2><p>这是一个大问题。 NodeLists是有一个length属性的，如果要添加一个新元素或者从该列表中删除一个元素，你不能通过使用forEach的hack来保持任何状态，并且也无法访问列表本身，这意味着它是一条单向的方法，也就是说在静态元素的情况下你只能操纵一次，你不能继续添加/删除其他元素。</p>
+<p><strong>Problems</strong></p>
+<p><strong>Problem #1: 没有数组方法</strong></p>
+<p>这是一个大问题。 NodeLists是有一个length属性的，如果要添加一个新元素或者从该列表中删除一个元素，你不能通过使用forEach的hack来保持任何状态，并且也无法访问列表本身，这意味着它是一条单向的方法，也就是说在静态元素的情况下你只能操纵一次，你不能继续添加/删除其他元素。</p>
 <p>因为使用诸如.splice（）之类的方法将导致错误 - 原因是NodeLists在它们的Prototype中不包含这个方法。节点列表不能被改变，这通常是非常不切实际的。这也意味着你除了可以绑定事件处理程序或调用方法外，不能做任何其它令人兴奋的操作。</p>
-<h2 id="Problem-2-限制复用"><a href="#Problem-2-限制复用" class="headerlink" title="Problem #2: 限制复用"></a>Problem #2: 限制复用</h2><p>当我们缓存一个dom时，我们缓存的不是一个数组，这意味着我们无法重复使用该方法。我认为这是一个严重的可扩展性和可重用性的问题。如果我想再次调用该方法怎么办？那我必须编写相同的非描述性代码两次。</p>
+<p><strong>Problem #2: 限制复用</strong></p>
+<p>当我们缓存一个dom时，我们缓存的不是一个数组，这意味着我们无法重复使用该方法。我认为这是一个严重的可扩展性和可重用性的问题。如果我想再次调用该方法怎么办？那我必须编写相同的非描述性代码两次。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// cached, we can access this again</span></div><div class="line"><span class="keyword">var</span> myNodeList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'li'</span>);</div><div class="line"></div><div class="line"><span class="comment">// this will only get called once</span></div><div class="line"><span class="comment">// and cannot be called again</span></div><div class="line">[].forEach.call(myNodeList, <span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</div><div class="line">  <span class="comment">// :(</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 
         
@@ -167,14 +170,14 @@
     <div class="article-content">
         
         <p>翻译自<a href="https://toddmotto.com/deprecating-the-switch-statement-for-object-literals/" target="_blank" rel="external">Replacing switch statements with Object literals</a></p>
-<p>在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操纵它们。对象是非常灵活的，它们几乎是JavaScript中的一切，而使用它们而不是switch语句一直是我最近一直在做的。</p>
+<p>在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操作它们。对象是非常灵活的，它们几乎是JavaScript中的一切，而使用对象而不是使用switch语句是我最近一直在做的。</p>
 <p><strong>switch语句的问题</strong></p>
-<p>switch语句有多个问题，从其过程控制流到其处理代码块的方式是非标准的，而其余的JavaScript流程控制语句使用花括号。它既不是语法上最好的，也不是设计上最好的。我们不得不在每个case语句后面添加break语句，这可能导致难以调试和产生嵌套的错误。因此，进一步讲，我们应该避免使用case语句。道格拉斯·克罗克福德（Douglas Crockford）曾经多次写过和说过，谨慎对待switch语句。</p>
+<p>switch语句有多个问题，从其过程控制流到其处理代码块的方式是非标准的，而JavaScript的其它流程控制语句使用的时花括号。它既不是语法上最好的，也不是设计上最好的。我们不得不在每个case语句后面添加break语句，这可能导致难以调试和产生嵌套的错误。因此，进一步讲，我们应该避免使用case语句。道格拉斯·克罗克福德（Douglas Crockford）曾经多次写过和说过，谨慎对待switch语句。</p>
 <p>我们经常在javascript中使用对象查找数据，但我们通常不会考虑使用switch。所以为什么不使用对象字面量来替换switch呢？对象更加灵活，具有更好的可读性和可维护性，且我们不需要手动添加break和case语句;它们对于新的JavaScript开发人员来说也是很友好的，因为它们是标准的数据对象。</p>
 <p>随着”case”数量的增加，对象（哈希表）的性能要好于switch的平均成本（case的顺序很重要）。对象方法是哈希表查找，而switch必须评估每个case语句，直到它遇到匹配的case和break。</p>
 <p><strong>对象字面量查找</strong></p>
 <p>我们一直使用对象，无论是构造函数还是字面量。通常，我们使用它们进行对象查找，从Object属性中获取值。</p>
-<p>现在我们设置一个简单的对象文字，只返回一个String类型的值。</p>
+<p>现在我们设置一个简单的对象字面量，它只返回一个String类型的值。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDrink</span> (<span class="params">type</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> drinks = &#123;</div><div class="line">    <span class="string">'coke'</span>: <span class="string">'Coke'</span>,</div><div class="line">    <span class="string">'pepsi'</span>: <span class="string">'Pepsi'</span>,</div><div class="line">    <span class="string">'lemonade'</span>: <span class="string">'Lemonade'</span>,</div><div class="line">    <span class="string">'default'</span>: <span class="string">'Default item'</span></div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">return</span> <span class="string">'The drink I chose was '</span> + (drinks[type] || drinks[<span class="string">'default'</span>]);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> drink = getDrink(<span class="string">'coke'</span>);</div><div class="line"><span class="comment">// The drink I chose was Coke</span></div><div class="line"><span class="built_in">console</span>.log(drink);</div></pre></td></tr></table></figure>
 <p>在没有default case的情况下我们甚至可以进一步简化</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDrink</span> (<span class="params">type</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="string">'The drink I chose was '</span> + &#123;</div><div class="line">    <span class="string">'coke'</span>: <span class="string">'Coke'</span>,</div><div class="line">    <span class="string">'pepsi'</span>: <span class="string">'Pepsi'</span>,</div><div class="line">    <span class="string">'lemonade'</span>: <span class="string">'Lemonade'</span></div><div class="line">  &#125;[type];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -185,7 +188,7 @@
 <p>这样更可以更好的维护和有更号的可读性。我们也不用担心break和case语句的落空 - 这只是一个简单的对象。</p>
 <p>通常，我们将把一个switch置于一个函数中并获得一个返回值，所以让我们在这里做同样的事情，并将一个对象字面查找转换成一个可用的函数：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDrink</span> (<span class="params">type</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> drinks = &#123;</div><div class="line">    <span class="string">'coke'</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">'Coke'</span>;</div><div class="line">    &#125;,</div><div class="line">    <span class="string">'pepsi'</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">'Pepsi'</span>;</div><div class="line">    &#125;,</div><div class="line">    <span class="string">'lemonade'</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">'Lemonade'</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">return</span> drinks[type]();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// let's call it</span></div><div class="line"><span class="keyword">var</span> drink = getDrink(<span class="string">'coke'</span>);</div><div class="line"><span class="built_in">console</span>.log(drink); <span class="comment">// 'Coke'</span></div></pre></td></tr></table></figure>
-<p>这样就很好，也很容易，但这不符合“默认”的情况，然而我们可以轻松创建：</p>
+<p>这样就很好，也很容易，但这没有”默认值”的情况，然而我们可以轻松创建：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDrink</span> (<span class="params">type</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> fn;</div><div class="line">  <span class="keyword">var</span> drinks = &#123;</div><div class="line">    <span class="string">'coke'</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">'Coke'</span>;</div><div class="line">    &#125;,</div><div class="line">    <span class="string">'pepsi'</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">'Pepsi'</span>;</div><div class="line">    &#125;,</div><div class="line">    <span class="string">'lemonade'</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">'Lemonade'</span>;</div><div class="line">    &#125;,</div><div class="line">    <span class="string">'default'</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">'Default item'</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">  <span class="comment">// if the drinks Object contains the type</span></div><div class="line">  <span class="comment">// passed in, let's use it</span></div><div class="line">  <span class="keyword">if</span> (drinks[type]) &#123;</div><div class="line">    fn = drinks[type];</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// otherwise we'll assign the default</span></div><div class="line">    <span class="comment">// also the same as drinks.default</span></div><div class="line">    <span class="comment">// it's just a little more consistent using square</span></div><div class="line">    <span class="comment">// bracket notation everywhere</span></div><div class="line">    fn = drinks[<span class="string">'default'</span>];</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> fn();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// called with "dr pepper"</span></div><div class="line"><span class="keyword">var</span> drink = getDrink(<span class="string">'dr pepper'</span>);</div><div class="line"><span class="built_in">console</span>.log(drink); <span class="comment">// 'Default item'</span></div></pre></td></tr></table></figure>
 <p>我们可以简化上述if和else语句，在表达式里面使用或||运算符：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDrink</span> (<span class="params">type</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> drinks = &#123;</div><div class="line">    <span class="string">'coke'</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">'Coke'</span>;</div><div class="line">    &#125;,</div><div class="line">    <span class="string">'pepsi'</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">'Pepsi'</span>;</div><div class="line">    &#125;,</div><div class="line">    <span class="string">'lemonade'</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">'Lemonade'</span>;</div><div class="line">    &#125;,</div><div class="line">    <span class="string">'default'</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="string">'Default item'</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">return</span> (drinks[type] || drinks[<span class="string">'default'</span>])();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -844,6 +847,10 @@
 			
 		
 			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
@@ -860,10 +867,6 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
@@ -872,7 +875,7 @@
 			
 		
 			
-				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
 			
 		
 			
@@ -884,7 +887,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
@@ -892,15 +895,15 @@
 			
 		
 			
+				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>

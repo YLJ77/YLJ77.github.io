@@ -81,7 +81,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/作用域是什么/" title="作用域是什么" itemprop="url">作用域是什么</a>
+      <a href="/2017/04/15/事件/" title="事件" itemprop="url">事件</a>
   </h1>
   <p class="article-author">By
        
@@ -94,43 +94,21 @@
 </header>
     <div class="article-content">
         
-        <h3 id="理解作用域"><a href="#理解作用域" class="headerlink" title="理解作用域"></a>理解作用域</h3><h4 id="RHS-LHS"><a href="#RHS-LHS" class="headerlink" title="RHS LHS"></a>RHS LHS</h4><p>它们分别代表左侧和右侧。<br>什么东西的左侧和右侧？是一个赋值操作的左侧和右侧。<br>换句话说，当变量出现在赋值操作的左侧时进行LHS查询，出现在右侧时进行RHS查询。<br>讲得更准确一点，RHS查询与简单地查找某个变量的值别无二致，而LHS查询则是试图找到变量<br>的容器本身，从而可以对其赋值。从这个角度说，RHS并不是真正意义上的“赋值操作的右侧”，更准<br>确地说是“非左侧”。<br>你可以将RHS理解成retrieve his source value（取到它的源值），这意味着“得到某某的值”。</p>
-<p>考虑以下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log( a );</div></pre></td></tr></table></figure>
-<p>其中对a的引用是一个RHS引用，因为这里a并没有赋予任何值。相应地，需要查找并取得a的值，这<br>样才能将值传递给console.log(..)。<br>相比之下，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a = 2;</div></pre></td></tr></table></figure>
-<p>这里对a的引用则是LHS引用，因为实际上我们并不关心当前的值是什么，只是想要为= 2这个赋<br>值操作找到一个目标。</p>
-<blockquote>
-<p>LHS和RHS的含义是“赋值操作的左侧或右侧”并不一定意味着就是“=赋值操作符的左侧<br>或右侧”。赋值操作还有其他几种形式，因此在概念上最好将其理解为“赋值操作的目标是谁<br>（LHS）”以及“谁是赋值操作的源头（RHS）”。</p>
-</blockquote>
-<p>考虑下面的程序，其中既有LHS也有RHS引用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function foo(a) &#123;</div><div class="line">    console.log( a ); // 2</div><div class="line">&#125;</div><div class="line">foo( 2 );</div></pre></td></tr></table></figure>
-<p>最后一行foo(..)函数的调用需要对foo进行RHS引用，意味着“去找到foo的值，并把它给我”。并<br>且(..)意味着foo的值需要被执行，因此它最好真的是一个函数类型的值！<br>这里还有一个容易被忽略却非常重要的细节。<br>代码中隐式的a = 2操作可能很容易被你忽略掉。这个操作发生在2被当作参数传递给foo(..)函数<br>时，2会被分配给参数a。为了给参数a（隐式地）分配值，需要进行一次LHS查询。<br>这里还有对a进行的RHS引用，并且将得到的值传给了console.log(..)。console.log(..)本身也需<br>要一个引用才能执行，因此会对console对象进行RHS查询，并且检查得到的值中是否有一个叫<br>作log的方法。<br>最后，在概念上可以理解为在LHS和RHS之间通过对值2进行交互来将其传递进log(..)（通过变<br>量a的RHS查询）。假设在log(..)函数的原生实现中它可以接受参数，在将2赋值给其中第一个（也<br>许叫作arg1）参数之前，这个参数需要进行LHS引用查询。</p>
-<blockquote>
-<p>你可能会倾向于将函数声明function foo(a) {…概念化为普通的变量声明和赋值，比<br>如var foo、foo ＝ function(a) {…。如果这样理解的话，这个函数声明将需要进行LHS查询。<br>然而还有一个重要的细微差别，编译器可以在代码生成的同时处理声明和值的定义，比如在引<br>擎执行代码时，并不会有线程专门用来将一个函数值“分配给”foo。因此，将函数声明理解成前<br>面讨论的LHS查询和赋值的形式并不合适。</p>
-</blockquote>
-<h4 id="引擎和作用域的对话"><a href="#引擎和作用域的对话" class="headerlink" title="引擎和作用域的对话"></a>引擎和作用域的对话</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function foo(a) &#123;</div><div class="line">    console.log( a ); // 2</div><div class="line">&#125;</div><div class="line">foo( 2 );</div></pre></td></tr></table></figure>
-<p>让我们把上面这段代码的处理过程想象成一段对话，这段对话可能是下面这样的。</p>
-<blockquote>
-<p>引擎：我说作用域，我需要为foo进行RHS引用。你见过它吗？<br>作用域：别说，我还真见过，编译器那小子刚刚声明了它。它是一个函数，给你。<br>引擎：哥们太够意思了！好吧，我来执行一下foo。<br>引擎：作用域，还有个事儿。我需要为a进行LHS引用，这个你见过吗？<br>作用域：这个也见过，编译器最近把它声名为foo的一个形式参数了，拿去吧。<br>引擎：大恩不言谢，你总是这么棒。现在我要把2赋值给a。<br>引擎：哥们，不好意思又来打扰你。我要为console进行RHS引用，你见过它吗？<br>作用域：咱俩谁跟谁啊，再说我就是干这个的。这个我也有，console是个内置对象。给你。<br>引擎：么么哒。我得看看这里面是不是有log(..)。太好了，找到了，是一个函数。<br>引擎：哥们，能帮我再找一下对a的RHS引用吗？虽然我记得它，但想再确认一次。<br>作用域：放心吧，这个变量没有变动过，拿走，不谢。<br>引擎：真棒。我来把a的值，也就是2，传递进log(..)。<br>……</p>
-</blockquote>
-<h3 id="作用域嵌套"><a href="#作用域嵌套" class="headerlink" title="作用域嵌套"></a>作用域嵌套</h3><p>作用域是根据名称查找变量的一套规则。实际情况中，通常需要同时顾及几个作用域。<br>当一个块或函数嵌套在另一个块或函数中时，就发生了作用域的嵌套。因此，在当前作用域中无法<br>找到某个变量时，引擎就会在外层嵌套的作用域中继续查找，直到找到该变量，或抵达最外层的作<br>用域（也就是全局作用域）为止。</p>
-<p>考虑以下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function foo(a) &#123;</div><div class="line">    console.log( a + b );</div><div class="line">&#125;</div><div class="line">var b = 2;</div><div class="line">foo( 2 ); // 4</div></pre></td></tr></table></figure>
-<p>对b进行的RHS引用无法在函数foo内部完成，但可以在上一级作用域（在这个例子中就是全局作<br>用域）中完成。<br>因此，回顾一下引擎和作用域之间的对话，会进一步听到：</p>
-<blockquote>
-<p>引擎：foo的作用域兄弟，你见过b吗？我需要对它进行RHS引用。<br>作用域：听都没听过，走开。<br>引擎：foo的上级作用域兄弟，咦？有眼不识泰山，原来你是全局作用域大哥，太好了。你见过b<br>吗？我需要对它进行RHS引用。<br>作用域：当然了，给你吧。</p>
-</blockquote>
-<p>遍历嵌套作用域链的规则很简单：引擎从当前的执行作用域开始查找变量，如果找不到，就向上一<br>级继续查找。当抵达最外层的全局作用域时，无论找到还是没找到，查找过程都会停止。</p>
-<h3 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h3><p>为什么区分LHS和RHS是一件重要的事情？<br>因为在变量还没有声明（在任何作用域中都无法找到该变量）的情况下，这两种查询的行为是不一<br>样的。</p>
-<p>考虑如下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function foo(a) &#123;</div><div class="line">    console.log( a + b );</div><div class="line">b = a;</div><div class="line">&#125;</div><div class="line">foo( 2 );</div></pre></td></tr></table></figure>
-<p>第一次对b进行RHS查询时是无法找到该变量的。也就是说，这是一个“未声明”的变量，因为在任何<br>相关的作用域中都无法找到它。<br>如果RHS查询在所有嵌套的作用域中遍寻不到所需的变量，引擎就会抛出ReferenceError异常。值<br>得注意的是，ReferenceError是非常重要的异常类型。<br>相较之下，当引擎执行LHS查询时，如果在顶层（全局作用域）中也无法找到目标变量，全局作用域<br>中就会创建一个具有该名称的变量，并将其返还给引擎，前提是程序运行在非“严格模式”下。<br>“不，这个变量之前并不存在，但是我很热心地帮你创建了一个。”<br>ES5中引入了“严格模式”。同正常模式，或者说宽松/懒惰模式相比，严格模式在行为上有很多不<br>同。其中一个不同的行为是严格模式禁止自动或隐式地创建全局变量。因此，在严格模式中LHS查<br>询失败时，并不会创建并返回一个全局变量，引擎会抛出同RHS查询失败时类似的ReferenceError<br>异常。<br>接下来，如果RHS查询找到了一个变量，但是你尝试对这个变量的值进行不合理的操作，比如试图<br>对一个非函数类型的值进行函数调用，或着引用null或undefined类型的值中的属性，那么引擎会<br>抛出另外一种类型的异常，叫作TypeError。<br>ReferenceError同作用域判别失败相关，而TypeError则代表作用域判别成功了，但是对结果的操作<br>是非法或不合理的。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>作用域是一套规则，用于确定在何处以及如何查找变量（标识符）。如果查找的目的是对变量进行<br>赋值，那么就会使用LHS查询；如果目的是获取变量的值，就会使用RHS查询。<br>赋值操作符会导致LHS查询。＝操作符或调用函数时传入参数的操作都会导致关联作用域的赋值<br>操作。<br>JavaScript引擎首先会在代码执行前对其进行编译，在这个过程中，像var a = 2这样的声明会被分<br>解成两个独立的步骤：</p>
-<ol>
-<li>首先，var a在其作用域中声明新变量。这会在最开始的阶段，也就是代码执行前进行。</li>
-<li>接下来，a = 2会查询（LHS查询）变量a并对其进行赋值。<br>LHS和RHS查询都会在当前执行作用域中开始，如果有需要（也就是说它们没有找到所需的标识<br>符），就会向上级作用域继续查找目标标识符，这样每次上升一级作用域（一层楼），最后抵达全局<br>作用域（顶层），无论找到或没找到都将停止。<br>不成功的RHS引用会导致抛出ReferenceError异常。不成功的LHS引用会导致自动隐式地创建一个<br>全局变量（非严格模式下），该变量使用LHS引用的目标作为标识符，或者抛出ReferenceError异常<br>（严格模式下）。</li>
-</ol>
+        <h3 id="事件处理程序"><a href="#事件处理程序" class="headerlink" title="事件处理程序"></a>事件处理程序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div></pre></td><td class="code"><pre><div class="line">var EventUtil = &#123;</div><div class="line">        //跨浏览器的事件处理程序</div><div class="line">        addHandler: function(element, type, handler) &#123;</div><div class="line">            if (element.addEventListener) &#123;</div><div class="line">                element.addEventListener(type, handler, false);</div><div class="line">            &#125; else if (element.attachEvent) &#123;</div><div class="line">                element.attachEvent(&quot;on&quot; + type, handler);</div><div class="line">            &#125; else &#123;</div><div class="line">                element[&quot;on&quot; + type] = handler;</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        removeHandler: function(element, type, handler) &#123;</div><div class="line">            if (element.removeEventListener) &#123;</div><div class="line">                element.removeEventListener(type, handler, false);</div><div class="line">            &#125; else if (element.detachEvent) &#123;</div><div class="line">                element.detachEvent(&quot;on&quot; + type, handler);</div><div class="line">            &#125; else &#123;</div><div class="line">                element[&quot;on&quot; + type] = null;</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        //跨浏览器的事件对象</div><div class="line">        getEvent: function(event) &#123;</div><div class="line">            return event ? event : window.event;</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        getTarget: function(event) &#123;</div><div class="line">            return event.target || event.srcElement;</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        preventDefault: function(event) &#123;</div><div class="line">            if (event.preventDefault) &#123;</div><div class="line">                event.preventDefault();</div><div class="line">            &#125; else &#123;</div><div class="line">                event.returnValue = false;</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        stopPropagation: function(event) &#123;</div><div class="line">            if (event.stopPropagation) &#123;</div><div class="line">                event.stopPropagation();</div><div class="line">            &#125; else &#123;</div><div class="line">                event.cancelBubble = true;</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        //跨浏览器取得相关元素</div><div class="line">        getRelatedTarget: function(event) &#123;</div><div class="line">            if (event.relatedTarget) &#123;</div><div class="line">                return event.relatedTarget;</div><div class="line">            &#125; else if (event.toElement) &#123;</div><div class="line">                return event.toElement;</div><div class="line">            &#125; else if (event.fromElement) &#123;</div><div class="line">                return event.fromElement;</div><div class="line">            &#125; else &#123;</div><div class="line">                return null;</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        //鼠标按钮</div><div class="line">        getButton: function(event) &#123;</div><div class="line">            if (document.implementation.hasFeature(&quot;MouseEvents&quot;, &quot;2.0&quot;)) &#123;</div><div class="line">                return event.button;</div><div class="line">            &#125; else &#123;</div><div class="line">                switch(event.button) &#123;</div><div class="line">                    case 0:</div><div class="line">                    case 1:</div><div class="line">                    case 3:</div><div class="line">                    case 5:</div><div class="line">                    case 7:</div><div class="line">                        return 0;</div><div class="line">                    case 2:</div><div class="line">                    case 6:</div><div class="line">                        return 2;</div><div class="line">                    case 4:</div><div class="line">                        return 1;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        //鼠标滚轮事件</div><div class="line">        getWheelDelta: function(event) &#123;</div><div class="line">            if (event.wheelDelta) &#123;</div><div class="line">                return (client.engine.opera &amp;&amp; client.engine.opera &lt; 9.5 ? -event.wheelDelta : event.wheelDelta);</div><div class="line">            &#125; else &#123;</div><div class="line">                return -event.detail * 40;</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        //字符编码</div><div class="line">        getCharCode: function(event) &#123;</div><div class="line">            if (typeof event.charCode == &quot;number&quot;) &#123;</div><div class="line">                return event.charCode;    //只有在发生keypress事件才包含值</div><div class="line">            &#125; else &#123;</div><div class="line">                return event.keyCode;</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        //操作剪贴板</div><div class="line">        getClipboardText: function(event) &#123;</div><div class="line">            var clipboardData = (event.clipboardData || window.clipboardData);</div><div class="line">            return clipboardData.getData(&quot;text&quot;);</div><div class="line">        &#125;,</div><div class="line"></div><div class="line">        setClipboardText: function(event)&#123;</div><div class="line">            if (event.clipboardData) &#123;</div><div class="line">                return event.clipboardData.setData(&quot;text/plain&quot;, value);</div><div class="line">            &#125; else if (window.clipboardData) &#123;</div><div class="line">                return window.clipboardData.setData(&quot;text&quot;, value);</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">    &#125;;</div><div class="line"></div><div class="line"> //跨浏览器的事件处理程序示例：</div><div class="line">var btn = document.getElementById(&quot;myBtn&quot;);</div><div class="line">var handler = function()&#123;</div><div class="line">    alert(&quot;Clicked&quot;);</div><div class="line">&#125;;</div><div class="line">EventUtil.addHandler(btn, &quot;click&quot;, handler);</div><div class="line"></div><div class="line">//这里省略其它代码</div><div class="line"></div><div class="line">EventUtil.removeHandler(btn, &quot;click&quot;, handler);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">//跨浏览器取得相关元素示例：</div><div class="line">var div = document.getElementById(&quot;myDiv&quot;);</div><div class="line">EventUtil.addHandler(div, &quot;mouseout&quot;, function(event)&#123;</div><div class="line">    event = Event.getEvent(event);</div><div class="line">    var target = EventUtil.getTarget(event);</div><div class="line">    var relatedTarget = EventUtil.getRelatedTarget(event);</div><div class="line">    alert(&quot;Moused out fo &quot; + target.tagName + &quot; to &quot; + relatedTarget.tagName);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="鼠标与滚轮事件"><a href="#鼠标与滚轮事件" class="headerlink" title="鼠标与滚轮事件"></a>鼠标与滚轮事件</h3><h4 id="客户区坐标位置"><a href="#客户区坐标位置" class="headerlink" title="客户区坐标位置"></a>客户区坐标位置</h4><p>可以使用类似下列代码取得鼠标事件的客户端坐标信息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var div = document.getElementById(&quot;myDiv&quot;);</div><div class="line">EventUtil.addHandler(div, &quot;click&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    alert(&quot;Client coordinates: &quot; + event.clientX + &quot;,&quot; + event.clientY);</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<h4 id="修改键"><a href="#修改键" class="headerlink" title="修改键"></a>修改键</h4><p>当某个鼠标事件发生时，通过检测这几个属性就可以确定用户是否同时按下了其中的键。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">var div = document.getElementById(&quot;myDiv&quot;);</div><div class="line">EventUtil.addHandler(div, &quot;click&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var keys = new Array();</div><div class="line"></div><div class="line">    if (event.shiftKey) &#123;</div><div class="line">        keys.push(&quot;shift&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (event.ctrlKey) &#123;</div><div class="line">        keys.push(&quot;ctrlKey&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (event.altKey) &#123;</div><div class="line">        keys.push(&quot;altKey&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (event.metaKey) &#123;</div><div class="line">        keys.push(&quot;metaKey&quot;);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    alert(&quot;Keys: &quot; + keys.join(&quot;,&quot;));</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="键盘与文本事件"><a href="#键盘与文本事件" class="headerlink" title="键盘与文本事件"></a>键盘与文本事件</h3><h4 id="textInput-事件"><a href="#textInput-事件" class="headerlink" title="textInput 事件"></a>textInput 事件</h4><p>这个用于替代 keypress 的textInput 事件的行为稍有不同。区别之一就是任何可以获得焦点的元素都可以触发 keypress 事件，但只有可编辑区域才能触发 textInput 事件。区别之二是 textInput 事件只会在用户按下能够输入实际字符的键时才会触发，而 keypress 事件则在按下那些能够影响文本显示的键时也会触发(例如退格键)。</p>
+<p>由于 textInput 主要考虑的是字符，因此它的 event 对象中还包含一个 data 属性，这个属性的值就是用户输入的字符(而非字符编码)。话句话说，用户在没有按上档键的情况下按下了S键，data 的值就是”s”,而如果在按住上档键时按下该键，data 的值就是”s”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var textbox = document.getElementById(&quot;myText&quot;);</div><div class="line">EventUtil.addHandler(textbox, &quot;textInput&quot;, function(event) &#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    alert(event.data);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="HTML5-事件"><a href="#HTML5-事件" class="headerlink" title="HTML5 事件"></a>HTML5 事件</h3><h4 id="contextmenu-事件"><a href="#contextmenu-事件" class="headerlink" title="contextmenu 事件"></a>contextmenu 事件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(window, &quot;load&quot;, function(event) &#123;</div><div class="line">    var div = document.getElementById(&apos;myDiv&apos;);</div><div class="line"></div><div class="line">    EventUtil.addHandler(div, &quot;contextmenu&quot;, function(event)&#123;</div><div class="line">        event = EventUtil.getEvent(event);</div><div class="line">        EventUtil.preventDefault(event);</div><div class="line"></div><div class="line">        var menu = document.getElementById(&apos;myMenu&apos;);</div><div class="line">        menu.style.left = event.clientX + &apos;px&apos;;</div><div class="line">        menu.style.top = event.clientY = &apos;px&apos;;</div><div class="line">        menu,style.visibility = &quot;visible&quot;;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    EventUtil.addHandler(document, &apos;click&apos;, function()&#123;</div><div class="line">        document.getElementById(&apos;myMenu&apos;).style.visibility = &apos;hidden&apos;;</div><div class="line">    &#125;);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h4 id="beforeunload-页面卸载前-事件"><a href="#beforeunload-页面卸载前-事件" class="headerlink" title="beforeunload(页面卸载前) 事件"></a>beforeunload(页面卸载前) 事件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(window, &quot;beforeunload&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var message = &quot;I&apos;m really going to miss you if you go.&quot;;</div><div class="line">    event.returnValue = message;</div><div class="line">    return message;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="DOMContentLoaded-IE-9-事件"><a href="#DOMContentLoaded-IE-9-事件" class="headerlink" title="DOMContentLoaded(IE 9+) 事件"></a>DOMContentLoaded(IE 9+) 事件</h4><p>DOMContentLoaded 事件在形成完整的 DOM 树之后就会触发，不理会图像、JavaScript 文件、CSS 文件或其他资源是否已经下载完毕。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(document, &quot;DOMContentLoaded&quot;, function(event)&#123;</div><div class="line">    alert(&apos;Content loaded&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="readystatechange-事件"><a href="#readystatechange-事件" class="headerlink" title="readystatechange 事件"></a>readystatechange 事件</h4><p>readyState 属性： uninitialized|loading|loaded|interactive|complete</p>
+<h3 id="内存和性能"><a href="#内存和性能" class="headerlink" title="内存和性能"></a>内存和性能</h3><h4 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">//一下面的 HTML 代码为例</div><div class="line">&lt;ul id=&quot;myLinks&quot;&gt;</div><div class="line">    &lt;li id=&quot;goSomewhere&quot;&gt;Go somewhere&lt;/li&gt;</div><div class="line">    &lt;li id=&quot;doSomething&quot;&gt;Do something&lt;/li&gt;</div><div class="line">    &lt;li id=&quot;sayHi&quot;&gt;Say hi&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div><div class="line"></div><div class="line">var list = document.getElementById(&apos;myLinks&apos;);</div><div class="line">EventUtil.addHandler(list, &quot;click&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var target = EventUtil.getTarget(event);</div><div class="line"></div><div class="line">    switch(target.id) &#123;</div><div class="line">        case &quot;doSomething&quot;:</div><div class="line">            document.title = &quot;I changed the document&apos;s title&quot;;</div><div class="line">            break;</div><div class="line"></div><div class="line">        case &quot;goSomewhere&quot;:</div><div class="line">            location.href = &apos;http://www.google.com&apos;;</div><div class="line">            break;</div><div class="line"></div><div class="line">        case &quot;sayHi&quot;:</div><div class="line">            alert(&quot;hi&quot;);</div><div class="line">            break;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>最适合采用事件委托技术的事件包括 click、mousedown、mouseup、keydown、keyup、和keypress。虽然 moseover 和 mouseout 事件也冒泡，但要适当处理它们并不容易，而且经常需要计算元素的位置。(因为当鼠标从一个元素移到其子节点时，或者当鼠标移出该元素时，都会触发 mouseout事件。)</p>
 
         
         
@@ -149,8 +127,63 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/事件/">事件</a>
   </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/二进制/" title="二进制" itemprop="url">二进制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><img src="img/blog/01.png"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/涉及底层/">涉及底层</a>
+</div>
+
 
 </div>
 
@@ -271,6 +304,169 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/15/作用域是什么/" title="作用域是什么" itemprop="url">作用域是什么</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="理解作用域"><a href="#理解作用域" class="headerlink" title="理解作用域"></a>理解作用域</h3><h4 id="RHS-LHS"><a href="#RHS-LHS" class="headerlink" title="RHS LHS"></a>RHS LHS</h4><p>它们分别代表左侧和右侧。<br>什么东西的左侧和右侧？是一个赋值操作的左侧和右侧。<br>换句话说，当变量出现在赋值操作的左侧时进行LHS查询，出现在右侧时进行RHS查询。<br>讲得更准确一点，RHS查询与简单地查找某个变量的值别无二致，而LHS查询则是试图找到变量<br>的容器本身，从而可以对其赋值。从这个角度说，RHS并不是真正意义上的“赋值操作的右侧”，更准<br>确地说是“非左侧”。<br>你可以将RHS理解成retrieve his source value（取到它的源值），这意味着“得到某某的值”。</p>
+<p>考虑以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log( a );</div></pre></td></tr></table></figure>
+<p>其中对a的引用是一个RHS引用，因为这里a并没有赋予任何值。相应地，需要查找并取得a的值，这<br>样才能将值传递给console.log(..)。<br>相比之下，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a = 2;</div></pre></td></tr></table></figure>
+<p>这里对a的引用则是LHS引用，因为实际上我们并不关心当前的值是什么，只是想要为= 2这个赋<br>值操作找到一个目标。</p>
+<blockquote>
+<p>LHS和RHS的含义是“赋值操作的左侧或右侧”并不一定意味着就是“=赋值操作符的左侧<br>或右侧”。赋值操作还有其他几种形式，因此在概念上最好将其理解为“赋值操作的目标是谁<br>（LHS）”以及“谁是赋值操作的源头（RHS）”。</p>
+</blockquote>
+<p>考虑下面的程序，其中既有LHS也有RHS引用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function foo(a) &#123;</div><div class="line">    console.log( a ); // 2</div><div class="line">&#125;</div><div class="line">foo( 2 );</div></pre></td></tr></table></figure>
+<p>最后一行foo(..)函数的调用需要对foo进行RHS引用，意味着“去找到foo的值，并把它给我”。并<br>且(..)意味着foo的值需要被执行，因此它最好真的是一个函数类型的值！<br>这里还有一个容易被忽略却非常重要的细节。<br>代码中隐式的a = 2操作可能很容易被你忽略掉。这个操作发生在2被当作参数传递给foo(..)函数<br>时，2会被分配给参数a。为了给参数a（隐式地）分配值，需要进行一次LHS查询。<br>这里还有对a进行的RHS引用，并且将得到的值传给了console.log(..)。console.log(..)本身也需<br>要一个引用才能执行，因此会对console对象进行RHS查询，并且检查得到的值中是否有一个叫<br>作log的方法。<br>最后，在概念上可以理解为在LHS和RHS之间通过对值2进行交互来将其传递进log(..)（通过变<br>量a的RHS查询）。假设在log(..)函数的原生实现中它可以接受参数，在将2赋值给其中第一个（也<br>许叫作arg1）参数之前，这个参数需要进行LHS引用查询。</p>
+<blockquote>
+<p>你可能会倾向于将函数声明function foo(a) {…概念化为普通的变量声明和赋值，比<br>如var foo、foo ＝ function(a) {…。如果这样理解的话，这个函数声明将需要进行LHS查询。<br>然而还有一个重要的细微差别，编译器可以在代码生成的同时处理声明和值的定义，比如在引<br>擎执行代码时，并不会有线程专门用来将一个函数值“分配给”foo。因此，将函数声明理解成前<br>面讨论的LHS查询和赋值的形式并不合适。</p>
+</blockquote>
+<h4 id="引擎和作用域的对话"><a href="#引擎和作用域的对话" class="headerlink" title="引擎和作用域的对话"></a>引擎和作用域的对话</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function foo(a) &#123;</div><div class="line">    console.log( a ); // 2</div><div class="line">&#125;</div><div class="line">foo( 2 );</div></pre></td></tr></table></figure>
+<p>让我们把上面这段代码的处理过程想象成一段对话，这段对话可能是下面这样的。</p>
+<blockquote>
+<p>引擎：我说作用域，我需要为foo进行RHS引用。你见过它吗？<br>作用域：别说，我还真见过，编译器那小子刚刚声明了它。它是一个函数，给你。<br>引擎：哥们太够意思了！好吧，我来执行一下foo。<br>引擎：作用域，还有个事儿。我需要为a进行LHS引用，这个你见过吗？<br>作用域：这个也见过，编译器最近把它声名为foo的一个形式参数了，拿去吧。<br>引擎：大恩不言谢，你总是这么棒。现在我要把2赋值给a。<br>引擎：哥们，不好意思又来打扰你。我要为console进行RHS引用，你见过它吗？<br>作用域：咱俩谁跟谁啊，再说我就是干这个的。这个我也有，console是个内置对象。给你。<br>引擎：么么哒。我得看看这里面是不是有log(..)。太好了，找到了，是一个函数。<br>引擎：哥们，能帮我再找一下对a的RHS引用吗？虽然我记得它，但想再确认一次。<br>作用域：放心吧，这个变量没有变动过，拿走，不谢。<br>引擎：真棒。我来把a的值，也就是2，传递进log(..)。<br>……</p>
+</blockquote>
+<h3 id="作用域嵌套"><a href="#作用域嵌套" class="headerlink" title="作用域嵌套"></a>作用域嵌套</h3><p>作用域是根据名称查找变量的一套规则。实际情况中，通常需要同时顾及几个作用域。<br>当一个块或函数嵌套在另一个块或函数中时，就发生了作用域的嵌套。因此，在当前作用域中无法<br>找到某个变量时，引擎就会在外层嵌套的作用域中继续查找，直到找到该变量，或抵达最外层的作<br>用域（也就是全局作用域）为止。</p>
+<p>考虑以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function foo(a) &#123;</div><div class="line">    console.log( a + b );</div><div class="line">&#125;</div><div class="line">var b = 2;</div><div class="line">foo( 2 ); // 4</div></pre></td></tr></table></figure>
+<p>对b进行的RHS引用无法在函数foo内部完成，但可以在上一级作用域（在这个例子中就是全局作<br>用域）中完成。<br>因此，回顾一下引擎和作用域之间的对话，会进一步听到：</p>
+<blockquote>
+<p>引擎：foo的作用域兄弟，你见过b吗？我需要对它进行RHS引用。<br>作用域：听都没听过，走开。<br>引擎：foo的上级作用域兄弟，咦？有眼不识泰山，原来你是全局作用域大哥，太好了。你见过b<br>吗？我需要对它进行RHS引用。<br>作用域：当然了，给你吧。</p>
+</blockquote>
+<p>遍历嵌套作用域链的规则很简单：引擎从当前的执行作用域开始查找变量，如果找不到，就向上一<br>级继续查找。当抵达最外层的全局作用域时，无论找到还是没找到，查找过程都会停止。</p>
+<h3 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h3><p>为什么区分LHS和RHS是一件重要的事情？<br>因为在变量还没有声明（在任何作用域中都无法找到该变量）的情况下，这两种查询的行为是不一<br>样的。</p>
+<p>考虑如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function foo(a) &#123;</div><div class="line">    console.log( a + b );</div><div class="line">b = a;</div><div class="line">&#125;</div><div class="line">foo( 2 );</div></pre></td></tr></table></figure>
+<p>第一次对b进行RHS查询时是无法找到该变量的。也就是说，这是一个“未声明”的变量，因为在任何<br>相关的作用域中都无法找到它。<br>如果RHS查询在所有嵌套的作用域中遍寻不到所需的变量，引擎就会抛出ReferenceError异常。值<br>得注意的是，ReferenceError是非常重要的异常类型。<br>相较之下，当引擎执行LHS查询时，如果在顶层（全局作用域）中也无法找到目标变量，全局作用域<br>中就会创建一个具有该名称的变量，并将其返还给引擎，前提是程序运行在非“严格模式”下。<br>“不，这个变量之前并不存在，但是我很热心地帮你创建了一个。”<br>ES5中引入了“严格模式”。同正常模式，或者说宽松/懒惰模式相比，严格模式在行为上有很多不<br>同。其中一个不同的行为是严格模式禁止自动或隐式地创建全局变量。因此，在严格模式中LHS查<br>询失败时，并不会创建并返回一个全局变量，引擎会抛出同RHS查询失败时类似的ReferenceError<br>异常。<br>接下来，如果RHS查询找到了一个变量，但是你尝试对这个变量的值进行不合理的操作，比如试图<br>对一个非函数类型的值进行函数调用，或着引用null或undefined类型的值中的属性，那么引擎会<br>抛出另外一种类型的异常，叫作TypeError。<br>ReferenceError同作用域判别失败相关，而TypeError则代表作用域判别成功了，但是对结果的操作<br>是非法或不合理的。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>作用域是一套规则，用于确定在何处以及如何查找变量（标识符）。如果查找的目的是对变量进行<br>赋值，那么就会使用LHS查询；如果目的是获取变量的值，就会使用RHS查询。<br>赋值操作符会导致LHS查询。＝操作符或调用函数时传入参数的操作都会导致关联作用域的赋值<br>操作。<br>JavaScript引擎首先会在代码执行前对其进行编译，在这个过程中，像var a = 2这样的声明会被分<br>解成两个独立的步骤：</p>
+<ol>
+<li>首先，var a在其作用域中声明新变量。这会在最开始的阶段，也就是代码执行前进行。</li>
+<li>接下来，a = 2会查询（LHS查询）变量a并对其进行赋值。<br>LHS和RHS查询都会在当前执行作用域中开始，如果有需要（也就是说它们没有找到所需的标识<br>符），就会向上级作用域继续查找目标标识符，这样每次上升一级作用域（一层楼），最后抵达全局<br>作用域（顶层），无论找到或没找到都将停止。<br>不成功的RHS引用会导致抛出ReferenceError异常。不成功的LHS引用会导致自动隐式地创建一个<br>全局变量（非严格模式下），该变量使用LHS引用的目标作为标识符，或者抛出ReferenceError异常<br>（严格模式下）。</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h3><p>跨浏览器遍历某元素的所有子元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var i,</div><div class="line">    len,</div><div class="line">    child = element.firstChild;</div><div class="line">while(child != element.lastChild) &#123;</div><div class="line">    if (child.nodeType == 1) &#123;</div><div class="line">        processChild(child);</div><div class="line">    &#125;</div><div class="line">    child = child.nextSibling;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>而使用 Element Traversal(IE 9+) 新增的元素，代码会更简洁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var i,</div><div class="line">    len,</div><div class="line">    child = element.firstElementChild;</div><div class="line">while(child != element.lastElementChild) &#123;</div><div class="line">    processChild(child);</div><div class="line">    child = child.nextElementSbling;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>删除类名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;bd user disabled&quot;&gt;&lt;/div&gt;</div><div class="line"></div><div class="line">//删除&quot;user&quot;类</div><div class="line"></div><div class="line">//首先，取得类名字符串并拆分成数组</div><div class="line">var classNames = div.className.split(/\s/);</div><div class="line"></div><div class="line">//找到要删除的类名</div><div class="line">var pos = -1,</div><div class="line">    i,</div><div class="line">    len;</div><div class="line">for (i=0, len=classNames.length; i &lt; len; i++) &#123;</div><div class="line">    if (classNames[i] == &quot;user&quot;) &#123;</div><div class="line">        pos = i;</div><div class="line">        break;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//删除类名</div><div class="line">classNames.splice(pos,1);</div><div class="line"></div><div class="line">//把剩下的类名拼成字符串并重新设置</div><div class="line">div.className = classNames.join(&quot; &quot;);</div></pre></td></tr></table></figure>
+<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>跨浏览器兼容 innerText</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function setInnerText(element, text) &#123;</div><div class="line">    if (typeof element.textContent == &quot;string&quot;) &#123;</div><div class="line">        element.textContent = text;  //兼容 Firefox</div><div class="line">    &#125; else &#123;</div><div class="line">        element.innerText = text;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/15/BOM/" title="BOM" itemprop="url">BOM</a>
   </h1>
   <p class="article-author">By
@@ -338,127 +534,6 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/js/">js</a><a href="/tags/BOM/">BOM</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/this全面解析/" title="this全面解析" itemprop="url">this全面解析</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h3><p>首先要介绍的是最常用的函数调用类型：独立函数调用。可以把这条规则看作是无法应用其他规<br>则时的默认规则。<br>思考一下下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( this.a );</div><div class="line">&#125;</div><div class="line">var a = 2;</div><div class="line">foo(); // 2</div></pre></td></tr></table></figure></p>
-<p>你应该注意到的第一件事是，声明在全局作用域中的变量（比如var a = 2）就是全局对象的一个同<br>名属性。它们本质上就是同一个东西，并不是通过复制得到的，就像一个硬币的两面一样。<br>接下来我们可以看到当调用foo()时，this.a被解析成了全局变量a。为什么？因为在本例中，函数<br>调用时应用了this的默认绑定，因此this指向全局对象。<br>那么我们怎么知道这里应用了默认绑定呢？可以通过分析调用位置来看看foo()是如何调用的。在<br>代码中，foo()是直接使用不带任何修饰的函数引用进行调用的，因此只能使用默认绑定，无法应<br>用其他规则。<br>如果使用严格模式（strict mode），那么全局对象将无法使用默认绑定，因此this会绑定<br>到undefined：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    &quot;use strict&quot;;</div><div class="line">    console.log( this.a );</div><div class="line">&#125;</div><div class="line">var a = 2;</div><div class="line">foo(); // TypeError: this is undefined</div></pre></td></tr></table></figure></p>
-<h3 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h3><p>另一条需要考虑的规则是调用位置是否有上下文对象，或者说是否被某个对象拥有或者包含，不<br>过这种说法可能会造成一些误导。<br>思考下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( this.a );</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">    a: 2,</div><div class="line">    foo: foo</div><div class="line">&#125;;</div><div class="line">obj.foo(); // 2</div></pre></td></tr></table></figure></p>
-<p>当函数引用有上下文<br>对象时，隐式绑定规则会把函数调用中的this绑定到这个上下文对象。因为调用foo()时this被绑<br>定到obj，因此this.a和obj.a是一样的。</p>
-<p>对象属性引用链中只有最顶层或者说最后一层会影响调用位置。举例来说：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( this.a );</div><div class="line">&#125;</div><div class="line">var obj2 = &#123;</div><div class="line">    a: 42,</div><div class="line">    foo: foo</div><div class="line">&#125;;</div><div class="line">var obj1 = &#123;</div><div class="line">    a: 2,</div><div class="line">    obj2: obj2</div><div class="line">&#125;;</div><div class="line">obj1.obj2.foo(); // 42</div></pre></td></tr></table></figure></p>
-<h3 id="隐式丢失"><a href="#隐式丢失" class="headerlink" title="隐式丢失"></a>隐式丢失</h3><p>一个最常见的this绑定问题就是被隐式绑定的函数会丢失绑定对象，也就是说它会应用默认绑<br>定，从而把this绑定到全局对象或者undefined上，取决于是否是严格模式。<br>思考下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( this.a );</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">    a: 2,</div><div class="line">    foo: foo</div><div class="line">&#125;;</div><div class="line">var bar = obj.foo; // 函数别名！</div><div class="line">var a = &quot;oops, global&quot;; // a是全局对象的属性</div><div class="line">bar(); // &quot;oops, global&quot;</div></pre></td></tr></table></figure></p>
-<p>虽然bar是obj.foo的一个引用，但是实际上，它引用的是foo函数本身，因此此时的bar()其实是一<br>个不带任何修饰的函数调用，因此应用了默认绑定。</p>
-<p>一种更微妙、更常见并且更出乎意料的情况发生在传入回调函数时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( this.a );</div><div class="line">&#125;</div><div class="line">function doFoo(fn) &#123;</div><div class="line">    // fn其实引用的是foo</div><div class="line">    fn(); // &lt;-- 调用位置！</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">    a: 2,</div><div class="line">    foo: foo</div><div class="line">&#125;;</div><div class="line">var a = &quot;oops, global&quot;; // a是全局对象的属性</div><div class="line">doFoo( obj.foo ); // &quot;oops, global&quot;</div><div class="line">参数传递其实就是一种隐式赋值，因此我们传入函数时也会被隐式赋值，所以结果和上一个例子</div><div class="line">一样。</div></pre></td></tr></table></figure></p>
-<p>如果把函数传入语言内置的函数而不是传入你自己声明的函数，会发生什么呢？结果是一样的，没<br>有区别：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( this.a );</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">    a: 2,</div><div class="line">    foo: foo</div><div class="line">&#125;;</div><div class="line">var a = &quot;oops, global&quot;; // a是全局对象的属性</div><div class="line">setTimeout( obj.foo, 100 ); // &quot;oops, global&quot;</div></pre></td></tr></table></figure></p>
-<p>JavaScript环境中内置的setTimeout()函数实现和下面的伪代码类似：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function setTimeout(fn,delay) &#123;</div><div class="line">    // 等待delay毫秒</div><div class="line">    fn(); // &lt;-- 调用位置！</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>就像我们看到的那样，回调函数丢失this绑定是非常常见的。除此之外，还有一种情况this的行为<br>会出乎我们意料：调用回调函数的函数可能会修改this。在一些流行的JavaScript库中事件处理器<br>常会把回调函数的this强制绑定到触发事件的DOM元素上。这在一些情况下可能很有用，但是有<br>时它可能会让你感到非常郁闷。遗憾的是，这些工具通常无法选择是否启用这个行为。<br>无论是哪种情况，this的改变都是意想不到的，实际上你无法控制回调函数的执行方式，因此就没<br>有办法控制会影响绑定的调用位置。</p>
-<h3 id="显式绑定"><a href="#显式绑定" class="headerlink" title="显式绑定"></a>显式绑定</h3><p>JavaScript中的“所有”函数都有一些有用的特性，可以用来解决这个问题。具体点说，可以使用函数的call(..)和apply(..)方法。JavaScript提供的绝大多数函数以及你自己创建的所有函数都可以使用call(..)<br>和apply(..)方法。</p>
-<p>这两个方法是如何工作的呢？它们的第一个参数是一个对象，它们会把这个对象绑定到this，接着<br>在调用函数时指定这个this。因为你可以直接指定this的绑定对象，因此我们称之为显式绑定。<br>思考下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( this.a );</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">    a:2</div><div class="line">&#125;;</div><div class="line">foo.call( obj ); // 2</div></pre></td></tr></table></figure></p>
-<p>通过foo.call(..)，我们可以在调用foo时强制把它的this绑定到obj上。</p>
-<p>如果你传入了一个原始值（字符串类型、布尔类型或者数字类型）来当作this的绑定对象，这个原<br>始值会被转换成它的对象形式（也就是new String(..)、new Boolean(..)或者new Number(..)）。这通<br>常被称为“装箱”。</p>
-<p>可惜，显式绑定仍然无法解决我们之前提出的丢失绑定问题。</p>
-<h4 id="硬绑定"><a href="#硬绑定" class="headerlink" title="硬绑定"></a>硬绑定</h4><p>但是显式绑定的一个变种可以解决这个问题。<br>思考下面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">    console.log( this.a );</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">    a:2</div><div class="line">&#125;;</div><div class="line">var bar = function() &#123;</div><div class="line">    foo.call( obj );</div><div class="line">&#125;;</div><div class="line">bar(); // 2</div><div class="line">setTimeout( bar, 100 ); // 2</div><div class="line">// 硬绑定的bar不可能再修改它的this</div><div class="line">bar.call( window ); // 2</div></pre></td></tr></table></figure></p>
-<p>硬绑定的典型应用场景就是创建一个包裹函数，传入所有的参数并返回接收到的所有值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function foo(something) &#123;</div><div class="line">    console.log( this.a, something );</div><div class="line">    return this.a + something;</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">    a:2</div><div class="line">&#125;;</div><div class="line">var bar = function() &#123;</div><div class="line">    return foo.apply( obj, arguments );</div><div class="line">&#125;;</div><div class="line">var b = bar( 3 ); // 2 3</div><div class="line">console.log( b ); // 5</div></pre></td></tr></table></figure></p>
-<p>另一种使用方法是创建一个bind可以重复使用的辅助函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function foo(something) &#123;</div><div class="line">    console.log( this.a, something );</div><div class="line">    return this.a + something;</div><div class="line">&#125;</div><div class="line">// 简单的辅助绑定函数</div><div class="line">function bind(fn, obj) &#123;</div><div class="line">    return function() &#123;</div><div class="line">        return fn.apply( obj, arguments );</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">    a:2</div><div class="line">&#125;;</div><div class="line">var bar = bind( foo, obj );</div><div class="line">var b = bar( 3 ); // 2 3</div><div class="line">console.log( b ); // 5</div></pre></td></tr></table></figure></p>
-<p>由于硬绑定是一种非常常用的模式，所以在ES5中提供了内置的方法Function.prototype.bind，它<br>的用法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function foo(something) &#123;</div><div class="line">    console.log( this.a, something );</div><div class="line">return this.a + something;</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">    a:2</div><div class="line">&#125;;</div><div class="line">var bar = foo.bind( obj );</div><div class="line">var b = bar( 3 ); // 2 3</div><div class="line">console.log( b ); // 5</div></pre></td></tr></table></figure></p>
-<p>bind(..)会返回一个硬编码的新函数，它会把参数设置为this的上下文并调用原始函数。</p>
-<h4 id="API调用的”上下文”"><a href="#API调用的”上下文”" class="headerlink" title="API调用的”上下文”"></a>API调用的”上下文”</h4><p>第三方库的许多函数，以及JavaScript语言和宿主环境中许多新的内置函数，都提供了一个可选的<br>参数，通常被称为“上下文”（context），其作用和bind(..)一样，确保你的回调函数使用指定的this。<br>举例来说：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function foo(el) &#123;</div><div class="line">console.log( el, this.id );</div><div class="line">&#125;</div><div class="line">var obj = &#123;</div><div class="line">id: &quot;awesome&quot;</div><div class="line">&#125;;</div><div class="line">// 调用foo(..)时把this绑定到obj</div><div class="line">[1, 2, 3].forEach( foo, obj );</div><div class="line">// 1 awesome 2 awesome 3 awesome</div></pre></td></tr></table></figure></p>
-<p>这些函数实际上就是通过call(..)或者apply(..)实现了显式绑定，这样你可以少些一些代码。</p>
-<h4 id="new绑定"><a href="#new绑定" class="headerlink" title="new绑定"></a>new绑定</h4><p>在传统的面向类的语言中，“构造函数”是类中的一些特殊方法，使用new初始化类时会调用类中的<br>构造函数。通常的形式是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">something = new MyClass(..);</div></pre></td></tr></table></figure></p>
-<p>JavaScript也有一个new操作符，使用方法看起来也和那些面向类的语言一样，绝大多数开发者都<br>认为JavaScript中new的机制也和那些语言一样。然而，JavaScript中new的机制实际上和面向类的<br>语言完全不同。</p>
-<p>首先我们重新定义一下JavaScript中的“构造函数”。JavaScript，构造函数只是一些使用new操作符<br>时被调用的函数。它们并不会属于某个类，也不会实例化一个类。实际上，它们甚至都不能说是一<br>种特殊的函数类型，它们只是被new操作符调用的普通函数而已。<br>举例来说，思考一下Number(..)作为构造函数时的行为，ES5.1中这样描述它：</p>
-<blockquote>
-<p>15.7.2 Number构造函数<br>当Number在new表达式中被调用时，它是一个构造函数：它会初始化新创建的对象。</p>
-</blockquote>
-<p>所以，包括内置对象函数（比如Number(..)，详情请查看第3章）在内的所有函数都可以用new来调<br>用，这种函数调用被称为构造函数调用。这里有一个重要但是非常细微的区别：实际上并不存在所<br>谓的“构造函数”，只有对于函数的“构造调用”。<br>使用new来调用函数，或者说发生构造函数调用时，会自动执行下面的操作。</p>
-<ol>
-<li>创建（或者说构造）一个全新的对象。</li>
-<li>这个新对象会被执行[[原型]]连接。</li>
-<li>这个新对象会绑定到函数调用的this。</li>
-<li>如果函数没有返回其他对象，那么new表达式中的函数调用会自动返回这个新对象。<br>思考下面的代码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function foo(a) &#123;</div><div class="line">    this.a = a;</div><div class="line">&#125;</div><div class="line">var bar = new foo(2);</div><div class="line">console.log( bar.a ); // 2</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>使用new来调用foo(..)时，我们会构造一个新对象并把它绑定到foo(..)调用中的this上。new是最<br>后一种可以影响函数调用时this绑定行为的方法，我们称之为new绑定。</p>
-<h3 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h3><ol>
-<li><p>函数是否在new中调用（new绑定）？如果是的话this绑定的是新创建的对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var bar = new foo()</div></pre></td></tr></table></figure>
-</li>
-<li><p>函数是否通过call、apply（显式绑定）或者硬绑定调用？如果是的话，this绑定的是指定的对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var bar = foo.call(obj2)</div></pre></td></tr></table></figure>
-</li>
-<li><p>函数是否在某个上下文对象中调用（隐式绑定）？如果是的话，this绑定的是那个上下文对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var bar = obj1.foo()</div></pre></td></tr></table></figure>
-</li>
-<li><p>如果都不是的话，使用默认绑定。如果在严格模式下，就绑定到undefined，否则绑定到全局对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var bar = foo()</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="绑定例外"><a href="#绑定例外" class="headerlink" title="绑定例外"></a>绑定例外</h3><p>####被忽略的this<br>如果你把null或者undefined作为this的绑定对象传入call、apply或者bind，这些值在调用时会被<br>忽略，实际应用的是默认绑定规则：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">console.log( this.a );</div><div class="line">&#125;</div><div class="line">var a = 2;</div><div class="line">foo.call( null ); // 2</div></pre></td></tr></table></figure></p>
-<p>那么什么情况下你会传入null呢？<br>一种非常常见的做法是使用apply(..)来“展开”一个数组，并当作参数传入一个函数。类似<br>地，bind(..)可以对参数进行柯里化（预先设置一些参数），这种方法有时非常有用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function foo(a,b) &#123;</div><div class="line">    console.log( &quot;a:&quot; + a + &quot;, b:&quot; + b );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>// 把数组“展开”成参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">foo.apply( null, [2, 3] ); // a:2, b:3</div><div class="line">// 使用 bind(..) 进行柯里化</div><div class="line">var bar = foo.bind( null, 2 );</div><div class="line">bar( 3 ); // a:2, b:3</div></pre></td></tr></table></figure></p>
-<p>这两种方法都需要传入一个参数当作this的绑定对象。如果函数并不关心this的话，你仍然需要<br>传入一个占位值，这时null可能是一个不错的选择，就像代码所示的那样。</p>
-<p>然而，总是使用null来忽略this绑定可能产生一些副作用。如果某个函数确实使用了this（比如第<br>三方库中的一个函数），那默认绑定规则会把this绑定到全局对象（在浏览器中这个对象<br>是window），这将导致不可预计的后果（比如修改全局对象）。<br>显而易见，这种方式可能会导致许多难以分析和追踪的bug。</p>
-<h5 id="更安全的this"><a href="#更安全的this" class="headerlink" title="更安全的this"></a>更安全的this</h5><p>一种“更安全”的做法是传入一个特殊的对象，把this绑定到这个对象不会对你的程序产生任何副<br>作用。就像网络（以及军队）一样，我们可以创建一个“DMZ”（demilitarized zone，非军事区）对象<br>——它就是一个空的非委托的对象（委托在第5章和第6章介绍）。<br>如果我们在忽略this绑定时总是传入一个DMZ对象，那就什么都不用担心了，因为任何对于this<br>的使用都会被限制在这个空对象中，不会对全局对象产生任何影响。</p>
-<p>JavaScript中创建一个空对象最简单的方法都是Object.create(null)Object.create(null)和{}很像，但是并不会创建Object.prototype这个委托，所以它<br>比{}”更空”：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function foo(a,b) &#123;</div><div class="line">    console.log( &quot;a:&quot; + a + &quot;, b:&quot; + b );</div><div class="line">&#125;</div><div class="line">// 我们的DMZ空对象</div><div class="line">var ø = Object.create( null );</div><div class="line">// 把数组展开成参数</div><div class="line">foo.apply( ø, [2, 3] ); // a:2, b:3</div><div class="line">// 使用bind(..)进行柯里化</div><div class="line">var bar = foo.bind( ø, 2 );</div><div class="line">bar( 3 ); // a:2, b:3</div></pre></td></tr></table></figure></p>
-<p>使用变量名ø不仅让函数变得更加“安全”，而且可以提高代码的可读性，因为ø表示“我希望this是<br>空”，这比null的含义更清楚。</p>
-<h4 id="间接引用"><a href="#间接引用" class="headerlink" title="间接引用"></a>间接引用</h4><p>另一个需要注意的是，你有可能（有意或者无意地）创建一个函数的“间接引用”，在这种情况下，调<br>用这个函数会应用默认绑定规则。<br>间接引用最容易在赋值时发生：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function foo() &#123;</div><div class="line">`console.log( this.a );</div><div class="line">&#125;</div><div class="line">var a = 2;</div><div class="line">var o = &#123; a: 3, foo: foo &#125;;</div><div class="line">var p = &#123; a: 4 &#125;;</div><div class="line">o.foo(); // 3</div><div class="line">(p.foo = o.foo)(); // 2</div></pre></td></tr></table></figure></p>
-<p>赋值表达式p.foo = o.foo的返回值是目标函数的引用，因此调用位置是foo()而不是p.foo()或<br>者o.foo()。根据我们之前说过的，这里会应用默认绑定。<br>注意：对于默认绑定来说，决定this绑定对象的并不是调用位置是否处于严格模式，而是函数体是<br>否处于严格模式。如果函数体处于严格模式，this会被绑定到undefined，否则this会被绑定到全局<br>对象。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/this/">this</a>
   </div>
 
 </div>
@@ -646,7 +721,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/DOM扩展/" title="DOM 扩展" itemprop="url">DOM 扩展</a>
+      <a href="/2017/04/15/函数表达式/" title="函数表达式" itemprop="url">函数表达式</a>
   </h1>
   <p class="article-author">By
        
@@ -659,180 +734,58 @@
 </header>
     <div class="article-content">
         
-        <h3 id="元素遍历"><a href="#元素遍历" class="headerlink" title="元素遍历"></a>元素遍历</h3><p>跨浏览器遍历某元素的所有子元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var i,</div><div class="line">    len,</div><div class="line">    child = element.firstChild;</div><div class="line">while(child != element.lastChild) &#123;</div><div class="line">    if (child.nodeType == 1) &#123;</div><div class="line">        processChild(child);</div><div class="line">    &#125;</div><div class="line">    child = child.nextSibling;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>而使用 Element Traversal(IE 9+) 新增的元素，代码会更简洁</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var i,</div><div class="line">    len,</div><div class="line">    child = element.firstElementChild;</div><div class="line">while(child != element.lastElementChild) &#123;</div><div class="line">    processChild(child);</div><div class="line">    child = child.nextElementSbling;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>删除类名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;bd user disabled&quot;&gt;&lt;/div&gt;</div><div class="line"></div><div class="line">//删除&quot;user&quot;类</div><div class="line"></div><div class="line">//首先，取得类名字符串并拆分成数组</div><div class="line">var classNames = div.className.split(/\s/);</div><div class="line"></div><div class="line">//找到要删除的类名</div><div class="line">var pos = -1,</div><div class="line">    i,</div><div class="line">    len;</div><div class="line">for (i=0, len=classNames.length; i &lt; len; i++) &#123;</div><div class="line">    if (classNames[i] == &quot;user&quot;) &#123;</div><div class="line">        pos = i;</div><div class="line">        break;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//删除类名</div><div class="line">classNames.splice(pos,1);</div><div class="line"></div><div class="line">//把剩下的类名拼成字符串并重新设置</div><div class="line">div.className = classNames.join(&quot; &quot;);</div></pre></td></tr></table></figure>
-<h3 id="HTML5"><a href="#HTML5" class="headerlink" title="HTML5"></a>HTML5</h3><p>跨浏览器兼容 innerText</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function setInnerText(element, text) &#123;</div><div class="line">    if (typeof element.textContent == &quot;string&quot;) &#123;</div><div class="line">        element.textContent = text;  //兼容 Firefox</div><div class="line">    &#125; else &#123;</div><div class="line">        element.innerText = text;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/underscore/" title="underscore" itemprop="url">underscore</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>被引用到的函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">// Shortcut function for checking if an object has a given property directly</div><div class="line">// on itself (in other words, not on a prototype).</div><div class="line">function has(obj, key) &#123;</div><div class="line">    return obj != null &amp;&amp; hasOwnProperty.call(obj, key);</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Is a given variable an object?</div><div class="line">function isObject(obj) &#123;</div><div class="line">    var type = typeof obj;</div><div class="line">    return type === &apos;function&apos; || type === &apos;object&apos; &amp;&amp; !!obj;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Retrieve the names of an object&apos;s own properties.</div><div class="line">function keys(obj) &#123;</div><div class="line">    if(!isObject(obj)) return [];</div><div class="line">    if(Object.keys) return Object.keys(obj);</div><div class="line">    var keys = [];</div><div class="line">    for (var key in obj) if(has(obj, key)) keys.push(key);</div><div class="line">    return keys;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Returns the first index on an array-like that passes a predicate test</div><div class="line">function findIndex(array, fn)&#123;</div><div class="line">    var length = array != null ? array.length : 0;</div><div class="line">    for (var i = 0; i &lt; length; i++) &#123;</div><div class="line">        if (fn(array[i], i, array)) return i;</div><div class="line">    &#125;</div><div class="line">    return -1;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// Returns the first key on an object that passes a predicate test</div><div class="line">function findKey(obj, fn)&#123;</div><div class="line">    var keys = keys(obj), key;</div><div class="line">    for (var i = 0, length = keys.length; i &lt; length; i++) &#123;</div><div class="line">        key = keys[i];</div><div class="line">        if (fn(obj[key], key, obj)) return key;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>整个函数在一个闭包中，避免污染全局变量。通过传入this（其实就是window对象）来改变函数的作用域。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(function()&#123; ... &#125;.call(this))</div></pre></td></tr></table></figure>
-<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var</div><div class="line">nativeIsArray      = Array.isArray,</div><div class="line">nativeKeys         = Object.keys,</div><div class="line">nativeBind         = FuncProto.bind,</div><div class="line">nativeCreate       = Object.create;</div></pre></td></tr></table></figure>
-<p>这种定义的方式省略了多余的var，格式也美观</p>
-<h3 id="数据判断"><a href="#数据判断" class="headerlink" title="数据判断"></a>数据判断</h3><p>判断是否为dom，dom的nodeType属性值为1。这里用!!强转为boolean值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function isElement(obj) &#123;</div><div class="line">    return !!(obj &amp;&amp; obj.nodeType === 1);</div><div class="line">  &#125;;</div></pre></td></tr></table></figure>
-<p> 判断是否为数组。所以为了兼容之前的版本，在原生判断函数不存在的情况下，后面重写了一个判断函数。用call函数来改变作用域可以避免当obj没有toString函数报错的情况。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">isArray = Array.isArray || function(obj) &#123;</div><div class="line">    return toString.call(obj) === &apos;[object Array]&apos;;</div><div class="line">  &#125;;</div></pre></td></tr></table></figure>
-<p>判断是否为对象。先用typeof判断数据类型。函数也属于对象，但是由于typeof null也是object，所以用!!obj来区分这种情况。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">isObject = function(obj) &#123;</div><div class="line">    var type = typeof obj;</div><div class="line">    return type === &apos;function&apos; || type === &apos;object&apos; &amp;&amp; !!obj;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>判断是否为arguments,很简单，arguments有个特有属性callee。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">isArguments = function(obj) &#123;</div><div class="line">  return has(obj, &apos;callee&apos;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>NaN这个值有两个特点：1.它是一个数；2.不等于它自己。<br>‘+’放在变量前面一般作用是把后面的变量变成一个数，在这里已经判断为一个数仍加上’+’，是为了把var num = new Number()这种没有值的数字也归为NaN。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">isNumber = function(obj) &#123;</div><div class="line">    return Object.prototype.toString.call(obj) === &apos;[object &apos; + isNumber + &apos;]&apos;;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">isNaN = function(obj) &#123;</div><div class="line">    return isNumber(obj) &amp;&amp; obj !== +obj;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>var b = new Boolean()。b也是布尔值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">isBoolean = function(obj) &#123;</div><div class="line">return obj === true || obj === false || Object.prototype.toString.call(obj) === &apos;[object Boolean]&apos;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>用void 0来表示undefined，非常有意思的小技巧。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">isUndefined = function(obj) &#123;</div><div class="line">    return obj === void 0;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>Return the first value which passes a truth test.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function find(obj, fn) &#123;</div><div class="line">    var key;</div><div class="line">    if (obj.length === +obj.length) &#123;</div><div class="line">        key = findIndex(obj, fn);</div><div class="line">    &#125; else &#123;</div><div class="line">        key = findKey(obj, fn);</div><div class="line">    &#125;</div><div class="line">    if (key !== void 0 &amp;&amp; key !== -1) return obj[key];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="noop"><a href="#noop" class="headerlink" title="noop"></a>noop</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">_.noop = function()&#123;&#125;;</div></pre></td></tr></table></figure>
-<p>noop仅仅是一个空函数。因为函数不写返回值，可以是返回undefined。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var a ;</div><div class="line">undefined = 2;</div><div class="line">if(a === undefined)&#123;</div><div class="line">        alert(&quot;2222&quot;);</div><div class="line">&#125;</div><div class="line">if(a===_.noop())&#123;</div><div class="line">        alert(&quot;2222&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>es3下，undefined是可以修改的，所以ie第一个alert是不执行的。这样通过函数执行可以拿到undefined的.</p>
-<h3 id="random"><a href="#random" class="headerlink" title="random"></a>random</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">_.random = function(min,max)&#123;</div><div class="line">    if(max == null)&#123;</div><div class="line">            max = min;</div><div class="line">            min = 0;</div><div class="line">    &#125;</div><div class="line">    return min + Math.floor(Math.random()*(max - min + 1));</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<h3 id="uniqueId"><a href="#uniqueId" class="headerlink" title="uniqueId"></a>uniqueId</h3><p>生成dom的id<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var idCounter = 0;</div><div class="line">_.uniqueId = function(prefix)&#123;</div><div class="line">        var id = ++idCounter + &apos;&apos;;//转为字符串格式</div><div class="line">        return prefix ？ prefix + id ：id；</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/underscore/">underscore</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/DOM/" title="DOM" itemprop="url">DOM</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h3><h4 id="Node-类型"><a href="#Node-类型" class="headerlink" title="Node 类型"></a>Node 类型</h4><p>确定节点类型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (someNode.nodeType == Node.ELEMENT_NODE) &#123;    //在IE中无效</div><div class="line">    alert(&quot;Node is an element&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>跨浏览器兼容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (someNode.nodeType == 1) &#123;    //适用于所有浏览器</div><div class="line">    alert(&quot;Node is an element&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以将 NodeList 对象转为数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//在 IE8 及之前版本中无效</div><div class="line">var arrayOfNodes = Array.prototype.slice.call(someNode.childNodes,0);</div></pre></td></tr></table></figure>
-<p>跨浏览器兼容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function convertToArray(nodes) &#123;</div><div class="line">    var array = null;</div><div class="line">    try &#123;</div><div class="line">        array = Array.prototype.slice.call(someNode.childNodes,0);  //针对非 IE 浏览器</div><div class="line">    &#125; catch (ex) &#123;</div><div class="line">        array = new Array();</div><div class="line">        for (var i=0, len = nodes.length; i &lt; len; i++) &#123;</div><div class="line">            array.push(nodes[i]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return array;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="Element-类型"><a href="#Element-类型" class="headerlink" title="Element 类型"></a>Element 类型</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if (elemeent.tagName == &quot;div&quot;) &#123;  //不能这样比较，很容易出错！</div><div class="line">    //在此执行某些操作</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (elemeent.tagName.toLowerCase() == &quot;div&quot;) &#123;  //这样最好(适用于任何文档)</div><div class="line">    //在此执行某些操作</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="取得特性"><a href="#取得特性" class="headerlink" title="取得特性"></a>取得特性</h5><p>在通过 JavaScript 以编程方式操作 DOM 时，开发人员经常不使用 getAttribute(),而是只使用对象的属性。只用在取得自定义特性值的情况下，才会使用 getAttribute() 方法。</p>
-<h4 id="DocumentFragment-类型"><a href="#DocumentFragment-类型" class="headerlink" title="DocumentFragment 类型"></a>DocumentFragment 类型</h4><p>假设想为这个 &lt;\ul id=”myList”&gt;&lt;\/ul&gt; 元素添加3个列表项。如果逐个添加列表项，将会导致浏览器反复渲染新信息。为了避免这个问题，可以像下面这样使用一个文档片段来保存创建的列表项，然后再一次性将他们添加到文档中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var fragment = document.createDocumentFragment();</div><div class="line">var ul = document.gtElementById(&quot;myList&quot;);</div><div class="line">var li = null;</div><div class="line"></div><div class="line">for (var i=0; i &lt; 3; i++) &#123;</div><div class="line">    li = document.createElement(&quot;li&quot;);</div><div class="line">    li.appendChid(document.createTextNode(&quot;Item &quot; + (i+1)));</div><div class="line">    fragment.appendChild(li);</div><div class="line">&#125;</div><div class="line"></div><div class="line">ul.appendChild(fragment);</div></pre></td></tr></table></figure>
-<h3 id="DOM-操作技术"><a href="#DOM-操作技术" class="headerlink" title="DOM 操作技术"></a>DOM 操作技术</h3><h4 id="动态脚本"><a href="#动态脚本" class="headerlink" title="动态脚本"></a>动态脚本</h4><p>兼容 IE 和早期版本 Safari</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function loadScriptString(code) &#123;</div><div class="line">    var script = document.createElement(&quot;script&quot;);</div><div class="line">    script.type = &quot;text/javascript&quot;;</div><div class="line">    try &#123;</div><div class="line">        script.appendChild(document.createTextNode(code));</div><div class="line">    &#125; catch (ex) &#123;</div><div class="line">        script.text = code;</div><div class="line">    &#125;</div><div class="line">    document.body.appdendChild(script);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>实际上，这样执行代码与在全局全局作用域中巴相同的字符串传递给eval()是一样的。</p>
-<h4 id="动态样式"><a href="#动态样式" class="headerlink" title="动态样式"></a>动态样式</h4><p>通用的解决方案</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function loadStyleString(css) &#123;</div><div class="line">    var style = document.createElement(&quot;style&quot;);</div><div class="line">    style.type = &quot;text/css&quot;;</div><div class="line">    try &#123;</div><div class="line">        style.appendChild(document.createTextNode(css));</div><div class="line">    &#125; catch(ex) &#123;</div><div class="line">        style.styleSheet.cssText = css;    //兼容IE</div><div class="line">    &#125;</div><div class="line">    var head = document.getElementsByTagName(&quot;head&quot;)[0];</div><div class="line">    head.appendChild(style);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>调用这个函数的实例如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">loadStyleString(&quot;body&#123;background-color:red&#125;&quot;);</div></pre></td></tr></table></figure>
+        <h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><p>arguments.callee 是一个指向正在执行的函数的指针，因此可以用它来实现对函数的递归调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function factorial(num)&#123;</div><div class="line">    if(num &lt;= 1)&#123;</div><div class="line">        return 1;</div><div class="line">    &#125;else&#123;</div><div class="line">        return num * arguments.callee(num-1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过使用 argument.callee 代替函数名，可以确保无论怎样调用函数都不会出问题。因此，在编写递归函数时，使用 arguments.callee 总比使用函数名更保险。<br>但在严格模式下，不能通过脚本访问 arguments.callee, 访问这个属性会导致错误。不过，可以使用函数表达式来达成相同的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var factorial = (function f(num)) &#123;</div><div class="line">    if (num &lt;= 1) &#123;</div><div class="line">        return 1;</div><div class="line">    &#125; else&#123;</div><div class="line">        return num * f(num-1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>即便把函数赋值给了另一个变量，函数的名字 f 仍然有效，所以递归调用照样能正确完成。这种方式在严格模式和非严格模式下都行得通。</p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>闭包是指有权访问另一个函数作用域中的变量的函数。创建闭包的常见方式，就是在一个函数内部创建另一个函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function createComparisonFunction(propertyName) &#123;</div><div class="line">    return function(object1, object2) &#123;</div><div class="line">        var value1 = object1[propertyName];</div><div class="line">        var value2 = object2[propertyName];</div><div class="line"></div><div class="line">        if (value1 &lt; value2) &#123;</div><div class="line">            return -1;</div><div class="line">        &#125; else if (value1 &gt; value2) &#123;</div><div class="line">            return 1;</div><div class="line">        &#125; else &#123;</div><div class="line">            return 0;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>内部函数的代码访问了外部函数中的变量 propertyName。 即使这个内部函数被返回了，而且是在其它地方被调用了，但它仍然可以访问变量propertyName。之所以还能访问这个变量，是因为内部函数的作用域中包含 createComparisonFunction() 的作用域。要彻底搞清楚其中的细节，必须从理解函数被调用的时候都会发生什么入手。<br>当某个函数被调用时，会创建一个执行环境及相应的作用域链。然后，使用 arguments 和其他命名参数的值来初始化函数的活动对象。但在作用域链中，外部函数的活动对象始终位于第二位，外部函数的外部函数的活动对象始终位于第三位，……直至作为作用域终点的全局执行环境。<br>在函数执行过程中，为读取和写入变量的值，就需要在作用域中查找变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function compare(value1, value2) &#123;</div><div class="line">    if (value1 &lt; value2) &#123;</div><div class="line">        return -1;</div><div class="line">    &#125; else if (value1 &gt; value2) &#123;</div><div class="line">        return 1;</div><div class="line">    &#125; else &#123;</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var result = compare(5, 10);</div></pre></td></tr></table></figure>
+<p>以上代码先定义了 compare() 函数， 然后又在全局作用域中调用了它。当调用 compare() 时，会创建一个包含 arguments、value1、value2 的活动对象。全局执行环境(包含 result 和 compare) 在 compare() 执行环境的作用域链中则处于第二位。</p>
+<p>后台的每个执行环境都有一个表示变量的对象---变量对象。全局环境的变量对象始终存在，而像 compare() 函数这样的局部环境的变量对象，则只在函数的执行的过程中存在。<br>无论什么时候再函数中访问一个变量时，就会从作用域链中搜索具有响应名字的变量。一般来讲，当函数执行完毕后，局部活动对象就会被销毁，内存中仅保存全局作用域(全局执行环境的变量对象)。但是，闭包的情况又有所不同。<br>在另一个<br>在另一个函数内部定义的函数会将包含函数(即外部函数)的活动对象添加到它的作用域链中。因此，在 createComparisonFunction() 函数内部定义的匿名函数的作用域链中，实际上将会包含外部函数 createComparisonFunction() 的活动对象。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var compare = createComparisonFunction(<span class="string">"name"</span>);</div><div class="line">var result = compare(&#123;name: <span class="string">"Nicholas"</span>&#125;, &#123;name: <span class="string">"Greg"</span>&#125;);</div></pre></td></tr></table></figure>
+<p>在匿名函数从 createComparisonFunction() 中被返回后，它的作用域链被初始化为包含 createComparisonFunction() 函数的活动对象和全局变量对象。这样，匿名函数就可以访问在 createComparisonFunction() 中定义的所有变量。更为重要的是，createComparisonFunction() 函数在执行完毕后，其活动对象也不会被销毁，因为匿名函数的作用域链仍然在引用这个活动对象。换句话说，当 createComparisonFunction() 函数返回后，其执行环境的作用域链会被销毁，但它的活动对象仍然会留在内存中；直到匿名函数被销毁返回后，createComparisonFunction() 的活动对象才会被销毁。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//创建函数</div><div class="line">var compareNames = createComparisonFunction(&quot;name&quot;);</div><div class="line"></div><div class="line">//调用函数</div><div class="line">var result = compareNames(&#123; name: &quot;Nicholas&quot;&#125;, &#123; name, &quot;Greg&quot;&#125;);</div><div class="line"></div><div class="line">//解除对匿名函数的引用(以便释放内存)</div><div class="line">compareNames = null;</div></pre></td></tr></table></figure>
+<p>首先，创建的比较函数被保存在变量 compareNames 中。而通过将 compareNames 设置为等于null解除该函数的引用，就等于通知垃圾回收例程将其清除。随着匿名函数的作用域链被销毁，其它作用域(除了全局作用域)也都可以安全地销毁了。</p>
+<h4 id="闭包与变量"><a href="#闭包与变量" class="headerlink" title="闭包与变量"></a>闭包与变量</h4><p>作用域链的这种配置机制引出了一个值得注意的副作用，即闭包只能取得包含函数中任何变量的最后一个值。因为闭包所保存的是整个变量对象，而不是某个特殊的变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function createFunctions()&#123;</div><div class="line">    var result = new Array();</div><div class="line">    for (var i=0; i &lt; 10; i++) &#123;</div><div class="line">        result[i] = function()&#123;</div><div class="line">            return i;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line">    return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>此时每个函数都引用着保存变量 i 的同一个变量对象，所以在每个函数内部 i 的值都是10.但是，可以通过创建另一个匿名函数强制让闭包的行为符合预期。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>()&#123;</div><div class="line">    var result = new Array();</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(var i=0; i &lt; 10; i++) &#123;</div><div class="line">        result[i] = <span class="keyword">function</span>(num)&#123;</div><div class="line">            <span class="built_in">return</span> <span class="function"><span class="title">function</span></span>() &#123;</div><div class="line">                <span class="built_in">return</span> num;</div><div class="line">            &#125;;</div><div class="line">        &#125;(i);</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="关于this"><a href="#关于this" class="headerlink" title="关于this"></a>关于this</h4><p>this 对象是在运行时基于函数的执行环境绑定的：在全局函数中，this 等于 window，而当函数被作为某个对象的方法调用时，this 等于那个对象。不过，匿名函数的执行环境具有全局性，因此其 this 对象通常指向window。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var name = <span class="string">"The Window"</span>;</div><div class="line"></div><div class="line">var object = &#123;</div><div class="line">    name : <span class="string">"My Object"</span>,</div><div class="line"></div><div class="line">    getNameFunc : <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">            <span class="built_in">return</span> this.name;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">alert(object.getNameFunc()());        //<span class="string">"The Window"</span> (在非严格模式下)</div></pre></td></tr></table></figure>
+<p>每个函数在被调用时都会自动取得这两个特殊变量：this 和 arguments。内部函数在搜索这两个变量时，只会搜索到其活动对象为止，因此永远不可能直接访问外部函数中的这两个变量。</p>
 <blockquote>
-<p>如果专门针对 IE 编写代码，务必小心使用 styleSheet.cssText 属性。在重用同一个&lt;\style&gt;元素并再次设置这个属性时，有可能导致浏览器崩溃。同样，将 cssText 属性设置为空字符串也可能导致浏览器崩溃。</p>
+<p>this 和 arguments 也存在同样的问题。如果想访问作用域中的 arguments 对象，必须将该对象的引用保存到另一个闭包能够访问的变量中。</p>
 </blockquote>
+<h4 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h4><p>如果闭包的作用域链中保存着一个HTML元素，那么久意味着该元素无法被销毁。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">assignHandler</span></span>()&#123;</div><div class="line">    var element = document.getElementById(<span class="string">"someElement"</span>);</div><div class="line">    element.onclick = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        alert(element.id);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个闭包创建了一个循环引用。由于匿名函数保存了一个对 assignHandler() 的活动对象的引用，因此就会导致无法减少 element 的引用数。只要匿名函数存在，element 的引用数至少也是 1，因此它所占用的内存就永远不会被回收。不过，这个问题可以通过稍微改一下代码来解决。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">assignHandler</span></span>()&#123;</div><div class="line">    var element = document.getElementById(<span class="string">"someElement"</span>);</div><div class="line">    var id = element.id;</div><div class="line"></div><div class="line">    element.onclick = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        alert(id);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    element = null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过把 element.id 的一个副本保存在一个变量中，并且在闭包中引用该变量消除循环引用。但仅仅做到这一步，还是不能解决内存泄漏的问题。因为闭包会引用闭包包含函数的整个活动对象，而其中包含着 element。即使闭包不直接引用 element，包含函数的活动对象中也仍然会保存引用。因此，有必要把 element 变量设为 null。这样就能够解除对 DOM 对象的引用，顺利地减少其引用数，确保正常回收其占用的内存。</p>
+<h3 id="模仿块级作用域"><a href="#模仿块级作用域" class="headerlink" title="模仿块级作用域"></a>模仿块级作用域</h3><p>无论在什么地方，只要临时需要一些变量，就可以使用私有作用域。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function outputNumbers(count) &#123;</div><div class="line">    (function () &#123;</div><div class="line">        for (var i=0; i &lt; count; i++) &#123;</div><div class="line">            alert(i);</div><div class="line">        &#125;</div><div class="line">        &#125;)();</div><div class="line">        alert(i);    //导致一个错误！</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="私有变量"><a href="#私有变量" class="headerlink" title="私有变量"></a>私有变量</h3><p>有权访问私有变量和私有函数的公有方法称为<em>特权方法</em>。有两种在对象上创建特权方法的方式。第一种是在构造函数中定义特权方法，基本模式如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> <span class="function"><span class="title">MyObject</span></span>() &#123;</div><div class="line">    //私有变量和私有函数</div><div class="line">    var privateVariable = 10;</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">privateFunction</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //特权方法</div><div class="line">    this.publicMethod = <span class="function"><span class="title">function</span></span> ()&#123;</div><div class="line">        privateVariable++;</div><div class="line">        <span class="built_in">return</span> privateFunction();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>利用私有和特权成员，可以隐藏那些不应该直接被修改的数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> Person(name) &#123;</div><div class="line"></div><div class="line">    this.getName = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    this.setName = <span class="keyword">function</span>(value)&#123;</div><div class="line">        name = value;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = new Person(<span class="string">"Nicholas"</span>);</div><div class="line">alert(person.getName());        //<span class="string">"Nicholas"</span></div><div class="line">person.setName(<span class="string">"Greg"</span>);</div><div class="line">alert(person.getName());        //<span class="string">"Greg"</span></div></pre></td></tr></table></figure>
+<p>在函数中定义特权方法也有缺点，那就是必须使用构造函数模式来达到这个目的。构造函数的缺点是针对每个实例都会创建同样一组新方法，而使用静态私有变量来实现特权方法就可以避免这个问题。</p>
+<h4 id="静态私有变量"><a href="#静态私有变量" class="headerlink" title="静态私有变量"></a>静态私有变量</h4><p>通过在私有作用域中定义私有变量或函数，同样也可以创建特权方法。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="title">function</span></span>()&#123;</div><div class="line"></div><div class="line">    //私有变量和私有函数</div><div class="line">    var privateVariable = 10;</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">privateFunction</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //构造函数</div><div class="line">    MyObject = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    //公有/特权方法</div><div class="line">    MyObject.prototype.publicMethod = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        privateVariable++;</div><div class="line">        <span class="built_in">return</span> privateFunction();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    &#125;)();</div></pre></td></tr></table></figure>
+<p>这个模式在定义构造函数时并没有使用函数声明，而是使用了函数表达式。函数声明只能创建局部函数，但那并不是我们想要的。出于同样的原因，我们也没有在声明Object时使用 var 关键字。初始化未经声明的变量，总是会创建一个全局变量。因此，MyObject 就成了一个全局变量，能够在私有作用域外被访问到。但在严格模式下给未经生命的变量赋值会导致错误。<br>这个模式与在构造函数中定义特权方法的主要区别，就在于私有变量和函数是由实例共享的。由于特权方法是在原型上定义的，因此所有实例都使用同一个函数。而这个特权方法，作为一个闭包，总是保存着对包含作用域的引用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">    var name = <span class="string">""</span>;</div><div class="line"></div><div class="line">    Person = <span class="keyword">function</span>(value)&#123;</div><div class="line">        name = value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Person.prototype.getName = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Person.prototype.setName = <span class="keyword">function</span>(value)&#123;</div><div class="line">        name = value;</div><div class="line">    &#125;</div><div class="line">    &#125;)();</div><div class="line"></div><div class="line">    var person1 = new Person(<span class="string">"Nicholas"</span>);</div><div class="line">    alert(person1.getName());    //<span class="string">"Nicholas"</span></div><div class="line">    person1.setName(<span class="string">"Greg"</span>);</div><div class="line">    alert(person1.getName());    //<span class="string">"Greg"</span></div><div class="line"></div><div class="line">    var person2 = new Person(<span class="string">"Michael"</span>);</div><div class="line">    alert(person1.getName());    //<span class="string">"Michael"</span></div><div class="line">    alert(person2.getName());    //<span class="string">"Michael"</span></div></pre></td></tr></table></figure>
+<p>在这种模式下，变量name就变成了一个静态的、由所有实例共享的属性。也就是说，在一个实例上调用 setName() 会影响所有实例。而调用 seName() 或新建一个 Person 实例都会赋予 name 属性一个新值。<br>以这种方式创建静态私有变量会因为使用原型而增进代码复用，但每个实例都没有自己的私有变量。到底是使用实例变量，还是静态私有变量，最终还是要视具体需求而定。</p>
+<blockquote>
+<p>多查找作用域链中的一个层次，就会在一定程度上影响查找速度。而这正是使用闭包和私有变量的一个明显的不足之处。</p>
+</blockquote>
+<h4 id="模块模式"><a href="#模块模式" class="headerlink" title="模块模式"></a>模块模式</h4><p>前面的模式是用于为自定义类型创建私有变量和特权方法的。而模块模式则是为单例创建私有变量和特权方法。所谓单例，值得就是只有一个实例的对象。按照惯例，Javascript是以对象字面量的方式来创建单例对象的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var singleton = &#123;</div><div class="line">    name : value,</div><div class="line">    method : <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">        //这里是方法的代码</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>模块模式通过为单例添加私有变量和特权方法能够使其得到增强，其语法形式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">var singleton = <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line"></div><div class="line">    //私有变量和私有函数</div><div class="line">    var privateVariable = 10;</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <span class="function"><span class="title">privateFunction</span></span>()&#123;</div><div class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //特权/公有方法和属性</div><div class="line">    <span class="built_in">return</span> &#123;</div><div class="line">        publicProperty: <span class="literal">true</span>,</div><div class="line"></div><div class="line">        publicMethod : <span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">            privateVariable++;</div><div class="line">            <span class="built_in">return</span> privateFunction();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;()</div></pre></td></tr></table></figure>
+<p>从本质上来讲，这个对象字面量定义的是单例的公共接口。这种模式在需要对单例进行某些初始化，同时又需要维护其私有变量时是非常有用的，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">var application = function()&#123;</div><div class="line"></div><div class="line">    //私有变量和函数</div><div class="line">    var components = new Array();</div><div class="line"></div><div class="line">    //初始化</div><div class="line">    components.push(new BaseComponent());</div><div class="line"></div><div class="line">    //公共</div><div class="line">    return &#123;</div><div class="line">        getComponentCount : function()&#123;</div><div class="line">            return components.length;</div><div class="line">            &#125;,</div><div class="line"></div><div class="line">        registerComponent : function(component)&#123;</div><div class="line">            if (typeof component == &quot;object&quot;) &#123;</div><div class="line">                components.push(component);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;()</div></pre></td></tr></table></figure>
+<p>如果必须创建一个对象并以某些数据对其初始化，同时还要公开一些能够访问这些私有数据的方法，那么就可以使用模块模式。以这种模式创建的每个单例都是 Object 的实例，因为最终要通过一个对象字面量来表示它。</p>
 
         
         
@@ -851,7 +804,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/函数表达式/">函数表达式</a>
   </div>
 
 </div>
@@ -1013,6 +966,10 @@
 			
 		
 			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
@@ -1029,10 +986,6 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
@@ -1041,7 +994,7 @@
 			
 		
 			
-				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
 			
 		
 			
@@ -1053,7 +1006,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
@@ -1061,15 +1014,15 @@
 			
 		
 			
+				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>

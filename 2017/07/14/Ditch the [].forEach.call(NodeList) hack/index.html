@@ -18,7 +18,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/07/14/Ditch the [].forEach.call(NodeList) hack/index.html">
 <meta property="og:site_name" content="fire on the world!">
 <meta property="og:description" content="翻译自Ditch the [].forEach.call(NodeList) hack 在我们进一步之前，我不得不承认，我曾经使用过这种技术。 这让它看起来很酷，很酷，我像是在做ECMA5 hack，但过了一段时间，我写出了更好的JavaScript，才发现这种技术只会引起头痛且是不必要的时髦代码，接下来我将把我的想法放在为什么我现在不主张这种技术。 理解 [].forEach.call(Node">
-<meta property="og:updated_time" content="2017-07-14T16:35:58.422Z">
+<meta property="og:updated_time" content="2017-07-14T16:38:00.596Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ditch the [].forEach.call(NodeList) hack">
 <meta name="twitter:description" content="翻译自Ditch the [].forEach.call(NodeList) hack 在我们进一步之前，我不得不承认，我曾经使用过这种技术。 这让它看起来很酷，很酷，我像是在做ECMA5 hack，但过了一段时间，我写出了更好的JavaScript，才发现这种技术只会引起头痛且是不必要的时髦代码，接下来我将把我的想法放在为什么我现在不主张这种技术。 理解 [].forEach.call(Node">
@@ -97,7 +97,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Problems"><span class="toc-number">1.</span> <span class="toc-text">Problems</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-1-没有数组方法"><span class="toc-number">1.1.</span> <span class="toc-text">Problem #1: 没有数组方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-2-限制复用"><span class="toc-number">1.2.</span> <span class="toc-text">Problem #2: 限制复用</span></a></li></ol></li></ol>
+			
 		
 		</div>
 		
@@ -115,9 +115,12 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myNodeList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'li'</span>); <span class="comment">// grabs some &lt;li&gt;</span></div><div class="line">[].forEach.call(myNodeList, <span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</div><div class="line">  <span class="comment">// :) hooray `item` can be used here</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>通过创建（空）数组并通过NodeList间接调用数组的原型的forEach方法，现在一切都奏效了。</p>
 <p>现在来看看这个技术的一些问题</p>
-<h1 id="Problems"><a href="#Problems" class="headerlink" title="Problems"></a>Problems</h1><h2 id="Problem-1-没有数组方法"><a href="#Problem-1-没有数组方法" class="headerlink" title="Problem #1: 没有数组方法"></a>Problem #1: 没有数组方法</h2><p>这是一个大问题。 NodeLists是有一个length属性的，如果要添加一个新元素或者从该列表中删除一个元素，你不能通过使用forEach的hack来保持任何状态，并且也无法访问列表本身，这意味着它是一条单向的方法，也就是说在静态元素的情况下你只能操纵一次，你不能继续添加/删除其他元素。</p>
+<p><strong>Problems</strong></p>
+<p><strong>Problem #1: 没有数组方法</strong></p>
+<p>这是一个大问题。 NodeLists是有一个length属性的，如果要添加一个新元素或者从该列表中删除一个元素，你不能通过使用forEach的hack来保持任何状态，并且也无法访问列表本身，这意味着它是一条单向的方法，也就是说在静态元素的情况下你只能操纵一次，你不能继续添加/删除其他元素。</p>
 <p>因为使用诸如.splice（）之类的方法将导致错误 - 原因是NodeLists在它们的Prototype中不包含这个方法。节点列表不能被改变，这通常是非常不切实际的。这也意味着你除了可以绑定事件处理程序或调用方法外，不能做任何其它令人兴奋的操作。</p>
-<h2 id="Problem-2-限制复用"><a href="#Problem-2-限制复用" class="headerlink" title="Problem #2: 限制复用"></a>Problem #2: 限制复用</h2><p>当我们缓存一个dom时，我们缓存的不是一个数组，这意味着我们无法重复使用该方法。我认为这是一个严重的可扩展性和可重用性的问题。如果我想再次调用该方法怎么办？那我必须编写相同的非描述性代码两次。</p>
+<p><strong>Problem #2: 限制复用</strong></p>
+<p>当我们缓存一个dom时，我们缓存的不是一个数组，这意味着我们无法重复使用该方法。我认为这是一个严重的可扩展性和可重用性的问题。如果我想再次调用该方法怎么办？那我必须编写相同的非描述性代码两次。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// cached, we can access this again</span></div><div class="line"><span class="keyword">var</span> myNodeList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'li'</span>);</div><div class="line"></div><div class="line"><span class="comment">// this will only get called once</span></div><div class="line"><span class="comment">// and cannot be called again</span></div><div class="line">[].forEach.call(myNodeList, <span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</div><div class="line">  <span class="comment">// :(</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
   
 	</div>
@@ -168,7 +171,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Problems"><span class="toc-number">1.</span> <span class="toc-text">Problems</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-1-没有数组方法"><span class="toc-number">1.1.</span> <span class="toc-text">Problem #1: 没有数组方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Problem-2-限制复用"><span class="toc-number">1.2.</span> <span class="toc-text">Problem #2: 限制复用</span></a></li></ol></li></ol>
+ 
  
   </div>
 
@@ -241,6 +244,10 @@
 			
 		
 			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
 			
 		
@@ -257,10 +264,6 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
@@ -269,7 +272,7 @@
 			
 		
 			
-				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
 			
 		
 			
@@ -281,7 +284,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
@@ -289,15 +292,15 @@
 			
 		
 			
+				<li><a href="/tags/响应式/" title="响应式">响应式<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/媒体查询/" title="媒体查询">媒体查询<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>
