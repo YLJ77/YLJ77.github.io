@@ -11,17 +11,17 @@
     
 
     
-    <meta name="description" content="翻译自Replacing switch statements with Object literals 在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操作它们。对象是非常灵活的，它们几乎是JavaScript中的一切，而使用对象而不是使用switch语句是我最近一直在做的。 switch语句的问题 swi">
+    <meta name="description" content="翻译自Replacing switch statements with Object literals 在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操作它们。对象是非常灵活的，它们几乎是JavaScript中的一切，使用对象而不是使用switch语句是我最近一直在做的。 switch语句的问题 swit">
 <meta name="keywords">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Replacing switch statements with Object literals">
 <meta property="og:url" content="http://yoursite.com/2017/07/12/Replacing switch statements with Object literals/index.html">
 <meta property="og:site_name" content="fire on the world!">
-<meta property="og:description" content="翻译自Replacing switch statements with Object literals 在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操作它们。对象是非常灵活的，它们几乎是JavaScript中的一切，而使用对象而不是使用switch语句是我最近一直在做的。 switch语句的问题 swi">
-<meta property="og:updated_time" content="2017-07-14T16:44:46.460Z">
+<meta property="og:description" content="翻译自Replacing switch statements with Object literals 在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操作它们。对象是非常灵活的，它们几乎是JavaScript中的一切，使用对象而不是使用switch语句是我最近一直在做的。 switch语句的问题 swit">
+<meta property="og:updated_time" content="2017-07-14T16:46:44.172Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Replacing switch statements with Object literals">
-<meta name="twitter:description" content="翻译自Replacing switch statements with Object literals 在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操作它们。对象是非常灵活的，它们几乎是JavaScript中的一切，而使用对象而不是使用switch语句是我最近一直在做的。 switch语句的问题 swi">
+<meta name="twitter:description" content="翻译自Replacing switch statements with Object literals 在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操作它们。对象是非常灵活的，它们几乎是JavaScript中的一切，使用对象而不是使用switch语句是我最近一直在做的。 switch语句的问题 swit">
 
     
     <link rel="alternative" href="/atom.xml" title="fire on the world!" type="application/atom+xml">
@@ -102,7 +102,7 @@
 		</div>
 		
 		<p>翻译自<a href="https://toddmotto.com/deprecating-the-switch-statement-for-object-literals/" target="_blank" rel="external">Replacing switch statements with Object literals</a></p>
-<p>在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操作它们。对象是非常灵活的，它们几乎是JavaScript中的一切，而使用对象而不是使用switch语句是我最近一直在做的。</p>
+<p>在许多编程语言中，都有switch语句 - 但是它还应该存在吗？如果你是一个JavaScript程序员，那么你经常会跳出对象，创建，实例化和操作它们。对象是非常灵活的，它们几乎是JavaScript中的一切，使用对象而不是使用switch语句是我最近一直在做的。</p>
 <p><strong>switch语句的问题</strong></p>
 <p>switch语句有多个问题，从其过程控制流到其处理代码块的方式是非标准的，而JavaScript的其它流程控制语句使用的时花括号。它既不是语法上最好的，也不是设计上最好的。我们不得不在每个case语句后面添加break语句，这可能导致难以调试和产生嵌套的错误。因此，进一步讲，我们应该避免使用case语句。道格拉斯·克罗克福德（Douglas Crockford）曾经多次写过和说过，谨慎对待switch语句。</p>
 <p>我们经常在javascript中使用对象查找数据，但我们通常不会考虑使用switch。所以为什么不使用对象字面量来替换switch呢？对象更加灵活，具有更好的可读性和可维护性，且我们不需要手动添加break和case语句;它们对于新的JavaScript开发人员来说也是很友好的，因为它们是标准的数据对象。</p>
@@ -257,27 +257,15 @@
 			
 		
 			
-				<li><a href="/tags/Introduction-to-Algorithms/" title="Introduction to Algorithms">Introduction to Algorithms<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/Introduction-to-Algorithms/" title="Introduction to Algorithms">Introduction to Algorithms<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
 			
 		
 			
@@ -289,15 +277,27 @@
 			
 		
 			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/干货/" title="干货">干货<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
 			
 		
 			
@@ -305,11 +305,11 @@
 			
 		
 			
-				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 			
@@ -321,7 +321,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 		</ul>
