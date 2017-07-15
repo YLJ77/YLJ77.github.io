@@ -111,13 +111,14 @@
 <p><strong>Problems</strong></p>
 <p><strong>Problem #1: 没有数组方法</strong></p>
 <p>这是一个大问题。 NodeLists是有一个length属性的，如果要添加一个新元素或者从该列表中删除一个元素，你不能通过使用forEach的hack来保持任何状态，并且也无法访问列表本身，这意味着它是一条单向的方法，也就是说在静态元素的情况下你只能操纵一次，你不能继续添加/删除其他元素。</p>
-<p>因为使用诸如.splice（）之类的方法将导致错误 - 原因是NodeLists在它们的Prototype中不包含这个方法。节点列表不能被改变，这通常是非常不切实际的。这也意味着你除了可以绑定事件处理程序或调用方法外，不能做任何其它令人兴奋的操作。</p>
+<p>使用诸如.splice（）之类的方法将导致错误 - 原因是NodeLists在它们的Prototype中不包含这个方法。节点列表不能被改变，这通常是非常不切实际的。这也意味着你除了可以绑定事件处理程序或调用方法外，不能做任何其它令人兴奋的操作。</p>
 <p><strong>Problem #2: 限制复用</strong></p>
 <p>当我们缓存一个dom时，我们缓存的不是一个数组，这意味着我们无法重复使用该方法。我认为这是一个严重的可扩展性和可重用性的问题。如果我想再次调用该方法怎么办？那我必须编写相同的非描述性代码两次。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// cached, we can access this again</span></div><div class="line"><span class="keyword">var</span> myNodeList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'li'</span>);</div><div class="line"></div><div class="line"><span class="comment">// this will only get called once</span></div><div class="line"><span class="comment">// and cannot be called again</span></div><div class="line">[].forEach.call(myNodeList, <span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</div><div class="line">  <span class="comment">// :(</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p><strong>Problem #3: 分离问题</strong></p>
-<p>节点列表和数组是两个不同的数据类型，那么为什么我们编写这些重叠而不会为我们带来任何好处的代码呢？如果您需要一个NodeList中的数组，那么可以执行下面这种操作。这是非跨浏览器版本的选择：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myArrayFromNodeList = [].slice.call(<span class="built_in">document</span>.querySelectorAll(<span class="string">'li'</span>));</div><div class="line"></div><div class="line">但是这又是一个<span class="built_in">Array</span>.prototype hack，我也不鼓励使用这种方式。它并不能兼容所有的浏览器，因为IE不允许NodeLists形成<span class="built_in">Array</span>.prototype.slice调用的宿主对象。不过，可以使用下面这种方法将所有节点推送到新数组中：</div></pre></td></tr></table></figure>
+<p>节点列表和数组是两个不同的数据类型，那么为什么我们编写这些重叠而不会为我们带来任何好处的代码呢？如果您需要一个NodeList中的数组，那么可以执行下面这种操作。这是非跨浏览器版本的方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myArrayFromNodeList = [].slice.call(<span class="built_in">document</span>.querySelectorAll(<span class="string">'li'</span>));</div></pre></td></tr></table></figure>
+<p>但是这又是一个Array.prototype hack，我也不鼓励使用这种方式。它并不能兼容所有的浏览器，因为IE不允许NodeLists形成Array.prototype.slice调用的宿主对象。不过，可以使用下面这种方法将所有节点推送到新数组中：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myNodeList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'li'</span>);</div><div class="line"><span class="keyword">var</span> myArrayFromNodeList = []; <span class="comment">// empty at first</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; myNodeList.length; i++) &#123;</div><div class="line">  myArrayFromNodeList.push(myNodeList[i]); <span class="comment">// ahhh, push it</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>我们将使用我们的节点填充为数组！ B-E-A-uuutiful。这给我们带来了什么好处？我们完全分离了两种对象类型，并且可以在需要时引用它们：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(myNodeList); <span class="comment">// NodeList</span></div><div class="line"><span class="built_in">console</span>.log(myArrayFromNodeList); <span class="comment">// Array of Nodes</span></div></pre></td></tr></table></figure>
@@ -141,7 +142,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myNodeList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'li'</span>);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; myNodeList.length; i++) &#123;</div><div class="line">  <span class="comment">// do something with myNodeList[i]</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>先不说这样更快，这也让我有更多的方式去控制数组元素，例如，我可以反向循环（通常比正向循环更快！）：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myNodeList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'li'</span>);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = myNodeList.length; i--;) &#123; <span class="comment">// reverse</span></div><div class="line">  <span class="comment">// do something with myNodeList[i]</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>当然你也可以为每个浏览器创建自己的兼容性代码，这样就可以在每个浏览器中使用forEach，也让你可以少敲一些代码</p>
+<p>当然你也可以写一个函数去封装这些代码，这样你就可以在所有的浏览器中调用这个方法，因此你也可以少敲一些代码</p>
 <p><strong>Problem #11: 开发人员的误解</strong></p>
 <p>我看到过开发人员用这种方法来遍历数组，这样做是很愚蠢的，因为这个hack是针对NodeLists而不是数组的。 </p>
 <p>使用hack会有更多的问题，但现在我只在主要的领域发表一些看法</p>
@@ -874,11 +875,11 @@
 			
 		
 			
-				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
+				<li><a href="/tags/Introduction-to-Algorithms/" title="Introduction to Algorithms">Introduction to Algorithms<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Introduction-to-Algorithms/" title="Introduction to Algorithms">Introduction to Algorithms<sup>3</sup></a></li>
+				<li><a href="/tags/Javascript-Ninja/" title="Javascript_Ninja">Javascript_Ninja<sup>3</sup></a></li>
 			
 		
 			
@@ -886,23 +887,7 @@
 			
 		
 			
-				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
 			
 		
 			
@@ -910,11 +895,19 @@
 			
 		
 			
-				<li><a href="/tags/干货/" title="干货">干货<sup>1</sup></a></li>
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/闭包/" title="闭包">闭包<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
 			
 		
 			
@@ -922,7 +915,15 @@
 			
 		
 			
-				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
