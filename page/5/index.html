@@ -81,7 +81,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/二进制/" title="二进制" itemprop="url">二进制</a>
+      <a href="/2017/04/15/关于this/" title="关于this" itemprop="url">关于this</a>
   </h1>
   <p class="article-author">By
        
@@ -94,7 +94,10 @@
 </header>
     <div class="article-content">
         
-        <p><img src="img/blog/01.png"></p>
+        <h3 id="指向自身"><a href="#指向自身" class="headerlink" title="指向自身"></a>指向自身</h3><p>使用foo标识符替代this来引用函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    foo.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        foo( i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
+<p>然而，这种方法同样回避了this的问题，并且完全依赖于变量foo的词法作用域。<br>另一种方法是强制this指向foo函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    // 注意，在当前的调用方式下（参见下方代码），this确实指向foo</div><div class="line">    this.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0;</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        // 使用call(..)可以确保this指向函数对象foo本身</div><div class="line">        foo.call( foo, i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
+<h3 id="this到底是什么"><a href="#this到底是什么" class="headerlink" title="this到底是什么"></a>this到底是什么</h3><p>this是在运行时进行绑定的，并不是在编写时绑定，它的上下文取决于函数调用时<br>的各种条件。this的绑定和函数声明的位置没有任何关系，只取决于函数的调用方式。<br>当一个函数被调用时，会创建一个活动记录（有时候也称为执行上下文）。这个记录会包含函数在<br>哪里被调用（调用栈）、函数的调用方法、传入的参数等信息。this就是记录的其中一个属性，会在<br>函数执行的过程中用到。</p>
+<p><b>this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。</b></p>
 
         
         
@@ -107,9 +110,14 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/涉及底层/">涉及底层</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/this/">this</a>
+  </div>
 
 </div>
 
@@ -211,19 +219,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -231,7 +227,27 @@
 			
 		
 			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 			
@@ -239,19 +255,11 @@
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
 			
 		
 			
@@ -263,7 +271,7 @@
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>

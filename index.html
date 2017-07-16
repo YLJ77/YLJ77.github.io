@@ -96,6 +96,11 @@
         
         <p>翻译自<a href="https://toddmotto.com/stop-toggling-classes-with-js-use-behaviour-driven-dom-manipulation-with-data-states/#pseudo-events" target="_blank" rel="external">Stop toggling classes with JS, use behaviour driven DOM manipulation with data-states</a></p>
 <p>使用一个类来操作DOM？这种方式使用类有诸多问题，其中一个主要的问题是为了改变它们的状态而添加类，这样跨越了行为和样式范例。我们应该把行为与风格分开，随着我们的网站的功能变得更加丰富，分清样式和状态之间的界限是一个挑战，有时会变得很凌乱。</p>
+<p>当用:hover这个伪元素选择器满足不了网站样式的要话将会引入javascript，你也许会添加一个open类给你的菜单，一个toggled类给tabs等等。这是我们的hover事件的一个很好的语义名称，但是两者并没有真正解决管理代码行为的问题。</p>
+<p>你可能会这样做：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">elem1.onclick = toggleClass(elem2, <span class="string">'open'</span>);</div></pre></td></tr></table></figure>
+<p>这是我们经常以实现DOM状态差异的简单示例。这糟透了！</p>
+<p>它不仅凌乱而且还难以维护，我们必须继续为每个组件编写脚本，并可能会重复很多这样的代码。如果你添加了active类，那么它也会引入样式问题，因为它不但可能与其他元素中的其他元素冲突。而且它也没有告诉我关于该元素在样式表中的行为。</p>
 
         
         
@@ -876,19 +881,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -896,7 +889,27 @@
 			
 		
 			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 			
@@ -904,19 +917,11 @@
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
 			
 		
 			
@@ -928,7 +933,7 @@
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>

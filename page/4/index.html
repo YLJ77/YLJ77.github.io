@@ -240,6 +240,61 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/15/二进制/" title="二进制" itemprop="url">二进制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><img src="img/blog/01.png"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/涉及底层/">涉及底层</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/15/作用域是什么/" title="作用域是什么" itemprop="url">作用域是什么</a>
   </h1>
   <p class="article-author">By
@@ -309,6 +364,100 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/BOM/" title="BOM" itemprop="url">BOM</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="window-对象"><a href="#window-对象" class="headerlink" title="window 对象"></a>window 对象</h3><h4 id="窗口位置"><a href="#窗口位置" class="headerlink" title="窗口位置"></a>窗口位置</h4><p>款浏览器取得窗口左边和上边的位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var leftPos = (typeof window.screenLeft == &quot;number&quot;) ? window.screenLeft : window.screenY;</div><div class="line">var topPos = (typeof window.screenTop == &quot;number&quot;) ? window.screenTop : window.screenX;</div></pre></td></tr></table></figure>
+<p>移动到新位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//将窗口移动到屏幕左上角</div><div class="line">window.moveTo(0,0);</div><div class="line"></div><div class="line">//将窗口向下移动到100像素</div><div class="line">window.moveBy(0,100);</div></pre></td></tr></table></figure>
+<h4 id="窗口大小"><a href="#窗口大小" class="headerlink" title="窗口大小"></a>窗口大小</h4><p>取得页面视口的大小</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var pageWidth = window.innerWidth,</div><div class="line">    pageHeight = window.innerHeight;</div><div class="line"></div><div class="line">if (typeof pageWidth != &quot;number&quot;) &#123;</div><div class="line">    if (document.compatMode == &quot;CSS1Compat&quot;) &#123;</div><div class="line">        pageWidth = document.documentElement.clientWidth;</div><div class="line">        pageHeight = document.documentElement.pageHeight;</div><div class="line">    &#125; else &#123;</div><div class="line">        pageWidth = document.body.clientWidth;</div><div class="line">        pageHeight = document.body.pageHeight;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调整浏览器窗口的大小</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//调整到 100 x 100</div><div class="line">window.resizeTo(100, 100);</div><div class="line"></div><div class="line">//调整到200 x 150</div><div class="line">window.resizeTo(100, 50);</div></pre></td></tr></table></figure>
+<h4 id="导航和打开窗口"><a href="#导航和打开窗口" class="headerlink" title="导航和打开窗口"></a>导航和打开窗口</h4><h5 id="弹出窗口"><a href="#弹出窗口" class="headerlink" title="弹出窗口"></a>弹出窗口</h5><p>设置： height|left|location|menubar|resizable|scrollbars|status|toolbar|top|width|</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">window.open(&quot;http://www.google.com&quot;, &quot;wroxWindow&quot;, &quot;height=400,width=400,top=10,left=10,resizable=yes&quot;);</div></pre></td></tr></table></figure>
+<p>调用 close() 方法还可以关闭新打开的窗口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wroxWin.close();</div><div class="line">alert(wroxWin.closed);    //true</div></pre></td></tr></table></figure>
+<h5 id="弹出窗口屏蔽程序"><a href="#弹出窗口屏蔽程序" class="headerlink" title="弹出窗口屏蔽程序"></a>弹出窗口屏蔽程序</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var blocked = false;</div><div class="line"></div><div class="line">try &#123;</div><div class="line">    var wroxWin = window.open(&quot;http:www.google.com&quot;&quot;, &quot;_blank&quot;);</div><div class="line">    if (wroxWin == null) &#123;</div><div class="line">        blocked = true;</div><div class="line">    &#125;</div><div class="line">&#125; catch (ex) &#123;</div><div class="line">    blocked = true;</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (blocked) &#123;</div><div class="line">    alert(&quot;The popup was blocked!&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="间歇调用和超时调用"><a href="#间歇调用和超时调用" class="headerlink" title="间歇调用和超时调用"></a>间歇调用和超时调用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//不建议传递字符串</div><div class="line">setTimeout (&quot;alert(&apos;hello world&apos;)&quot;, 1000);</div><div class="line"></div><div class="line">//推荐的调用方式</div><div class="line">setTimeout(function()&#123;</div><div class="line">    alert(&apos;hello world&apos;);</div><div class="line">    &#125;, 1000);</div></pre></td></tr></table></figure>
+<p>虽然这两种调用方式都没有问题，但由于传递字符串可能导致性能损失，因此不建议以字符串作为第一个参数。<br>第二个参数是一个表示等待多长时间的毫秒数，但经过该时间后指定的代码不一定会执行。JavaScript 是一个单线程的解释器，因此一定时间内只能执行一段代码。为了要控制要执行的代码，就有一个JavaScript任务队列。这些任务会按照将它们添加到队列的顺序执行。setTimout()的第二个参数告诉 JavaScript 再过多长时间把当前任务到队列中。如果队列是空的，那么添加的代码回立即执行；如果队列不是空的，那么它就要等前面的代码执行完了以后再执行。</p>
+<blockquote>
+<p>超时调用的代码都是在全局作用域总执行的，因此函数中 this 的值在非严格模式下指向 window 对象，在严格模式下是 undefined。</p>
+</blockquote>
+<p>间歇调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var num 0;</div><div class="line">var max = 10;</div><div class="line">var intervalId = null;</div><div class="line"></div><div class="line">function incrementNumber() &#123;</div><div class="line">    num++;</div><div class="line"></div><div class="line">    //如果执行次数达到max设定的值，则取消后续尚未执行的调用</div><div class="line">    if (num == max) &#123;</div><div class="line">        clearInterval(intervalId);</div><div class="line">        alert(&quot;Done&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;, </div><div class="line"></div><div class="line">intervalId = setInterval(incrementNumber, 500);</div></pre></td></tr></table></figure>
+<p>这个模式也可以使用超时调用来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var num 0;</div><div class="line">var max = 10;</div><div class="line">var intervalId = null;</div><div class="line"></div><div class="line">function incrementNumber() &#123;</div><div class="line">    num++;</div><div class="line"></div><div class="line">    //如果执行次数未达到max设定的值，则设置另一次超时调用</div><div class="line">    if (num &lt; max) &#123;</div><div class="line">        setTimout(incrementNumber, 500);</div><div class="line">    &#125; else &#123;</div><div class="line">        alert(&quot;Done&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">setTimeout(incrementNumber, 500);</div></pre></td></tr></table></figure>
+<p>可见，在使用超时调用时，没有必要跟踪超时调用 ID，因为每次执行代码后，如果不在设置另一次超时调用，调用就会自行停止。一般认为，使用超时调用来模拟间歇调用的是一种最佳模式。在开发环境下，很少使用真正的间歇调用，原因是后一个间歇调用有可能在前一个间歇调用结束之前启用。而像前面实例中那样使用超时调用，则完全可以避免这一点。所以最好不要使用间歇调用。</p>
+<h4 id="系统对话框"><a href="#系统对话框" class="headerlink" title="系统对话框"></a>系统对话框</h4><p>确认对话框的典型用法如下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if (confirm(&quot;Are you sure?&quot;)) &#123;</div><div class="line">    alert(&quot;I&apos;m so glad you&apos;re sure!&quot;);</div><div class="line">&#125; else &#123;</div><div class="line">    alert(&quot;I&apos;m sorry to hear you&apos;re not sure.&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调用 promet()。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var result = prompt(&quot;What is your name?&quot;, &quot;&quot;);</div><div class="line">if (result !== null) &#123;</div><div class="line">    alert(&quot;Welcome, &quot; + result);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其它</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//显示&quot;打印&quot;对话框</div><div class="line">window.print();</div><div class="line"></div><div class="line">//显示&quot;查找&quot;对话框</div><div class="line">window.find();</div></pre></td></tr></table></figure>
+<h3 id="location-对象"><a href="#location-对象" class="headerlink" title="location 对象"></a>location 对象</h3><p>属性名： hash|host|hostname|href|pathname|port|protocol|search</p>
+<h4 id="查询字符串参数"><a href="#查询字符串参数" class="headerlink" title="查询字符串参数"></a>查询字符串参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">function getQueryStringArgs()&#123;</div><div class="line">    //取得查询字符串并去掉开头的问号</div><div class="line">    var qs = (location.search.length &gt; 0 ? location.search.substring(1) : &quot;&quot;),</div><div class="line">        args = &#123;&#125;,</div><div class="line">        items = qs.length ? qs.split(&quot;&amp;&quot;) : [],</div><div class="line">        item = null,</div><div class="line">        name = null,</div><div class="line">        value = null,</div><div class="line">        //在 for 循环中使用</div><div class="line">        i = 0,</div><div class="line">        len = items.length;</div><div class="line">    //逐个将每一项添加到 args 对象中</div><div class="line">    for (i=0; i &lt; len; i++) &#123;</div><div class="line">        item = items[i].split(&quot;=&quot;);</div><div class="line">        name = decodeURIComponent(item[0]);</div><div class="line">        value = decodeURIComponent(item[1]);</div><div class="line"></div><div class="line">        if (name.length) &#123;</div><div class="line">            args[name] = value;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return args;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="位置操作"><a href="#位置操作" class="headerlink" title="位置操作"></a>位置操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">//下列三行代码的效果完全一样</div><div class="line">location.assign(&quot;http://www.google.com&quot;);</div><div class="line">window.location(&quot;http://www.google.com&quot;);</div><div class="line">location.href(&quot;http://www.google.com&quot;);</div><div class="line"></div><div class="line">//设置新值来改变URL</div><div class="line">//假设初始URL为 http://www.google.com/WileyCDA/</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.google.com/WileyCDA/#section1&quot;</div><div class="line">location.hash = &quot;#section1&quot;;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.google.com/WileyCDA/?q=javascript&quot;</div><div class="line">location.search = &quot;?q=javascript&quot;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com/WileyCDA/&quot;</div><div class="line">location.hostname = &quot;www.yahoo.com&quot;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com/mydir&quot;</div><div class="line">location.pathname = &quot;mydir&quot;;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com:8080/WileyCDA&quot;</div><div class="line">location.port = 8080;</div></pre></td></tr></table></figure>
+<p>没修改 location 的属性(hash除外)，页面都会以新URL重新加载</p>
+<p>当通过上述任何一种方式修改 URL 之后，浏览器的历史纪录中就会生成一条新纪录，因此用户通过单击”后退”按钮都会导航到前一个页面。要禁用这种行为，可以使用 replace() 方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">location.replace(&quot;http://www.google.com&quot;);</div></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/BOM/">BOM</a>
   </div>
 
 </div>
@@ -430,76 +579,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/DOM2和DOM3/" title="DOM2和DOM3" itemprop="url">DOM2和DOM3</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><h4 id="DOM-样式属性和方法"><a href="#DOM-样式属性和方法" class="headerlink" title="DOM 样式属性和方法"></a>DOM 样式属性和方法</h4><p>取得 CSS 属性名和值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var prop, value, i, len;</div><div class="line">for (i=0, len=myDiv.style.length; i &lt; len; i++) &#123;</div><div class="line">    prop = myDiv.style[i];    //或者 myDiv.style.item(i)</div><div class="line">    value = myDiv.style.getPropertyValue(prop);</div><div class="line">    alert(prop + &quot;:&quot; + value);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="操作样式表"><a href="#操作样式表" class="headerlink" title="操作样式表"></a>操作样式表</h4><p>跨浏览器取得样式表对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function getStyleSheet(element) &#123;</div><div class="line">    return element.sheet || element.styleSheet;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//取得第一个&lt;link/&gt;元素引入的样式表</div><div class="line">var link = document.getElementsByTagName(&quot;link&quot;)[0];</div><div class="line">var sheet = getStyleSheet(link);</div></pre></td></tr></table></figure>
-<h5 id="CSS-规则"><a href="#CSS-规则" class="headerlink" title="CSS 规则"></a>CSS 规则</h5><p>跨浏览器向样式表中添加规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function insertRule(sheet, selectorText, cssText, position) &#123;</div><div class="line">    if (sheet.insertRule) &#123;</div><div class="line">        sheet.insertRule(selectorText + &quot;&#123;&quot; + cssText + &quot;&#125;&quot;, position);</div><div class="line">    &#125; else if (sheet.addRule) &#123;  //兼容 IE</div><div class="line">        sheet.addRule(selectorText, cssText, position);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">insertRule(document.styleSheets[0], &quot;body&quot;, &quot;background-color:silver&quot;, 0);</div></pre></td></tr></table></figure>
-<h5 id="删除规则"><a href="#删除规则" class="headerlink" title="删除规则"></a>删除规则</h5><p>跨浏览器删除规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function deleteRule(sheet, index) &#123;</div><div class="line">    if (sheet.deleteRule) &#123;</div><div class="line">        sheet.deleteRule(index);</div><div class="line">    &#125; else if (sheet.removeRule) &#123;</div><div class="line">        sheet.removeRule(index);   //兼容 IE</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">deleteRule(document.styleSheet[0], 0);</div></pre></td></tr></table></figure>
-<p><strong>与添加规则相似，删除规则也不是实际 Web 开发中常见的做法。 考虑到删除规则可能会影响 CSS 层叠的效果，因此要慎重使用</strong></p>
-<h4 id="元素大小"><a href="#元素大小" class="headerlink" title="元素大小"></a>元素大小</h4><h5 id="客户区大小"><a href="#客户区大小" class="headerlink" title="客户区大小"></a>客户区大小</h5><p>确定浏览器视口大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function getViewport() &#123;</div><div class="line">    if (document.compatMode == &quot;BackCompat&quot;) &#123;</div><div class="line">        return &#123;</div><div class="line">            width: document.body.clientWidth,  // IE</div><div class="line">            height: document.body.clientHeight</div><div class="line">        &#125;;</div><div class="line">    &#125; else &#123;</div><div class="line">        return &#123;</div><div class="line">            width: document.documentElement.clientWidth,</div><div class="line">            height: document.documentElement.clientHeight</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM2/">DOM2</a><a href="/tags/DOM3/">DOM3</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/DOM/" title="DOM" itemprop="url">DOM</a>
   </h1>
   <p class="article-author">By
@@ -554,69 +633,6 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/关于this/" title="关于this" itemprop="url">关于this</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="指向自身"><a href="#指向自身" class="headerlink" title="指向自身"></a>指向自身</h3><p>使用foo标识符替代this来引用函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    foo.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        foo( i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
-<p>然而，这种方法同样回避了this的问题，并且完全依赖于变量foo的词法作用域。<br>另一种方法是强制this指向foo函数对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">function foo(num) &#123;</div><div class="line">    console.log( &quot;foo: &quot; + num );</div><div class="line">    // 记录foo被调用的次数</div><div class="line">    // 注意，在当前的调用方式下（参见下方代码），this确实指向foo</div><div class="line">    this.count++;</div><div class="line">&#125;</div><div class="line">foo.count = 0;</div><div class="line">var i;</div><div class="line">for (i=0; i&lt;10; i++) &#123;</div><div class="line">    if (i &gt; 5) &#123;</div><div class="line">        // 使用call(..)可以确保this指向函数对象foo本身</div><div class="line">        foo.call( foo, i );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">// foo: 6</div><div class="line">// foo: 7</div><div class="line">// foo: 8</div><div class="line">// foo: 9</div><div class="line">// foo被调用了多少次？</div><div class="line">console.log( foo.count ); // 4</div></pre></td></tr></table></figure></p>
-<h3 id="this到底是什么"><a href="#this到底是什么" class="headerlink" title="this到底是什么"></a>this到底是什么</h3><p>this是在运行时进行绑定的，并不是在编写时绑定，它的上下文取决于函数调用时<br>的各种条件。this的绑定和函数声明的位置没有任何关系，只取决于函数的调用方式。<br>当一个函数被调用时，会创建一个活动记录（有时候也称为执行上下文）。这个记录会包含函数在<br>哪里被调用（调用栈）、函数的调用方法、传入的参数等信息。this就是记录的其中一个属性，会在<br>函数执行的过程中用到。</p>
-<p><b>this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用。</b></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/this/">this</a>
   </div>
 
 </div>
@@ -990,19 +1006,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -1010,7 +1014,27 @@
 			
 		
 			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 			
@@ -1018,19 +1042,11 @@
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
 			
 		
 			
@@ -1042,7 +1058,7 @@
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>

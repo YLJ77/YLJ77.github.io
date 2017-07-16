@@ -81,79 +81,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/表单脚本/" title="表单脚本" itemprop="url">表单脚本</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="表单字段"><a href="#表单字段" class="headerlink" title="表单字段"></a>表单字段</h3><h4 id="避免多次提交表单"><a href="#避免多次提交表单" class="headerlink" title="避免多次提交表单"></a>避免多次提交表单</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(form, &quot;submit&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var target = EventUtil.getTarget(event);</div><div class="line"></div><div class="line">    //取得提交按钮</div><div class="line">    var btn = target.elements[&quot;submit-btn&quot;];</div><div class="line"></div><div class="line">    //禁用它</div><div class="line">    btn.disabled = true;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>HTML5 为表单字段新增了一个 autofocus 属性。在支持这个属性的浏览器中，只要设置这个属性，不用javascript 就能自动把焦点移动到相应字段。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;text&quot; autofocus&gt;</div></pre></td></tr></table></figure>
-<p>为了保证前面的代码在设置 autofocus 的浏览器中正常运行，必须先检查是否设置了改属性，如果设置了，就不用再调用 foucus() 了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(window, &quot;load&quot;, function(event)&#123;</div><div class="line">    var element = document.forms[0].elements[0];</div><div class="line">    if (element.autofocus != true) &#123;</div><div class="line">        element.focus();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h3 id="选择文本"><a href="#选择文本" class="headerlink" title="选择文本"></a>选择文本</h3><h4 id="跨浏览器取得选择文本"><a href="#跨浏览器取得选择文本" class="headerlink" title="跨浏览器取得选择文本"></a>跨浏览器取得选择文本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function getSelectedText(textbox) &#123;</div><div class="line">    if (typeof textbox.selectionStart == &quot;number&quot;) &#123;</div><div class="line">        return textbox.value.substring(textbox.selectionStart,textbox.selectionEnd);</div><div class="line">    &#125; else if (document.selection) &#123;  //IE 8-=</div><div class="line">        return document.selection.createRange().text;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="跨浏览器选择部分文本"><a href="#跨浏览器选择部分文本" class="headerlink" title="跨浏览器选择部分文本"></a>跨浏览器选择部分文本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">function selectText(textbox, startIndex, stopIndex) &#123;</div><div class="line">    if (textbox.setSelectionRange) &#123;</div><div class="line">        textbox.setSelectionRange(startIndex, stopIndex);</div><div class="line">    &#125; else if (textbox.createTextRange) &#123;    //IE 8-=</div><div class="line">        var range = textbox.createTextRange();</div><div class="line">        range.collapse(true);</div><div class="line">        range.moveStart(&quot;character&quot;, startIndex);</div><div class="line">        range.moveEnd(&quot;character&quot;, stopIndex - startIndex);</div><div class="line">        range.select();</div><div class="line">    &#125;</div><div class="line">    textbox.focus();</div><div class="line">&#125;</div><div class="line"></div><div class="line">textbox.value = &quot;Hello world!&quot;</div><div class="line"></div><div class="line">//选择所有文本</div><div class="line">selectText(textbox, 0, textbox.value.length);    //&quot;Hello world!&quot;</div><div class="line"></div><div class="line">//选择前3个字符</div><div class="line">selectText(text, 0, 3);    //&quot;Hel&quot;</div><div class="line"></div><div class="line">//选择第 4 到第 6 个字符</div><div class="line">selectText(textbox, 4, 7); //&quot;o w&quot;</div></pre></td></tr></table></figure>
-<p>选择部分文本的技术在实现高级文本输入框时很有用，例如提供自动完成建议的文本框就可以使用这种技术。</p>
-<h3 id="过滤输入"><a href="#过滤输入" class="headerlink" title="过滤输入"></a>过滤输入</h3><h4 id="屏蔽字符"><a href="#屏蔽字符" class="headerlink" title="屏蔽字符"></a>屏蔽字符</h4><p>下列代码只允许用户输入数值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(textbox, &quot;keypress&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var target = EventUtil.getTarget(event);</div><div class="line">    var charCode = EventUtil.getCharCode(event);</div><div class="line"></div><div class="line">    if(!/\d/.test(String.fromCharCode(charCode)) &amp;&amp; charCode &gt; 9 &amp;&amp; !event.ctrlKey) &#123;   //Safari 3-</div><div class="line">        EventUtil.preventDefault(event);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<h4 id="操作剪贴板"><a href="#操作剪贴板" class="headerlink" title="操作剪贴板"></a>操作剪贴板</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">getClipboardText: function(event) &#123;</div><div class="line">    var clipboardData = (event.clipboardData || window.clipboardData);</div><div class="line">    return clipboardData.getData(&quot;text&quot;);</div><div class="line">&#125;,</div><div class="line"></div><div class="line">setClipboardText: function(event)&#123;</div><div class="line">    if (event.clipboardData) &#123;</div><div class="line">        return event.clipboardData.setData(&quot;text/plain&quot;, value);</div><div class="line">    &#125; else if (window.clipboardData) &#123;</div><div class="line">        return window.clipboardData.setData(&quot;text&quot;, value);</div><div class="line">    &#125;</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
-<p>在需要确保黏贴到文本框中的文本中包含某些字符，或者符合某种格式要求时，能够访问剪贴板是非常有用的。例如，如果一个文本框只接受数值，那么久必须检测黏贴过来的值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(textbox, &quot;paste&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var text = EventUtil.getClipboardText(event);</div><div class="line"></div><div class="line">    if(!/^\d*$/.test(text)) &#123;</div><div class="line">        EventUtil.preventDefault(event);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h3 id="自动切换焦点"><a href="#自动切换焦点" class="headerlink" title="自动切换焦点"></a>自动切换焦点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">(function()&#123;</div><div class="line">    function tabForward(event) &#123;</div><div class="line">        event = EventUtil.getEvent(event);</div><div class="line">        var target = EventUtil.getTarget(event);</div><div class="line"></div><div class="line">        if (target.value.length == target.maxLength) &#123;</div><div class="line">            var form = target.form;</div><div class="line"></div><div class="line">            for(var i=0, len=form.elements.length; i &lt; len; i++) &#123;</div><div class="line">                if (form.elements[i] == target) &#123;</div><div class="line">                    if (form.elements[i+1]) &#123;</div><div class="line">                        form.elements[i+1].focus();</div><div class="line">                    &#125;</div><div class="line">                    return;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;)();</div><div class="line"></div><div class="line">var textbox1 = document.getElementById(&quot;txtTel1&quot;);</div><div class="line">var textbox2 = document.getElementById(&quot;txtTel2&quot;);</div><div class="line">var textbox3 = document.getElementById(&quot;txtTel3&quot;);</div><div class="line"></div><div class="line">EventUtil.addHandler(textbox1, &quot;keyup&quot;, tabForward);</div><div class="line">EventUtil.addHandler(textbox2, &quot;keyup&quot;, tabForward);</div><div class="line">EventUtil.addHandler(textbox3, &quot;keyup&quot;, tabForward);</div></pre></td></tr></table></figure>
-<p>不过这些代码只适用于前面给出的标记，而且没有考虑隐藏字段。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JS/">JS</a><a href="/tags/表单脚本/">表单脚本</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/04/15/继承/" title="继承" itemprop="url">继承</a>
   </h1>
   <p class="article-author">By
@@ -249,7 +176,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/15/媒体查询/" title="媒体查询" itemprop="url">媒体查询</a>
+      <a href="/2017/04/15/表单脚本/" title="表单脚本" itemprop="url">表单脚本</a>
   </h1>
   <p class="article-author">By
        
@@ -262,22 +189,21 @@
 </header>
     <div class="article-content">
         
-        <h3 id="媒体查询语法"><a href="#媒体查询语法" class="headerlink" title="媒体查询语法"></a>媒体查询语法</h3><p>纵向媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>在媒体查询的开头追加not则会颠倒查询的逻辑</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>限制视口宽度</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait) and (min-width:800px)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
-<p>CSS样式表中使用媒体查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@media screen and (max-device-width: 400px) &#123;</div><div class="line">    h1 &#123; color: green&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用CSS的@import指令在当前样式表中按条件引入其他样式表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@import url(&quot;phone.css&quot;) screen and (max-width:360px);</div></pre></td></tr></table></figure>
-<blockquote>
-<p>使用CSS的@import方式会增加HTTP请求(这会影响加载速度)，要谨慎使用。</p>
-</blockquote>
-<h3 id="媒体查询特性"><a href="#媒体查询特性" class="headerlink" title="媒体查询特性"></a>媒体查询特性</h3><p>视口宽度: width<br>屏幕宽度: device-width</p>
-<pre><code>
-</code></pre>
+        <h3 id="表单字段"><a href="#表单字段" class="headerlink" title="表单字段"></a>表单字段</h3><h4 id="避免多次提交表单"><a href="#避免多次提交表单" class="headerlink" title="避免多次提交表单"></a>避免多次提交表单</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(form, &quot;submit&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var target = EventUtil.getTarget(event);</div><div class="line"></div><div class="line">    //取得提交按钮</div><div class="line">    var btn = target.elements[&quot;submit-btn&quot;];</div><div class="line"></div><div class="line">    //禁用它</div><div class="line">    btn.disabled = true;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>HTML5 为表单字段新增了一个 autofocus 属性。在支持这个属性的浏览器中，只要设置这个属性，不用javascript 就能自动把焦点移动到相应字段。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;text&quot; autofocus&gt;</div></pre></td></tr></table></figure>
+<p>为了保证前面的代码在设置 autofocus 的浏览器中正常运行，必须先检查是否设置了改属性，如果设置了，就不用再调用 foucus() 了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(window, &quot;load&quot;, function(event)&#123;</div><div class="line">    var element = document.forms[0].elements[0];</div><div class="line">    if (element.autofocus != true) &#123;</div><div class="line">        element.focus();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="选择文本"><a href="#选择文本" class="headerlink" title="选择文本"></a>选择文本</h3><h4 id="跨浏览器取得选择文本"><a href="#跨浏览器取得选择文本" class="headerlink" title="跨浏览器取得选择文本"></a>跨浏览器取得选择文本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function getSelectedText(textbox) &#123;</div><div class="line">    if (typeof textbox.selectionStart == &quot;number&quot;) &#123;</div><div class="line">        return textbox.value.substring(textbox.selectionStart,textbox.selectionEnd);</div><div class="line">    &#125; else if (document.selection) &#123;  //IE 8-=</div><div class="line">        return document.selection.createRange().text;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="跨浏览器选择部分文本"><a href="#跨浏览器选择部分文本" class="headerlink" title="跨浏览器选择部分文本"></a>跨浏览器选择部分文本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">function selectText(textbox, startIndex, stopIndex) &#123;</div><div class="line">    if (textbox.setSelectionRange) &#123;</div><div class="line">        textbox.setSelectionRange(startIndex, stopIndex);</div><div class="line">    &#125; else if (textbox.createTextRange) &#123;    //IE 8-=</div><div class="line">        var range = textbox.createTextRange();</div><div class="line">        range.collapse(true);</div><div class="line">        range.moveStart(&quot;character&quot;, startIndex);</div><div class="line">        range.moveEnd(&quot;character&quot;, stopIndex - startIndex);</div><div class="line">        range.select();</div><div class="line">    &#125;</div><div class="line">    textbox.focus();</div><div class="line">&#125;</div><div class="line"></div><div class="line">textbox.value = &quot;Hello world!&quot;</div><div class="line"></div><div class="line">//选择所有文本</div><div class="line">selectText(textbox, 0, textbox.value.length);    //&quot;Hello world!&quot;</div><div class="line"></div><div class="line">//选择前3个字符</div><div class="line">selectText(text, 0, 3);    //&quot;Hel&quot;</div><div class="line"></div><div class="line">//选择第 4 到第 6 个字符</div><div class="line">selectText(textbox, 4, 7); //&quot;o w&quot;</div></pre></td></tr></table></figure>
+<p>选择部分文本的技术在实现高级文本输入框时很有用，例如提供自动完成建议的文本框就可以使用这种技术。</p>
+<h3 id="过滤输入"><a href="#过滤输入" class="headerlink" title="过滤输入"></a>过滤输入</h3><h4 id="屏蔽字符"><a href="#屏蔽字符" class="headerlink" title="屏蔽字符"></a>屏蔽字符</h4><p>下列代码只允许用户输入数值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(textbox, &quot;keypress&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var target = EventUtil.getTarget(event);</div><div class="line">    var charCode = EventUtil.getCharCode(event);</div><div class="line"></div><div class="line">    if(!/\d/.test(String.fromCharCode(charCode)) &amp;&amp; charCode &gt; 9 &amp;&amp; !event.ctrlKey) &#123;   //Safari 3-</div><div class="line">        EventUtil.preventDefault(event);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<h4 id="操作剪贴板"><a href="#操作剪贴板" class="headerlink" title="操作剪贴板"></a>操作剪贴板</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">getClipboardText: function(event) &#123;</div><div class="line">    var clipboardData = (event.clipboardData || window.clipboardData);</div><div class="line">    return clipboardData.getData(&quot;text&quot;);</div><div class="line">&#125;,</div><div class="line"></div><div class="line">setClipboardText: function(event)&#123;</div><div class="line">    if (event.clipboardData) &#123;</div><div class="line">        return event.clipboardData.setData(&quot;text/plain&quot;, value);</div><div class="line">    &#125; else if (window.clipboardData) &#123;</div><div class="line">        return window.clipboardData.setData(&quot;text&quot;, value);</div><div class="line">    &#125;</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>在需要确保黏贴到文本框中的文本中包含某些字符，或者符合某种格式要求时，能够访问剪贴板是非常有用的。例如，如果一个文本框只接受数值，那么久必须检测黏贴过来的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(textbox, &quot;paste&quot;, function(event)&#123;</div><div class="line">    event = EventUtil.getEvent(event);</div><div class="line">    var text = EventUtil.getClipboardText(event);</div><div class="line"></div><div class="line">    if(!/^\d*$/.test(text)) &#123;</div><div class="line">        EventUtil.preventDefault(event);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="自动切换焦点"><a href="#自动切换焦点" class="headerlink" title="自动切换焦点"></a>自动切换焦点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">(function()&#123;</div><div class="line">    function tabForward(event) &#123;</div><div class="line">        event = EventUtil.getEvent(event);</div><div class="line">        var target = EventUtil.getTarget(event);</div><div class="line"></div><div class="line">        if (target.value.length == target.maxLength) &#123;</div><div class="line">            var form = target.form;</div><div class="line"></div><div class="line">            for(var i=0, len=form.elements.length; i &lt; len; i++) &#123;</div><div class="line">                if (form.elements[i] == target) &#123;</div><div class="line">                    if (form.elements[i+1]) &#123;</div><div class="line">                        form.elements[i+1].focus();</div><div class="line">                    &#125;</div><div class="line">                    return;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;)();</div><div class="line"></div><div class="line">var textbox1 = document.getElementById(&quot;txtTel1&quot;);</div><div class="line">var textbox2 = document.getElementById(&quot;txtTel2&quot;);</div><div class="line">var textbox3 = document.getElementById(&quot;txtTel3&quot;);</div><div class="line"></div><div class="line">EventUtil.addHandler(textbox1, &quot;keyup&quot;, tabForward);</div><div class="line">EventUtil.addHandler(textbox2, &quot;keyup&quot;, tabForward);</div><div class="line">EventUtil.addHandler(textbox3, &quot;keyup&quot;, tabForward);</div></pre></td></tr></table></figure>
+<p>不过这些代码只适用于前面给出的标记，而且没有考虑隐藏字段。</p>
+
         
         
         <p class="article-more-link">
@@ -289,13 +215,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/CSS/">CSS</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/响应式/">响应式</a><a href="/tags/媒体查询/">媒体查询</a>
+  <span></span> <a href="/tags/JS/">JS</a><a href="/tags/表单脚本/">表单脚本</a>
   </div>
 
 </div>
@@ -486,6 +412,80 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/15/媒体查询/" title="媒体查询" itemprop="url">媒体查询</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.551Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="媒体查询语法"><a href="#媒体查询语法" class="headerlink" title="媒体查询语法"></a>媒体查询语法</h3><p>纵向媒体查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>在媒体查询的开头追加not则会颠倒查询的逻辑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>限制视口宽度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;stylesheet&quot; meida=&quot;not screen and (orientation:portrait) and (min-width:800px)&quot; href=&quot;portrait-screen.css&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>CSS样式表中使用媒体查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@media screen and (max-device-width: 400px) &#123;</div><div class="line">    h1 &#123; color: green&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用CSS的@import指令在当前样式表中按条件引入其他样式表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@import url(&quot;phone.css&quot;) screen and (max-width:360px);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用CSS的@import方式会增加HTTP请求(这会影响加载速度)，要谨慎使用。</p>
+</blockquote>
+<h3 id="媒体查询特性"><a href="#媒体查询特性" class="headerlink" title="媒体查询特性"></a>媒体查询特性</h3><p>视口宽度: width<br>屏幕宽度: device-width</p>
+<pre><code>
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/CSS/">CSS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/响应式/">响应式</a><a href="/tags/媒体查询/">媒体查询</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/15/对象/" title="对象" itemprop="url">对象</a>
   </h1>
   <p class="article-author">By
@@ -520,6 +520,76 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/js/">js</a><a href="/tags/Type-Grammar/">Type & Grammar</a><a href="/tags/对象/">对象</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/15/DOM2和DOM3/" title="DOM2和DOM3" itemprop="url">DOM2和DOM3</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><h4 id="DOM-样式属性和方法"><a href="#DOM-样式属性和方法" class="headerlink" title="DOM 样式属性和方法"></a>DOM 样式属性和方法</h4><p>取得 CSS 属性名和值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var prop, value, i, len;</div><div class="line">for (i=0, len=myDiv.style.length; i &lt; len; i++) &#123;</div><div class="line">    prop = myDiv.style[i];    //或者 myDiv.style.item(i)</div><div class="line">    value = myDiv.style.getPropertyValue(prop);</div><div class="line">    alert(prop + &quot;:&quot; + value);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="操作样式表"><a href="#操作样式表" class="headerlink" title="操作样式表"></a>操作样式表</h4><p>跨浏览器取得样式表对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function getStyleSheet(element) &#123;</div><div class="line">    return element.sheet || element.styleSheet;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//取得第一个&lt;link/&gt;元素引入的样式表</div><div class="line">var link = document.getElementsByTagName(&quot;link&quot;)[0];</div><div class="line">var sheet = getStyleSheet(link);</div></pre></td></tr></table></figure>
+<h5 id="CSS-规则"><a href="#CSS-规则" class="headerlink" title="CSS 规则"></a>CSS 规则</h5><p>跨浏览器向样式表中添加规则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function insertRule(sheet, selectorText, cssText, position) &#123;</div><div class="line">    if (sheet.insertRule) &#123;</div><div class="line">        sheet.insertRule(selectorText + &quot;&#123;&quot; + cssText + &quot;&#125;&quot;, position);</div><div class="line">    &#125; else if (sheet.addRule) &#123;  //兼容 IE</div><div class="line">        sheet.addRule(selectorText, cssText, position);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">insertRule(document.styleSheets[0], &quot;body&quot;, &quot;background-color:silver&quot;, 0);</div></pre></td></tr></table></figure>
+<h5 id="删除规则"><a href="#删除规则" class="headerlink" title="删除规则"></a>删除规则</h5><p>跨浏览器删除规则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function deleteRule(sheet, index) &#123;</div><div class="line">    if (sheet.deleteRule) &#123;</div><div class="line">        sheet.deleteRule(index);</div><div class="line">    &#125; else if (sheet.removeRule) &#123;</div><div class="line">        sheet.removeRule(index);   //兼容 IE</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">deleteRule(document.styleSheet[0], 0);</div></pre></td></tr></table></figure>
+<p><strong>与添加规则相似，删除规则也不是实际 Web 开发中常见的做法。 考虑到删除规则可能会影响 CSS 层叠的效果，因此要慎重使用</strong></p>
+<h4 id="元素大小"><a href="#元素大小" class="headerlink" title="元素大小"></a>元素大小</h4><h5 id="客户区大小"><a href="#客户区大小" class="headerlink" title="客户区大小"></a>客户区大小</h5><p>确定浏览器视口大小</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function getViewport() &#123;</div><div class="line">    if (document.compatMode == &quot;BackCompat&quot;) &#123;</div><div class="line">        return &#123;</div><div class="line">            width: document.body.clientWidth,  // IE</div><div class="line">            height: document.body.clientHeight</div><div class="line">        &#125;;</div><div class="line">    &#125; else &#123;</div><div class="line">        return &#123;</div><div class="line">            width: document.documentElement.clientWidth,</div><div class="line">            height: document.documentElement.clientHeight</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM2/">DOM2</a><a href="/tags/DOM3/">DOM3</a>
   </div>
 
 </div>
@@ -587,100 +657,6 @@
   <div class="article-tags">
   
   <span></span> <a href="/tags/js/">js</a><a href="/tags/DOM/">DOM</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/15/BOM/" title="BOM" itemprop="url">BOM</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-15T07:43:25.535Z" itemprop="datePublished"> 发表于 2017-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="window-对象"><a href="#window-对象" class="headerlink" title="window 对象"></a>window 对象</h3><h4 id="窗口位置"><a href="#窗口位置" class="headerlink" title="窗口位置"></a>窗口位置</h4><p>款浏览器取得窗口左边和上边的位置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var leftPos = (typeof window.screenLeft == &quot;number&quot;) ? window.screenLeft : window.screenY;</div><div class="line">var topPos = (typeof window.screenTop == &quot;number&quot;) ? window.screenTop : window.screenX;</div></pre></td></tr></table></figure>
-<p>移动到新位置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//将窗口移动到屏幕左上角</div><div class="line">window.moveTo(0,0);</div><div class="line"></div><div class="line">//将窗口向下移动到100像素</div><div class="line">window.moveBy(0,100);</div></pre></td></tr></table></figure>
-<h4 id="窗口大小"><a href="#窗口大小" class="headerlink" title="窗口大小"></a>窗口大小</h4><p>取得页面视口的大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var pageWidth = window.innerWidth,</div><div class="line">    pageHeight = window.innerHeight;</div><div class="line"></div><div class="line">if (typeof pageWidth != &quot;number&quot;) &#123;</div><div class="line">    if (document.compatMode == &quot;CSS1Compat&quot;) &#123;</div><div class="line">        pageWidth = document.documentElement.clientWidth;</div><div class="line">        pageHeight = document.documentElement.pageHeight;</div><div class="line">    &#125; else &#123;</div><div class="line">        pageWidth = document.body.clientWidth;</div><div class="line">        pageHeight = document.body.pageHeight;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>调整浏览器窗口的大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//调整到 100 x 100</div><div class="line">window.resizeTo(100, 100);</div><div class="line"></div><div class="line">//调整到200 x 150</div><div class="line">window.resizeTo(100, 50);</div></pre></td></tr></table></figure>
-<h4 id="导航和打开窗口"><a href="#导航和打开窗口" class="headerlink" title="导航和打开窗口"></a>导航和打开窗口</h4><h5 id="弹出窗口"><a href="#弹出窗口" class="headerlink" title="弹出窗口"></a>弹出窗口</h5><p>设置： height|left|location|menubar|resizable|scrollbars|status|toolbar|top|width|</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">window.open(&quot;http://www.google.com&quot;, &quot;wroxWindow&quot;, &quot;height=400,width=400,top=10,left=10,resizable=yes&quot;);</div></pre></td></tr></table></figure>
-<p>调用 close() 方法还可以关闭新打开的窗口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wroxWin.close();</div><div class="line">alert(wroxWin.closed);    //true</div></pre></td></tr></table></figure>
-<h5 id="弹出窗口屏蔽程序"><a href="#弹出窗口屏蔽程序" class="headerlink" title="弹出窗口屏蔽程序"></a>弹出窗口屏蔽程序</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var blocked = false;</div><div class="line"></div><div class="line">try &#123;</div><div class="line">    var wroxWin = window.open(&quot;http:www.google.com&quot;&quot;, &quot;_blank&quot;);</div><div class="line">    if (wroxWin == null) &#123;</div><div class="line">        blocked = true;</div><div class="line">    &#125;</div><div class="line">&#125; catch (ex) &#123;</div><div class="line">    blocked = true;</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (blocked) &#123;</div><div class="line">    alert(&quot;The popup was blocked!&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="间歇调用和超时调用"><a href="#间歇调用和超时调用" class="headerlink" title="间歇调用和超时调用"></a>间歇调用和超时调用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//不建议传递字符串</div><div class="line">setTimeout (&quot;alert(&apos;hello world&apos;)&quot;, 1000);</div><div class="line"></div><div class="line">//推荐的调用方式</div><div class="line">setTimeout(function()&#123;</div><div class="line">    alert(&apos;hello world&apos;);</div><div class="line">    &#125;, 1000);</div></pre></td></tr></table></figure>
-<p>虽然这两种调用方式都没有问题，但由于传递字符串可能导致性能损失，因此不建议以字符串作为第一个参数。<br>第二个参数是一个表示等待多长时间的毫秒数，但经过该时间后指定的代码不一定会执行。JavaScript 是一个单线程的解释器，因此一定时间内只能执行一段代码。为了要控制要执行的代码，就有一个JavaScript任务队列。这些任务会按照将它们添加到队列的顺序执行。setTimout()的第二个参数告诉 JavaScript 再过多长时间把当前任务到队列中。如果队列是空的，那么添加的代码回立即执行；如果队列不是空的，那么它就要等前面的代码执行完了以后再执行。</p>
-<blockquote>
-<p>超时调用的代码都是在全局作用域总执行的，因此函数中 this 的值在非严格模式下指向 window 对象，在严格模式下是 undefined。</p>
-</blockquote>
-<p>间歇调用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var num 0;</div><div class="line">var max = 10;</div><div class="line">var intervalId = null;</div><div class="line"></div><div class="line">function incrementNumber() &#123;</div><div class="line">    num++;</div><div class="line"></div><div class="line">    //如果执行次数达到max设定的值，则取消后续尚未执行的调用</div><div class="line">    if (num == max) &#123;</div><div class="line">        clearInterval(intervalId);</div><div class="line">        alert(&quot;Done&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;, </div><div class="line"></div><div class="line">intervalId = setInterval(incrementNumber, 500);</div></pre></td></tr></table></figure>
-<p>这个模式也可以使用超时调用来实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var num 0;</div><div class="line">var max = 10;</div><div class="line">var intervalId = null;</div><div class="line"></div><div class="line">function incrementNumber() &#123;</div><div class="line">    num++;</div><div class="line"></div><div class="line">    //如果执行次数未达到max设定的值，则设置另一次超时调用</div><div class="line">    if (num &lt; max) &#123;</div><div class="line">        setTimout(incrementNumber, 500);</div><div class="line">    &#125; else &#123;</div><div class="line">        alert(&quot;Done&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">setTimeout(incrementNumber, 500);</div></pre></td></tr></table></figure>
-<p>可见，在使用超时调用时，没有必要跟踪超时调用 ID，因为每次执行代码后，如果不在设置另一次超时调用，调用就会自行停止。一般认为，使用超时调用来模拟间歇调用的是一种最佳模式。在开发环境下，很少使用真正的间歇调用，原因是后一个间歇调用有可能在前一个间歇调用结束之前启用。而像前面实例中那样使用超时调用，则完全可以避免这一点。所以最好不要使用间歇调用。</p>
-<h4 id="系统对话框"><a href="#系统对话框" class="headerlink" title="系统对话框"></a>系统对话框</h4><p>确认对话框的典型用法如下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if (confirm(&quot;Are you sure?&quot;)) &#123;</div><div class="line">    alert(&quot;I&apos;m so glad you&apos;re sure!&quot;);</div><div class="line">&#125; else &#123;</div><div class="line">    alert(&quot;I&apos;m sorry to hear you&apos;re not sure.&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>调用 promet()。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var result = prompt(&quot;What is your name?&quot;, &quot;&quot;);</div><div class="line">if (result !== null) &#123;</div><div class="line">    alert(&quot;Welcome, &quot; + result);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其它</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//显示&quot;打印&quot;对话框</div><div class="line">window.print();</div><div class="line"></div><div class="line">//显示&quot;查找&quot;对话框</div><div class="line">window.find();</div></pre></td></tr></table></figure>
-<h3 id="location-对象"><a href="#location-对象" class="headerlink" title="location 对象"></a>location 对象</h3><p>属性名： hash|host|hostname|href|pathname|port|protocol|search</p>
-<h4 id="查询字符串参数"><a href="#查询字符串参数" class="headerlink" title="查询字符串参数"></a>查询字符串参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">function getQueryStringArgs()&#123;</div><div class="line">    //取得查询字符串并去掉开头的问号</div><div class="line">    var qs = (location.search.length &gt; 0 ? location.search.substring(1) : &quot;&quot;),</div><div class="line">        args = &#123;&#125;,</div><div class="line">        items = qs.length ? qs.split(&quot;&amp;&quot;) : [],</div><div class="line">        item = null,</div><div class="line">        name = null,</div><div class="line">        value = null,</div><div class="line">        //在 for 循环中使用</div><div class="line">        i = 0,</div><div class="line">        len = items.length;</div><div class="line">    //逐个将每一项添加到 args 对象中</div><div class="line">    for (i=0; i &lt; len; i++) &#123;</div><div class="line">        item = items[i].split(&quot;=&quot;);</div><div class="line">        name = decodeURIComponent(item[0]);</div><div class="line">        value = decodeURIComponent(item[1]);</div><div class="line"></div><div class="line">        if (name.length) &#123;</div><div class="line">            args[name] = value;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return args;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="位置操作"><a href="#位置操作" class="headerlink" title="位置操作"></a>位置操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">//下列三行代码的效果完全一样</div><div class="line">location.assign(&quot;http://www.google.com&quot;);</div><div class="line">window.location(&quot;http://www.google.com&quot;);</div><div class="line">location.href(&quot;http://www.google.com&quot;);</div><div class="line"></div><div class="line">//设置新值来改变URL</div><div class="line">//假设初始URL为 http://www.google.com/WileyCDA/</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.google.com/WileyCDA/#section1&quot;</div><div class="line">location.hash = &quot;#section1&quot;;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.google.com/WileyCDA/?q=javascript&quot;</div><div class="line">location.search = &quot;?q=javascript&quot;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com/WileyCDA/&quot;</div><div class="line">location.hostname = &quot;www.yahoo.com&quot;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com/mydir&quot;</div><div class="line">location.pathname = &quot;mydir&quot;;</div><div class="line"></div><div class="line">//将URL修改为&quot;http://www.yahoo.com:8080/WileyCDA&quot;</div><div class="line">location.port = 8080;</div></pre></td></tr></table></figure>
-<p>没修改 location 的属性(hash除外)，页面都会以新URL重新加载</p>
-<p>当通过上述任何一种方式修改 URL 之后，浏览器的历史纪录中就会生成一条新纪录，因此用户通过单击”后退”按钮都会导航到前一个页面。要禁用这种行为，可以使用 replace() 方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">location.replace(&quot;http://www.google.com&quot;);</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/js/">js</a><a href="/tags/BOM/">BOM</a>
   </div>
 
 </div>
@@ -985,19 +961,7 @@
 			
 		
 			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/this/" title="this">this<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
 			
 		
 			
@@ -1005,7 +969,27 @@
 			
 		
 			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/函数/" title="函数">函数<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/对象/" title="对象">对象<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/调试/" title="调试">调试<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/underscore/" title="underscore">underscore<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
 			
 		
 			
@@ -1013,19 +997,11 @@
 			
 		
 			
-				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/模块/" title="模块">模块<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/函数表达式/" title="函数表达式">函数表达式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
+				<li><a href="/tags/DOM2/" title="DOM2">DOM2<sup>1</sup></a></li>
 			
 		
 			
@@ -1037,7 +1013,7 @@
 			
 		
 			
-				<li><a href="/tags/BOM/" title="BOM">BOM<sup>1</sup></a></li>
+				<li><a href="/tags/DOM3/" title="DOM3">DOM3<sup>1</sup></a></li>
 			
 		
 		</ul>
