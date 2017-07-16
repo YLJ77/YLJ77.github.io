@@ -81,6 +81,62 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/07/16/Stop toggling classes with JS, use behaviour driven DOM manipulation with data-states/" title="Stop toggling classes with JS, use behaviour driven DOM manipulation with data-states" itemprop="url">Stop toggling classes with JS, use behaviour driven DOM manipulation with data-states</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-16T15:31:46.652Z" itemprop="datePublished"> 发表于 2017-07-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>翻译自<a href="https://toddmotto.com/stop-toggling-classes-with-js-use-behaviour-driven-dom-manipulation-with-data-states/#pseudo-events" target="_blank" rel="external">Stop toggling classes with JS, use behaviour driven DOM manipulation with data-states</a></p>
+<p>使用一个类来操作DOM？这种方式使用类有诸多问题，其中一个主要的问题是为了改变它们的状态而添加类，这样跨越了行为和样式范例。我们应该把行为与风格分开，随着我们的网站的功能变得更加丰富，分清样式和状态之间的界限是一个挑战，有时会变得很凌乱。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/07/14/Ditch the [].forEach.call(NodeList) hack/" title="Ditch the [].forEach.call(NodeList) hack" itemprop="url">Ditch the [].forEach.call(NodeList) hack</a>
   </h1>
   <p class="article-author">By
@@ -739,76 +795,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/25/Classical Inheritance/" title="Classical Inheritance" itemprop="url">Classical Inheritance</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="YLJ77" target="_blank" itemprop="author">YLJ77</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-25T13:51:18.325Z" itemprop="datePublished"> 发表于 2017-04-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="The-extend-Function"><a href="#The-extend-Function" class="headerlink" title="The extend Function"></a>The extend Function</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Extend function. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">extend</span>(<span class="params">subClass, superClass</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</div><div class="line">    F.prototype = superClass.prototype;</div><div class="line">    subClass.prototype = <span class="keyword">new</span> F();</div><div class="line">    subClass.prototype.constructor = subClass;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p> It sets the prototype and then resets the correct constructor. As a bonus, it adds the empty class F into the prototype chain in order to prevent a new (and possible large) instance of the superclass from having to be instantiated. This is also beneficial in situations where the superclass’s constructor has side effects or does something that is computationally intensive. Since the object that gets instantiated for the prototype is usually just a throwaway instance, you don’t want to create it unnecessarily</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Class Person. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">&#125;</div><div class="line">Person.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* Class Author. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Author</span>(<span class="params">name, books</span>) </span>&#123;</div><div class="line">    Person.call(<span class="keyword">this</span>, name);</div><div class="line">    <span class="keyword">this</span>.books = books;</div><div class="line">&#125;</div><div class="line">extend(Author, Person);</div><div class="line">Author.prototype.getBooks = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.books;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p> Instead of setting the prototype and constructor attributes manually, simply call the extend function immediately after the class declaration (and before you add any methods to the prototype). The only problem with this is that the name of the superclass (Person) is hardcoded within the Author declaration. It would be better to refer to it in a more general way:</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Extend function, improved. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">extend</span>(<span class="params">subClass, superClass</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</div><div class="line">    F.prototype = superClass.prototype;</div><div class="line">    subClass.prototype = <span class="keyword">new</span> F();</div><div class="line">    subClass.prototype.constructor = subClass;</div><div class="line">    subClass.superclass = superClass.prototype;</div><div class="line">    <span class="keyword">if</span>(superClass.prototype.constructor == <span class="built_in">Object</span>.prototype.constructor) &#123;</div><div class="line">        superClass.prototype.constructor = superClass;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p> This version is a little longer but provides the superclass attribute, which you can now use to make Author less tightly coupled to Person. The first four lines of the function are the same as before. The last three lines simply ensure that the constructor attribute is set correctly on the superclass (even if the superclass is the Object class itself). This will become important when you use this new superclass attribute to call the superclass’s constructor:</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Class Author. */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Author</span>(<span class="params">name, books</span>) </span>&#123;</div><div class="line">    Author.superclass.constructor.call(<span class="keyword">this</span>, name);</div><div class="line">    <span class="keyword">this</span>.books = books;</div><div class="line">&#125;</div><div class="line">extend(Author, Person);</div><div class="line">Author.prototype.getBooks = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.books;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>Adding the superclass attribute also allows you to call methods directly from the superclass.This is useful if you want to override a method while still having access to the superclass’s implementation of it. For instance, to override Person’s implementation of getName with a new version,you could use Author.superclass.getName to first get the original name and then add to it:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Author.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> name = Author.superclass.getName.call(<span class="keyword">this</span>);</div><div class="line">    <span class="keyword">return</span> name + <span class="string">', Author of '</span> + <span class="keyword">this</span>.getBooks().join(<span class="string">', '</span>);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript-设计模式/">JavaScript 设计模式</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Pro-JavaScript-Design-Patterns/">Pro JavaScript Design Patterns</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
@@ -838,7 +827,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>27</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>28</sup></a></li>
 		  
 		
 		  
